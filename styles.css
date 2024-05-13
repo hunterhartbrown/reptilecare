@@ -103,7 +103,7 @@ footer {
 
 .overlay-text h3 {
     margin: 0; /* No margin to keep it tight */
-    font-size: 2px; /* Drastically reduced font size */
+    font-size: 2px !important; /* Ensure this is the applied font size */
     line-height: 1.4; /* Ensures proper line spacing */
     padding: 5px; /* Adjust padding around text for better spacing */
     color: black; /* Ensures text color is black for better readability */
@@ -111,7 +111,7 @@ footer {
     text-align: center; /* Centers text horizontally */
     width: 100%; /* Overlay spans the full width of the image */
     box-sizing: border-box; /* Includes padding and border in the width */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Adds subtle shadow for better readability */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important; /* Adds subtle shadow for better readability */
 }
 
 @media (max-width: 768px) {
