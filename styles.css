@@ -97,5 +97,4 @@ footer {
 
 .overlay-text h3 {
     margin: 0; /* No margin to keep it tight */
-    font-size: 2vw; /* Responsive font size based on the width of the viewport */
 }
