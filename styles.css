@@ -58,14 +58,18 @@ footer {
     background: #f1f1f1;
 }
 .content-slider {
-    width: 100%;
+    width: 80%; /* Adjust the width as needed, e.g., 80% of the viewport width */
+    max-width: 960px; /* You can set a max-width to ensure it doesn't get too large on wide screens */
+    margin: 0 auto; /* This centers the slider horizontally */
     position: relative;
+    overflow: hidden; /* Ensures nothing spills out */
 }
 
 .slide {
     display: none; /* Hide slides initially */
     position: relative;
     width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for better visibility */
 }
 
 .slide img {
