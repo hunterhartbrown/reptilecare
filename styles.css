@@ -2,87 +2,35 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0e4c4; /* Set the background color */
+    background-color: #f0e4c4; /* Keep this color or change it if needed for other parts of the page */
 }
 
-/* Additional styles remain the same */
-header {
-    background: #4CAF50;
-    color: white;
-    padding: 1em;
-    text-align: center;
-    position: relative; /* Positioning relative to place logo correctly */
-}
-header img.logo {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 200px;  /* Increase width as needed */
-    height: auto;  /* Auto for maintaining aspect ratio */
-}
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
 section {
     padding: 1em;
+    width: 100%; /* Full width */
+    background-color: #E3C48A; /* New background color for the container */
 }
-form label {
-    display: block;
-    margin-top: 10px;
-}
-form input, form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-}
-form button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-footer {
-    text-align: center;
-    padding: 1em;
-    background: #f1f1f1;
-}
+
 .content-slider {
-    width: 20%; /* Reduce width to about 20% of the container or to fit 1/5 of the current width */
-    max-width: 320px; /* Adjust max-width to maintain a reasonable size */
-    margin-left: 2%; /* Keeps the left margin */
-    margin-top: 20px; /* Space below the header */
+    width: 100%; /* Full width of the container */
+    max-width: none; /* Removes max-width restriction */
+    margin: 0; /* Adjusts margin to zero */
     position: relative;
     overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .content-slider {
-        width: 40%; /* Gives more space on smaller screens */
-    }
-}
-
 .slide {
-    display: none;
+    display: flex; /* Changed to flex to align items inside */
+    justify-content: flex-end; /* Aligns the child elements to the right */
     position: relative;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .slide img {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: auto; /* Changes width to auto to avoid stretching */
+    height: auto; /* Height auto to maintain aspect ratio */
+    max-width: 100%; /* Ensures image doesn't exceed its natural width */
 }
 
 .overlay-text {
