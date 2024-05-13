@@ -57,20 +57,24 @@
             xobj.send(null);
         }
 
-        function init() {
-            loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
-                var container = document.querySelector('.content-slider');
-                data.forEach(function(item, index) {
-                    var div = document.createElement('div');
-                    div.className = 'slide';
-                    div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
-                    div.innerHTML = `<h3>${item['Common Name']} - ${item['Species']}</h3>
-                                     <img src="${item['Picture Link']}" alt="${item['Common Name']}" style="width:100%; max-height:200px;">`;
-                    container.appendChild(div);
-                });
-                rotateSlides();
+    function init() {
+        loadJson('/data/reptile_care_data.json', function(data) {  // Adjusted path for web server
+            var container = document.querySelector('.content-slider');
+            data.forEach(function(item, index) {
+                var div = document.createElement('div');
+                div.className = 'slide';
+                div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
+                div.innerHTML = `
+                    <img src="${item['Picture Link']}" alt="${item['Common Name']}" style="width:100%; max-height:200px;">
+                    <div class="overlay-text">
+                        <h3>${item['Common Name']} - ${item['Species']}</h3>
+                    </div>`;
+                container.appendChild(div);
             });
-        }
+            rotateSlides();
+        });
+    }
+
 
         var slideIndex = 0;
         function rotateSlides() {
