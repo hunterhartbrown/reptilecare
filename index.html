@@ -57,19 +57,33 @@
             xobj.send(null);
         }
 
+    function adjustFontSize(element) {
+        var maxLength = 80; // Adjust this threshold based on your needs
+        var scaleRatio = Math.max(element.innerText.length / maxLength, 1);
+        var baseFontSize = 2; // Base font size in vw
+        var fontSize = Math.max(baseFontSize / scaleRatio, 1.2); // Ensures font size does not become too small; adjust minimum size as needed
+        element.style.fontSize = fontSize + 'vw';
+}
+
     function init() {
-        loadJson('/data/reptile_care_data.json', function(data) {  // Adjusted path for web server
+        loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
             var container = document.querySelector('.content-slider');
             data.forEach(function(item, index) {
                 var div = document.createElement('div');
                 div.className = 'slide';
                 div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
-                div.innerHTML = `
-                    <img src="${item['Picture Link']}" alt="${item['Common Name']}" style="width:100%; max-height:200px;">
-                    <div class="overlay-text">
-                        <h3>${item['Common Name']} - ${item['Species']}</h3>
-                    </div>`;
+                var img = document.createElement('img');
+                img.src = item['Picture Link'];
+                img.alt = item['Common Name'];
+                img.style.width = "100%";
+                img.style.height = "auto";
+                var textDiv = document.createElement('div');
+                textDiv.className = 'overlay-text';
+                textDiv.innerHTML = `<h3>${item['Common Name']} - ${item['Species']}</h3>`;
+                div.appendChild(img);
+                div.appendChild(textDiv);
                 container.appendChild(div);
+                adjustFontSize(textDiv.firstChild); // Adjust font size of the h3 element
             });
             rotateSlides();
         });
