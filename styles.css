@@ -14,10 +14,11 @@ header {
     position: relative; /* Positioning relative to place logo correctly */
 }
 header img.logo {
-    position: absolute; /* Absolute position for the logo */
-    top: 10px; /* Adjust top distance */
-    left: 10px; /* Adjust left distance */
-    height: 50px; /* Adjust logo size as needed */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 150px;  /* Increase width as needed */
+    height: auto;  /* Auto for maintaining aspect ratio */
 }
 nav ul {
     list-style: none;
