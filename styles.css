@@ -83,7 +83,7 @@ footer {
     position: absolute;
     bottom: 0; /* Position it at the bottom of the container */
     left: 0; /* Align it to the left */
-    width: 50%; /* Make it half the width of the container */
+    width: 20%; /* Make it half the width of the container */
     height: auto; /* Auto height to fit content */
     background-color: rgba(255, 255, 255, 0.5);
     color: black;
