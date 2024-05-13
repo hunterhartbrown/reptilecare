@@ -58,8 +58,8 @@ footer {
     background: #f1f1f1;
 }
 .content-slider {
-    width: 33%; /* Reduce width to about 33% of the container or to fit 1/3 of the current width */
-    max-width: 640px; /* Adjust max-width to maintain a reasonable size */
+    width: 20%; /* Reduce width to about 20% of the container or to fit 1/5 of the current width */
+    max-width: 320px; /* Adjust max-width to maintain a reasonable size */
     margin-left: 2%; /* Keeps the left margin */
     margin-top: 20px; /* Space below the header */
     position: relative;
