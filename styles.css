@@ -66,6 +66,12 @@ footer {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .content-slider {
+        width: 40%; /* Gives more space on smaller screens */
+    }
+}
+
 .slide {
     display: none;
     position: relative;
@@ -97,22 +103,26 @@ footer {
 
 .overlay-text h3 {
     margin: 0; /* No margin to keep it tight */
-    font-size: 14px; /* Smaller fixed font size for larger displays */
+    font-size: 2px; /* Drastically reduced font size */
     line-height: 1.4; /* Ensures proper line spacing */
     padding: 5px; /* Adjust padding around text for better spacing */
     color: black; /* Ensures text color is black for better readability */
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.7); /* Increases transparency for minimal disruption */
     text-align: center; /* Centers text horizontally */
+    width: 100%; /* Overlay spans the full width of the image */
+    box-sizing: border-box; /* Includes padding and border in the width */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Adds subtle shadow for better readability */
 }
 
 @media (max-width: 768px) {
     .overlay-text h3 {
-        font-size: 12px; /* Slightly smaller on medium screens to maintain readability */
+        font-size: 2px; /* Keeps font size small on all devices */
     }
 }
 
 @media (max-width: 480px) {
     .overlay-text h3 {
-        font-size: 10px; /* Even smaller on very small screens */
+        font-size: 2px; /* Consistent minimal font size across devices */
     }
 }
+
