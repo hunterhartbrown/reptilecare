@@ -58,24 +58,25 @@ footer {
     background: #f1f1f1;
 }
 .content-slider {
-    width: 80%; /* Adjust the width as needed, e.g., 80% of the viewport width */
-    max-width: 960px; /* You can set a max-width to ensure it doesn't get too large on wide screens */
-    margin: 0 auto; /* This centers the slider horizontally */
+    width: 80%;
+    max-width: 960px;
+    margin-left: 2%; /* Slight left alignment with a small gap from the left edge */
+    margin-top: 20px; /* Space below the header */
     position: relative;
-    overflow: hidden; /* Ensures nothing spills out */
+    overflow: hidden;
 }
 
 .slide {
-    display: none; /* Hide slides initially */
+    display: none;
     position: relative;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for better visibility */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .slide img {
-    width: 100%; /* Make image full width of the container */
+    width: 100%;
     height: auto;
-    display: block; /* Remove extra space below the image */
+    display: block;
 }
 
 .overlay-text {
@@ -84,16 +85,16 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.5);
     color: black;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px; /* Padding for text */
+    padding: 20px;
     box-sizing: border-box;
     text-align: center;
 }
 
 .overlay-text h3 {
-    margin: 0; /* Remove default margin of h3 */
+    margin: 0;
 }
