@@ -8,8 +8,17 @@ body {
 header {
     background-color: #ffffff; /* White background for the header */
     width: 100%; /* Full width */
-    height: 50px; /* Set the height of the header */
+    height: 100px; /* Doubled the height of the header */
     margin-bottom: 20px; /* Space below the header */
+    position: relative; /* Positioning context for logo */
+}
+
+header img.logo {
+    position: absolute; /* Absolute position within the header */
+    top: 10px; /* Position from the top */
+    left: 10px; /* Position from the left */
+    width: 80px; /* Logo width */
+    height: 80px; /* Logo height */
 }
 
 section {
