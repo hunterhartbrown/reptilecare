@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reptile Care Website</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .content-slider {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .slide {
+            display: none;
+            font-size: 20px;
+            padding: 20px;
+            min-height: 100px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -18,14 +31,11 @@
             </ul>
         </nav>
     </header>    
-    <section id="about">
-        <h2>About</h2>
-        <p>This website provides information on caring for reptiles.</p>
-    </section>
-    <section id="care">
-        <h2>Reptile Care</h2>
-        <p>Here you'll find tips and guides on reptile care.</p>
-    </section>
+    <div class="content-slider">
+        <div class="slide" style="display: block;">Welcome to ReptileCare, your source for all things reptile care.</div>
+        <div class="slide">Discover expert tips on how to care for your reptilian friends.</div>
+        <div class="slide">Learn about the best environments for different reptile species.</div>
+    </div>
     <section id="contact">
         <h2>Contact</h2>
         <form>
@@ -41,5 +51,19 @@
     <footer>
         <p>&copy; 2024 Reptile Care. All rights reserved.</p>
     </footer>
+    <script>
+        var slideIndex = 0;
+        function showSlides() {
+            var slides = document.getElementsByClassName("slide");
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 4000); // Change image every 4 seconds
+        }
+        showSlides();
+    </script>
 </body>
 </html>
