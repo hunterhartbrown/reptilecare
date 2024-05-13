@@ -58,9 +58,9 @@ footer {
     background: #f1f1f1;
 }
 .content-slider {
-    width: 80%;
-    max-width: 960px;
-    margin-left: 2%; /* Slight left alignment with a small gap from the left edge */
+    width: 60%; /* Reduce width to about 60% of the container or to fit two-thirds of the current width */
+    max-width: 640px; /* Adjust max-width to maintain a reasonable size */
+    margin-left: 2%; /* Keeps the left margin */
     margin-top: 20px; /* Space below the header */
     position: relative;
     overflow: hidden;
