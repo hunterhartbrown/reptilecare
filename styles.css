@@ -5,6 +5,13 @@ body {
     background-color: #f0e4c4; /* Keep this color or change it if needed for other parts of the page */
 }
 
+header {
+    background-color: #ffffff; /* White background for the header */
+    width: 100%; /* Full width */
+    height: 50px; /* Set the height of the header */
+    margin-bottom: 20px; /* Space below the header */
+}
+
 section {
     padding: 1em;
     width: 100%; /* Full width */
@@ -51,7 +58,7 @@ section {
 
 .overlay-text h3 {
     margin: 0; /* No margin to keep it tight */
-    font-size: 10px !important; /* Ensure this is the applied font size */
+    font-size: 20px; /* Doubled the font size */
     line-height: 1.4; /* Ensures proper line spacing */
     padding: 5px; /* Adjust padding around text for better spacing */
     color: black; /* Ensures text color is black for better readability */
@@ -59,18 +66,17 @@ section {
     text-align: center; /* Centers text horizontally */
     width: 100%; /* Overlay spans the full width of the image */
     box-sizing: border-box; /* Includes padding and border in the width */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important; /* Adds subtle shadow for better readability */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Adds subtle shadow for better readability */
 }
 
 @media (max-width: 768px) {
     .overlay-text h3 {
-        font-size: 2px; /* Keeps font size small on all devices */
+        font-size: 20px; /* Maintains larger font size on smaller devices */
     }
 }
 
 @media (max-width: 480px) {
     .overlay-text h3 {
-        font-size: 2px; /* Consistent minimal font size across devices */
+        font-size: 20px; /* Ensures consistent font size across devices */
     }
 }
-
