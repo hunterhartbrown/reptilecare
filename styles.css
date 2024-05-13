@@ -83,9 +83,9 @@ footer {
     position: absolute;
     bottom: 0; /* Position it at the bottom of the container */
     left: 0; /* Align it to the left */
-    width: 20%; /* Make it half the width of the container */
+    width: 100%; /* Use 100% to make it cover the entire width of the slide */
     height: auto; /* Auto height to fit content */
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
     color: black;
     display: flex;
     align-items: center; /* Center content vertically */
@@ -97,4 +97,5 @@ footer {
 
 .overlay-text h3 {
     margin: 0; /* No margin to keep it tight */
+    font-size: 2vw; /* Responsive font size based on the width of the viewport */
 }
