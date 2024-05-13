@@ -58,7 +58,7 @@ footer {
     background: #f1f1f1;
 }
 .content-slider {
-    width: 60%; /* Reduce width to about 60% of the container or to fit two-thirds of the current width */
+    width: 50%; /* Reduce width to about 50% of the container or to fit half of the current width */
     max-width: 640px; /* Adjust max-width to maintain a reasonable size */
     margin-left: 2%; /* Keeps the left margin */
     margin-top: 20px; /* Space below the header */
@@ -81,20 +81,20 @@ footer {
 
 .overlay-text {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 0; /* Position it at the bottom of the container */
+    left: 0; /* Align it to the left */
+    width: 50%; /* Make it half the width of the container */
+    height: auto; /* Auto height to fit content */
     background-color: rgba(255, 255, 255, 0.5);
     color: black;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    padding: 10px; /* Adjust padding as needed */
     box-sizing: border-box;
     text-align: center;
 }
 
 .overlay-text h3 {
-    margin: 0;
+    margin: 0; /* No margin to keep it tight */
 }
