@@ -11,6 +11,13 @@ header {
     color: white;
     padding: 1em;
     text-align: center;
+    position: relative; /* Positioning relative to place logo correctly */
+}
+header img.logo {
+    position: absolute; /* Absolute position for the logo */
+    top: 10px; /* Adjust top distance */
+    left: 10px; /* Adjust left distance */
+    height: 50px; /* Adjust logo size as needed */
 }
 nav ul {
     list-style: none;
