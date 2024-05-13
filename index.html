@@ -5,19 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reptile Care Website</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .content-slider {
-            text-align: center;
-            margin-top: 50px;
-        }
-        .slide {
-            display: none;
-            font-size: 20px;
-            padding: 20px;
-            min-height: 100px;
-            color: #333;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -31,11 +18,12 @@
             </ul>
         </nav>
     </header>    
+
+    <!-- Content slider for displaying dynamic content from the JSON data -->
     <div class="content-slider">
-        <div class="slide" style="display: block;">Welcome to ReptileCare, your source for all things reptile care.</div>
-        <div class="slide">Discover expert tips on how to care for your reptilian friends.</div>
-        <div class="slide">Learn about the best environments for different reptile species.</div>
+        <!-- Dynamic content will be loaded here by the script below -->
     </div>
+
     <section id="contact">
         <h2>Contact</h2>
         <form>
@@ -48,12 +36,44 @@
             <button type="submit">Send</button>
         </form>
     </section>
+
     <footer>
         <p>&copy; 2024 Reptile Care. All rights reserved.</p>
     </footer>
+
     <script>
+        // Function to load JSON data from a local file
+        function loadJson(fileName, callback) {
+            var xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('GET', fileName, true);
+            xobj.onreadystatechange = function () {
+                if (xobj.readyState == 4 && xobj.status == "200") {
+                    callback(JSON.parse(xobj.responseText));
+                } else if (xobj.readyState == 4 && xobj.status == "404") {
+                    console.error('JSON file not found or access denied.');
+                }
+            };
+            xobj.send(null);
+        }
+
+        function init() {
+            loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
+                var container = document.querySelector('.content-slider');
+                data.forEach(function(item, index) {
+                    var div = document.createElement('div');
+                    div.className = 'slide';
+                    div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
+                    div.innerHTML = `<h3>${item['Common Name']} - ${item['Species']}</h3>
+                                     <img src="${item['Picture Link']}" alt="${item['Common Name']}" style="width:100%; max-height:200px;">`;
+                    container.appendChild(div);
+                });
+                rotateSlides();
+            });
+        }
+
         var slideIndex = 0;
-        function showSlides() {
+        function rotateSlides() {
             var slides = document.getElementsByClassName("slide");
             for (var i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
@@ -61,9 +81,11 @@
             slideIndex++;
             if (slideIndex > slides.length) {slideIndex = 1}
             slides[slideIndex-1].style.display = "block";
-            setTimeout(showSlides, 4000); // Change image every 4 seconds
+            setTimeout(rotateSlides, 4000); // Change slide every 4 seconds
         }
-        showSlides();
+
+        // Initialize the process when the document is ready
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
