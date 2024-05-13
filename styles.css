@@ -97,18 +97,22 @@ footer {
 
 .overlay-text h3 {
     margin: 0; /* No margin to keep it tight */
-    font-size: 1.2vw; /* Start with a smaller base font size */
+    font-size: 14px; /* Smaller fixed font size for larger displays */
     line-height: 1.4; /* Ensures proper line spacing */
+    padding: 5px; /* Adjust padding around text for better spacing */
+    color: black; /* Ensures text color is black for better readability */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    text-align: center; /* Centers text horizontally */
 }
 
 @media (max-width: 768px) {
     .overlay-text h3 {
-        font-size: 2.4vw; /* Slightly larger on smaller screens to maintain readability */
+        font-size: 12px; /* Slightly smaller on medium screens to maintain readability */
     }
 }
 
 @media (max-width: 480px) {
     .overlay-text h3 {
-        font-size: 3.6vw; /* Even larger on very small screens */
+        font-size: 10px; /* Even smaller on very small screens */
     }
 }
