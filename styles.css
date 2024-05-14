@@ -117,7 +117,8 @@ section {
     color: white; /* White text color */
     padding: 10px 20px; /* Padding around text */
     border-radius: 5px; /* Rounded corners */
-    text-align: center; /* Center text alignment */
+    text-align: left; /* Left text alignment */
+    transform: none; /* Remove transform to ensure it's not centered */
 }
 
 .overlay-text h3 {
