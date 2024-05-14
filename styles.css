@@ -119,6 +119,9 @@ section {
     border-radius: 5px; /* Rounded corners */
     text-align: left; /* Left text alignment */
     transform: none; /* Remove transform to ensure it's not centered */
+    border: 2px solid red; /* Temporary border for debugging */
+    min-width: 200px; /* Ensure it's visible */
+    min-height: 50px; /* Ensure it's visible */
 }
 
 .overlay-text h3 {
