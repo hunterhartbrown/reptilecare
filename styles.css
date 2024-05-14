@@ -84,7 +84,7 @@ section {
 .content-slider {
     width: 100%; /* Full width of the container */
     max-width: none; /* Removes max-width restriction */
-    margin: -100px 0 0 0; /* Move the slider up by 100px */
+    margin: -150px 0 0 0; /* Move the slider up by 150px */
     position: relative;
     overflow: hidden;
 }
@@ -95,7 +95,7 @@ section {
     align-items: center; /* Center content vertically */
     position: relative;
     width: 100%;
-    height: calc(800px - 100px); /* Reduce height */
+    height: calc(1000px - 100px); /* Reduce height by 100px */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden; /* Ensures that the padding does not allow the image to break the bounds of its container */
     margin: 0; /* Adjust margin to 0 */
@@ -103,27 +103,27 @@ section {
 
 .slide img {
     width: 100%; /* Maintain full width */
-    height: auto; /* Adjust height to fill the slide */
-    margin-top: 0; /* Adjust margin */
-    margin-bottom: 0; /* Adjust margin */
+    height: calc(100% - 100px); /* Reduce height by 100px */
+    margin-top: 50px; /* Move image down by 50px */
     object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
     display: block; /* Ensures that the image is treated as a block-level element for correct margin handling */
 }
 
 .overlay-text {
     position: absolute;
-    top: 10px; /* Position near the top */
-    left: 10px; /* Position near the left */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset to ensure center alignment */
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white; /* White text color */
-    padding: 10px 20px; /* Padding around text */
+    padding: 20px; /* Padding around text */
     border-radius: 5px; /* Rounded corners */
     text-align: center; /* Center text alignment */
 }
 
 .overlay-text h3 {
     margin: 0;
-    font-size: 1.5vw; /* Adjust font size */
+    font-size: 2vw; /* Adjust font size */
     line-height: 1.4;
     padding: 5px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
