@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reptile Care Website</title>
+    <title>ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
-        <h1>Welcome to My Reptile Care Website</h1>
+        <h1>Welcome to ReptileCare</h1>
         <nav>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#care">Reptile Care</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about"></a></li>
+                <li><a href="#care"></a></li>
+                <li><a href="#contact"></a></li>
             </ul>
         </nav>
     </header>    
@@ -23,19 +23,6 @@
     <div class="content-slider">
         <!-- Dynamic content will be loaded here by the script below -->
     </div>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-    </section>
 
     <footer>
         <p>&copy; 2024 Reptile Care. All rights reserved.</p>
@@ -57,38 +44,37 @@
             xobj.send(null);
         }
 
-    function adjustFontSize(element) {
-        var maxLength = 80; // Adjust this threshold based on your needs
-        var scaleRatio = Math.max(element.innerText.length / maxLength, 1);
-        var baseFontSize = 2; // Base font size in vw
-        var fontSize = Math.max(baseFontSize / scaleRatio, 1.2); // Ensures font size does not become too small; adjust minimum size as needed
-        element.style.fontSize = fontSize + 'vw';
-}
+        function adjustFontSize(element) {
+            var maxLength = 80; // Adjust this threshold based on your needs
+            var scaleRatio = Math.max(element.innerText.length / maxLength, 1);
+            var baseFontSize = 2; // Base font size in vw
+            var fontSize = Math.max(baseFontSize / scaleRatio, 1.2); // Ensures font size does not become too small; adjust minimum size as needed
+            element.style.fontSize = fontSize + 'vw';
+        }
 
-    function init() {
-        loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
-            var container = document.querySelector('.content-slider');
-            data.forEach(function(item, index) {
-                var div = document.createElement('div');
-                div.className = 'slide';
-                div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
-                var img = document.createElement('img');
-                img.src = item['Picture Link'];
-                img.alt = item['Common Name'];
-                img.style.width = "100%";
-                img.style.height = "auto";
-                var textDiv = document.createElement('div');
-                textDiv.className = 'overlay-text';
-                textDiv.innerHTML = `<h3>${item['Common Name']} - ${item['Species']}</h3>`;
-                div.appendChild(img);
-                div.appendChild(textDiv);
-                container.appendChild(div);
-                adjustFontSize(textDiv.firstChild); // Adjust font size of the h3 element
+        function init() {
+            loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
+                var container = document.querySelector('.content-slider');
+                data.forEach(function(item, index) {
+                    var div = document.createElement('div');
+                    div.className = 'slide';
+                    div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
+                    var img = document.createElement('img');
+                    img.src = item['Picture Link'];
+                    img.alt = item['Common Name'];
+                    img.style.width = "100%";
+                    img.style.height = "auto";
+                    var textDiv = document.createElement('div');
+                    textDiv.className = 'overlay-text';
+                    textDiv.innerHTML = `<h3>${item['Common Name']} - ${item['Species']}</h3>`;
+                    div.appendChild(img);
+                    div.appendChild(textDiv);
+                    container.appendChild(div);
+                    adjustFontSize(textDiv.firstChild); // Adjust font size of the h3 element
+                });
+                rotateSlides();
             });
-            rotateSlides();
-        });
-    }
-
+        }
 
         var slideIndex = 0;
         function rotateSlides() {
@@ -98,7 +84,7 @@
             }
             slideIndex++;
             if (slideIndex > slides.length) {slideIndex = 1}
-            slides[slideIndex-1].style.display = "block";
+            slides[slideIndex-1]. style.display = "block";
             setTimeout(rotateSlides, 4000); // Change slide every 4 seconds
         }
 
