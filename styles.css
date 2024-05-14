@@ -114,7 +114,7 @@ section {
 .overlay-text {
     position: absolute;
     top: 29%; /* Keep the current down position */
-    right: 25%; /* Move significantly to the left */
+    right: 10%; /* Move significantly to the left */
     transform: translate(35%, -31%); /* Adjust for centering offset */
     max-width: 65%; /* Ensure text fits within the width of the website */
     color: white; /* White text color */
