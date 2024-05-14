@@ -84,7 +84,7 @@ section {
 .content-slider {
     width: 100%; /* Full width of the container */
     max-width: none; /* Removes max-width restriction */
-    margin: -150px 0 0 0; /* Move the slider up by 150px */
+    margin: -100px 0 0 0; /* Move the slider up by 100px */
     position: relative;
     overflow: hidden;
 }
@@ -95,7 +95,7 @@ section {
     align-items: center; /* Center content vertically */
     position: relative;
     width: 100%;
-    height: calc(900px - 100px); /* Reduce height by 100px */
+    height: calc(800px - 100px); /* Reduce height */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden; /* Ensures that the padding does not allow the image to break the bounds of its container */
     margin: 0; /* Adjust margin to 0 */
@@ -103,8 +103,9 @@ section {
 
 .slide img {
     width: 100%; /* Maintain full width */
-    height: calc(100% - 100px); /* Reduce height by 100px */
-    margin-top: 50px; /* Move image down by 50px */
+    height: auto; /* Adjust height to fill the slide */
+    margin-top: 0; /* Adjust margin */
+    margin-bottom: 0; /* Adjust margin */
     object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
     display: block; /* Ensures that the image is treated as a block-level element for correct margin handling */
 }
@@ -112,7 +113,7 @@ section {
 .overlay-text {
     position: absolute;
     top: 10px; /* Position near the top */
-    right: 10px; /* Position near the right */
+    left: 10px; /* Position near the left */
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white; /* White text color */
     padding: 10px 20px; /* Padding around text */
