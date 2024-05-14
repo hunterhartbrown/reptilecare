@@ -3,39 +3,82 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f0e4c4; /* Keep this color or change it if needed for other parts of the page */
-    padding-top: 0; /* Remove top padding to avoid gaps */
 }
 
 header {
     background-color: #ffffff; /* White background for the header */
     width: 100%; /* Full width */
-    height: 100px; /* Doubled the height of the header */
-    margin-bottom: 0; /* Remove space below the header */
-    position: relative; /* Positioning context for logo */
+    height: 80px; /* Adjusted height of the header */
     display: flex; /* Use flexbox to align items */
     align-items: center; /* Center items vertically */
-    justify-content: center; /* Center the content horizontally */
-    padding-left: 100px; /* Offset for the logo */
+    justify-content: space-between; /* Space between logo and nav */
+    padding: 0 20px; /* Padding for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    position: fixed; /* Fixed position for the header */
+    top: 0;
     z-index: 1000; /* Higher z-index to keep it above other content */
 }
 
 header img.logo {
-    position: absolute; /* Absolute position within the header */
-    top: 10px; /* Position from the top */
-    left: 10px; /* Position from the left */
-    width: 80px; /* Logo width */
-    height: 80px; /* Logo height */
+    height: 60px; /* Adjust logo height */
 }
 
-header h1 {
-    margin: 0; /* Remove margin to maintain alignment */
-    text-align: center; /* Center the text */
+nav {
+    flex: 1; /* Flex grow for the nav */
+    display: flex;
+    justify-content: center; /* Center the nav links */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px; /* Spacing between nav links */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #000; /* Black text color */
+    font-weight: bold; /* Bold text */
+    padding: 10px;
+}
+
+.nav-links a:hover {
+    background-color: #f0e4c4; /* Hover background color */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px; /* Spacing between buttons */
+}
+
+.auth-buttons button {
+    background-color: transparent; /* Transparent background */
+    border: 1px solid #000; /* Black border */
+    padding: 5px 10px; /* Padding for buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.auth-buttons .signup {
+    background-color: #000; /* Black background for Sign Up */
+    color: #fff; /* White text for Sign Up */
+}
+
+.auth-buttons button:hover {
+    opacity: 0.8; /* Hover effect */
 }
 
 section {
-    padding: 0; /* Remove padding to avoid gaps */
+    padding: 120px 0 1em 0; /* Padding to make space for fixed header */
     width: 100%; /* Full width */
-    background-color: #E3C48A; /* New background color for the container */
+    background-color: #E3C48A; /* Background color for section */
 }
 
 .content-slider {
