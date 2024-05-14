@@ -52,7 +52,7 @@
             xobj.send(null);
         }
 
-        function init() {
+                function init() {
             loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
                 var container = document.querySelector('.content-slider');
                 data.forEach(function(item, index) {
@@ -66,7 +66,7 @@
                     img.style.height = "auto";
                     var textDiv = document.createElement('div');
                     textDiv.className = 'overlay-text';
-                    textDiv.innerHTML = `<h3>${item['Common Name']} - ${item['Species']}</h3>`;
+                    textDiv.innerHTML = `<h3 class="common-name">${item['Common Name']}</h3><h4 class="species-name">${item['Species']}</h4>`;
                     div.appendChild(img);
                     div.appendChild(textDiv);
                     container.appendChild(div);
