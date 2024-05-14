@@ -20,7 +20,7 @@ header {
 }
 
 header img.logo {
-    height: 75; /* Adjust logo height to make it slightly bigger */
+    height: 66; /* Adjust logo height to make it slightly bigger */
     transform-origin: bottom right; /* Set the transform origin to the bottom right corner */
 }
 
