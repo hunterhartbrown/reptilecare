@@ -91,7 +91,8 @@ section {
 
 .slide {
     display: flex; /* Changed to flex to align items inside */
-    justify-content: flex-end; /* Aligns the child elements to the right */
+    justify-content: center; /* Center content */
+    align-items: center; /* Center content vertically */
     position: relative;
     width: 100%;
     height: 1000px; /* Set a fixed height for the slide */
@@ -102,50 +103,39 @@ section {
 
 .slide img {
     width: 100%; /* Maintain full width */
-    height: calc(100% - 0px); /* Adjust height to fill the slide */
-    margin-top: 0; /* Adjust margin to 0 */
-    margin-bottom: 0; /* Adjust margin to 0 */
+    height: auto; /* Adjust height to fill the slide */
     object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
     display: block; /* Ensures that the image is treated as a block-level element for correct margin handling */
 }
 
 .overlay-text {
     position: absolute;
-    top: 0; /* Move to the top of the slide */
-    left: 0;
-    width: 100%;
-    height: auto;
-    background-color: rgba(255, 255, 255, 0.5);
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    box-sizing: border-box;
-    text-align: center;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset to ensure center alignment */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: white; /* White text color */
+    padding: 20px; /* Padding around text */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center text alignment */
 }
 
 .overlay-text h3 {
     margin: 0;
-    font-size: 20px;
+    font-size: 2vw; /* Adjust font size */
     line-height: 1.4;
     padding: 5px;
-    color: black;
-    background-color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
 }
 
 @media (max-width: 768px) {
     .overlay-text h3 {
-        font-size: 20px;
+        font-size: 3vw; /* Adjust font size for smaller screens */
     }
 }
 
 @media (max-width: 480px) {
     .overlay-text h3 {
-        font-size: 20px;
+        font-size: 4vw; /* Adjust font size for smaller screens */
     }
 }
