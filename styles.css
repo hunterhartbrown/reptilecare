@@ -111,9 +111,9 @@ section {
 
 .overlay-text {
     position: absolute;
-    top: 31%; /* Move 10% further down */
-    right: 29%; /* Move 10% further to the left */
-    transform: translate(29%, -31%); /* Adjust for centering offset */
+    top: 21%; /* Keep the current down position */
+    right: 50%; /* Move significantly to the left */
+    transform: translate(50%, -21%); /* Adjust for centering offset */
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white; /* White text color */
     padding: 20px; /* Padding around text */
