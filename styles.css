@@ -84,7 +84,7 @@ section {
 .content-slider {
     width: 100%; /* Full width of the container */
     max-width: none; /* Removes max-width restriction */
-    margin: -100px 0 0 0; /* Move the slider up by 100px */
+    margin: -150px 0 0 0; /* Move the slider up by 150px */
     position: relative;
     overflow: hidden;
 }
@@ -104,8 +104,7 @@ section {
 .slide img {
     width: 100%; /* Maintain full width */
     height: calc(100% - 100px); /* Reduce height by 100px */
-    margin-top: -50px; /* Adjust margin to reduce height by 50px from top */
-    margin-bottom: -50px; /* Adjust margin to reduce height by 50px from bottom */
+    margin-top: 50px; /* Move image down by 50px */
     object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
     display: block; /* Ensures that the image is treated as a block-level element for correct margin handling */
 }
