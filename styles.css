@@ -20,7 +20,8 @@ header {
 }
 
 header img.logo {
-    height: 60px; /* Adjust logo height */
+    height: 65px; /* Adjust logo height to make it slightly bigger */
+    transform-origin: bottom right; /* Set the transform origin to the bottom right corner */
 }
 
 nav {
@@ -56,6 +57,7 @@ nav {
 .auth-buttons {
     display: flex;
     gap: 10px; /* Spacing between buttons */
+    margin-right: 30px; /* Move the auth buttons to the left by 30px */
 }
 
 .auth-buttons button {
