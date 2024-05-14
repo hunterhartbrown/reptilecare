@@ -114,11 +114,15 @@ section {
     top: 31%; /* Keep the current down position */
     right: 25%; /* Move significantly to the left */
     transform: translate(50%, -21%); /* Adjust for centering offset */
+    max-width: calc(100% - 25%); /* Ensure text fits within the width of the website */
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white; /* White text color */
     padding: 20px; /* Padding around text */
     border-radius: 5px; /* Rounded corners */
     text-align: center; /* Center text alignment */
+    word-wrap: break-word; /* Ensure text wraps within the container */
+    overflow-wrap: break-word; /* Ensure text wraps within the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 
