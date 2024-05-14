@@ -50,14 +50,6 @@
             xobj.send(null);
         }
 
-        function adjustFontSize(element) {
-            var maxLength = 80; // Adjust this threshold based on your needs
-            var scaleRatio = Math.max(element.innerText.length / maxLength, 1);
-            var baseFontSize = 2; // Base font size in vw
-            var fontSize = Math.max(baseFontSize / scaleRatio, 1.2); // Ensures font size does not become too small; adjust minimum size as needed
-            element.style.fontSize = fontSize + 'vw';
-        }
-
         function init() {
             loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
                 var container = document.querySelector('.content-slider');
@@ -76,7 +68,6 @@
                     div.appendChild(img);
                     div.appendChild(textDiv);
                     container.appendChild(div);
-                    adjustFontSize(textDiv.firstChild); // Adjust font size of the h3 element
                 });
                 rotateSlides();
             });
