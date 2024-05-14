@@ -95,7 +95,7 @@ section {
     align-items: center; /* Center content vertically */
     position: relative;
     width: 100%;
-    height: calc(1000px - 100px); /* Reduce height by 100px */
+    height: calc(900px - 100px); /* Reduce height by 100px */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden; /* Ensures that the padding does not allow the image to break the bounds of its container */
     margin: 0; /* Adjust margin to 0 */
@@ -111,19 +111,18 @@ section {
 
 .overlay-text {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Offset to ensure center alignment */
+    top: 10px; /* Position near the top */
+    right: 10px; /* Position near the right */
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white; /* White text color */
-    padding: 20px; /* Padding around text */
+    padding: 10px 20px; /* Padding around text */
     border-radius: 5px; /* Rounded corners */
     text-align: center; /* Center text alignment */
 }
 
 .overlay-text h3 {
     margin: 0;
-    font-size: 2vw; /* Adjust font size */
+    font-size: 1.5vw; /* Adjust font size */
     line-height: 1.4;
     padding: 5px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
