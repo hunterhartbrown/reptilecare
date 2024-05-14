@@ -5,6 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0e4c4; /* Keep this color or change it if needed for other parts of the page */
+        }
+
+        header {
+            background-color: #ffffff; /* White background for the header */
+            width: 100%; /* Full width */
+            height: 80px; /* Adjusted height of the header */
+            display: flex; /* Use flexbox to align items */
+            align-items: center; /* Center items vertically */
+            justify-content: space-between; /* Space between logo and nav */
+            padding: 0 20px; /* Padding for the header */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            position: fixed; /* Fixed position for the header */
+            top: 0;
+            z-index: 1000; /* Higher z-index to keep it above other content */
+        }
+
+        header img.logo {
+            height: 60px; /* Adjust logo height */
+        }
+
+        nav {
+            flex: 1; /* Flex grow for the nav */
+            display: flex;
+            justify-content: center; /* Center the nav links */
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px; /* Spacing between nav links */
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000; /* Black text color */
+            font-weight: bold; /* Bold text */
+            padding: 10px;
+        }
+
+        .nav-links a:hover {
+            background-color: #f0e4c4; /* Hover background color */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px; /* Spacing between buttons */
+        }
+
+        .auth-buttons button {
+            background-color: transparent; /* Transparent background */
+            border: 1px solid #000; /* Black border */
+            padding: 5px 10px; /* Padding for buttons */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .auth-buttons .signup {
+            background-color: #000; /* Black background for Sign Up */
+            color: #fff; /* White text for Sign Up */
+        }
+
+        .auth-buttons button:hover {
+            opacity: 0.8; /* Hover effect */
+        }
+
+        section {
+            padding: 20px 0 1em 0; /* Padding to make space for fixed header and move section up */
+            width: 100%; /* Full width */
+            background-color: #E3C48A; /* Background color for section */
+        }
+
+        .content-slider {
+            width: 100%; /* Full width of the container */
+            max-width: none; /* Removes max-width restriction */
+            margin: -150px 0 0 0; /* Move the slider up by 150px */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: flex; /* Changed to flex to align items inside */
+            justify-content: center; /* Center content */
+            align-items: center; /* Center content vertically */
+            position: relative;
+            width: 100%;
+            height: calc(1000px - 100px); /* Reduce height by 100px */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden; /* Ensures that the padding does not allow the image to break the bounds of its container */
+            margin: 0; /* Adjust margin to 0 */
+        }
+
+        .slide img {
+            width: 100%; /* Maintain full width */
+            height: calc(100% - 100px); /* Reduce height by 100px */
+            margin-top: 50px; /* Move image down by 50px */
+            object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
+            display: block; /* Ensures that the image is treated as a block-level element for correct margin handling */
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 10px; /* Position near the top */
+            left: 10px; /* Position near the left */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            color: white; /* White text color */
+            padding: 10px 20px; /* Padding around text */
+            border-radius: 5px; /* Rounded corners */
+            text-align: left; /* Left text alignment */
+            transform: none; /* Remove transform to ensure it's not centered */
+            border: 2px solid red; /* Temporary border for debugging */
+            min-width: 200px; /* Optional: Ensure visibility */
+            min-height: 50px; /* Optional: Ensure visibility */
+        }
+
+        .overlay-text h3 {
+            margin: 0;
+            font-size: 2vw; /* Adjust font size */
+            line-height: 1.4;
+            padding: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
+        }
+
+        @media (max-width: 768px) {
+            .overlay-text h3 {
+                font-size: 3vw; /* Adjust font size for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overlay-text h3 {
+                font-size: 4vw; /* Adjust font size for smaller screens */
+            }
+        }
+    </style>
 </head>
 <body>
     <header>

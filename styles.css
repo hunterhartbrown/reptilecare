@@ -110,26 +110,26 @@ section {
 }
 
 .overlay-text {
-    position: absolute;
+    position: absolute; /* Important for positioning within the slide */
     top: 10px; /* Position near the top */
     left: 10px; /* Position near the left */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
     color: white; /* White text color */
-    padding: 10px 20px; /* Padding around text */
-    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text for spacing */
+    border-radius: 5px; /* Rounded corners for aesthetics */
     text-align: left; /* Left text alignment */
     transform: none; /* Remove transform to ensure it's not centered */
-    border: 2px solid red; /* Temporary border for debugging */
-    min-width: 200px; /* Ensure it's visible */
-    min-height: 50px; /* Ensure it's visible */
+    border: 2px solid red; /* Optional: Temporary border for debugging */
+    min-width: 200px; /* Optional: Ensure visibility */
+    min-height: 50px; /* Optional: Ensure visibility */
 }
 
 .overlay-text h3 {
-    margin: 0;
+    margin: 0; /* Remove default margin */
     font-size: 2vw; /* Adjust font size */
-    line-height: 1.4;
-    padding: 5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
+    line-height: 1.4; /* Line height for readability */
+    padding: 5px; /* Padding for spacing */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for readability */
 }
 
 @media (max-width: 768px) {
