@@ -118,37 +118,37 @@
         }
 
         .overlay-text {
-            position: absolute;
-            top: 10px; /* Position near the top */
-            left: 10px; /* Position near the left */
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            color: white; /* White text color */
-            padding: 10px 20px; /* Padding around text */
-            border-radius: 5px; /* Rounded corners */
-            text-align: left; /* Left text alignment */
-            transform: none; /* Remove transform to ensure it's not centered */
-            border: 2px solid red; /* Temporary border for debugging */
-            min-width: 200px; /* Optional: Ensure visibility */
-            min-height: 50px; /* Optional: Ensure visibility */
+            position: absolute !important;
+            top: 10px !important; /* Position near the top */
+            left: 10px !important; /* Position near the left */
+            background-color: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent background */
+            color: white !important; /* White text color */
+            padding: 10px 20px !important; /* Padding around text */
+            border-radius: 5px !important; /* Rounded corners */
+            text-align: left !important; /* Left text alignment */
+            transform: none !important; /* Remove transform to ensure it's not centered */
+            border: 2px solid red !important; /* Temporary border for debugging */
+            min-width: 200px !important; /* Optional: Ensure visibility */
+            min-height: 50px !important; /* Optional: Ensure visibility */
         }
 
         .overlay-text h3 {
-            margin: 0;
-            font-size: 2vw; /* Adjust font size */
-            line-height: 1.4;
-            padding: 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
+            margin: 0 !important;
+            font-size: 2vw !important; /* Adjust font size */
+            line-height: 1.4 !important;
+            padding: 5px !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important; /* Text shadow for better readability */
         }
 
         @media (max-width: 768px) {
             .overlay-text h3 {
-                font-size: 3vw; /* Adjust font size for smaller screens */
+                font-size: 3vw !important; /* Adjust font size for smaller screens */
             }
         }
 
         @media (max-width: 480px) {
             .overlay-text h3 {
-                font-size: 4vw; /* Adjust font size for smaller screens */
+                font-size: 4vw !important; /* Adjust font size for smaller screens */
             }
         }
     </style>
