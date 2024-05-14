@@ -51,13 +51,15 @@ section {
     width: 100%;
     height: 1000px; /* Set a fixed height for the slide */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden; /* Ensures that the padding does not allow the image to break the bounds of its container */
 }
 
 .slide img {
     width: 100%; /* Maintain full width */
-    height: 100%; /* Adjust height to fill the slide */
+    height: calc(100% - 300px); /* Adjust height to fill the slide, reducing by 300px total */
+    margin-top: 150px; /* Adds 150px margin at the top */
+    margin-bottom: 150px; /* Adds 150px margin at the bottom */
     object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
-    /* Use 'object-fit: contain;' if you want to ensure the entire image is visible, which may leave some empty space in the slide */
 }
 
 .overlay-text {
