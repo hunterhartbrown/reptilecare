@@ -113,34 +113,23 @@ section {
 
 .overlay-text {
     position: absolute;
-    top: 29%;
-    transform: translate(0, -50%);
-    max-width: 65%;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    box-sizing: border-box;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
-}
-
-.overlay-text.left {
-    left: 10%;
-    right: auto;
-    text-align: left;
-}
-
-.overlay-text.right {
-    right: 10%;
-    left: auto;
-    text-align: right;
+    top: 60%; /* Keep the current down position */
+    right: 10%; /* Move significantly to the left */
+    transform: translate(35%, -31%); /* Adjust for centering offset */
+    max-width: 65%; /* Ensure text fits within the width of the website */
+    color: white; /* White text color */
+    padding: 20px; /* Padding around text */
+    text-align: center; /* Center text alignment */
+    word-wrap: break-word; /* Ensure text wraps within the container */
+    overflow-wrap: break-word; /* Ensure text wraps within the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 .overlay-text h3.common-name {
     margin: 0;
     font-size: 2vw; /* Adjust font size for common name */
     font-weight: bold; /* Make the common name bold */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
 }
 
 .overlay-text h4.species-name {
@@ -148,6 +137,7 @@ section {
     font-size: 1.5vw; /* Adjust font size for species name */
     font-style: italic; /* Italicize the species name */
     font-weight: normal; /* Make the species name not bold */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
 }
 
 @media (max-width: 768px) {
