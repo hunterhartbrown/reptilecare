@@ -3,14 +3,14 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f0e4c4; /* Keep this color or change it if needed for other parts of the page */
-    padding-top: 120px; /* Adds padding at the top to push everything down */
+    padding-top: 0; /* Remove top padding to avoid gaps */
 }
 
 header {
     background-color: #ffffff; /* White background for the header */
     width: 100%; /* Full width */
     height: 100px; /* Doubled the height of the header */
-    margin-bottom: 20px; /* Space below the header */
+    margin-bottom: 0; /* Remove space below the header */
     position: relative; /* Positioning context for logo */
     display: flex; /* Use flexbox to align items */
     align-items: center; /* Center items vertically */
@@ -33,7 +33,7 @@ header h1 {
 }
 
 section {
-    padding: 1em;
+    padding: 0; /* Remove padding to avoid gaps */
     width: 100%; /* Full width */
     background-color: #E3C48A; /* New background color for the container */
 }
@@ -54,12 +54,12 @@ section {
     height: 1000px; /* Set a fixed height for the slide */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden; /* Ensures that the padding does not allow the image to break the bounds of its container */
-    margin-top: 0; /* Adjust margin to 0 */
+    margin: 0; /* Adjust margin to 0 */
 }
 
 .slide img {
     width: 100%; /* Maintain full width */
-    height: calc(100% - 300px); /* Adjust height to fill the slide, reducing by 300px total */
+    height: calc(100% - 0px); /* Adjust height to fill the slide */
     margin-top: 0; /* Adjust margin to 0 */
     margin-bottom: 0; /* Adjust margin to 0 */
     object-fit: cover; /* Cover ensures that the image covers the slide area, might crop some parts */
