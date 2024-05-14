@@ -111,14 +111,12 @@ section {
 
 .overlay-text {
     position: absolute;
-    top: 25%; /* Keep the current down position */
+    top: 28%; /* Keep the current down position */
     right: 85%; /* Move significantly to the left */
     transform: translate(35%, -31%); /* Adjust for centering offset */
     max-width: 65%; /* Ensure text fits within the width of the website */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white; /* White text color */
     padding: 20px; /* Padding around text */
-    border-radius: 5px; /* Rounded corners */
     text-align: center; /* Center text alignment */
     word-wrap: break-word; /* Ensure text wraps within the container */
     overflow-wrap: break-word; /* Ensure text wraps within the container */
@@ -128,19 +126,19 @@ section {
 .overlay-text h3 {
     margin: 0;
     font-size: 1vw; /* Adjust font size */
-    line-height: 1.25;
+    line-height: 1.4;
     padding: 5px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
 }
 
 @media (max-width: 768px) {
     .overlay-text h3 {
-        font-size: 1.5vw; /* Adjust font size for smaller screens */
+        font-size: 2vw; /* Adjust font size for smaller screens */
     }
 }
 
 @media (max-width: 480px) {
     .overlay-text h3 {
-        font-size: 2vw; /* Adjust font size for smaller screens */
+        font-size: 2.5vw; /* Adjust font size for smaller screens */
     }
 }
