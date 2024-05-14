@@ -53,7 +53,7 @@
         }
 
         function init() {
-            loadJson('/data/reptile_care_data.json', function(data) {
+            loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
                 var container = document.querySelector('.content-slider');
                 data.forEach(function(item, index) {
                     var div = document.createElement('div');
@@ -64,9 +64,8 @@
                     img.alt = item['Common Name'];
                     img.style.width = "100%";
                     img.style.height = "auto";
-                    var alignmentClass = item['Text Alignment'].replace(' ', '-').toLowerCase(); // Convert "Top Left" to "top-left"
                     var textDiv = document.createElement('div');
-                    textDiv.className = `overlay-text ${alignmentClass}`;
+                    textDiv.className = 'overlay-text';
                     textDiv.innerHTML = `<h3 class="common-name">${item['Common Name']}</h3><h4 class="species-name">${item['Species']}</h4>`;
                     div.appendChild(img);
                     div.appendChild(textDiv);
@@ -84,7 +83,7 @@
             }
             slideIndex++;
             if (slideIndex > slides.length) {slideIndex = 1}
-            slides[slideIndex-1].style.display = "block";
+            slides[slideIndex-1]. style.display = "block";
             setTimeout(rotateSlides, 4000); // Change slide every 4 seconds
         }
 

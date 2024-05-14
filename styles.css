@@ -118,21 +118,20 @@ section {
     max-width: 65%;
     color: white;
     padding: 20px;
+    text-align: center;
     word-wrap: break-word;
     overflow-wrap: break-word;
     box-sizing: border-box;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
 }
 
-.overlay-text.left,
-.overlay-text.top-left {
+.overlay-text.left {
     left: 10%;
     right: auto;
     text-align: left;
 }
 
-.overlay-text.right,
-.overlay-text.top-right {
+.overlay-text.right {
     right: 10%;
     left: auto;
     text-align: right;
