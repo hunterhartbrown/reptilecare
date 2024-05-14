@@ -112,7 +112,7 @@ section {
 .overlay-text {
     position: absolute;
     top: 31%; /* Keep the current down position */
-    right: 35%; /* Move significantly to the left */
+    right: 75%; /* Move significantly to the left */
     transform: translate(35%, -31%); /* Adjust for centering offset */
     max-width: 65%; /* Ensure text fits within the width of the website */
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
