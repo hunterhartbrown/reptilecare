@@ -125,7 +125,9 @@ section {
     width: auto; /* Allow the width to adjust automatically */
     height: 100%; /* Ensure the height fills the container */
     object-fit: cover; /* Ensure the problematic image covers the container */
-    object-position: left center; /* Align the image to the left */
+    object-position: left; /* Align the image to the left */
+    position: relative;
+    left: 0;
 }
 
 .overlay-text {
