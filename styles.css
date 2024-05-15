@@ -122,12 +122,11 @@ section {
 }
 
 .slide-image img.problematic-image {
-    width: auto; /* Allow the width to adjust automatically */
     height: 100%; /* Ensure the height fills the container */
+    width: auto; /* Allow the width to adjust automatically */
     object-fit: cover; /* Ensure the problematic image covers the container */
-    object-position: left; /* Align the image to the left */
     position: relative;
-    left: 0;
+    left: -50px; /* Adjust this value to move the image left */
 }
 
 .overlay-text {
