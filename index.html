@@ -64,6 +64,12 @@
                     var img = document.createElement('img');
                     img.src = item['Picture Link'];
                     img.alt = item['Common Name'];
+
+                    // Add unique class for the problematic image
+                    if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
+                        img.classList.add('problematic-image');
+                    }
+
                     imgDiv.appendChild(img);
                     
                     var textDiv = document.createElement('div');
