@@ -58,14 +58,19 @@
                 data.forEach(function(item, index) {
                     var div = document.createElement('div');
                     div.className = 'slide';
-                    div.style.display = index === 0 ? 'block' : 'none'; // Show first item initially
+                    div.style.display = index === 0 ? 'flex' : 'none'; // Show first item initially and use flex
+                    var imgDiv = document.createElement('div');
+                    imgDiv.className = 'slide-image';
                     var img = document.createElement('img');
                     img.src = item['Picture Link'];
                     img.alt = item['Common Name'];
+                    imgDiv.appendChild(img);
+                    
                     var textDiv = document.createElement('div');
                     textDiv.className = 'overlay-text';
                     textDiv.innerHTML = `<h3 class="common-name">${item['Common Name']}</h3><h4 class="species-name">${item['Species']}</h4>`;
-                    div.appendChild(img);
+                    
+                    div.appendChild(imgDiv);
                     div.appendChild(textDiv);
                     container.appendChild(div);
                 });
@@ -81,7 +86,7 @@
             }
             slideIndex++;
             if (slideIndex > slides.length) {slideIndex = 1}
-            slides[slideIndex-1].style.display = "block";
+            slides[slideIndex-1].style.display = "flex";
             setTimeout(rotateSlides, 4000); // Change slide every 4 seconds
         }
 
