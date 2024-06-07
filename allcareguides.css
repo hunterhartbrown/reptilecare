@@ -80,9 +80,15 @@ nav {
     opacity: 0.8;
 }
 
+section {
+    padding: 100px 20px 20px 20px; /* Adjusted padding to account for fixed header */
+    width: 100%;
+    background-color: #000;
+}
+
 .care-guides {
     text-align: center;
-    padding: 100px 20px 20px 20px; /* Adjusted padding to account for fixed header */
+    padding: 20px;
 }
 
 .care-guides h1 {
@@ -128,12 +134,7 @@ footer {
     bottom: 0;
 }
 
-section {
-    padding: 100px 0 1em 0; /* Adjusted padding to account for fixed header */
-    width: 100%;
-    background-color: #000;
-}
-
+/* Additional styles to ensure consistency with the homepage */
 .content-slider {
     width: 100%;
     max-width: none;
