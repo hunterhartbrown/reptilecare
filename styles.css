@@ -79,9 +79,9 @@ nav {
 }
 
 section {
-    padding: 100px 20px 1em 20px; /* Adjusted padding to account for fixed header */
+    padding: 100px 0 1em 0; /* Adjusted padding to account for fixed header */
     width: 100%;
-    background-color: #f0e4c4;
+    background-color: #000;
 }
 
 .content-slider {
