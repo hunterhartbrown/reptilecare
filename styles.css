@@ -80,7 +80,7 @@ nav {
 section {
     padding: 100px 0 1em 0; /* Adjusted padding to account for fixed header */
     width: 100%;
-    background-color: #E3C48A;
+    background-color: #000;
 }
 
 .content-slider {
@@ -111,7 +111,7 @@ section {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #E3C48A; /* Match the background color */
+    background-color: #000; /* Match the background color */
 }
 
 .slide-image img {
