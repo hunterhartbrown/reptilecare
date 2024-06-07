@@ -1,3 +1,4 @@
+/* Existing styles remain unchanged */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -78,9 +79,9 @@ nav {
 }
 
 section {
-    padding: 100px 0 1em 0; /* Adjusted padding to account for fixed header */
+    padding: 100px 20px 1em 20px; /* Adjusted padding to account for fixed header */
     width: 100%;
-    background-color: #000;
+    background-color: #f0e4c4;
 }
 
 .content-slider {
@@ -171,4 +172,36 @@ section {
     .overlay-text h4.species-name {
         font-size: 3.5vw;
     }
+}
+
+/* New styles for care guides section */
+.care-guides {
+    padding: 20px;
+    background-color: #fff;
+}
+
+.care-guide-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.care-guide {
+    width: 23%; /* Ensures four items fit in a row with some margin */
+    background-color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.care-guide img {
+    width: 100%;
+    height: auto;
+}
+
+.care-guide p {
+    margin-top: 10px;
+    font-weight: bold;
 }
