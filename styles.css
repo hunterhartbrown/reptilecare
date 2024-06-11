@@ -182,7 +182,7 @@ section {
 
 .care-guide-container {
     display: flex;
-    justify-content: flex-start; /* Align items to the left */
+    justify-content: center; /* Align items to the center */
     flex-wrap: wrap;
 }
 
