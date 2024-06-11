@@ -182,15 +182,15 @@ section {
 
 .care-guide-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start; /* Align items to the left */
     flex-wrap: wrap;
 }
 
 .care-guide {
-    width: 23%; /* Ensures four items fit in a row with some margin */
+    width: 21%; /* Reduced width to make them smaller */
     background-color: #fff;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 1.5% 20px 0; /* Adjusted margin for spacing and moving left */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
