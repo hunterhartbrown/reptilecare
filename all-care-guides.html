@@ -30,9 +30,7 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Ensure even spacing between image and text */
+            position: relative; /* Make positioning within the container relative */
         }
 
         .care-guide:hover {
@@ -43,17 +41,17 @@
             width: 100%;
             height: auto;
             border-radius: 5px;
-            margin-bottom: 10px; /* Ensure consistent spacing between image and text */
         }
 
         .care-guide p {
             margin-top: 10px;
             font-weight: bold;
             color: #000;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; /* Separate the title positioning */
+            bottom: 10px; /* Position it at the bottom of the container */
+            width: 100%; /* Make sure the title spans the entire width */
+            left: 0; /* Align to the left */
+            text-align: center; /* Center the text */
         }
 
         footer {
@@ -92,26 +90,26 @@
             <div class="care-guide">
                 <a href="/leopard-gecko.html">
                     <img src="images/leo trans bg.png" alt="Leopard Gecko">
-                    <p>Leopard Gecko</p>
                 </a>
+                <p>Leopard Gecko</p>
             </div>
             <div class="care-guide">
                 <a href="/eastern-collared-lizard.html">
                     <img src="images/collared lizard trans bg.png" alt="Eastern Collared Lizard">
-                    <p>Eastern Collared Lizard</p>
                 </a>
+                <p>Eastern Collared Lizard</p>
             </div>
             <div class="care-guide">
                 <a href="/bearded-dragon.html">
                     <img src="images/bearded drag trans bg.png" alt="Bearded Dragon">
-                    <p>Bearded Dragon</p>
                 </a>
+                <p>Bearded Dragon</p>
             </div>
             <div class="care-guide">
                 <a href="/crested-gecko.html">
                     <img src="images/crested gecko trans bg.png" alt="Crested Gecko">
-                    <p>Crested Gecko</p>
                 </a>
+                <p>Crested Gecko</p>
             </div>
         </div>
     </section>
