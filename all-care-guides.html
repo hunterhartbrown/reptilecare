@@ -5,6 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Care Guides - ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensuring the care guides page matches the home page style */
+        .care-guides {
+            padding: 100px 20px 20px; /* Adjust padding to align with the fixed header */
+            background-color: #000; /* Match background color */
+            color: #fff;
+        }
+
+        .care-guide-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px; /* Add gap between guide items */
+        }
+
+        .care-guide {
+            width: 21%; /* Consistent width with spacing */
+            background-color: #fff;
+            text-align: center;
+            margin: 0 1.5% 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .care-guide:hover {
+            transform: scale(1.05); /* Add a subtle zoom effect on hover */
+        }
+
+        .care-guide img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .care-guide p {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+            border-top: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -27,8 +78,8 @@
     </header>
 
     <section class="care-guides">
-        <h1>All Care Guides</h1>
-        <p>Here you can find all the care guides for various reptiles.</p>
+        <h1 style="text-align: center;">All Care Guides</h1>
+        <p style="text-align: center;">Here you can find all the care guides for various reptiles.</p>
         <div class="care-guide-container">
             <div class="care-guide">
                 <a href="/leopard-gecko.html">
