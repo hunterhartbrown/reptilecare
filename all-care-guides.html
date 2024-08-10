@@ -21,16 +21,16 @@
         }
 
         .care-guide {
-            width: 21%; /* Consistent width with spacing */
+            display: flex;
+            align-items: center;
             background-color: #fff;
-            text-align: center;
-            margin: 0 1.5% 20px 0;
+            width: 40%; /* Adjust width as needed */
+            text-align: left;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s ease-in-out;
-            position: relative; /* Make positioning within the container relative */
         }
 
         .care-guide:hover {
@@ -38,20 +38,18 @@
         }
 
         .care-guide img {
-            width: 100%;
+            max-width: 150px; /* Limit image width */
             height: auto;
             border-radius: 5px;
+            margin-right: 20px; /* Space between image and text */
+            display: block;
         }
 
         .care-guide p {
-            margin-top: 10px;
+            margin: 0;
             font-weight: bold;
             color: #000;
-            position: absolute; /* Separate the title positioning */
-            bottom: 10px; /* Position it at the bottom of the container */
-            width: 100%; /* Make sure the title spans the entire width */
-            left: 0; /* Align to the left */
-            text-align: center; /* Center the text */
+            flex-grow: 1;
         }
 
         footer {
