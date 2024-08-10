@@ -22,15 +22,17 @@
 
         .care-guide {
             display: flex;
+            flex-direction: column;
             align-items: center;
             background-color: #fff;
-            width: 40%; /* Adjust width as needed */
-            text-align: left;
+            width: 200px; /* Set the width for consistent box size */
+            text-align: center;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s ease-in-out;
+            position: relative; /* Position the text box relative to the image */
         }
 
         .care-guide:hover {
@@ -38,18 +40,20 @@
         }
 
         .care-guide img {
-            max-width: 150px; /* Limit image width */
+            width: 100%; /* Make the image take up full width of the box */
             height: auto;
             border-radius: 5px;
-            margin-right: 20px; /* Space between image and text */
-            display: block;
         }
 
-        .care-guide p {
-            margin: 0;
+        .care-guide-text {
+            width: 200px; /* Ensure the text box is the same width as the image box */
+            text-align: center;
+            margin-top: 10px;
             font-weight: bold;
             color: #000;
-            flex-grow: 1;
+            position: absolute;
+            top: 0;
+            left: 220px; /* Position the text box to the right of the image */
         }
 
         footer {
@@ -89,25 +93,25 @@
                 <a href="/leopard-gecko.html">
                     <img src="images/leo trans bg.png" alt="Leopard Gecko">
                 </a>
-                <p>Leopard Gecko</p>
+                <div class="care-guide-text">Leopard Gecko</div>
             </div>
             <div class="care-guide">
                 <a href="/eastern-collared-lizard.html">
                     <img src="images/collared lizard trans bg.png" alt="Eastern Collared Lizard">
                 </a>
-                <p>Eastern Collared Lizard</p>
+                <div class="care-guide-text">Eastern Collared Lizard</div>
             </div>
             <div class="care-guide">
                 <a href="/bearded-dragon.html">
                     <img src="images/bearded drag trans bg.png" alt="Bearded Dragon">
                 </a>
-                <p>Bearded Dragon</p>
+                <div class="care-guide-text">Bearded Dragon</div>
             </div>
             <div class="care-guide">
                 <a href="/crested-gecko.html">
                     <img src="images/crested gecko trans bg.png" alt="Crested Gecko">
                 </a>
-                <p>Crested Gecko</p>
+                <div class="care-guide-text">Crested Gecko</div>
             </div>
         </div>
     </section>
