@@ -1,112 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leopard Gecko Care Guide</title>
-    <link rel="stylesheet" href="../styles.css">
-    <style>
-        body {
-            background-color: #fff;
-            color: #000;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leopard Gecko Care Guide</title>
 
-        .care-guide-content {
-            padding: 100px 20px 20px;
-            max-width: 800px;
-            margin: auto;
-            text-align: center;
-        }
+  <!-- If your external CSS is causing the black background,
+       you can remove or comment out the line below.
+       <link rel="stylesheet" href="../styles.css"> -->
 
-        .care-guide-content img {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+  <style>
+    /* Basic reset for the page */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff; /* White background */
+      color: #000;            /* Black text */
+    }
 
-        h1 {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: #fff; /* White header */
+      border-bottom: 1px solid #ddd;
+    }
 
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+    .logo {
+      height: 50px;
+    }
 
-        .info-box {
-            background-color: #f9f9f9;
-            color: #000;
-            border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 16px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
+    nav ul.nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
 
-        footer {
-            background-color: #fff;
-            color: #000;
-            padding: 20px;
-            text-align: left;
-            border-top: 1px solid #ddd;
-            margin-left: 20px;
-        }
-    </style>
+    nav ul.nav-links li a {
+      text-decoration: none;
+      color: #000; /* Black text for links */
+      font-weight: bold;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .auth-buttons button {
+      background-color: #eee;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .care-guide-content {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .care-guide-content img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 30px 0 10px;
+      color: #000; /* Ensure visible on white */
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <a href="https://reptilecare.net">
-            <img src="../images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
-        </a>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/all-care-guides.html">All Care Guides</a></li>
-                <li><a href="#">All Products</a></li>
-                <li><a href="#">Magic Enclosure Designer</a></li>
-                <li><a href="#">Research</a></li>
-                <li><a href="#">About Us</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <button class="login">Log In</button>
-            <button class="signup">Sign Up</button>
-        </div>
-    </header>
 
-    <section class="care-guide-content">
-        <h1>Leopard Gecko Care Guide</h1>
-        <img src="../images/leopard-gecko.jpg" alt="Leopard Gecko">
-        <p>Leopard Geckos are one of the most popular pet reptiles due to their gentle nature and ease of care. Learn everything you need to know to keep your gecko happy and healthy.</p>
+  <header>
+    <a href="https://reptilecare.net">
+      <img src="../images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/all-care-guides.html">All Care Guides</a></li>
+        <li><a href="#">All Products</a></li>
+        <li><a href="#">Magic Enclosure Designer</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <button class="login">Log In</button>
+      <button class="signup">Sign Up</button>
+    </div>
+  </header>
 
-        <h2>Species Info</h2>
-        <div class="info-box">Leopard Geckos are a species of gecko found in the deserts of Asia. They are known for their distinctive spots and gentle nature.</div>
+  <section class="care-guide-content">
+    <h1>Leopard Gecko Care Guide</h1>
+    <img src="../images/leopard-gecko.jpg" alt="Leopard Gecko">
+    <p>Leopard Geckos are one of the most popular pet reptiles due to their gentle nature and ease of care. Learn everything you need to know to keep your gecko happy and healthy.</p>
 
-        <h2>Habitat Size Requirements</h2>
-        <div class="info-box">Leopard Geckos need a habitat that is at least 10 gallons in size for a single gecko. More space is needed if housing multiple geckos.</div>
+    <h2>Species Info</h2>
+    <div class="info-box">
+      Leopard Geckos are a species of gecko found in the deserts of Asia. They are known for their distinctive spots and gentle nature.
+    </div>
 
-        <h2>Heating Requirements</h2>
-        <div class="info-box">Leopard Geckos require a temperature gradient in their enclosure, with a warm side between 88-92°F (31-33°C) and a cool side around 70-75°F (21-24°C).</div>
+    <h2>Habitat Size Requirements</h2>
+    <div class="info-box">
+      Leopard Geckos need a habitat that is at least 10 gallons in size for a single gecko. More space is needed if housing multiple geckos.
+    </div>
 
-        <h2>Humidity / Airflow Requirements</h2>
-        <div class="info-box">Leopard Geckos thrive in low humidity environments, typically around 30-40%. Ensure adequate ventilation to prevent respiratory issues.</div>
+    <h2>Heating Requirements</h2>
+    <div class="info-box">
+      Leopard Geckos require a temperature gradient in their enclosure, with a warm side between 88-92°F (31-33°C) and a cool side around 70-75°F (21-24°C).
+    </div>
 
-        <h2>Food Requirements</h2>
-        <div class="info-box">Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. Dust their food with calcium and vitamin D3 supplements.</div>
+    <h2>Humidity / Airflow Requirements</h2>
+    <div class="info-box">
+      Leopard Geckos thrive in low humidity environments, typically around 30-40%. Ensure adequate ventilation to prevent respiratory issues.
+    </div>
 
-        <h2>Opportunities for Enrichment</h2>
-        <div class="info-box">Provide hiding spots, climbing structures, and varying substrates to keep your Leopard Gecko engaged and comfortable.</div>
-    </section>
+    <h2>Food Requirements</h2>
+    <div class="info-box">
+      Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. Dust their food with calcium and vitamin D3 supplements.
+    </div>
 
-    <footer>
-        <p>&copy; 2024 Reptile Care. All rights reserved.</p>
-    </footer>
+    <h2>Opportunities for Enrichment</h2>
+    <div class="info-box">
+      Provide hiding spots, climbing structures, and varying substrates to keep your Leopard Gecko engaged and comfortable.
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Reptile Care. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
