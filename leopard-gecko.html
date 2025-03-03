@@ -53,7 +53,7 @@
       cursor: pointer;
     }
     
-    /* Main container is centered, but text within paragraphs is left-aligned */
+    /* Main container is centered, paragraphs inside are styled uniformly */
     .care-guide-content {
       padding: 20px;
       max-width: 800px;
@@ -77,18 +77,17 @@
       max-width: 500px;
       border-radius: 10px;
     }
-    
-    /* INTRO PARAGRAPHS:
-       Same font size/weight as button text, plus indentation */
-    .intro-paragraph {
-      font-size: 16px;
-      font-weight: bold;
-      line-height: 1.4;
-      text-indent: 2em;
+
+    /* Uniform paragraph styling throughout (intro + toggled sections) */
+    .care-guide-content p {
       margin: 15px 0;
+      font-size: 18px;         /* Same size for all paragraphs */
+      line-height: 1.6;        /* Same line height for all paragraphs */
+      font-weight: normal;     /* Ensure normal (non-bold) text */
+      text-indent: 2em;        /* Indent the first line */
     }
     
-    /* Button row is centered as a group, text inside each button is centered */
+    /* Button row is centered as a group, with text inside each button also centered */
     .button-row {
       display: flex;
       justify-content: center;
@@ -112,14 +111,7 @@
     /* Content area styling */
     .content-area {
       margin-bottom: 20px;
-      text-align: left; /* Ensure paragraphs in sections are left-aligned */
-    }
-    
-    /* Paragraphs in the sections remain 18px for readability */
-    .content-area p {
-      margin: 15px 0;
-      font-size: 18px;
-      line-height: 1.6;
+      text-align: left; /* The paragraphs themselves will still be left-aligned */
     }
     
     /* Hide all section contents by default */
@@ -161,19 +153,19 @@
     <h1>Leopard Gecko Care Guide</h1>
     <img src="images/leo trans bg.png" alt="Leopard Gecko" />
 
-    <!-- Intro paragraphs: same size/weight as button text, plus indentation -->
-    <p class="intro-paragraph">
+    <!-- Intro paragraphs: now match the toggled paragraphs' style -->
+    <p>
       Leopard geckos, also referred to as leos, are small, colorful reptiles with a generally docile, 
       slow-moving nature. They can be distinguished by the color and pattern of their tail, which 
       features a combination of black stripes and spots on their backs and tails.
     </p>
-    <p class="intro-paragraph">
+    <p>
       A variety of morphs and mutations alter their coloration, leading to a wide range of prices 
       at reptile retailers and expos. Typically, these reptiles cost between $100-$250 USD, 
       depending on the morph and age. A minimum 40-gallon enclosure is required, furnished with 
       either paper towels or a well-mixed semiarid substrate.
     </p>
-    <p class="intro-paragraph">
+    <p>
       Leopard geckos are crepuscular/nocturnal, meaning they are usually inactive during the day 
       and more active at dusk, although they may not always adhere to this sleep pattern. Leos are 
       insectivores, and they need an enclosure that features both humid and dry areas. With proper 
