@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leopard Gecko Care Guide</title>
-
-  <!-- If your external CSS is causing the black background,
-       you can remove or comment out the line below.
-       <link rel="stylesheet" href="../styles.css"> -->
 
   <style>
     /* Basic reset for the page */
@@ -62,7 +58,7 @@
       padding: 20px;
       max-width: 800px;
       margin: auto;
-      text-align: center;
+      text-align: center; /* Keeps the heading, image, and intro paragraph centered */
     }
 
     .care-guide-content img {
@@ -78,17 +74,19 @@
       margin-bottom: 10px;
     }
 
-    /* Hideable sections start hidden */
-    .hidden {
-      display: none;
+    /* Two-column layout for the buttons */
+    .buttons-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Exactly 2 columns */
+      gap: 20px;
+      max-width: 800px;
+      margin: 20px auto; /* Center the grid container */
     }
 
-    /* Style for each "section button" */
     .section-button {
       display: block;
-      width: 80%;
-      max-width: 400px;
-      margin: 20px auto;
+      width: 100%;
+      margin: 0; 
       padding: 15px;
       font-size: 16px;
       font-weight: bold;
@@ -99,15 +97,16 @@
       text-align: center;
     }
 
-    /* Style for the expanded text boxes */
+    /* Remove the "textbox" styling so text appears like normal paragraphs */
     .info-box {
-      text-align: left; /* So text isn’t all centered in large paragraphs */
-      margin: 0 auto 20px auto;
-      max-width: 700px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #fafafa;
+      max-width: 800px;
+      margin: 20px auto; /* space out from the buttons */
+      text-align: left;  /* switch to left alignment for readability */
+    }
+
+    /* Keep sections hidden by default; toggled via JavaScript */
+    .hidden {
+      display: none;
     }
 
     footer {
@@ -143,9 +142,9 @@
 
   <section class="care-guide-content">
     <h1>Leopard Gecko Care Guide</h1>
-    <img src="images/leo trans bg.png" alt="Leopard Gecko">
+    <img src="images/leo trans bg.png" alt="Leopard Gecko" />
 
-    <!-- Intro paragraph stays visible -->
+    <!-- Intro paragraph remains visible -->
     <p>
       Leopard geckos, also referred to as leos, are small, colorful reptiles with a generally docile, slow-moving nature.
       They can be distinguished by the color and pattern of their tail, which features a combination of black stripes and 
@@ -159,10 +158,17 @@
       beginners interested in reptile-keeping.
     </p>
 
-    <!-- Button for Species Info -->
-    <button class="section-button" onclick="toggleSection('speciesInfo')">
-      B1: Species Info
-    </button>
+    <!-- Button grid (two columns) -->
+    <div class="buttons-container">
+      <button class="section-button" onclick="toggleSection('speciesInfo')">B1: Species Info</button>
+      <button class="section-button" onclick="toggleSection('habitatSize')">B2: Habitat Size</button>
+      <button class="section-button" onclick="toggleSection('heatingReqs')">B3: Heating</button>
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">B4: Humidity/Airflow</button>
+      <button class="section-button" onclick="toggleSection('foodReqs')">B5: Food</button>
+      <button class="section-button" onclick="toggleSection('enrichment')">B6: Enrichment</button>
+    </div>
+
+    <!-- Toggled sections (hidden by default) -->
     <div id="speciesInfo" class="info-box hidden">
       <p>
         <strong>Leopard Geckos (Eublepharis macularius)</strong> are found in the deserts of the Middle East and 
@@ -180,10 +186,6 @@
       </p>
     </div>
 
-    <!-- Button for Habitat Size Requirements -->
-    <button class="section-button" onclick="toggleSection('habitatSize')">
-      B2: Habitat Size Requirements
-    </button>
     <div id="habitatSize" class="info-box hidden">
       <p>
         Leopard Geckos need a habitat that is at least 40 gallons in size for a single gecko. This species MUST be 
@@ -196,10 +198,6 @@
       </p>
     </div>
 
-    <!-- Button for Heating Requirements -->
-    <button class="section-button" onclick="toggleSection('heatingReqs')">
-      B3: Heating Requirements
-    </button>
     <div id="heatingReqs" class="info-box hidden">
       <p>
         Leopard Geckos require a temperature gradient in their enclosure, with a warm side between 88-92°F (31-33°C) 
@@ -210,10 +208,6 @@
       </p>
     </div>
 
-    <!-- Button for Humidity / Airflow Requirements -->
-    <button class="section-button" onclick="toggleSection('humidityAirflow')">
-      B4: Humidity / Airflow Requirements
-    </button>
     <div id="humidityAirflow" class="info-box hidden">
       <p>
         Leopard Geckos thrive in low-medium humidity environments, typically around 30%-50%. A mesh top enclosure 
@@ -222,10 +216,6 @@
       </p>
     </div>
 
-    <!-- Button for Food Requirements -->
-    <button class="section-button" onclick="toggleSection('foodReqs')">
-      B5: Food Requirements
-    </button>
     <div id="foodReqs" class="info-box hidden">
       <p>
         Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. Dust their food with 
@@ -234,10 +224,6 @@
       </p>
     </div>
 
-    <!-- Button for Enrichment -->
-    <button class="section-button" onclick="toggleSection('enrichment')">
-      B6: Opportunities for Enrichment
-    </button>
     <div id="enrichment" class="info-box hidden">
       <p>
         Provide plenty of hiding spots, climbing structures, and a well-mixed semiarid or paper towel substrate to 
@@ -246,6 +232,7 @@
         enclosure is regularly cleaned of waste if using a naturalistic substrate.
       </p>
     </div>
+
   </section>
 
   <footer>
