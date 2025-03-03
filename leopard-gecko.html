@@ -18,7 +18,7 @@
       color: #000;
     }
 
-    /* Copy the main page’s header style */
+    /* Header style matches main page (fixed at top, 80px high) */
     header {
       background-color: #ffffff;
       width: 100%;
@@ -26,19 +26,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px; 
+      padding: 0 20px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
 
-    /* Shift main content down to avoid the fixed header overlap */
+    /* Shift content down to avoid overlap by fixed header */
     section.care-guide-content {
       padding: 100px 20px 20px; /* 80px for header + 20px existing */
       max-width: 800px;
       margin: 0 auto;
-      background-color: #fff; 
+      background-color: #fff;
     }
 
     /* Center the title */
@@ -50,7 +50,7 @@
       margin-bottom: 10px;
     }
 
-    /* Center the image */
+    /* Center the main image */
     .care-guide-content img {
       display: block;
       margin: 0 auto 20px;
@@ -75,8 +75,17 @@
       margin: 20px 0;
     }
 
-    /* Each button has an icon on the left */
+    /* 
+      Make each button an inline-flex container, 
+      ensuring icon + text stay on one line and align neatly.
+    */
     .section-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;             /* Space between icon & text */
+      white-space: nowrap;  /* Prevent text from wrapping */
+      
       width: 150px;
       padding: 15px;
       font-size: 16px;
@@ -86,19 +95,14 @@
       border: 1px solid #ddd;
       border-radius: 5px;
       text-align: center;
-      
-      /* Make the button use flex to align icon + text easily */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px; /* space between icon and text */
     }
 
-    /* Icon styling: sized down and aligned left of text */
+    /* Force icons to be 24×24 px for uniform size */
     .button-icon {
       width: 24px;
       height: 24px;
-      object-fit: contain;
+      object-fit: contain; /* Keeps entire icon visible inside bounding box */
+      flex-shrink: 0;      /* Prevents icon from shrinking if text is long */
     }
 
     /* Content area styling */
@@ -112,7 +116,7 @@
       display: none;
     }
 
-    /* Footer (2025 date) */
+    /* Footer from your snippet (2025 date) */
     footer {
       margin-left: 20px;
       background-color: #fff;
@@ -303,7 +307,7 @@
   </footer>
 
   <script>
-    // Accordion behavior: close any open section then toggle the clicked one.
+    // Simple accordion toggle
     function toggleSection(sectionId) {
       const allSections = document.querySelectorAll('.section-content');
       allSections.forEach(sec => {
@@ -317,6 +321,5 @@
       }
     }
   </script>
-
 </body>
 </html>
