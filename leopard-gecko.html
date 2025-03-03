@@ -4,30 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leopard Gecko Care Guide</title>
-
   <style>
     /* Basic reset for the page */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #fff; /* White background */
-      color: #000;            /* Black text */
+      background-color: #fff;
+      color: #000;
     }
-
+    
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
-      background-color: #fff; /* White header */
+      background-color: #fff;
       border-bottom: 1px solid #ddd;
     }
-
+    
     .logo {
       height: 50px;
     }
-
+    
     nav ul.nav-links {
       list-style: none;
       display: flex;
@@ -35,58 +34,56 @@
       margin: 0;
       padding: 0;
     }
-
+    
     nav ul.nav-links li a {
       text-decoration: none;
-      color: #000; /* Black text for links */
+      color: #000;
       font-weight: bold;
     }
-
+    
     .auth-buttons {
       display: flex;
       gap: 10px;
     }
-
+    
     .auth-buttons button {
       background-color: #eee;
       border: none;
       padding: 8px 12px;
       cursor: pointer;
     }
-
+    
     .care-guide-content {
       padding: 20px;
       max-width: 800px;
       margin: auto;
-      text-align: center; /* Keeps the heading, image, and intro paragraph centered */
+      text-align: center;
     }
-
+    
     .care-guide-content img {
       width: 100%;
       max-width: 500px;
       border-radius: 10px;
       margin-bottom: 20px;
     }
-
+    
     h1 {
       font-size: 36px;
       font-weight: bold;
       margin-bottom: 10px;
     }
-
-    /* Two-column layout for the buttons */
-    .buttons-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr; /* Exactly 2 columns */
+    
+    /* Button row styling */
+    .button-row {
+      display: flex;
+      justify-content: center;
       gap: 20px;
+      margin: 20px auto;
       max-width: 800px;
-      margin: 20px auto; /* Center the grid container */
     }
-
+    
     .section-button {
-      display: block;
-      width: 100%;
-      margin: 0; 
+      flex: 1;
       padding: 15px;
       font-size: 16px;
       font-weight: bold;
@@ -96,19 +93,26 @@
       border-radius: 5px;
       text-align: center;
     }
-
-    /* Remove the "textbox" styling so text appears like normal paragraphs */
-    .info-box {
+    
+    /* Content area styling; appears like a normal paragraph */
+    .content-area {
       max-width: 800px;
-      margin: 20px auto; /* space out from the buttons */
-      text-align: left;  /* switch to left alignment for readability */
+      margin: 0 auto 20px auto;
+      text-align: left;
+      padding: 0 10px;
     }
-
-    /* Keep sections hidden by default; toggled via JavaScript */
+    
+    .content-area p {
+      margin: 15px 0;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    
+    /* Hide sections by default */
     .hidden {
       display: none;
     }
-
+    
     footer {
       background-color: #fff;
       color: #000;
@@ -117,7 +121,6 @@
       text-align: center;
     }
   </style>
-
 </head>
 <body>
 
@@ -158,79 +161,88 @@
       beginners interested in reptile-keeping.
     </p>
 
-    <!-- Button grid (two columns) -->
-    <div class="buttons-container">
+    <!-- Row 1 Buttons -->
+    <div class="button-row">
       <button class="section-button" onclick="toggleSection('speciesInfo')">B1: Species Info</button>
       <button class="section-button" onclick="toggleSection('habitatSize')">B2: Habitat Size</button>
+    </div>
+    <!-- Row 1 Content Area -->
+    <div class="content-area">
+      <div id="speciesInfo" class="hidden">
+        <p>
+          <strong>Leopard Geckos (Eublepharis macularius)</strong> are found in the deserts of the Middle East and 
+          southwestern Asia. More specifically, their native habitat range includes the rocky, dry grasslands and desert 
+          regions of Afghanistan, Pakistan, India, Nepal, and parts of Iran. They are known for their distinctive spots 
+          and gentle nature. In the wild, leos gather most of their heat from rocks warmed by the sun throughout the day. 
+          They are smaller than many other reptiles, with hatchlings typically measuring anywhere from 3 to 4 inches 
+          (7-10 cm) long. Adults reach full size at around 12-18 months, with females growing to 7-8 inches (18-20 cm) 
+          and males to 8-11 inches (20-28 cm). Their toes do not contain adhesive pads like tree-dwelling geckos, so 
+          they cannot climb smooth walls. Leopard geckos have distinctly thick tails that store fat and extra energy, 
+          similar to camel humps. This makes them beginner-friendly, as they can go several days without meals. When 
+          hunting, leos sometimes lift their tails in a wagging motion as they approach prey. They can also make faint 
+          chirping noises when curious, excited, or nervous, and can drop their tails if threatened. Like all reptiles, 
+          they shed their skin and eat it to retain nutrients. Unlike most other geckos, leos have eyelids.
+        </p>
+      </div>
+      <div id="habitatSize" class="hidden">
+        <p>
+          Leopard Geckos need a habitat that is at least 40 gallons in size for a single gecko. This species MUST be 
+          kept alone; it absolutely cannot be kept with other leos or other reptile species. They do not have strict 
+          humidity requirements and can be kept at anywhere between 30%-50% humidity. However, they must have a "humid 
+          hide," or a damp, dark place where they can shed their skin. They require several hiding holes and rocks to 
+          hide when stressed and to help regulate body temperature. They also enjoy climbing "steps," such as layered 
+          rocks or short artificial decorations. Ensure that the enclosure is regularly cleaned of waste to maintain 
+          the health of your leo.
+        </p>
+      </div>
+    </div>
+
+    <!-- Row 2 Buttons -->
+    <div class="button-row">
       <button class="section-button" onclick="toggleSection('heatingReqs')">B3: Heating</button>
       <button class="section-button" onclick="toggleSection('humidityAirflow')">B4: Humidity/Airflow</button>
+    </div>
+    <!-- Row 2 Content Area -->
+    <div class="content-area">
+      <div id="heatingReqs" class="hidden">
+        <p>
+          Leopard Geckos require a temperature gradient in their enclosure, with a warm side between 88-92°F (31-33°C) 
+          and a cool side around 70-75°F (21-24°C). Although debatable, a small amount of UVB lighting (e.g., Zoo Med 
+          ReptiSun T5 HO 5.0) can assist in calcium processing and is generally not harmful. Other than this recommendation, 
+          they do not require visible light to live happily. See the enrichment section for optional lighting ideas.
+        </p>
+      </div>
+      <div id="humidityAirflow" class="hidden">
+        <p>
+          Leopard Geckos thrive in low-medium humidity environments, typically around 30%-50%. A mesh top enclosure 
+          is ideal to achieve this range and provide good ventilation. Additional fans may be added for enrichment 
+          or to assist with humidity control, but they are optional in most home environments.
+        </p>
+      </div>
+    </div>
+
+    <!-- Row 3 Buttons -->
+    <div class="button-row">
       <button class="section-button" onclick="toggleSection('foodReqs')">B5: Food</button>
       <button class="section-button" onclick="toggleSection('enrichment')">B6: Enrichment</button>
     </div>
-
-    <!-- Toggled sections (hidden by default) -->
-    <div id="speciesInfo" class="info-box hidden">
-      <p>
-        <strong>Leopard Geckos (Eublepharis macularius)</strong> are found in the deserts of the Middle East and 
-        southwestern Asia. More specifically, their native habitat range includes the rocky, dry grasslands and desert 
-        regions of Afghanistan, Pakistan, India, Nepal, and parts of Iran. They are known for their distinctive spots 
-        and gentle nature. In the wild, leos gather most of their heat from rocks warmed by the sun throughout the day. 
-        They are smaller than many other reptiles, with hatchlings typically measuring anywhere from 3 to 4 inches 
-        (7-10 cm) long. Adults reach full size at around 12-18 months, with females growing to 7-8 inches (18-20 cm) 
-        and males to 8-11 inches (20-28 cm). Their toes do not contain adhesive pads like tree-dwelling geckos, so 
-        they cannot climb smooth walls. Leopard geckos have distinctly thick tails that store fat and extra energy, 
-        similar to camel humps. This makes them beginner-friendly, as they can go several days without meals. When 
-        hunting, leos sometimes lift their tails in a wagging motion as they approach prey. They can also make faint 
-        chirping noises when curious, excited, or nervous, and can drop their tails if threatened. Like all reptiles, 
-        they shed their skin and eat it to retain nutrients. Unlike most other geckos, leos have eyelids.
-      </p>
-    </div>
-
-    <div id="habitatSize" class="info-box hidden">
-      <p>
-        Leopard Geckos need a habitat that is at least 40 gallons in size for a single gecko. This species MUST be 
-        kept alone; it absolutely cannot be kept with other leos or other reptile species. They do not have strict 
-        humidity requirements and can be kept at anywhere between 30%-50% humidity. However, they must have a "humid 
-        hide," or a damp, dark place where they can shed their skin. They require several hiding holes and rocks to 
-        hide when stressed and to help regulate body temperature. They also enjoy climbing "steps," such as layered 
-        rocks or short artificial decorations. Ensure that the enclosure is regularly cleaned of waste to maintain 
-        the health of your leo.
-      </p>
-    </div>
-
-    <div id="heatingReqs" class="info-box hidden">
-      <p>
-        Leopard Geckos require a temperature gradient in their enclosure, with a warm side between 88-92°F (31-33°C) 
-        and a cool side around 70-75°F (21-24°C). Although debatable, a small amount of UVB lighting (e.g., Zoo Med 
-        ReptiSun T5 HO 5.0) can assist in calcium processing and is generally not harmful. Other than this 
-        recommendation, they do not require visible light to live happily. See the enrichment section for optional 
-        lighting ideas.
-      </p>
-    </div>
-
-    <div id="humidityAirflow" class="info-box hidden">
-      <p>
-        Leopard Geckos thrive in low-medium humidity environments, typically around 30%-50%. A mesh top enclosure 
-        is ideal to achieve this range and provide good ventilation. Additional fans may be added for enrichment 
-        or to assist with humidity control, but they are optional in most home environments.
-      </p>
-    </div>
-
-    <div id="foodReqs" class="info-box hidden">
-      <p>
-        Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. Dust their food with 
-        calcium every feeding and vitamin D3 (unless using UVB lighting, then you can dust every other feeding) to 
-        prevent metabolic bone disease and allow for healthy growth.
-      </p>
-    </div>
-
-    <div id="enrichment" class="info-box hidden">
-      <p>
-        Provide plenty of hiding spots, climbing structures, and a well-mixed semiarid or paper towel substrate to 
-        keep your Leopard Gecko engaged and comfortable. If you opt for a mixed substrate, use a blend of 50% 
-        coconut fiber, 20% clean playsand, 20% topsoil, and 10% clay, allowing for digging behavior. Ensure the 
-        enclosure is regularly cleaned of waste if using a naturalistic substrate.
-      </p>
+    <!-- Row 3 Content Area -->
+    <div class="content-area">
+      <div id="foodReqs" class="hidden">
+        <p>
+          Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. Dust their food with 
+          calcium every feeding and vitamin D3 (unless using UVB lighting, then you can dust every other feeding) to 
+          prevent metabolic bone disease and allow for healthy growth.
+        </p>
+      </div>
+      <div id="enrichment" class="hidden">
+        <p>
+          Provide plenty of hiding spots, climbing structures, and a well-mixed semiarid or paper towel substrate to 
+          keep your Leopard Gecko engaged and comfortable. If you opt for a mixed substrate, use a blend of 50% 
+          coconut fiber, 20% clean playsand, 20% topsoil, and 10% clay, allowing for digging behavior. Ensure the 
+          enclosure is regularly cleaned of waste if using a naturalistic substrate.
+        </p>
+      </div>
     </div>
 
   </section>
@@ -240,7 +252,7 @@
   </footer>
 
   <script>
-    // Simple toggle function to show/hide each section
+    // Simple toggle function to show/hide a section
     function toggleSection(sectionId) {
       const section = document.getElementById(sectionId);
       if (section.classList.contains('hidden')) {
