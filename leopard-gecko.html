@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leopard Gecko Care Guide</title>
 
-  <!-- Include your main stylesheet so .logo and .auth-buttons 
+  <!-- Include your main stylesheet so the .logo and .auth-buttons 
        from styles.css take effect -->
   <link rel="stylesheet" href="styles.css">
 
@@ -15,11 +15,11 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #fff;
+      background-color: #fff; /* Keep the body white */
       color: #000;
     }
 
-    /* Header / nav styling from your snippet */
+    /* Header from your snippet (minus local overrides for .logo and .auth-buttons) */
     header {
       display: flex;
       align-items: center;
@@ -29,10 +29,7 @@
       border-bottom: 1px solid #ddd;
     }
 
-    /*
-      Removed local ".logo { height: 50px; }"
-      so the .logo style in styles.css (e.g., height: 65px) is used
-    */
+    /* We do NOT redefine .logo here, so .logo from styles.css (height: 65px) is used */
 
     nav ul.nav-links {
       list-style: none;
@@ -48,19 +45,20 @@
       font-weight: bold;
     }
 
-    .auth-buttons {
-      display: flex;
-      gap: 10px;
+    /* We do NOT redefine .auth-buttons button here, 
+       so the “Log In” and “Sign Up” styling from styles.css is used */
+
+    /* Force the care-guide-content section to be white
+       (overriding any global "section { background-color: #000 }") */
+    section.care-guide-content {
+      background-color: #fff !important;
+      padding: 20px !important; /* Keep your desired padding */
+      width: 100%;
+      /* The rest of your layout below remains the same */
     }
 
-    /*
-      Removed local ".auth-buttons button { background-color: #eee; ... }"
-      so the sign-up/login styles in styles.css apply
-    */
-
-    /* Main container for the care guide content */
+    /* Uniform container styling (same as your snippet) */
     .care-guide-content {
-      padding: 20px;
       max-width: 800px;
       margin: 0 auto;
     }
@@ -124,7 +122,7 @@
       display: none;
     }
 
-    /* Footer styling matches the index snippet (with 2025 year) */
+    /* Footer matches your snippet (2025 date) */
     footer {
       margin-left: 20px;
       background-color: #fff;
@@ -141,10 +139,10 @@
 </head>
 <body>
 
-  <!-- Header matches index.html -->
+  <!-- Header from your snippet -->
   <header>
     <a href="https://reptilecare.net">
-      <!-- .logo is styled by styles.css -->
+      <!-- .logo styled by styles.css (height: 65px, etc.) -->
       <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
     </a>
     <nav>
@@ -156,7 +154,7 @@
         <li><a href="#">About Us</a></li>
       </ul>
     </nav>
-    <!-- .auth-buttons and its children now styled by styles.css -->
+    <!-- .auth-buttons from your snippet, styled by styles.css -->
     <div class="auth-buttons">
       <button class="login">Log In</button>
       <button class="signup">Sign Up</button>
@@ -167,7 +165,7 @@
     <h1>Leopard Gecko Care Guide</h1>
     <img src="images/leo trans bg.png" alt="Leopard Gecko" />
 
-    <!-- Intro paragraphs: uniform styling with toggled paragraphs -->
+    <!-- Intro paragraphs -->
     <p>
       Leopard geckos, also referred to as leos, are small, colorful reptiles with a generally docile, 
       slow-moving nature. They can be distinguished by the color and pattern of their tail, which 
