@@ -53,39 +53,42 @@
       cursor: pointer;
     }
     
-    /* Main container is centered, but text is left-aligned within */
+    /* Main container is centered, but text within paragraphs is left-aligned */
     .care-guide-content {
       padding: 20px;
       max-width: 800px;
-      margin: 0 auto;  /* Centers the container itself */
-      text-align: left; /* Ensures all text is left-aligned */
+      margin: 0 auto;
     }
-    
+
+    /* Center the title */
+    .care-guide-content h1 {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* Center the image */
     .care-guide-content img {
+      display: block;
+      margin: 0 auto 20px;
       width: 100%;
       max-width: 500px;
       border-radius: 10px;
-      margin-bottom: 20px;
-      display: block; /* So it doesn't float */
     }
     
-    h1 {
-      font-size: 36px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      margin-top: 0; /* Just to keep spacing consistent */
-    }
-    
-    /* Button row styling */
+    /* Button row is centered as a group, but the text inside each button is left-aligned */
     .button-row {
       display: flex;
-      justify-content: flex-start; /* Left-align the buttons */
+      justify-content: center;
       gap: 20px;
-      margin: 20px 0; /* Some spacing above/below */
+      margin: 20px 0;
     }
     
     .section-button {
       flex: 0 0 auto;
+      width: 150px; /* You can adjust the width as needed */
       padding: 15px;
       font-size: 16px;
       font-weight: bold;
@@ -93,18 +96,21 @@
       background-color: #f2f2f2;
       border: 1px solid #ddd;
       border-radius: 5px;
-      text-align: center;
+      text-align: left; /* Left-align text within the button */
     }
     
     /* Content area styling */
     .content-area {
       margin-bottom: 20px;
+      text-align: left; /* Ensure paragraphs are left-aligned */
     }
     
+    /* Paragraphs get an indent for readability */
     .content-area p {
       margin: 15px 0;
       font-size: 18px;
       line-height: 1.6;
+      text-indent: 2em; /* Indent the first line */
     }
     
     /* Hide all section contents by default */
@@ -117,7 +123,7 @@
       color: #000;
       padding: 20px;
       border-top: 1px solid #ddd;
-      text-align: left; /* Also left-align footer text */
+      text-align: left; /* Left-align footer text */
     }
   </style>
 </head>
