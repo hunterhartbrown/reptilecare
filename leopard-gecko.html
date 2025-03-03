@@ -18,14 +18,7 @@
       color: #000;
     }
 
-    /*
-      1) COPY the main page’s header style:
-         - width: 100%
-         - height: 80px
-         - fixed at top
-         - box-shadow
-         - etc.
-    */
+    /* Copy the main page’s header style */
     header {
       background-color: #ffffff;
       width: 100%;
@@ -33,26 +26,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;  /* same as your main page */
+      padding: 0 20px; 
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
 
-    /* .logo is styled by styles.css (height: 65px, etc.) */
-    /* .auth-buttons also styled by styles.css (transparent/black, etc.) */
-
-    /*
-      2) SHIFT main content down to avoid the fixed header overlap.
-         You had “section.care-guide-content { padding: 20px; }” 
-         so we add top padding or margin to accommodate the 80px header.
-    */
+    /* Shift main content down to avoid the fixed header overlap */
     section.care-guide-content {
       padding: 100px 20px 20px; /* 80px for header + 20px existing */
       max-width: 800px;
       margin: 0 auto;
-      background-color: #fff; /* Keep the section white */
+      background-color: #fff; 
     }
 
     /* Center the title */
@@ -81,7 +67,7 @@
       text-indent: 2em;
     }
 
-    /* Button row is centered as a group, with text inside each button also centered */
+    /* Button row is centered as a group */
     .button-row {
       display: flex;
       justify-content: center;
@@ -89,6 +75,7 @@
       margin: 20px 0;
     }
 
+    /* Each button has an icon on the left */
     .section-button {
       width: 150px;
       padding: 15px;
@@ -99,6 +86,19 @@
       border: 1px solid #ddd;
       border-radius: 5px;
       text-align: center;
+      
+      /* Make the button use flex to align icon + text easily */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px; /* space between icon and text */
+    }
+
+    /* Icon styling: sized down and aligned left of text */
+    .button-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
     }
 
     /* Content area styling */
@@ -112,7 +112,7 @@
       display: none;
     }
 
-    /* Footer from your snippet (2025 date) */
+    /* Footer (2025 date) */
     footer {
       margin-left: 20px;
       background-color: #fff;
@@ -176,8 +176,14 @@
 
     <!-- Row 1 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('speciesInfo')">Species Info</button>
-      <button class="section-button" onclick="toggleSection('habitatSize')">Habitat Size</button>
+      <button class="section-button" onclick="toggleSection('speciesInfo')">
+        <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
+        Species Info
+      </button>
+      <button class="section-button" onclick="toggleSection('habitatSize')">
+        <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
+        Habitat Size
+      </button>
     </div>
     <!-- Row 1 Content Area -->
     <div class="content-area">
@@ -223,8 +229,14 @@
 
     <!-- Row 2 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('heatingReqs')">Heating</button>
-      <button class="section-button" onclick="toggleSection('humidityAirflow')">Humidity/Airflow</button>
+      <button class="section-button" onclick="toggleSection('heatingReqs')">
+        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
+        Heating
+      </button>
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">
+        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
+        Humidity/Airflow
+      </button>
     </div>
     <!-- Row 2 Content Area -->
     <div class="content-area">
@@ -254,8 +266,14 @@
 
     <!-- Row 3 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('foodReqs')">Food</button>
-      <button class="section-button" onclick="toggleSection('enrichment')">Enrichment</button>
+      <button class="section-button" onclick="toggleSection('foodReqs')">
+        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
+        Food
+      </button>
+      <button class="section-button" onclick="toggleSection('enrichment')">
+        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
+        Enrichment
+      </button>
     </div>
     <!-- Row 3 Content Area -->
     <div class="content-area">
