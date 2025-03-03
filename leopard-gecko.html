@@ -108,8 +108,8 @@
       line-height: 1.6;
     }
     
-    /* Hide sections by default */
-    .hidden {
+    /* Hide all section contents by default */
+    .section-content {
       display: none;
     }
     
@@ -163,12 +163,12 @@
 
     <!-- Row 1 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('speciesInfo')">B1: Species Info</button>
-      <button class="section-button" onclick="toggleSection('habitatSize')">B2: Habitat Size</button>
+      <button class="section-button" onclick="toggleSection('speciesInfo')">Species Info</button>
+      <button class="section-button" onclick="toggleSection('habitatSize')">Habitat Size</button>
     </div>
     <!-- Row 1 Content Area -->
     <div class="content-area">
-      <div id="speciesInfo" class="hidden">
+      <div id="speciesInfo" class="section-content">
         <p>
           <strong>Leopard Geckos (Eublepharis macularius)</strong> are found in the deserts of the Middle East and 
           southwestern Asia. More specifically, their native habitat range includes the rocky, dry grasslands and desert 
@@ -184,7 +184,7 @@
           they shed their skin and eat it to retain nutrients. Unlike most other geckos, leos have eyelids.
         </p>
       </div>
-      <div id="habitatSize" class="hidden">
+      <div id="habitatSize" class="section-content">
         <p>
           Leopard Geckos need a habitat that is at least 40 gallons in size for a single gecko. This species MUST be 
           kept alone; it absolutely cannot be kept with other leos or other reptile species. They do not have strict 
@@ -199,12 +199,12 @@
 
     <!-- Row 2 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('heatingReqs')">B3: Heating</button>
-      <button class="section-button" onclick="toggleSection('humidityAirflow')">B4: Humidity/Airflow</button>
+      <button class="section-button" onclick="toggleSection('heatingReqs')">Heating</button>
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">Humidity/Airflow</button>
     </div>
     <!-- Row 2 Content Area -->
     <div class="content-area">
-      <div id="heatingReqs" class="hidden">
+      <div id="heatingReqs" class="section-content">
         <p>
           Leopard Geckos require a temperature gradient in their enclosure, with a warm side between 88-92°F (31-33°C) 
           and a cool side around 70-75°F (21-24°C). Although debatable, a small amount of UVB lighting (e.g., Zoo Med 
@@ -212,7 +212,7 @@
           they do not require visible light to live happily. See the enrichment section for optional lighting ideas.
         </p>
       </div>
-      <div id="humidityAirflow" class="hidden">
+      <div id="humidityAirflow" class="section-content">
         <p>
           Leopard Geckos thrive in low-medium humidity environments, typically around 30%-50%. A mesh top enclosure 
           is ideal to achieve this range and provide good ventilation. Additional fans may be added for enrichment 
@@ -223,19 +223,19 @@
 
     <!-- Row 3 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('foodReqs')">B5: Food</button>
-      <button class="section-button" onclick="toggleSection('enrichment')">B6: Enrichment</button>
+      <button class="section-button" onclick="toggleSection('foodReqs')">Food</button>
+      <button class="section-button" onclick="toggleSection('enrichment')">Enrichment</button>
     </div>
     <!-- Row 3 Content Area -->
     <div class="content-area">
-      <div id="foodReqs" class="hidden">
+      <div id="foodReqs" class="section-content">
         <p>
           Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. Dust their food with 
           calcium every feeding and vitamin D3 (unless using UVB lighting, then you can dust every other feeding) to 
           prevent metabolic bone disease and allow for healthy growth.
         </p>
       </div>
-      <div id="enrichment" class="hidden">
+      <div id="enrichment" class="section-content">
         <p>
           Provide plenty of hiding spots, climbing structures, and a well-mixed semiarid or paper towel substrate to 
           keep your Leopard Gecko engaged and comfortable. If you opt for a mixed substrate, use a blend of 50% 
@@ -252,13 +252,24 @@
   </footer>
 
   <script>
-    // Simple toggle function to show/hide a section
+    // Accordion behavior: close any open section then toggle the clicked one.
     function toggleSection(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (section.classList.contains('hidden')) {
-        section.classList.remove('hidden');
+      // Get all section contents
+      const allSections = document.querySelectorAll('.section-content');
+      
+      allSections.forEach(section => {
+        // If it's not the one we want to toggle, hide it.
+        if (section.id !== sectionId) {
+          section.style.display = 'none';
+        }
+      });
+      
+      // Toggle the clicked section.
+      const clickedSection = document.getElementById(sectionId);
+      if (clickedSection.style.display === 'block') {
+        clickedSection.style.display = 'none';
       } else {
-        section.classList.add('hidden');
+        clickedSection.style.display = 'block';
       }
     }
   </script>
