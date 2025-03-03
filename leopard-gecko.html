@@ -5,62 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leopard Gecko Care Guide</title>
 
-  <!-- Include your main stylesheet so the .logo and .auth-buttons 
-       from styles.css take effect -->
+  <!-- Link to your main stylesheet for .logo, .login, .signup, etc. -->
   <link rel="stylesheet" href="styles.css">
 
   <style>
-    /* Basic reset for the page */
+    /* Basic reset */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #fff; /* Keep the body white */
+      background-color: #fff; 
       color: #000;
     }
 
-    /* Header from your snippet (minus local overrides for .logo and .auth-buttons) */
+    /*
+      1) COPY the main page’s header style:
+         - width: 100%
+         - height: 80px
+         - fixed at top
+         - box-shadow
+         - etc.
+    */
     header {
+      background-color: #ffffff;
+      width: 100%;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
-      background-color: #fff;
-      border-bottom: 1px solid #ddd;
+      padding: 0 20px;  /* same as your main page */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
     }
 
-    /* We do NOT redefine .logo here, so .logo from styles.css (height: 65px) is used */
+    /* .logo is styled by styles.css (height: 65px, etc.) */
+    /* .auth-buttons also styled by styles.css (transparent/black, etc.) */
 
-    nav ul.nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      margin: 0;
-      padding: 0;
-    }
-
-    nav ul.nav-links li a {
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-    }
-
-    /* We do NOT redefine .auth-buttons button here, 
-       so the “Log In” and “Sign Up” styling from styles.css is used */
-
-    /* Force the care-guide-content section to be white
-       (overriding any global "section { background-color: #000 }") */
+    /*
+      2) SHIFT main content down to avoid the fixed header overlap.
+         You had “section.care-guide-content { padding: 20px; }” 
+         so we add top padding or margin to accommodate the 80px header.
+    */
     section.care-guide-content {
-      background-color: #fff !important;
-      padding: 20px !important; /* Keep your desired padding */
-      width: 100%;
-      /* The rest of your layout below remains the same */
-    }
-
-    /* Uniform container styling (same as your snippet) */
-    .care-guide-content {
+      padding: 100px 20px 20px; /* 80px for header + 20px existing */
       max-width: 800px;
       margin: 0 auto;
+      background-color: #fff; /* Keep the section white */
     }
 
     /* Center the title */
@@ -81,12 +73,11 @@
       border-radius: 10px;
     }
 
-    /* Uniform paragraph styling throughout (intro + toggled sections) */
+    /* Uniform paragraph styling */
     .care-guide-content p {
       margin: 15px 0;
       font-size: 18px;
       line-height: 1.6;
-      font-weight: normal;
       text-indent: 2em;
     }
 
@@ -99,7 +90,6 @@
     }
 
     .section-button {
-      flex: 0 0 auto;
       width: 150px;
       padding: 15px;
       font-size: 16px;
@@ -108,21 +98,21 @@
       background-color: #f2f2f2;
       border: 1px solid #ddd;
       border-radius: 5px;
-      text-align: center; /* Center-align text within the button */
+      text-align: center;
     }
 
     /* Content area styling */
     .content-area {
       margin-bottom: 20px;
-      text-align: left; /* The paragraphs themselves will be left-aligned */
+      text-align: left;
     }
 
-    /* Hide all section contents by default */
+    /* Hide toggled sections by default */
     .section-content {
       display: none;
     }
 
-    /* Footer matches your snippet (2025 date) */
+    /* Footer from your snippet (2025 date) */
     footer {
       margin-left: 20px;
       background-color: #fff;
@@ -133,16 +123,15 @@
     }
 
     footer p {
-      margin: 0 0 0 20px; /* Indent the text slightly, if desired */
+      margin: 0 0 0 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header from your snippet -->
+  <!-- Same header structure as your main page -->
   <header>
     <a href="https://reptilecare.net">
-      <!-- .logo styled by styles.css (height: 65px, etc.) -->
       <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
     </a>
     <nav>
@@ -154,7 +143,6 @@
         <li><a href="#">About Us</a></li>
       </ul>
     </nav>
-    <!-- .auth-buttons from your snippet, styled by styles.css -->
     <div class="auth-buttons">
       <button class="login">Log In</button>
       <button class="signup">Sign Up</button>
@@ -299,22 +287,15 @@
   <script>
     // Accordion behavior: close any open section then toggle the clicked one.
     function toggleSection(sectionId) {
-      // Get all section contents
       const allSections = document.querySelectorAll('.section-content');
-      
-      allSections.forEach(section => {
-        // If it's not the one we want to toggle, hide it.
-        if (section.id !== sectionId) {
-          section.style.display = 'none';
-        }
+      allSections.forEach(sec => {
+        if (sec.id !== sectionId) sec.style.display = 'none';
       });
-      
-      // Toggle the clicked section
-      const clickedSection = document.getElementById(sectionId);
-      if (clickedSection.style.display === 'block') {
-        clickedSection.style.display = 'none';
+      const clicked = document.getElementById(sectionId);
+      if (clicked.style.display === 'block') {
+        clicked.style.display = 'none';
       } else {
-        clickedSection.style.display = 'block';
+        clicked.style.display = 'block';
       }
     }
   </script>
