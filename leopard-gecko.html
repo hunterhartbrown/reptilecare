@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leopard Gecko Care Guide</title>
 
-  <!-- Link to your main stylesheet so the logo, log in, sign up 
-       buttons match the home page styling -->
+  <!-- Include your main stylesheet so .logo and .auth-buttons 
+       from styles.css take effect -->
   <link rel="stylesheet" href="styles.css">
 
   <style>
@@ -19,7 +19,7 @@
       color: #000;
     }
 
-    /* Header / nav styling from your snippet (minus local .logo, .auth-buttons overrides) */
+    /* Header / nav styling from your snippet */
     header {
       display: flex;
       align-items: center;
@@ -29,8 +29,10 @@
       border-bottom: 1px solid #ddd;
     }
 
-    /* Removed .logo { height: 50px; } 
-       so the .logo style from styles.css (height: 65px) is used */
+    /*
+      Removed local ".logo { height: 50px; }"
+      so the .logo style in styles.css (e.g., height: 65px) is used
+    */
 
     nav ul.nav-links {
       list-style: none;
@@ -46,8 +48,15 @@
       font-weight: bold;
     }
 
-    /* Removed .auth-buttons button { background-color: #eee; ... }
-       so the login / signup styling from styles.css is used */
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    /*
+      Removed local ".auth-buttons button { background-color: #eee; ... }"
+      so the sign-up/login styles in styles.css apply
+    */
 
     /* Main container for the care guide content */
     .care-guide-content {
@@ -135,7 +144,7 @@
   <!-- Header matches index.html -->
   <header>
     <a href="https://reptilecare.net">
-      <!-- .logo class is now styled by styles.css (height: 65px, etc.) -->
+      <!-- .logo is styled by styles.css -->
       <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
     </a>
     <nav>
@@ -147,8 +156,7 @@
         <li><a href="#">About Us</a></li>
       </ul>
     </nav>
-    <!-- .auth-buttons and its children are now styled by styles.css 
-         (transparent or black background, etc.) -->
+    <!-- .auth-buttons and its children now styled by styles.css -->
     <div class="auth-buttons">
       <button class="login">Log In</button>
       <button class="signup">Sign Up</button>
@@ -286,7 +294,6 @@
     </div>
   </section>
 
-  <!-- Footer matches index.html (with 2025 date) -->
   <footer style="margin-left: 20px;">
     <p>&copy; 2025 ReptileCare. All rights reserved.</p>
   </footer>
