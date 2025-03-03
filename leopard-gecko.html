@@ -78,7 +78,17 @@
       border-radius: 10px;
     }
     
-    /* Button row is centered as a group, but the text inside each button is left-aligned */
+    /* INTRO PARAGRAPHS:
+       Same font size/weight as button text, plus indentation */
+    .intro-paragraph {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1.4;
+      text-indent: 2em;
+      margin: 15px 0;
+    }
+    
+    /* Button row is centered as a group, text inside each button is centered */
     .button-row {
       display: flex;
       justify-content: center;
@@ -96,21 +106,20 @@
       background-color: #f2f2f2;
       border: 1px solid #ddd;
       border-radius: 5px;
-      text-align: left; /* Left-align text within the button */
+      text-align: center; /* Center-align text within the button */
     }
     
     /* Content area styling */
     .content-area {
       margin-bottom: 20px;
-      text-align: left; /* Ensure paragraphs are left-aligned */
+      text-align: left; /* Ensure paragraphs in sections are left-aligned */
     }
     
-    /* Paragraphs get an indent for readability */
+    /* Paragraphs in the sections remain 18px for readability */
     .content-area p {
       margin: 15px 0;
       font-size: 18px;
       line-height: 1.6;
-      text-indent: 2em; /* Indent the first line */
     }
     
     /* Hide all section contents by default */
@@ -152,19 +161,19 @@
     <h1>Leopard Gecko Care Guide</h1>
     <img src="images/leo trans bg.png" alt="Leopard Gecko" />
 
-    <!-- Intro paragraphs split for readability -->
-    <p>
+    <!-- Intro paragraphs: same size/weight as button text, plus indentation -->
+    <p class="intro-paragraph">
       Leopard geckos, also referred to as leos, are small, colorful reptiles with a generally docile, 
       slow-moving nature. They can be distinguished by the color and pattern of their tail, which 
       features a combination of black stripes and spots on their backs and tails.
     </p>
-    <p>
+    <p class="intro-paragraph">
       A variety of morphs and mutations alter their coloration, leading to a wide range of prices 
       at reptile retailers and expos. Typically, these reptiles cost between $100-$250 USD, 
       depending on the morph and age. A minimum 40-gallon enclosure is required, furnished with 
       either paper towels or a well-mixed semiarid substrate.
     </p>
-    <p>
+    <p class="intro-paragraph">
       Leopard geckos are crepuscular/nocturnal, meaning they are usually inactive during the day 
       and more active at dusk, although they may not always adhere to this sleep pattern. Leos are 
       insectivores, and they need an enclosure that features both humid and dry areas. With proper 
