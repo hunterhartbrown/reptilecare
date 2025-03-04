@@ -35,7 +35,7 @@
 
     /* Shift content down to avoid overlap by fixed header */
     section.care-guide-content {
-      padding: 100px 20px 20px; /* 80px for header + 20px existing */
+      padding: 100px 20px 20px;
       max-width: 800px;
       margin: 0 auto;
       background-color: #fff;
@@ -59,7 +59,7 @@
       border-radius: 10px;
     }
 
-    /* Uniform paragraph styling */
+    /* Paragraph styling */
     .care-guide-content p {
       margin: 15px 0;
       font-size: 18px;
@@ -67,7 +67,7 @@
       text-indent: 2em;
     }
 
-    /* Button row is centered as a group */
+    /* Button row is centered */
     .button-row {
       display: flex;
       justify-content: center;
@@ -75,19 +75,15 @@
       margin: 20px 0;
     }
 
-    /* 
-      Make each button an inline-flex container 
-      so icon + text stay on one line and align neatly.
-    */
+    /* Inline-flex container so icon + text align neatly on one line */
     .section-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;             /* Space between icon & text */
-      white-space: nowrap;  /* Prevent text from wrapping */
+      gap: 8px;
+      white-space: nowrap;
 
-      /* Let buttons auto-size but ensure a comfortable min width */
-      min-width: 180px;     /* Increase if you have even longer text */
+      /* Remove min-width entirely for fully auto-sized buttons */
       padding: 15px;
       font-size: 16px;
       font-weight: bold;
@@ -98,12 +94,12 @@
       text-align: center;
     }
 
-    /* Force icons to be 24×24 px for uniform size */
+    /* Icons are 24×24 px */
     .button-icon {
       width: 24px;
       height: 24px;
-      object-fit: contain; /* Keeps entire icon visible inside bounding box */
-      flex-shrink: 0;      /* Prevents icon from shrinking if text is long */
+      object-fit: contain;
+      flex-shrink: 0;
     }
 
     /* Content area styling */
@@ -134,7 +130,6 @@
 </head>
 <body>
 
-  <!-- Same header structure as your main page -->
   <header>
     <a href="https://reptilecare.net">
       <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
@@ -158,7 +153,6 @@
     <h1>Leopard Gecko Care Guide</h1>
     <img src="images/leo trans bg.png" alt="Leopard Gecko" />
 
-    <!-- Intro paragraphs -->
     <p>
       Leopard geckos are small, colorful reptiles with a generally docile 
       nature. They can be distinguished by the color and pattern of their tail, which 
@@ -182,8 +176,6 @@
         Habitat Size
       </button>
     </div>
-
-    <!-- Row 1 Content Area -->
     <div class="content-area">
       <div id="speciesInfo" class="section-content">
         <p>
@@ -238,8 +230,6 @@
         Humidity/Airflow
       </button>
     </div>
-
-    <!-- Row 2 Content Area -->
     <div class="content-area">
       <div id="heatingReqs" class="section-content">
         <p>
@@ -276,8 +266,6 @@
         Enrichment
       </button>
     </div>
-
-    <!-- Row 3 Content Area -->
     <div class="content-area">
       <div id="foodReqs" class="section-content">
         <p>
