@@ -76,8 +76,8 @@
     }
 
     /* 
-      Make each button an inline-flex container, 
-      ensuring icon + text stay on one line and align neatly.
+      Make each button an inline-flex container 
+      so icon + text stay on one line and align neatly.
     */
     .section-button {
       display: inline-flex;
@@ -85,8 +85,9 @@
       justify-content: center;
       gap: 8px;             /* Space between icon & text */
       white-space: nowrap;  /* Prevent text from wrapping */
-      
-      width: 150px;
+
+      /* Let buttons auto-size but ensure a comfortable min width */
+      min-width: 180px;     /* Increase if you have even longer text */
       padding: 15px;
       font-size: 16px;
       font-weight: bold;
@@ -159,8 +160,8 @@
 
     <!-- Intro paragraphs -->
     <p>
-      Leopard geckos, also referred to as leos, are small, colorful reptiles with a generally docile, 
-      slow-moving nature. They can be distinguished by the color and pattern of their tail, which 
+      Leopard geckos are small, colorful reptiles with a generally docile 
+      nature. They can be distinguished by the color and pattern of their tail, which 
       features a combination of black stripes and spots on their backs and tails.
     </p>
     <p>
@@ -168,14 +169,6 @@
       at reptile retailers and expos. Typically, these reptiles cost between $100-$250 USD, 
       depending on the morph and age. A minimum 40-gallon enclosure is required, furnished with 
       either paper towels or a well-mixed semiarid substrate.
-    </p>
-    <p>
-      Leopard geckos are crepuscular/nocturnal, meaning they are usually inactive during the day 
-      and more active at dusk, although they may not always adhere to this sleep pattern. Leos are 
-      insectivores, and they need an enclosure that features both humid and dry areas. With proper 
-      care, leopard geckos can live between 15 and 20 years. Their ease of care, extensive 
-      captive-breeding efforts, and docile nature make them an ideal choice for beginners 
-      interested in reptile-keeping.
     </p>
 
     <!-- Row 1 Buttons -->
@@ -189,29 +182,32 @@
         Habitat Size
       </button>
     </div>
+
     <!-- Row 1 Content Area -->
     <div class="content-area">
       <div id="speciesInfo" class="section-content">
         <p>
           <strong>Leopard Geckos (Eublepharis macularius)</strong> are found in the deserts of the Middle East 
-          and southwestern Asia. More specifically, their native habitat range includes the rocky, dry grasslands 
-          and desert regions of Afghanistan, Pakistan, India, Nepal, and parts of Iran. They are known for their 
-          distinctive spots and gentle nature.
+          and southwestern Asia. More specifically, their native habitat range includes the rocky, dry regions of 
+          Afghanistan, Pakistan, India, Nepal, and parts of Iran. They are known for their distinctive spots and 
+          gentle nature.
         </p>
         <p>
-          In the wild, leos gather most of their heat from rocks warmed by the sun throughout the day. 
           They are smaller than many other reptiles, with hatchlings typically measuring anywhere from 
           3 to 4 inches (7-10 cm) long. Adults reach full size at around 12-18 months, with females growing 
           to 7-8 inches (18-20 cm) and males to 8-11 inches (20-28 cm).
         </p>
         <p>
-          Their toes do not contain adhesive pads like tree-dwelling geckos, so they cannot climb smooth walls. 
-          Leopard geckos have distinctly thick tails that store fat and extra energy, similar to camel humps. 
-          This makes them beginner-friendly, as they can go several days without meals.
+          Their toes do not contain adhesive pads, so they cannot climb smooth walls. 
+          Leopard geckos have distinctly thick tails that store fat and extra energy. This makes them beginner-friendly, 
+          as they can go several days without meals. Leopard geckos are crepuscular/nocturnal, meaning they are usually 
+          inactive during the day and more active at dusk. Leos are insectivores, and they need an enclosure that 
+          features both humid and dry areas. With proper care, leopard geckos can live between 15 and 20 years. 
+          Their ease of care, extensive captive-breeding efforts, and calm nature make them an ideal choice for beginners 
+          interested in reptile-keeping.
         </p>
         <p>
-          When hunting, leos sometimes lift their tails in a wagging motion as they approach prey. They can also 
-          make faint chirping noises when curious, excited, or nervous, and can drop their tails if threatened. 
+          Leos can make faint chirping noises when curious, excited, or nervous, and can drop their tails if threatened. 
           Like all reptiles, they shed their skin and eat it to retain nutrients. Unlike most other geckos, 
           leos have eyelids.
         </p>
@@ -242,6 +238,7 @@
         Humidity/Airflow
       </button>
     </div>
+
     <!-- Row 2 Content Area -->
     <div class="content-area">
       <div id="heatingReqs" class="section-content">
@@ -279,6 +276,7 @@
         Enrichment
       </button>
     </div>
+
     <!-- Row 3 Content Area -->
     <div class="content-area">
       <div id="foodReqs" class="section-content">
@@ -286,6 +284,7 @@
           Leopard Geckos primarily eat insects such as crickets, mealworms, and dubia roaches. 
           Dust their food with calcium every feeding and vitamin D3 (unless using UVB lighting, then you can 
           dust every other feeding) to prevent metabolic bone disease and allow for healthy growth.
+          When feeding, leos sometimes lift their tails in a wagging motion as they approach prey.
         </p>
       </div>
       <div id="enrichment" class="section-content">
@@ -310,9 +309,13 @@
     // Simple accordion toggle
     function toggleSection(sectionId) {
       const allSections = document.querySelectorAll('.section-content');
+      // Hide any open section that isn't the clicked one
       allSections.forEach(sec => {
-        if (sec.id !== sectionId) sec.style.display = 'none';
+        if (sec.id !== sectionId) {
+          sec.style.display = 'none';
+        }
       });
+      // Toggle the clicked section
       const clicked = document.getElementById(sectionId);
       if (clicked.style.display === 'block') {
         clicked.style.display = 'none';
