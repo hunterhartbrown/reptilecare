@@ -1,99 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark">
-    <meta name="description" content="ReptileCare is a comprehensive resource offering care guides for pet reptiles like geckos and lizards.">
-    <title>ReptileCare - Home</title>
-    <link rel="icon" href="favicon.ico">
+    <title>ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <a href="#main-content" class="skip-link">Skip to content</a>
+</head>
+<body>
     <header>
-      <nav aria-label="Primary">
-        <a href="index.html" class="logo">ReptileCare</a>
-        <button id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">&#9776;</button>
-        <ul class="menu">
-          <li><a href="index.html" aria-current="page">Home</a></li>
-          <li><a href="all-care-guides.html">All Care Guides</a></li>
-          <li><button id="dark-mode-toggle" type="button" aria-label="Switch to dark mode">🌙 Dark Mode</button></li>
-        </ul>
-      </nav>
-    </header>
-    <main id="main-content">
-      <section class="hero">
-        <h1>Welcome to ReptileCare</h1>
-        <p>Your comprehensive resource for reptile care guides.</p>
-      </section>
-      <section class="carousel" aria-label="Featured Reptile Guides" aria-roledescription="carousel">
-        <div class="carousel-slides" tabindex="0">
-          <div class="slide active" role="group" aria-label="Slide 1 of 3">
-            <img src="images/leopard-gecko.jpg" alt="Leopard Gecko">
-            <div class="slide-caption">
-              <h2>Leopard Gecko</h2>
-              <p>Learn how to care for Leopard Geckos.</p>
-              <a href="leopard-gecko.html" class="btn">Read Guide</a>
-            </div>
-          </div>
-          <div class="slide" role="group" aria-label="Slide 2 of 3" aria-hidden="true">
-            <img src="images/bearded-dragon.jpg" alt="Bearded Dragon">
-            <div class="slide-caption">
-              <h2>Bearded Dragon</h2>
-              <p>Learn how to care for Bearded Dragons.</p>
-              <a href="bearded-dragon.html" class="btn">Read Guide</a>
-            </div>
-          </div>
-          <div class="slide" role="group" aria-label="Slide 3 of 3" aria-hidden="true">
-            <img src="images/crested-gecko.jpg" alt="Crested Gecko">
-            <div class="slide-caption">
-              <h2>Crested Gecko</h2>
-              <p>Learn how to care for Crested Geckos.</p>
-              <a href="crested-gecko.html" class="btn">Read Guide</a>
-            </div>
-          </div>
+        <a href="https://reptilecare.net">
+            <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="all-care-guides.html">All Care Guides</a></li>
+                <li><a href="#">All Products</a></li>
+                <li><a href="#">Magic Enclosure Designer</a></li>
+                <li><a href="#">Research</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button class="login">Log In</button>
+            <button class="signup">Sign Up</button>
         </div>
-        <button class="carousel-control prev" type="button" aria-label="Previous slide">&#9664;</button>
-        <button class="carousel-control next" type="button" aria-label="Next slide">&#9654;</button>
-      </section>
-      <section class="featured-guides">
-        <h2>Popular Care Guides</h2>
-        <ul class="guide-cards">
-          <li class="guide-card">
-            <a href="leopard-gecko.html">
-              <img src="images/leopard-gecko-thumb.jpg" alt="">
-              <h3>Leopard Gecko Care Guide</h3>
-              <p>Everything you need to know to care for a Leopard Gecko.</p>
-            </a>
-          </li>
-          <li class="guide-card">
-            <a href="bearded-dragon.html">
-              <img src="images/bearded-dragon-thumb.jpg" alt="">
-              <h3>Bearded Dragon Care Guide</h3>
-              <p>Everything you need to know to care for a Bearded Dragon.</p>
-            </a>
-          </li>
-          <li class="guide-card">
-            <a href="crested-gecko.html">
-              <img src="images/crested-gecko-thumb.jpg" alt="">
-              <h3>Crested Gecko Care Guide</h3>
-              <p>Everything you need to know to care for a Crested Gecko.</p>
-            </a>
-          </li>
-          <li class="guide-card">
-            <a href="eastern-collared-lizard.html">
-              <img src="images/eastern-collared-lizard-thumb.jpg" alt="">
-              <h3>Eastern Collared Lizard Care Guide</h3>
-              <p>Everything you need to know to care for an Eastern Collared Lizard.</p>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2025 ReptileCare. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
-  </body>
+    </header>
+
+    <section>
+        <div class="content-slider">
+            <!-- Dynamic content will be loaded here by the script below -->
+        </div>
+    </section>
+
+    <footer style="margin-left: 20px;">
+        <p>&copy; 2025 ReptileCare. All rights reserved.</p>
+    </footer>    
+
+    <script>
+        // Function to load JSON data from a local file
+        function loadJson(fileName, callback) {
+            var xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('GET', fileName, true);
+            xobj.onreadystatechange = function () {
+                if (xobj.readyState == 4 && xobj.status == "200") {
+                    callback(JSON.parse(xobj.responseText));
+                } else if (xobj.readyState == 4 && xobj.status == "404") {
+                    console.error('JSON file not found or access denied.');
+                }
+            };
+            xobj.send(null);
+        }
+
+        function init() {
+            loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
+                var container = document.querySelector('.content-slider');
+                data.forEach(function(item, index) {
+                    var div = document.createElement('div');
+                    div.className = 'slide';
+                    div.style.display = index === 0 ? 'flex' : 'none'; // Show first item initially and use flex
+                    var imgDiv = document.createElement('div');
+                    imgDiv.className = 'slide-image';
+                    var img = document.createElement('img');
+                    img.src = item['Picture Link'];
+                    img.alt = item['Common Name'];
+
+                    // Add unique class for the problematic image
+                    if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
+                        img.classList.add('problematic-image');
+                    }
+
+                    imgDiv.appendChild(img);
+                    
+                    var textDiv = document.createElement('div');
+                    textDiv.className = 'overlay-text';
+                    textDiv.innerHTML = `<h3 class="common-name">${item['Common Name']}</h3><h4 class="species-name">${item['Species']}</h4>`;
+                    
+                    div.appendChild(imgDiv);
+                    div.appendChild(textDiv);
+                    container.appendChild(div);
+                });
+                rotateSlides();
+            });
+        }
+
+        var slideIndex = 0;
+        function rotateSlides() {
+            var slides = document.getElementsByClassName("slide");
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "flex";
+            setTimeout(rotateSlides, 6000); // Change slide every 6 seconds
+        }
+
+        // Initialize the process when the document is ready
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
 </html>
