@@ -58,7 +58,7 @@
       text-indent: 2em;
     }
 
-    /* Button row is centered */
+    /* Button rows */
     .button-row {
       display: flex;
       justify-content: center;
@@ -66,31 +66,39 @@
       margin: 20px 0;
     }
 
-    /* Inline-flex container so icon + text align neatly on one line */
+    /* make every button the same fixed size */
     .section-button {
+      flex: 0 0 170px;         /* fixed width */
+      width: 170px;
+      min-height: 60px;        /* room for two lines */
+      padding: 12px 8px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      white-space: nowrap;
-
-      /* Remove min-width entirely for fully auto-sized buttons */
-      padding: 15px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+      text-align: center;
+      white-space: normal;     /* allow wrapping */
+      word-break: break-word;
       background-color: #f2f2f2;
       border: 1px solid #ddd;
       border-radius: 5px;
-      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Icons are 24×24 px */
-    .button-icon {
+    /* icon styling, sits behind wrapped text */
+    .section-button .button-icon {
+      flex-shrink: 0;
       width: 24px;
       height: 24px;
-      object-fit: contain;
-      flex-shrink: 0;
+      margin-right: 6px;
+      z-index: 1;
+    }
+
+    /* ensure text wraps on top of icon if needed */
+    .section-button span {
+      position: relative;
+      z-index: 2;
     }
 
     /* Content area styling */
@@ -104,7 +112,7 @@
       display: none;
     }
 
-    /* Footer from your snippet (2025 date) */
+    /* Footer */
     footer {
       margin-left: 20px;
       background-color: #fff;
@@ -113,7 +121,6 @@
       border-top: 1px solid #ddd;
       text-align: left;
     }
-
     footer p {
       margin: 0 0 0 20px;
     }
@@ -160,11 +167,11 @@
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('speciesInfo')">
         <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
-        Species Info
+        <span>Species Info</span>
       </button>
       <button class="section-button" onclick="toggleSection('habitatSize')">
         <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
-        Habitat Size
+        <span>Habitat Size</span>
       </button>
     </div>
     <div class="content-area">
@@ -214,11 +221,11 @@
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('heatingReqs')">
         <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
-        Heating
+        <span>Heating</span>
       </button>
       <button class="section-button" onclick="toggleSection('humidityAirflow')">
         <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
-        Humidity/Airflow
+        <span>Humidity/Airflow</span>
       </button>
     </div>
     <div class="content-area">
@@ -250,11 +257,11 @@
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('foodReqs')">
         <img src="images/food icon.png" alt="Food Icon" class="button-icon">
-        Food
+        <span>Food</span>
       </button>
       <button class="section-button" onclick="toggleSection('enrichment')">
         <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
-        Enrichment
+        <span>Enrichment</span>
       </button>
     </div>
     <div class="content-area">
@@ -280,7 +287,7 @@
     </div>
   </section>
 
-  <footer style="margin-left: 20px;">
+  <footer>
     <p>&copy; 2025 ReptileCare. All rights reserved.</p>
   </footer>
 
@@ -288,19 +295,11 @@
     // Simple accordion toggle
     function toggleSection(sectionId) {
       const allSections = document.querySelectorAll('.section-content');
-      // Hide any open section that isn't the clicked one
       allSections.forEach(sec => {
-        if (sec.id !== sectionId) {
-          sec.style.display = 'none';
-        }
+        if (sec.id !== sectionId) sec.style.display = 'none';
       });
-      // Toggle the clicked section
       const clicked = document.getElementById(sectionId);
-      if (clicked.style.display === 'block') {
-        clicked.style.display = 'none';
-      } else {
-        clicked.style.display = 'block';
-      }
+      clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
     }
   </script>
 </body>
