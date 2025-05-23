@@ -66,15 +66,17 @@
       margin: 20px 0;
     }
 
-    /* make every button the same fixed size */
+    /* make every button the same fixed size and stack icon above text */
     .section-button {
       flex: 0 0 170px;         /* fixed width */
       width: 170px;
-      min-height: 60px;        /* room for two lines */
-      padding: 12px 8px;
+      min-height: 80px;        /* room for two lines */
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;  /* stack icon above text */
+      justify-content: center; /* center vertically */
+      align-items: center;     /* center horizontally */
+      gap: 6px;                /* space between icon & text */
+      padding: 12px 8px;
       text-align: center;
       white-space: normal;     /* allow wrapping */
       word-break: break-word;
@@ -82,23 +84,13 @@
       border: 1px solid #ddd;
       border-radius: 5px;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
     }
 
-    /* icon styling, sits behind wrapped text */
+    /* icon styling */
     .section-button .button-icon {
-      flex-shrink: 0;
       width: 24px;
       height: 24px;
-      margin-right: 6px;
-      z-index: 1;
-    }
-
-    /* ensure text wraps on top of icon if needed */
-    .section-button span {
-      position: relative;
-      z-index: 2;
+      margin: 0;
     }
 
     /* Content area styling */
