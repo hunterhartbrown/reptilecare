@@ -1,6 +1,31 @@
+/* ── Font face declarations for Helvetica ── */
+@font-face {
+  font-family: 'Helvetica';
+  src: url('fonts/helvetica-255/Helvetica.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('fonts/helvetica-255/Helvetica-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('fonts/helvetica-255/Helvetica-Oblique.ttf') format('truetype');
+  font-weight: 400;
+  font-style: oblique;
+  font-display: swap;
+}
+
 /* Existing styles remain unchanged */
 body {
-    font-family: "Helvetica Neue", Helvetica;
+    font-family: 'Helvetica';
     margin: 0;
     padding: 0;
     background-color: #ffffff;
