@@ -92,6 +92,31 @@ section {
     overflow: hidden;
 }
 
+/* ── dot navigator ── */
+.dots-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;        /* space above/below the dots */
+}
+
+.dots-container .dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 6px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+
+.dots-container .dot:hover {
+  background-color: #999;
+}
+
+.dots-container .dot.active {
+  background-color: #333;
+}
+
 .slide {
     display: flex;
     flex-direction: row; /* Arrange items in a row */
