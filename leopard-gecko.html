@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Leopard Gecko Care Guide</title>
+  <title>Eastern Collared Lizard Care Guide</title>
 
   <!-- Link to your main stylesheet for .logo, .login, .signup, etc. -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
 
   <style>
     /* Header style matches main page (fixed at top, 80px high) */
@@ -68,17 +68,17 @@
 
     /* make every button the same fixed size and stack icon above text */
     .section-button {
-      flex: 0 0 170px;         /* fixed width */
+      flex: 0 0 170px;
       width: 170px;
-      min-height: 80px;        /* room for two lines */
+      min-height: 80px;
       display: inline-flex;
-      flex-direction: column;  /* stack icon above text */
-      justify-content: center; /* center vertically */
-      align-items: center;     /* center horizontally */
-      gap: 6px;                /* space between icon & text */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
       padding: 12px 8px;
       text-align: center;
-      white-space: normal;     /* allow wrapping */
+      white-space: normal;
       word-break: break-word;
       background-color: #f2f2f2;
       border: 1px solid #ddd;
@@ -122,11 +122,11 @@
 
   <header>
     <a href="https://reptilecare.net">
-      <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
+      <img src="../images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
     </a>
     <nav>
       <ul class="nav-links">
-        <li><a href="all-care-guides.html">All Care Guides</a></li>
+        <li><a href="/all-care-guides.html">All Care Guides</a></li>
         <li><a href="#">All Products</a></li>
         <li><a href="#">Magic Enclosure Designer</a></li>
         <li><a href="#">Research</a></li>
@@ -140,39 +140,36 @@
   </header>
 
   <section class="care-guide-content">
-    <h1>Leopard Gecko Care Guide</h1>
-    <img src="images/leo trans bg.png" alt="Leopard Gecko" />
-
-    <p>
-      <a href="https://animaldiversity.org/accounts/Eublepharis_macularius/" target="_blank" rel="noopener">Leopard geckos</a> are small, colorful reptiles native to the arid regions of South Asia, noted for their docile temperament and ground-dwelling habits.
-    </p>
-    <p>
-      A variety of <a href="https://www.morphmarket.com/us/c/reptiles/lizards/leopard-geckos?state=for_sale" target="_blank" rel="noopener">morphs</a> and mutations alter their coloration, leading to differing price points among breeders and expos; common morphs range from $20–$100, while rare morphs may exceed several hundred dollars. A minimum enclosure size for one adult is a <a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-terrarium-size/" target="_blank" rel="noopener">40-gallon breeder tank (36″ × 18″ × 18″)</a>, furnished with either paper towels or a well-draining semiarid substrate.
-    </p>
+    <h1>Eastern Collared Lizard Care Guide</h1>
+    <img src="../images/collared lizard trans bg.png" alt="Eastern Collared Lizard" />
 
     <!-- Row 1 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('speciesInfo')">
-        <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
+        <img src="../images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Info</span>
       </button>
       <button class="section-button" onclick="toggleSection('habitatSize')">
-        <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
+        <img src="../images/habitat icon.png" alt="Habitat Icon" class="button-icon">
         <span>Habitat Size</span>
       </button>
     </div>
     <div class="content-area">
       <div id="speciesInfo" class="section-content">
         <p>
-          <strong><a href="https://animaldiversity.org/accounts/Eublepharis_macularius/" target="_blank" rel="noopener">Leopard Geckos (Eublepharis macularius)</a></strong> originate from the rocky grasslands and desert areas of Afghanistan, Pakistan, India, Nepal, and Iran (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>). Hatchlings measure 3–4 inches (7–10 cm) at birth, reaching full size by 12–18 months: females to 7–8 inches (18–20 cm) and males to 8–11 inches (20–28 cm) (<a href="https://www.leopardgeckoslondon.com/post/what-size-enclosure-do-i-need-for-my-leopard-gecko" target="_blank" rel="noopener">LGL</a>). They lack adhesive toe pads, use movable eyelids, and can autotomize their fat-storing tails as a defense. These geckos are crepuscular and can live 15–20 years in captivity when properly cared for (<a href="https://www.petmd.com/reptile/leopard-gecko-care-sheet" target="_blank" rel="noopener">PetMD</a>).
+          <strong><a href="https://en.wikipedia.org/wiki/Common_collared_lizard" target="_blank" rel="noopener">Eastern Collared Lizards (<em>Crotaphytus collaris</em>)</a></strong> are diurnal, medium-sized lizards found in the south-central United States and northern Mexico, known for their vivid colors and dark “collar” markings. Adults reach 8–14″ (20–35 cm) in length and have powerful jaws for subduing prey (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
+        </p>
+        <p>
+          In nature they inhabit <a href="https://mdc.mo.gov/discover-nature/field-guide/eastern-collared-lizard" target="_blank" rel="noopener">rocky outcrops</a>, desert scrub, and open grasslands, often basking on sun-lit stones. Their impressive <a href="https://en.wikipedia.org/wiki/Common_collared_lizard#Speed" target="_blank" rel="noopener">bipedal sprinting</a> (up to ~16 mph) helps them evade predators. Highly territorial and solitary, males may fight or cannibalize tankmates; best housed alone. Lifespan in captivity exceeds 10 years with proper care.
         </p>
       </div>
+
       <div id="habitatSize" class="section-content">
         <p>
-          Proper housing is critical: adult leopard geckos require at least a <a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-terrarium-size/" target="_blank" rel="noopener">36″ × 18″ × 18″ (90 × 45 × 45 cm) enclosure</a> (~4.5 sq ft floor space) to establish thermal gradients and allow natural behavior. While some guidelines mention smaller minimums (e.g., RSPCA’s 40 × 30 × 30 cm), a larger vivarium supports better exercise, exploration, and overall health.
+          Provide at least a <strong>36″ L × 18″ W × 18″ H</strong> front-opening <a href="https://en.wikipedia.org/wiki/Terrarium" target="_blank" rel="noopener">glass or PVC terrarium</a>. Larger enclosures (48″×24″×24″) enable more exercise and reduce stress.
         </p>
         <p>
-          Substrate choices range from paper towels for quarantine to a semiarid mix (e.g., 50% organic soil, 50% play sand). Avoid loose sediment that poses impaction risks, and monitor substrate ingestion (<a href="https://www.rspca.org.uk/adviceandwelfare/pets/other/leopardgecko" target="_blank" rel="noopener">RSPCA</a>).
+          Use 4″ (10 cm) of substrate—a 60/40 topsoil–<a href="https://en.wikipedia.org/wiki/Play_sand" target="_blank" rel="noopener">play-sand mix</a>—to allow natural digging. Spot-clean daily, replace fully every 3–4 months, and switch to paper towels if health issues arise. Include two hides (warm/cool) and a flat basking rock.
         </p>
       </div>
     </div>
@@ -180,29 +177,30 @@
     <!-- Row 2 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('heatingReqs')">
-        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
+        <img src="../images/heating icon.png" alt="Heating Icon" class="button-icon">
         <span>Heating</span>
       </button>
       <button class="section-button" onclick="toggleSection('humidityAirflow')">
-        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
+        <img src="../images/humidity icon.png" alt="Humidity Icon" class="button-icon">
         <span>Humidity/Airflow</span>
       </button>
     </div>
     <div class="content-area">
       <div id="heatingReqs" class="section-content">
         <p>
-          To create a “basking zone,” use a 60–100 W ceramic lamp or basking bulb that’s properly guarded to prevent burns or injury if the bulb shatters. Leopard geckos sense heat through their bellies, so place natural slate or rock under the heat source to absorb daytime warmth. Always use a thermostat with all heat sources: position the probe of a dimming thermostat just above the substrate, then adjust until the basking zone measures 28–30 °C (82–86 °F) with a digital thermometer. The cool end of the enclosure should read 24–26 °C (75–79 °F) (<a href="https://www.rspca.org.uk/documents/1494939/0/Leopard%2BGecko%2BCare%2BSheet%2B%28PDF%2B379KB%29.pdf" target="_blank" rel="noopener">RSPCA Care Sheet</a>).
+          Create a gradient: <strong>basking spot</strong> of 105–115 °F (40–46 °C) using a 50–75 W halogen flood lamp 8–12″ above a flat rock, and a <strong>cool zone</strong> of 75–85 °F (24–29 °C). Night lows of 68–75 °F (20–24 °C) are acceptable (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
         <p>
-          UVB lighting is optional but can enhance calcium metabolism. A low-output UVB bulb (e.g., Zoo Med ReptiSun 5.0) on a 10–12 hour schedule can benefit your gecko (<a href="https://www.petmd.com/reptile/leopard-gecko-care-sheet" target="_blank" rel="noopener">PetMD</a>).
+          Install a <strong><a href="https://en.wikipedia.org/wiki/Ultraviolet_b" target="_blank" rel="noopener">T5 HO 10.0 UVB</a></strong> tube above the basking area (6–8″ distance) to deliver a UV index of ~4–6. Supplement with a 6500 K daylight lamp on a 12 h/12 h timer (<a href="https://www.arcadia-reptile.com/" target="_blank" rel="noopener">Arcadia</a>).
         </p>
       </div>
+
       <div id="humidityAirflow" class="section-content">
         <p>
-          Leopard geckos thrive in low ambient humidity of 30–40%, with high ventilation to prevent respiratory issues. A mesh lid or side vents ensure airflow (<a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-caresheet-reptifiles" target="_blank" rel="noopener">ReptiFiles</a>). Avoid sustained levels above 50%.
+          Aim for ambient humidity of <strong>30–50%</strong> and ensure strong airflow via a mesh top or side vents to prevent respiratory issues (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
         <p>
-          Provide a <strong>humid hide</strong> (~70–80% humidity) by placing damp sphagnum moss or paper towels inside a hide on the cool side. This microclimate assists shedding without raising the entire tank’s humidity (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>).
+          Offer a <strong>humid hide</strong> (~70% RH) using damp <a href="https://en.wikipedia.org/wiki/Sphagnum" target="_blank" rel="noopener">sphagnum moss</a> on the cool side; mist lightly and allow drying within hours to avoid mold.
         </p>
       </div>
     </div>
@@ -210,32 +208,33 @@
     <!-- Row 3 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('foodReqs')">
-        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
+        <img src="../images/food icon.png" alt="Food Icon" class="button-icon">
         <span>Food</span>
       </button>
       <button class="section-button" onclick="toggleSection('enrichment')">
-        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
+        <img src="../images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
         <span>Enrichment</span>
       </button>
     </div>
     <div class="content-area">
       <div id="foodReqs" class="section-content">
         <p>
-          Insectivorous by nature, leopard geckos should be offered a variety of gut-loaded insects such as crickets, mealworms, dubia roaches, and occasional waxworms (treat only) (<a href="https://www.rspca.org.uk/adviceandwelfare/pets/other/leopardgecko" target="_blank" rel="noopener">RSPCA</a>; <a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-feeding/" target="_blank" rel="noopener">ReptiFiles Feeding</a>).
+          Feed a varied array of <a href="https://en.wikipedia.org/wiki/Gut-loading" target="_blank" rel="noopener">gut-loaded insects</a>—crickets, <a href="https://en.wikipedia.org/wiki/Dubia_roach" target="_blank" rel="noopener">Dubia roaches</a>, locusts, superworms—daily for juveniles; adults 3–4×/week. Release prey for hunting enrichment.
         </p>
         <p>
-          Juveniles (0–12 months) eat daily; adults every 2–3 days. Dust feeders with calcium powder (with D₃ for non-UVB setups) at every feeding for young and half the time for adults. A calcium dish in the enclosure allows self-supplementation (<a href="https://www.rspcabrightonreptilerescue.org.uk/leopard-gecko-rehoming-package/" target="_blank" rel="noopener">RSPCA Rescue</a>).
+          Dust feeders with calcium (+D₃) at every feeding and a reptile multivitamin once weekly. Offer pinkie mice or small anoles as treats monthly for adults.
         </p>
         <p>
-          Always provide a shallow dish of fresh water, cleaned daily. Water dishes also create slight humidity, which can be beneficial near hides (<a href="https://www.thesprucepets.com/leopard-geckos-1236911" target="_blank" rel="noopener">The Spruce Pets</a>).
+          Provide fresh dechlorinated water in a shallow dish daily and mist decor in the morning to encourage droplet drinking.
         </p>
       </div>
+
       <div id="enrichment" class="section-content">
         <p>
-          Enrichment promotes natural behaviors and mental stimulation, so it is important to include multiple hides (warm, cool, and humid), low climbing structures, and a digging area to encourage exploration and exercise (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10044651/" target="_blank" rel="noopener">PMC Study</a>).
+          Include secure rock piles and sturdy branches for climbing and perching. Provide hides on both warm and cool sides (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
         <p>
-          Decorate with rocks, cork bark, and artificial plants to create cover and visual barriers, reducing stress and mimicking the gecko’s natural habitat. Periodically rearrange decor for novelty, and allow supervised free-range time in a safe space can also be enriching (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>).
+          Add <a href="https://en.wikipedia.org/wiki/Leaf_litter" target="_blank" rel="noopener">leaf litter</a> or artificial plants for digging and cover. Scatter live prey for hunting, and occasionally rearrange decor for novelty.
         </p>
       </div>
     </div>
@@ -248,12 +247,12 @@
   <script>
     // Simple accordion toggle
     function toggleSection(sectionId) {
-      const allSections = document.querySelectorAll('.section-content');
-      allSections.forEach(sec => {
+      const all = document.querySelectorAll('.section-content');
+      all.forEach(sec => {
         if (sec.id !== sectionId) sec.style.display = 'none';
       });
-      const clicked = document.getElementById(sectionId);
-      clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
+      const el = document.getElementById(sectionId);
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
   </script>
 </body>
