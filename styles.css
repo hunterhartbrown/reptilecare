@@ -1,31 +1,9 @@
-/* ── Font face declarations for Helvetica (using WOFF2) ── */
-@font-face {
-  font-family: 'Helvetica';
-  src: url('fonts/helvetica-255/Helvetica.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/* ── Import Open Sans from Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
 
-@font-face {
-  font-family: 'Helvetica';
-  src: url('fonts/helvetica-255/Helvetica-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica';
-  src: url('fonts/helvetica-255/Helvetica-Oblique.woff2') format('woff2');
-  font-weight: 400;
-  font-style: oblique;
-  font-display: swap;
-}
-
-/* Existing styles remain unchanged */
+/* Existing styles with Open Sans as the primary font */
 body {
-    font-family: 'Helvetica';
+    font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
@@ -71,7 +49,7 @@ nav {
 .nav-links a {
     text-decoration: none;
     color: #000;
-    font-weight: bold;
+    font-weight: 700; /* bold */
     padding: 10px;
 }
 
@@ -92,6 +70,7 @@ nav {
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
+    font-weight: 400; /* regular */
 }
 
 .auth-buttons .signup {
@@ -119,27 +98,27 @@ section {
 
 /* ── dot navigator ── */
 .dots-container {
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;        /* space above/below the dots */
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0; /* space above/below the dots */
 }
 
 .dots-container .dot {
-  width: 10px;
-  height: 10px;
-  margin: 0 6px;
-  border-radius: 50%;
-  background-color: #ccc;
-  cursor: pointer;
-  transition: background-color .3s;
+    width: 10px;
+    height: 10px;
+    margin: 0 6px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+    transition: background-color .3s;
 }
 
 .dots-container .dot:hover {
-  background-color: #999;
+    background-color: #999;
 }
 
 .dots-container .dot.active {
-  background-color: #333;
+    background-color: #333;
 }
 
 .slide {
@@ -189,12 +168,13 @@ section {
     word-wrap: break-word;
     overflow-wrap: break-word;
     box-sizing: border-box;
+    font-weight: 300; /* light for overlay text */
 }
 
 .overlay-text h3.common-name {
     margin: 0;
     font-size: 2vw;
-    font-weight: bold;
+    font-weight: 700; /* bold */
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
@@ -202,7 +182,7 @@ section {
     margin: 0;
     font-size: 1.5vw;
     font-style: italic;
-    font-weight: normal;
+    font-weight: 300; /* light italic */
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
@@ -253,5 +233,5 @@ section {
 
 .care-guide p {
     margin-top: 10px;
-    font-weight: bold;
+    font-weight: 700; /* bold */
 }
