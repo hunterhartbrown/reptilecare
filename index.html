@@ -1,103 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReptileCare</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ReptileCare</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <a href="https://reptilecare.net">
-            <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
-        </a>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="all-care-guides.html">All Care Guides</a></li>
-                <li><a href="#">All Products</a></li>
-                <li><a href="#">Magic Enclosure Designer</a></li>
-                <li><a href="#">Research</a></li>
-                <li><a href="#">About Us</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <button class="login">Log In</button>
-            <button class="signup">Sign Up</button>
-        </div>
-    </header>
+  <header class="site-header">
+    <a href="https://reptilecare.net" class="logo-link">
+      <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span class="hamburger"></span>
+    </button>
+    <nav class="nav" aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="all-care-guides.html">All Care Guides</a></li>
+        <li><a href="#">All Products</a></li>
+        <li><a href="#">Magic Enclosure Designer</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <button class="login">Log In</button>
+      <button class="signup">Sign Up</button>
+    </div>
+  </header>
 
-    <section>
-        <div class="content-slider">
-            <!-- Dynamic content will be loaded here by the script below -->
-        </div>
-    </section>
+  <section class="hero">
+    <div class="content-slider" aria-roledescription="carousel"></div>
+    <div class="slider-controls">
+      <button class="prev-slide" aria-label="Previous slide">&#10094;</button>
+      <button class="next-slide" aria-label="Next slide">&#10095;</button>
+    </div>
+    <div class="slider-dots" role="tablist"></div>
+  </section>
 
-    <footer style="margin-left: 20px;">
-        <p>&copy; 2025 ReptileCare. All rights reserved.</p>
-    </footer>    
+  <footer class="site-footer">
+    <p>&copy; 2025 ReptileCare. All rights reserved.</p>
+  </footer>
 
-    <script>
-        // Function to load JSON data from a local file
-        function loadJson(fileName, callback) {
-            var xobj = new XMLHttpRequest();
-            xobj.overrideMimeType("application/json");
-            xobj.open('GET', fileName, true);
-            xobj.onreadystatechange = function () {
-                if (xobj.readyState == 4 && xobj.status == "200") {
-                    callback(JSON.parse(xobj.responseText));
-                } else if (xobj.readyState == 4 && xobj.status == "404") {
-                    console.error('JSON file not found or access denied.');
-                }
-            };
-            xobj.send(null);
-        }
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sliderEl = document.querySelector('.content-slider');
+    const prevBtn  = document.querySelector('.prev-slide');
+    const nextBtn  = document.querySelector('.next-slide');
+    const dotsEl   = document.querySelector('.slider-dots');
+    let slides = [], dots = [], current = 0, interval;
 
-        function init() {
-            loadJson('/data/reptile_care_data.json', function(data) {  // Make sure this path is accessible by your server
-                var container = document.querySelector('.content-slider');
-                data.forEach(function(item, index) {
-                    var div = document.createElement('div');
-                    div.className = 'slide';
-                    div.style.display = index === 0 ? 'flex' : 'none'; // Show first item initially and use flex
-                    var imgDiv = document.createElement('div');
-                    imgDiv.className = 'slide-image';
-                    var img = document.createElement('img');
-                    img.src = item['Picture Link'];
-                    img.alt = item['Common Name'];
+    // 1) fetch & parse JSON
+    async function fetchData() {
+      const res = await fetch('/data/reptile_care_data.json');
+      return res.json();
+    }
 
-                    // Add unique class for the problematic image
-                    if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
-                        img.classList.add('problematic-image');
-                    }
+    // 2) build slides + dots
+    function buildSlides(data) {
+      data.forEach((item,i) => {
+        // slide
+        const fig = document.createElement('figure');
+        fig.className = 'slide';
+        fig.setAttribute('role','group');
+        fig.setAttribute('aria-roledescription','slide');
+        fig.setAttribute('aria-label', `${i+1} of ${data.length}`);
+        if (!i) fig.classList.add('active');
+        fig.innerHTML = `
+          <div class="slide-image">
+            <img src="${item['Picture Link']}" alt="Photo of ${item['Common Name']}" loading="lazy">
+          </div>
+          <figcaption class="overlay-text">
+            <h3 class="common-name">${item['Common Name']}</h3>
+            <h4 class="species-name">${item['Species']}</h4>
+          </figcaption>`;
+        sliderEl.appendChild(fig);
+        slides.push(fig);
 
-                    imgDiv.appendChild(img);
-                    
-                    var textDiv = document.createElement('div');
-                    textDiv.className = 'overlay-text';
-                    textDiv.innerHTML = `<h3 class="common-name">${item['Common Name']}</h3><h4 class="species-name">${item['Species']}</h4>`;
-                    
-                    div.appendChild(imgDiv);
-                    div.appendChild(textDiv);
-                    container.appendChild(div);
-                });
-                rotateSlides();
-            });
-        }
+        // dot
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.setAttribute('aria-label', `Go to slide ${i+1}`);
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsEl.appendChild(dot);
+        dots.push(dot);
+      });
+      dots[0].classList.add('active');
+    }
 
-        var slideIndex = 0;
-        function rotateSlides() {
-            var slides = document.getElementsByClassName("slide");
-            for (var i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {slideIndex = 1}
-            slides[slideIndex-1].style.display = "flex";
-            setTimeout(rotateSlides, 6000); // Change slide every 6 seconds
-        }
+    // 3) slide logic
+    function goToSlide(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = n;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+    function nextSlide() { goToSlide((current+1)%slides.length); }
+    function prevSlide() { goToSlide((current-1+slides.length)%slides.length); }
 
-        // Initialize the process when the document is ready
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    // 4) auto-rotate with pause on hover
+    function startAuto() { interval = setInterval(nextSlide,6000); }
+    function stopAuto()  { clearInterval(interval); }
+
+    // 5) event hookups
+    nextBtn.addEventListener('click', () => { stopAuto(); nextSlide(); startAuto(); });
+    prevBtn.addEventListener('click', () => { stopAuto(); prevSlide(); startAuto(); });
+    sliderEl.addEventListener('mouseenter', stopAuto);
+    sliderEl.addEventListener('mouseleave', startAuto);
+
+    // 6) mobile nav toggle
+    document.querySelector('.nav-toggle').addEventListener('click', () => {
+      document.querySelector('.nav').classList.toggle('open');
+    });
+
+    // 7) init
+    (async function init() {
+      const data = await fetchData();
+      buildSlides(data);
+      startAuto();
+    })();
+  });
+  </script>
 </body>
 </html>
