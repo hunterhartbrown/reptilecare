@@ -1,7 +1,12 @@
-/* ── Font face declarations for Helvetica ── */
 @font-face {
   font-family: 'Helvetica';
-  src: url('fonts/helvetica-255/Helvetica.ttf') format('truetype');
+  src:
+    /* first try an installed copy: */
+    local('Helvetica Neue'), local('Helvetica'),
+    /* then our downloaded files: */
+    url('fonts/helvetica-255/Helvetica.woff2') format('woff2'),
+    url('fonts/helvetica-255/Helvetica.woff')  format('woff'),
+    url('fonts/helvetica-255/Helvetica.ttf')  format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -9,7 +14,10 @@
 
 @font-face {
   font-family: 'Helvetica';
-  src: url('fonts/helvetica-255/Helvetica-Bold.ttf') format('truetype');
+  src: local('Helvetica Bold'),
+       url('fonts/helvetica-255/Helvetica-Bold.woff2') format('woff2'),
+       url('fonts/helvetica-255/Helvetica-Bold.woff')  format('woff'),
+       url('fonts/helvetica-255/Helvetica-Bold.ttf')  format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -17,18 +25,19 @@
 
 @font-face {
   font-family: 'Helvetica';
-  src: url('fonts/helvetica-255/Helvetica-Oblique.ttf') format('truetype');
+  src: local('Helvetica Oblique'),
+       url('fonts/helvetica-255/Helvetica-Oblique.woff2') format('woff2'),
+       url('fonts/helvetica-255/Helvetica-Oblique.woff')  format('woff'),
+       url('fonts/helvetica-255/Helvetica-Oblique.ttf')  format('truetype');
   font-weight: 400;
   font-style: oblique;
   font-display: swap;
 }
 
-/* Existing styles remain unchanged */
+/* then */
 body {
-    font-family: 'Helvetica';
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
+  font-family: 'Helvetica', sans-serif;
+  /* … */
 }
 
 header {
