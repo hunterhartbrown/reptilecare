@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bearded Dragon Care Guide</title>
 
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="styles.css">
+
   <style>
     header {
       background-color: #ffffff;
@@ -105,7 +106,7 @@
 
   <section class="care-guide-content">
     <h1>Bearded Dragon Care Guide</h1>
-    <img src="../images/bearded_dragon_trans_bg.png" alt="Bearded Dragon" />
+    <img src="images/bearded drag trans bg.png" alt="Bearded Dragon" />
 
     <p>
       <a href="https://en.wikipedia.org/wiki/Pogona" target="_blank" rel="noopener">Bearded dragons</a> are calm, inquisitive lizards native to arid and semi-arid regions of Australia. Known for their unique beard displays, bearded dragons are popular beginner reptiles due to their hardiness and interactive personalities.
@@ -117,11 +118,11 @@
     <!-- Row 1 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('speciesInfo')">
-        <img src="../images/species_info_icon.png" alt="Species Info Icon" class="button-icon">
+        <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Info</span>
       </button>
       <button class="section-button" onclick="toggleSection('habitatSize')">
-        <img src="../images/habitat_icon.png" alt="Habitat Icon" class="button-icon">
+        <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
         <span>Habitat Size</span>
       </button>
     </div>
@@ -141,11 +142,11 @@
     <!-- Row 2 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('heatingReqs')">
-        <img src="../images/heating_icon.png" alt="Heating Icon" class="button-icon">
+        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
         <span>Heating</span>
       </button>
       <button class="section-button" onclick="toggleSection('humidityAirflow')">
-        <img src="../images/humidity_icon.png" alt="Humidity Icon" class="button-icon">
+        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
         <span>Humidity/Airflow</span>
       </button>
     </div>
@@ -165,11 +166,11 @@
     <!-- Row 3 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('foodReqs')">
-        <img src="../images/food_icon.png" alt="Food Icon" class="button-icon">
+        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
         <span>Food</span>
       </button>
       <button class="section-button" onclick="toggleSection('enrichment')">
-        <img src="../images/enrichment_icon.png" alt="Enrichment Icon" class="button-icon">
+        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
         <span>Enrichment</span>
       </button>
     </div>
@@ -204,7 +205,7 @@
   </script>
   <!-- Header Loader Script -->
   <script>
-    fetch('../header.html')
+    fetch('header.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('main-header').innerHTML = data;
