@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="styles.css">
 
   <style>
-    /* Header style matches main page (fixed at top, 80px high) */
     header {
       background-color: #ffffff;
       width: 100%;
@@ -24,7 +23,6 @@
       z-index: 1000;
     }
 
-    /* Shift content down to avoid overlap by fixed header */
     section.care-guide-content {
       padding: 100px 20px 20px;
       max-width: 800px;
@@ -32,7 +30,6 @@
       background-color: #fff;
     }
 
-    /* Center the title */
     .care-guide-content h1 {
       text-align: center;
       font-size: 36px;
@@ -41,7 +38,6 @@
       margin-bottom: 10px;
     }
 
-    /* Center the main image */
     .care-guide-content img {
       display: block;
       margin: 0 auto 20px;
@@ -50,7 +46,6 @@
       border-radius: 10px;
     }
 
-    /* Paragraph styling */
     .care-guide-content p {
       margin: 15px 0;
       font-size: 18px;
@@ -58,7 +53,6 @@
       text-indent: 2em;
     }
 
-    /* Button rows */
     .button-row {
       display: flex;
       justify-content: center;
@@ -66,19 +60,18 @@
       margin: 20px 0;
     }
 
-    /* make every button the same fixed size and stack icon above text */
     .section-button {
-      flex: 0 0 170px;         /* fixed width */
+      flex: 0 0 170px;
       width: 170px;
-      min-height: 80px;        /* room for two lines */
+      min-height: 80px;
       display: inline-flex;
-      flex-direction: column;  /* stack icon above text */
-      justify-content: center; /* center vertically */
-      align-items: center;     /* center horizontally */
-      gap: 6px;                /* space between icon & text */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
       padding: 12px 8px;
       text-align: center;
-      white-space: normal;     /* allow wrapping */
+      white-space: normal;
       word-break: break-word;
       background-color: #f2f2f2;
       border: 1px solid #ddd;
@@ -86,25 +79,21 @@
       cursor: pointer;
     }
 
-    /* icon styling */
     .section-button .button-icon {
       width: 24px;
       height: 24px;
       margin: 0;
     }
 
-    /* Content area styling */
     .content-area {
       margin-bottom: 20px;
       text-align: left;
     }
 
-    /* Hide toggled sections by default */
     .section-content {
       display: none;
     }
 
-    /* Footer */
     footer {
       margin-left: 20px;
       background-color: #fff;
@@ -120,36 +109,7 @@
 </head>
 <body>
 
-  <header>
-    <a href="https://reptilecare.net">
-      <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
-    </a>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="all-care-guides.html">All Care Guides</a></li>
-        <li><a href="#">All Products</a></li>
-        <li><a href="#">Magic Enclosure Designer</a></li>
-        <li><a href="#">Research</a></li>
-        <li><a href="#">About Us</a></li>
-      </ul>
-    </nav>
-    <!-- SEARCH BAR ADDED HERE -->
-    <form class="site-search" action="#" method="get" autocomplete="off">
-      <input
-        type="text"
-        name="q"
-        class="search-input"
-        placeholder="Search guides, reptiles, products..."
-        aria-label="Search"
-      />
-      <button type="submit" class="search-btn" aria-label="Submit search">&#128269;</button>
-    </form>
-    <!-- END SEARCH BAR -->
-    <div class="auth-buttons">
-      <button class="login">Log In</button>
-      <button class="signup">Sign Up</button>
-    </div>
-  </header>
+  <header id="main-header"></header>
 
   <section class="care-guide-content">
     <h1>Leopard Gecko Care Guide</h1>
@@ -267,6 +227,14 @@
       const clicked = document.getElementById(sectionId);
       clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
     }
+  </script>
+  <!-- Header Loader Script -->
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('main-header').innerHTML = data;
+      });
   </script>
 </body>
 </html>

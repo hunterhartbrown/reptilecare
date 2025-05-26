@@ -61,36 +61,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <a href="https://reptilecare.net">
-            <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
-        </a>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="all-care-guides.html">All Care Guides</a></li>
-                <li><a href="#">All Products</a></li>
-                <li><a href="#">Magic Enclosure Designer</a></li>
-                <li><a href="#">Research</a></li>
-                <li><a href="#">About Us</a></li>
-            </ul>
-        </nav>
-        <!-- SEARCH BAR ADDED HERE -->
-        <form class="site-search" action="#" method="get" autocomplete="off">
-            <input
-                type="text"
-                name="q"
-                class="search-input"
-                placeholder="Search guides, reptiles, products..."
-                aria-label="Search"
-            />
-            <button type="submit" class="search-btn" aria-label="Submit search">&#128269;</button>
-        </form>
-        <!-- END SEARCH BAR -->
-        <div class="auth-buttons">
-            <button class="login">Log In</button>
-            <button class="signup">Sign Up</button>
-        </div>
-    </header>
+    <header id="main-header"></header>
 
     <section class="care-guides">
         <h1 style="text-align: center;">All Care Guides</h1>
@@ -126,5 +97,14 @@
     <footer>
         <p>&copy; 2025 ReptileCare. All rights reserved.</p>
     </footer>
+
+    <!-- Header Loader Script -->
+    <script>
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('main-header').innerHTML = data;
+        });
+    </script>
 </body>
 </html>
