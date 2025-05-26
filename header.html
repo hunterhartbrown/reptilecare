@@ -30,10 +30,12 @@
     }
 
     nav {
-        flex: 1;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
         display: flex;
         justify-content: center;
-        margin: 0 20px;
+        align-items: center;
     }
 
     .nav-links {
@@ -62,6 +64,7 @@
         transition: background 0.2s, color 0.2s;
         display: flex;
         align-items: center;
+        white-space: nowrap;
     }
 
     .nav-links a:hover,
@@ -73,27 +76,31 @@
     .site-search {
         display: flex;
         align-items: center;
-        margin: 0 20px;
+        margin-left: auto;
+        margin-right: 20px;
+        width: 200px;
+    }
+
+    .search-input-container {
         position: relative;
+        width: 100%;
     }
 
     .search-input {
         padding: 8px 12px;
+        padding-right: 40px;
         border: 1px solid #ddd;
         border-radius: 20px;
         font-size: 0.9rem;
-        width: 200px;
-        transition: width 0.3s, border-color 0.3s;
-        position: relative;
-        z-index: 2;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
     }
 
     .search-input:focus {
         outline: none;
         border-color: #000;
-        position: absolute;
         width: 250px;
-        right: 0;
     }
 
     .search-btn {
@@ -117,7 +124,6 @@
     .auth-buttons {
         display: flex;
         gap: 10px;
-        margin-left: auto;
     }
 
     .auth-buttons button {
@@ -128,6 +134,7 @@
         padding: 6px 16px;
         cursor: pointer;
         transition: background 0.18s, color 0.18s, border 0.18s;
+        white-space: nowrap;
     }
 
     .auth-buttons .login {
@@ -169,7 +176,7 @@
             padding: 6px 12px;
         }
 
-        .search-input {
+        .site-search {
             width: 150px;
         }
 
@@ -192,10 +199,7 @@
         }
 
         .site-search {
-            margin: 0 10px;
-        }
-
-        .search-input {
+            margin-right: 10px;
             width: 120px;
         }
 
@@ -219,14 +223,16 @@
         </ul>
     </nav>
     <form class="site-search" action="#" method="get" autocomplete="off">
-        <input
-            type="text"
-            name="q"
-            class="search-input"
-            placeholder="Search guides, reptiles..."
-            aria-label="Search"
-        />
-        <button type="submit" class="search-btn" aria-label="Submit search">&#128269;</button>
+        <div class="search-input-container">
+            <input
+                type="text"
+                name="q"
+                class="search-input"
+                placeholder="Search guides, reptiles..."
+                aria-label="Search"
+            />
+            <button type="submit" class="search-btn" aria-label="Submit search">&#128269;</button>
+        </div>
     </form>
     <div class="auth-buttons">
         <button class="login">Log In</button>
