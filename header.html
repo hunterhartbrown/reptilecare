@@ -84,12 +84,16 @@
         font-size: 0.9rem;
         width: 200px;
         transition: width 0.3s, border-color 0.3s;
+        position: relative;
+        z-index: 2;
     }
 
     .search-input:focus {
         outline: none;
         border-color: #000;
+        position: absolute;
         width: 250px;
+        right: 0;
     }
 
     .search-btn {
@@ -103,6 +107,7 @@
         transform: translateY(-50%);
         color: #666;
         transition: color 0.2s;
+        z-index: 3;
     }
 
     .search-btn:hover {
