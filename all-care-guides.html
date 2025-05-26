@@ -125,8 +125,8 @@
             width: 180px;
             min-width: 150px;
             max-width: 210px;
-            min-height: 325px; /* more vertical space for new buttons row position */
-            padding: 10px 8px 20px 8px; /* increased bottom padding */
+            min-height: 320px;
+            padding: 10px 8px 14px 8px;
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -164,11 +164,16 @@
             color: #222;
             margin: 0 0 7px 0;
             min-height: 22px;
+            max-width: 95%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Open Sans', Arial, sans-serif;
             text-align: center;
+            /* font-size dynamically set by JS for uniformity */
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.15;
         }
         .availability-row {
             width: 100%;
@@ -195,8 +200,8 @@
         }
         .care-guide-btn-row {
             display: flex;
-            gap: 12px; /* wider gap between buttons */
-            margin-top: auto; /* push to bottom */
+            gap: 8px;
+            margin-top: auto;
             margin-bottom: 0;
             width: 100%;
             justify-content: center;
@@ -207,14 +212,14 @@
             justify-content: center;
             align-items: center;
             font-family: 'Open Sans', Arial, sans-serif;
-            font-size: 1.08rem;
-            font-weight: 700;
-            padding: 8px 0 8px 0;    /* more vertical padding */
-            width: 110px;            /* more horizontal space */
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 6px 0 6px 0;
+            width: 100px;
             min-width: 0;
             height: auto;
             border-radius: 6px;
-            border: 1.7px solid #000;
+            border: 1.3px solid #000;
             background: #fff;
             color: #000;
             cursor: pointer;
@@ -227,18 +232,18 @@
         .care-guide-btn:hover, .care-guide-btn:focus {
             background: #000;
             color: #fff;
-            border: 1.7px solid #222;
+            border: 1.3px solid #222;
             outline: none;
         }
         .care-guide-btn.secondary {
             background: #000;
             color: #fff;
-            border: 1.7px solid #000;
+            border: 1.3px solid #000;
         }
         .care-guide-btn.secondary:hover, .care-guide-btn.secondary:focus {
             background: #444;
             color: #fff;
-            border: 1.7px solid #000;
+            border: 1.3px solid #000;
         }
         @media (max-width: 900px) {
             .care-guide-container {
@@ -272,8 +277,8 @@
             .care-guide-btn {
                 width: 42vw;
                 min-width: 45px;
-                font-size: 0.97rem;
-                padding: 7px 0 7px 0;
+                font-size: 0.96rem;
+                padding: 5px 0 5px 0;
             }
         }
         .availability-segment {
@@ -367,12 +372,13 @@
               bar += `<span class="availability-segment"></span>`;
             availText = "No Data";
           }
+          // Card HTML with a class on the label for dynamic sizing
           return `
           <div class="care-guide" data-animal="${animal}">
             <div class="care-guide-img-frame">
               <img src="${info.img}" alt="${animal}" class="care-guide-img" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
-            <span class="care-guide-label">${animal}</span>
+            <span class="care-guide-label js-animal-label">${animal}</span>
             <div class="availability-row">
               <div class="availability-bar">${bar}</div>
               <span class="availability-value">${availText}</span>
@@ -405,7 +411,35 @@
               html += buildCareGuideCard(animal, listings, info);
             });
             container.innerHTML = html;
+            // Now dynamically size the animal names for uniformity
+            uniformizeLabelFontSize();
           });
+
+        // Function to adjust label font size for uniform row heights
+        function uniformizeLabelFontSize() {
+          const labels = document.querySelectorAll('.js-animal-label');
+          let minFontSize = 1.07; // rem
+          labels.forEach(label => {
+            label.style.fontSize = ''; // reset
+          });
+          // Reduce font size only if any label is wrapping to two lines
+          let hasOverflow = true;
+          let step = 0.06;
+          while (hasOverflow && minFontSize > 0.78) {
+            hasOverflow = false;
+            labels.forEach(label => {
+              if (label.scrollHeight > label.offsetHeight + 1) {
+                hasOverflow = true;
+              }
+            });
+            if (hasOverflow) {
+              minFontSize -= step;
+              labels.forEach(label => {
+                label.style.fontSize = minFontSize + 'rem';
+              });
+            }
+          }
+        }
     </script>
 </body>
 </html>
