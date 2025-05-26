@@ -235,3 +235,43 @@ section {
     margin-top: 10px;
     font-weight: 700; /* bold */
 }
+
+/* ────────────── SEARCH BAR STYLES ────────────── */
+.site-search {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.search-input {
+    padding: 7px 12px;
+    border: 1px solid #bbb;
+    border-radius: 5px 0 0 5px;
+    font-size: 1em;
+    outline: none;
+    width: 220px;
+    transition: border-color 0.2s;
+    background-color: #f8f8f8;
+}
+
+.search-input:focus {
+    border-color: #005f6b;
+}
+
+.search-btn {
+    padding: 7px 13px;
+    border: 1px solid #bbb;
+    border-left: none;
+    background: #000;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background 0.2s, color 0.2s;
+}
+
+.search-btn:hover, .search-btn:focus {
+    background: #005f6b;
+    color: #fff;
+}
