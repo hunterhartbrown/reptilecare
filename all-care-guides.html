@@ -163,7 +163,7 @@
             font-weight: 700;
             color: #222;
             margin: 0 0 7px 0;
-            min-height: 22px;
+            height: 44px; /* Fixed height to accommodate up to 2 lines */
             max-width: 95%;
             display: flex;
             align-items: center;
@@ -173,6 +173,7 @@
             white-space: normal;
             word-break: break-word;
             line-height: 1.15;
+            overflow: hidden;
         }
         .availability-row {
             width: 100%;
@@ -421,24 +422,28 @@
         // Function to adjust label font size for uniform row heights
         function uniformizeLabelFontSize() {
           const labels = document.querySelectorAll('.js-animal-label');
-          let minFontSize = 1.07; // rem
+          let fontSize = 1.07; // Starting font size in rem
+          const minFontSize = 0.78; // Minimum font size in rem
+          const step = 0.02; // Smaller step for more precise adjustment
+
           labels.forEach(label => {
-            label.style.fontSize = ''; // reset
+            label.style.fontSize = fontSize + 'rem';
           });
-          // Reduce font size only if any label is wrapping to two lines
+
+          // Keep reducing font size until no label overflows
           let hasOverflow = true;
-          let step = 0.06;
-          while (hasOverflow && minFontSize > 0.78) {
+          while (hasOverflow && fontSize > minFontSize) {
             hasOverflow = false;
             labels.forEach(label => {
-              if (label.scrollHeight > label.offsetHeight + 1) {
+              if (label.scrollHeight > 44) { // 44px is our fixed height
                 hasOverflow = true;
               }
             });
+            
             if (hasOverflow) {
-              minFontSize -= step;
+              fontSize -= step;
               labels.forEach(label => {
-                label.style.fontSize = minFontSize + 'rem';
+                label.style.fontSize = fontSize + 'rem';
               });
             }
           }
