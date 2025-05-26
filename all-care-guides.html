@@ -6,47 +6,113 @@
     <title>All Care Guides - ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Ensuring the care guides page matches the home page style */
         .care-guides {
-            padding: 100px 20px 20px; /* Adjust padding to align with the fixed header */
-            background-color: #000; /* Match background color */
+            padding: 100px 20px 20px; /* Adjust for fixed header */
+            background-color: #000;
             color: #fff;
-            min-height: 100vh; /* Ensuring full page height */
+            min-height: 100vh;
+        }
+
+        .care-guides-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            font-family: 'Open Sans', Arial, sans-serif;
+        }
+
+        .care-guides-desc {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin: 0 0 30px 0;
+            font-family: 'Open Sans', Arial, sans-serif;
         }
 
         .care-guide-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px; /* Add gap between guide items */
+            gap: 32px 24px;
         }
 
         .care-guide {
-            width: 21%; /* Consistent width with spacing */
-            background-color: #fff;
-            text-align: center;
-            margin: 0 1.5% 20px 0;
-            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 220px;
+            min-width: 200px;
+            max-width: 260px;
+            min-height: 330px;
+            padding: 18px 14px 14px 14px;
+            background: #fff;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease-in-out;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1.5px 3px rgba(0,0,0,0.03);
+            text-decoration: none;
+            transition: box-shadow 0.2s, transform 0.18s;
+            position: relative;
         }
-
+        .care-guide:focus,
         .care-guide:hover {
-            transform: scale(1.05); /* Add a subtle zoom effect on hover */
+            box-shadow: 0 8px 32px rgba(0,0,0,0.17), 0 3px 8px rgba(0,0,0,0.08);
+            transform: translateY(-3px) scale(1.03);
+            outline: none;
         }
 
-        .care-guide img {
+        .care-guide-img {
             width: 100%;
-            height: auto;
-            border-radius: 5px;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 7px;
+            margin-bottom: 16px;
+            background: #f4f4f4;
         }
 
-        .care-guide p {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #000;
+        .care-guide-label {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #222;
+            margin-top: auto;
+            margin-bottom: 0;
+            min-height: 48px; /* Reserve vertical space for all names to align */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', Arial, sans-serif;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .care-guide-container {
+                gap: 22px 10px;
+            }
+            .care-guide {
+                width: 42vw;
+                min-width: 180px;
+                max-width: 320px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .care-guides {
+                padding: 92px 6px 12px 6px;
+            }
+            .care-guide-container {
+                gap: 15px 0;
+            }
+            .care-guide {
+                width: 90vw;
+                min-width: 130px;
+                max-width: 98vw;
+                padding: 11px 4px 8px 4px;
+                min-height: 220px;
+            }
+            .care-guides-title { font-size: 1.5rem; }
+            .care-guides-desc { font-size: 1rem; }
+            .care-guide-img { height: 90px; }
+            .care-guide-label { min-height: 30px; font-size: 1rem; }
         }
 
         footer {
@@ -57,6 +123,7 @@
             border-top: 1px solid #ddd;
             margin-left: 20px;
             position: relative;
+            font-family: 'Open Sans', Arial, sans-serif;
         }
     </style>
 </head>
@@ -64,33 +131,25 @@
     <header id="main-header"></header>
 
     <section class="care-guides">
-        <h1 style="text-align: center;">All Care Guides</h1>
-        <p style="text-align: center;">Here you can find all the care guides for various reptiles.</p>
+        <h1 class="care-guides-title">All Care Guides</h1>
+        <p class="care-guides-desc">Here you can find all the care guides for various reptiles.</p>
         <div class="care-guide-container">
-            <div class="care-guide">
-                <a href="/leopard-gecko.html">
-                    <img src="images/leo trans bg.png" alt="Leopard Gecko">
-                    <p>Leopard Gecko</p>
-                </a>
-            </div>
-            <div class="care-guide">
-                <a href="/eastern-collared-lizard.html">
-                    <img src="images/collared lizard trans bg.png" alt="Eastern Collared Lizard">
-                    <p>Eastern Collared Lizard</p>
-                </a>
-            </div>
-            <div class="care-guide">
-                <a href="/bearded-dragon.html">
-                    <img src="images/bearded drag trans bg.png" alt="Bearded Dragon">
-                    <p>Bearded Dragon</p>
-                </a>
-            </div>
-            <div class="care-guide">
-                <a href="/crested-gecko.html">
-                    <img src="images/crested gecko trans bg.png" alt="Crested Gecko">
-                    <p>Crested Gecko</p>
-                </a>
-            </div>
+            <a href="/leopard-gecko.html" class="care-guide">
+                <img src="images/leo trans bg.png" alt="Leopard Gecko" class="care-guide-img">
+                <span class="care-guide-label">Leopard Gecko</span>
+            </a>
+            <a href="/eastern-collared-lizard.html" class="care-guide">
+                <img src="images/collared lizard trans bg.png" alt="Eastern Collared Lizard" class="care-guide-img">
+                <span class="care-guide-label">Eastern Collared Lizard</span>
+            </a>
+            <a href="/bearded-dragon.html" class="care-guide">
+                <img src="images/bearded drag trans bg.png" alt="Bearded Dragon" class="care-guide-img">
+                <span class="care-guide-label">Bearded Dragon</span>
+            </a>
+            <a href="/crested-gecko.html" class="care-guide">
+                <img src="images/crested gecko trans bg.png" alt="Crested Gecko" class="care-guide-img">
+                <span class="care-guide-label">Crested Gecko</span>
+            </a>
         </div>
     </section>
 
