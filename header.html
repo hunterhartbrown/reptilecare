@@ -78,14 +78,16 @@
         align-items: center;
         margin-left: auto;
         margin-right: 20px;
+        position: relative;
         width: 200px;
     }
 
     .search-input-container {
-        position: relative;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
         width: 100%;
-        display: flex;
-        justify-content: flex-end;
     }
 
     .search-input {
@@ -97,16 +99,12 @@
         width: 100%;
         transition: all 0.3s ease;
         box-sizing: border-box;
-        position: relative;
     }
 
     .search-input:focus {
         outline: none;
         border-color: #000;
         width: 250px;
-        position: absolute;
-        right: 0;
-        transform-origin: right center;
     }
 
     .search-btn {
@@ -121,6 +119,7 @@
         color: #666;
         transition: color 0.2s;
         z-index: 3;
+        pointer-events: auto;
     }
 
     .search-btn:hover {
