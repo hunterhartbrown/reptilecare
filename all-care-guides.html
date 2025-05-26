@@ -342,7 +342,7 @@
             url: "/bearded-dragon.html"
           },
           "Crested Gecko": {
-            img: "crested gecko trans bg.png",
+            img: "images/crested gecko trans bg.png",
             url: "/crested-gecko.html"
           },
           "Eastern Collared Lizard": {
@@ -359,7 +359,7 @@
           return `
           <div class="care-guide" data-animal="${animal}" data-listings="${listings}">
             <div class="care-guide-img-frame">
-              <img src="${info.img}" alt="${animal}" class="care-guide-img">
+              <img src="${info.img}" alt="${animal}" class="care-guide-img" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
             <span class="care-guide-label">${animal}</span>
             <div class="availability-row">
