@@ -125,8 +125,8 @@
             width: 180px;
             min-width: 150px;
             max-width: 210px;
-            min-height: 275px;
-            padding: 10px 8px 10px 8px;
+            min-height: 325px; /* more vertical space for new buttons row position */
+            padding: 10px 8px 20px 8px; /* increased bottom padding */
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -195,8 +195,8 @@
         }
         .care-guide-btn-row {
             display: flex;
-            gap: 7px;
-            margin-top: 4px;
+            gap: 12px; /* wider gap between buttons */
+            margin-top: auto; /* push to bottom */
             margin-bottom: 0;
             width: 100%;
             justify-content: center;
@@ -207,13 +207,14 @@
             justify-content: center;
             align-items: center;
             font-family: 'Open Sans', Arial, sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            padding: 0;
-            width: 85px;
-            height: 36px;
+            font-size: 1.08rem;
+            font-weight: 700;
+            padding: 8px 0 8px 0;    /* more vertical padding */
+            width: 110px;            /* more horizontal space */
+            min-width: 0;
+            height: auto;
             border-radius: 6px;
-            border: 1px solid #000;
+            border: 1.7px solid #000;
             background: #fff;
             color: #000;
             cursor: pointer;
@@ -221,22 +222,23 @@
             transition: background 0.18s, color 0.18s, border 0.18s;
             text-align: center;
             box-sizing: border-box;
+            margin-bottom: 0;
         }
         .care-guide-btn:hover, .care-guide-btn:focus {
             background: #000;
             color: #fff;
-            border: 1px solid #222;
+            border: 1.7px solid #222;
             outline: none;
         }
         .care-guide-btn.secondary {
             background: #000;
             color: #fff;
-            border: 1px solid #000;
+            border: 1.7px solid #000;
         }
         .care-guide-btn.secondary:hover, .care-guide-btn.secondary:focus {
             background: #444;
             color: #fff;
-            border: 1px solid #000;
+            border: 1.7px solid #000;
         }
         @media (max-width: 900px) {
             .care-guide-container {
@@ -259,8 +261,8 @@
                 width: 92vw;
                 min-width: 90px;
                 max-width: 98vw;
-                padding: 8px 2px 5px 2px;
-                min-height: 155px;
+                padding: 8px 2px 8px 2px;
+                min-height: 175px;
             }
             .care-guides-title { font-size: 1.25rem; }
             .care-guides-desc { font-size: 0.98rem; }
@@ -270,8 +272,8 @@
             .care-guide-btn {
                 width: 42vw;
                 min-width: 45px;
-                height: 28px;
-                font-size: 0.90rem;
+                font-size: 0.97rem;
+                padding: 7px 0 7px 0;
             }
         }
         .availability-segment {
