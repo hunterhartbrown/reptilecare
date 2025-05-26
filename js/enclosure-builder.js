@@ -13,9 +13,10 @@ class EnclosureBuilder {
 
     init() {
         // Setup renderer
-        this.renderer.setSize(window.innerWidth * 0.5, window.innerHeight * 0.5);
-        this.renderer.setClearColor(0xffffff);
+        this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.6);
+        this.renderer.setClearColor(0xf8f8f8);
         this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
         // Setup camera
         this.camera.position.set(50, 30, 50);
@@ -28,12 +29,17 @@ class EnclosureBuilder {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
         directionalLight.position.set(20, 30, 20);
         directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
         this.scene.add(directionalLight);
 
         // Add controls
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
+        this.controls.minDistance = 10;
+        this.controls.maxDistance = 100;
+        this.controls.maxPolarAngle = Math.PI / 2;
 
         // Create enclosure
         this.createEnclosure();
@@ -44,6 +50,9 @@ class EnclosureBuilder {
         // Add event listeners
         window.addEventListener('resize', () => this.onWindowResize());
         this.setupDragAndDrop();
+
+        // Make the builder globally accessible
+        window.enclosureBuilder = this;
     }
 
     createEnclosure() {
@@ -69,7 +78,8 @@ class EnclosureBuilder {
             opacity: 0.3,
             roughness: 0,
             transmission: 0.9,
-            thickness: 0.05
+            thickness: 0.05,
+            envMapIntensity: 1.0
         });
 
         // Create walls
@@ -118,11 +128,17 @@ class EnclosureBuilder {
             itemData.dimensions.height * 0.0254,
             itemData.dimensions.width * 0.0254
         );
-        const material = new THREE.MeshPhongMaterial({ color: 0x808080 });
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x808080,
+            transparent: true,
+            opacity: 0.8
+        });
         const mesh = new THREE.Mesh(geometry, material);
         
         mesh.userData = itemData;
         mesh.name = itemData.id;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
         // Position the item at the center of the enclosure
         mesh.position.y = -this.enclosureDimensions.height * 0.0254 / 2 + itemData.dimensions.height * 0.0254 / 2;
@@ -183,9 +199,13 @@ class EnclosureBuilder {
     }
 
     onWindowResize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        const container = this.renderer.domElement.parentElement;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
-        this.renderer.setSize(window.innerWidth * 0.5, window.innerHeight * 0.5);
+        this.renderer.setSize(width, height);
     }
 
     animate() {
