@@ -102,10 +102,16 @@
         }
 
         .care-guide-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             font-family: 'Open Sans', Arial, sans-serif;
             font-size: 1rem;
             font-weight: 600;
-            padding: 7px 13px;
+            padding: 0;
+            width: 120px;
+            height: 60px;
             border-radius: 6px;
             border: 1px solid #000;
             background: #fff;
@@ -113,8 +119,8 @@
             cursor: pointer;
             text-decoration: none;
             transition: background 0.18s, color 0.18s, border 0.18s;
-            min-width: 64px;
             text-align: center;
+            box-sizing: border-box;
         }
         .care-guide-btn:hover, .care-guide-btn:focus {
             background: #000;
@@ -163,6 +169,12 @@
             .care-guides-desc { font-size: 1rem; }
             .care-guide-img-frame { height: 90px; }
             .care-guide-label { min-height: 30px; font-size: 1rem; }
+            .care-guide-btn {
+                width: 45vw;
+                min-width: 90px;
+                height: 44px;
+                font-size: 0.98rem;
+            }
         }
 
         footer {
@@ -190,8 +202,12 @@
                 </div>
                 <span class="care-guide-label">Leopard Gecko</span>
                 <div class="care-guide-btn-row">
-                    <a href="/leopard-gecko.html" class="care-guide-btn secondary">View Care Guide</a>
-                    <a href="#" class="care-guide-btn">Design an Enclosure</a>
+                    <a href="/leopard-gecko.html" class="care-guide-btn secondary">
+                        View<br>Care Guide
+                    </a>
+                    <a href="#" class="care-guide-btn">
+                        Design an<br>Enclosure
+                    </a>
                 </div>
             </div>
             <div class="care-guide">
@@ -200,8 +216,12 @@
                 </div>
                 <span class="care-guide-label">Eastern Collared Lizard</span>
                 <div class="care-guide-btn-row">
-                    <a href="/eastern-collared-lizard.html" class="care-guide-btn secondary">View Care Guide</a>
-                    <a href="#" class="care-guide-btn">Design an Enclosure</a>
+                    <a href="/eastern-collared-lizard.html" class="care-guide-btn secondary">
+                        View<br>Care Guide
+                    </a>
+                    <a href="#" class="care-guide-btn">
+                        Design an<br>Enclosure
+                    </a>
                 </div>
             </div>
             <div class="care-guide">
@@ -210,8 +230,12 @@
                 </div>
                 <span class="care-guide-label">Bearded Dragon</span>
                 <div class="care-guide-btn-row">
-                    <a href="/bearded-dragon.html" class="care-guide-btn secondary">View Care Guide</a>
-                    <a href="#" class="care-guide-btn">Design an Enclosure</a>
+                    <a href="/bearded-dragon.html" class="care-guide-btn secondary">
+                        View<br>Care Guide
+                    </a>
+                    <a href="#" class="care-guide-btn">
+                        Design an<br>Enclosure
+                    </a>
                 </div>
             </div>
             <div class="care-guide">
@@ -220,8 +244,12 @@
                 </div>
                 <span class="care-guide-label">Crested Gecko</span>
                 <div class="care-guide-btn-row">
-                    <a href="/crested-gecko.html" class="care-guide-btn secondary">View Care Guide</a>
-                    <a href="#" class="care-guide-btn">Design an Enclosure</a>
+                    <a href="/crested-gecko.html" class="care-guide-btn secondary">
+                        View<br>Care Guide
+                    </a>
+                    <a href="#" class="care-guide-btn">
+                        Design an<br>Enclosure
+                    </a>
                 </div>
             </div>
         </div>
