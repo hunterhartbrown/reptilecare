@@ -1,103 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crested Gecko Care Guide</title>
-    <link rel="stylesheet" href="../styles.css">
-    <style>
-        .care-guide-section {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px auto; /* Centers the boxes horizontally */
-            max-width: 800px; /* Ensures the boxes don't exceed this width */
-            box-sizing: border-box; /* Includes padding in the width */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crested Gecko Care Guide</title>
 
-        .care-guide-content {
-            padding: 100px 20px 20px;
-            background-color: #f0e4c4;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    header {
+      background-color: #ffffff;
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    section.care-guide-content {
+      padding: 100px 20px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #f0e4c4;
+    }
+    .care-guide-content h1 {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      color: #000;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .care-guide-content img {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+    .care-guide-content p {
+      margin: 15px 0;
+      font-size: 18px;
+      line-height: 1.6;
+      text-indent: 2em;
+      color: #222;
+    }
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .section-button {
+      flex: 0 0 170px;
+      width: 170px;
+      min-height: 80px;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 8px;
+      text-align: center;
+      white-space: normal;
+      word-break: break-word;
+      background-color: #fff7e0;
+      border: 1px solid #e1ceac;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .section-button:hover {
+      background: #f7eed7;
+    }
+    .section-button .button-icon {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+    }
+    .content-area {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .section-content {
+      display: none;
+    }
+    footer {
+      background-color: #000;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 40px;
+    }
+    footer p {
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <a href="https://reptilecare.net">
-            <img src="../images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
-        </a>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/all-care-guides.html">All Care Guides</a></li>
-                <li><a href="#">All Products</a></li>
-                <li><a href="#">Magic Enclosure Designer</a></li>
-                <li><a href="#">Research</a></li>
-                <li><a href="#">About Us</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <button class="login">Log In</button>
-            <button class="signup">Sign Up</button>
-        </div>
-    </header>
+  <header id="main-header"></header>
 
-    <section class="care-guide-content">
-        <h1 style="text-align: center; color: #000;">Crested Gecko Care Guide</h1>
+  <section class="care-guide-content">
+    <h1>Crested Gecko Care Guide</h1>
+    <img src="../images/crested_gecko_trans_bg.png" alt="Crested Gecko" />
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Species Overview</h2>
-            <p>Crested geckos (Correlophus ciliatus) originate from the southern parts of New Caledonia, an island group located east of Australia. These geckos are recognizable by the crest-like ridges above their eyes and along their heads, earning them the nickname "Eyelash Geckos." Once believed to be extinct, they were rediscovered in 1994 and have since become a popular species in the pet trade.</p>
-        </div>
+    <p>
+      <a href="https://en.wikipedia.org/wiki/Crested_gecko" target="_blank" rel="noopener">Crested geckos (Correlophus ciliatus)</a> are gentle, arboreal lizards from New Caledonia. Famous for their eyelash-like crests and prehensile tails, they thrive in home vivariums and make engaging pets for keepers of all experience levels.
+    </p>
+    <p>
+      Long believed extinct, crested geckos were rediscovered in 1994 and have become beloved worldwide. With careful breeding, morphs in a spectrum of colors and patterns are now available, making every gecko unique!
+    </p>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Coloration and Patterns</h2>
-            <p>Crested geckos exhibit a wide range of colors and patterns, from shades of brown, cream, and black to vibrant oranges, reds, and whites. Some may be solid in color, while others showcase spots or stripes. With ongoing captive breeding, increasingly diverse and unique color and pattern variations, known as "morphs," are being developed.</p>
-        </div>
+    <!-- Row 1 Buttons -->
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('speciesOverview')">
+        <img src="../images/species_info_icon.png" alt="Species Info Icon" class="button-icon">
+        <span>Species Overview</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('colorationPatterns')">
+        <img src="../images/coloration_icon.png" alt="Coloration Icon" class="button-icon">
+        <span>Coloration & Patterns</span>
+      </button>
+    </div>
+    <div class="content-area">
+      <div id="speciesOverview" class="section-content">
+        <p>
+          Crested geckos are native to the southern forests of New Caledonia, east of Australia. Their prominent eyelash-like crests and prehensile tails help them navigate branches and leaves. Males are best housed separately due to territoriality, while females may be grouped in larger enclosures.
+        </p>
+      </div>
+      <div id="colorationPatterns" class="section-content">
+        <p>
+          These geckos are available in a dazzling range of colors and patterns, from soft earth tones to bold oranges, reds, and whites. Some display stripes or spots, others are nearly solid—morphs continue to expand with captive breeding.
+        </p>
+      </div>
+    </div>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Enclosure Size</h2>
-            <p>A single adult or a pair of crested geckos can thrive in a 20-gallon tank or an 18x18x24 terrarium. Juvenile geckos should be housed individually until they reach sexual maturity, as they can be territorial. Males should never be housed together, but a single male can cohabitate with one or more females if the enclosure is spacious enough.</p>
-        </div>
+    <!-- Row 2 Buttons -->
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('enclosureSize')">
+        <img src="../images/habitat_icon.png" alt="Enclosure Icon" class="button-icon">
+        <span>Enclosure Size</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('enclosureSetup')">
+        <img src="../images/setup_icon.png" alt="Enclosure Setup Icon" class="button-icon">
+        <span>Enclosure Setup</span>
+      </button>
+    </div>
+    <div class="content-area">
+      <div id="enclosureSize" class="section-content">
+        <p>
+          One adult (or a pair) can thrive in a <strong>20-gallon tank</strong> or an <strong>18×18×24" terrarium</strong>. Juveniles should be housed separately until mature, as they may fight. Never house males together, but a male can be kept with females if the enclosure is spacious and well-planted.
+        </p>
+      </div>
+      <div id="enclosureSetup" class="section-content">
+        <p>
+          Provide plenty of vertical space and climbing opportunities using branches, vines, and cork bark. Coco fiber or bioactive substrates support humidity and digging. Keep substrate moist (not soggy). Maintain temperatures of 74–78°F with humidity 60–70%.
+        </p>
+      </div>
+    </div>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Enclosure Setup</h2>
-            <p>As arboreal creatures, crested geckos benefit from enclosures that offer vertical space for climbing. Include branches, vines, and other climbing structures to cater to their natural instincts. Coco fiber or bioactive substrates, like Josh’s Frogs Tropical BioBedding, are excellent choices. Keep the substrate moist but not overly wet. Ideal temperatures range from 74-78°F, with humidity levels maintained between 60-70%.</p>
-        </div>
+    <!-- Row 3 Buttons -->
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('temperatureReqs')">
+        <img src="../images/heating_icon.png" alt="Temperature Icon" class="button-icon">
+        <span>Temperature</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('humidityVent')">
+        <img src="../images/humidity_icon.png" alt="Humidity Icon" class="button-icon">
+        <span>Humidity & Ventilation</span>
+      </button>
+    </div>
+    <div class="content-area">
+      <div id="temperatureReqs" class="section-content">
+        <p>
+          Crested geckos do best at <strong>72–78°F</strong>. Supplemental heating is only needed if your home drops below 65°F. Avoid temps over 85°F. Use a thermometer to monitor conditions—usually, room temperature suffices.
+        </p>
+      </div>
+      <div id="humidityVent" class="section-content">
+        <p>
+          Target humidity: <strong>60–70%</strong>. Mist the enclosure 1–2 times daily to maintain humidity, but allow the enclosure to dry out between mistings. Good ventilation is critical for health—use a mesh top and monitor with a hygrometer. Always provide fresh water.
+        </p>
+      </div>
+    </div>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Temperature Requirements</h2>
-            <p>Crested geckos thrive at room temperatures of 72-78°F. Supplemental heating is generally unnecessary unless temperatures fall below 65°F. While they can handle brief periods of higher temperatures, exposure to temperatures above 85°F should be avoided. Heating elements are usually not required unless the ambient temperature deviates significantly from the recommended range.</p>
-        </div>
+    <!-- Row 4 Buttons -->
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('dietaryNeeds')">
+        <img src="../images/food_icon.png" alt="Diet Icon" class="button-icon">
+        <span>Dietary Needs</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('sizeLifespan')">
+        <img src="../images/size_icon.png" alt="Size Icon" class="button-icon">
+        <span>Size & Lifespan</span>
+      </button>
+    </div>
+    <div class="content-area">
+      <div id="dietaryNeeds" class="section-content">
+        <p>
+          Offer a mix of fruit-based commercial diets (e.g., Pangea, Repashy) as the staple. Supplement with live insects (crickets, dubia roaches) weekly—gut-load and dust insects with calcium and vitamins. Remove uneaten food promptly.
+        </p>
+      </div>
+      <div id="sizeLifespan" class="section-content">
+        <p>
+          Crested geckos grow to <strong>7–9 inches</strong>, including tail. They may drop (and not regrow) their tails if stressed. With proper care, expect lifespans of <strong>15–20 years</strong>. Juveniles are sold at about 4–5 inches in length.
+        </p>
+      </div>
+    </div>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Humidity and Ventilation</h2>
-            <p>Maintaining appropriate humidity is essential for crested geckos’ health. Aim for humidity levels between 60-70%. Regular misting and ensuring good ventilation within the enclosure will help achieve this. Always provide fresh water and monitor both humidity and temperature with a digital thermometer/hygrometer.</p>
-        </div>
+    <!-- Row 5 Button -->
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('sexingBreeding')">
+        <img src="../images/breeding_icon.png" alt="Breeding Icon" class="button-icon">
+        <span>Sexing & Breeding</span>
+      </button>
+    </div>
+    <div class="content-area">
+      <div id="sexingBreeding" class="section-content">
+        <p>
+          Males develop bulges at the tail base and mature at 1.5–2 years. Breeding season is December–August; females lay two eggs every 30–45 days. After breeding, separate males and allow females time to recover.
+        </p>
+      </div>
+    </div>
+  </section>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Dietary Needs</h2>
-            <p>Crested geckos are omnivores, enjoying a diet of both fruit and insects. Commercially available diets like Pangea and Repashy fruit mixes are excellent staples. Additionally, offer live insects such as crickets or dubia roaches on a weekly basis. Ensure all feeder insects are gut-loaded and dusted with vitamin/mineral supplements before feeding.</p>
-        </div>
+  <footer>
+    <p>&copy; 2024 Reptile Care. All rights reserved.</p>
+  </footer>
 
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Size and Lifespan</h2>
-            <p>Crested geckos can reach a length of 7-9 inches, including their tail. Although they may drop their tail when stressed, it does not regenerate. With proper care, they can live for 15-20 years in captivity. Juveniles are typically around 4-5 inches long when sold.</p>
-        </div>
-
-        <div class="care-guide-section">
-            <h2 style="color: #000;">Sexing and Breeding</h2>
-            <p>You can identify the sex of a crested gecko by the presence of bulges at the base of the tail in males. They typically reach sexual maturity between 1.5-2 years of age. The breeding season usually runs from December to August, during which females lay two eggs every 30-45 days. It’s advisable to separate males from females after the breeding season to allow the females time to recuperate.</p>
-        </div>
-    </section>
-
-    <footer style="text-align: center; padding: 20px; background-color: #000; color: #fff;">
-        <p>&copy; 2024 Reptile Care. All rights reserved.</p>
-    </footer>
+  <script>
+    // Accordion toggle logic
+    function toggleSection(sectionId) {
+      const allSections = document.querySelectorAll('.section-content');
+      allSections.forEach(sec => {
+        if (sec.id !== sectionId) sec.style.display = 'none';
+      });
+      const clicked = document.getElementById(sectionId);
+      clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
+    }
+  </script>
+  <!-- Header Loader Script -->
+  <script>
+    fetch('../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('main-header').innerHTML = data;
+      });
+  </script>
 </body>
 </html>
