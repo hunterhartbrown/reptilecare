@@ -352,19 +352,28 @@
         };
         // Build care guide card HTML
         function buildCareGuideCard(animal, listings, info) {
-          const availability = getAvailability(Number(listings));
           let bar = '';
-          for (let i = 0; i < 5; ++i)
-            bar += `<span class="availability-segment${i < availability.segments ? ' active' : ''}"></span>`;
+          let availText = '';
+          if (typeof listings === 'number' && !isNaN(listings)) {
+            const availability = getAvailability(listings);
+            for (let i = 0; i < 5; ++i)
+              bar += `<span class="availability-segment${i < availability.segments ? ' active' : ''}"></span>`;
+            availText = `${listings} - ${availability.label}`;
+          } else {
+            // No data: show all inactive segments and "No Data"
+            for (let i = 0; i < 5; ++i)
+              bar += `<span class="availability-segment"></span>`;
+            availText = "No Data";
+          }
           return `
-          <div class="care-guide" data-animal="${animal}" data-listings="${listings}">
+          <div class="care-guide" data-animal="${animal}">
             <div class="care-guide-img-frame">
               <img src="${info.img}" alt="${animal}" class="care-guide-img" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
             <span class="care-guide-label">${animal}</span>
             <div class="availability-row">
               <div class="availability-bar">${bar}</div>
-              <span class="availability-value">${listings} - ${availability.label}</span>
+              <span class="availability-value">${availText}</span>
             </div>
             <div class="care-guide-btn-row">
               <a href="${info.url}" class="care-guide-btn secondary">
@@ -381,14 +390,17 @@
         fetch('data/availability.json')
           .then(response => response.json())
           .then(animals => {
+            // Create a lookup map from the JSON
+            const dataMap = {};
+            animals.forEach(row => {
+              dataMap[row['Animal Name']] = row['MorphMarket # of Listings'];
+            });
+            // Now always render ALL animals in animalInfo
             const container = document.getElementById('care-guides-list');
             let html = '';
-            animals.forEach(row => {
-              const animal = row['Animal Name'];
-              const listings = row['MorphMarket # of Listings'];
-              if (animalInfo[animal]) {
-                html += buildCareGuideCard(animal, listings, animalInfo[animal]);
-              }
+            Object.entries(animalInfo).forEach(([animal, info]) => {
+              const listings = dataMap.hasOwnProperty(animal) ? dataMap[animal] : null;
+              html += buildCareGuideCard(animal, listings, info);
             });
             container.innerHTML = html;
           });
