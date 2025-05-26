@@ -346,19 +346,23 @@
         const animalInfo = {
           "Leopard Gecko": {
             img: "images/leo trans bg.png",
-            url: "/leopard-gecko.html"
+            url: "/leopard-gecko.html",
+            enclosureId: "leopard-gecko"
           },
           "Bearded Dragon": {
             img: "images/bearded drag trans bg.png",
-            url: "/bearded-dragon.html"
+            url: "/bearded-dragon.html",
+            enclosureId: "bearded-dragon"
           },
           "Crested Gecko": {
             img: "images/crested gecko trans bg.png",
-            url: "/crested-gecko.html"
+            url: "/crested-gecko.html",
+            enclosureId: "crested-gecko"
           },
           "Eastern Collared Lizard": {
             img: "images/collared lizard trans bg.png",
-            url: "/eastern-collared-lizard.html"
+            url: "/eastern-collared-lizard.html",
+            enclosureId: "eastern-collared-lizard"
           }
         };
         // Build care guide card HTML
@@ -391,7 +395,7 @@
               <a href="${info.url}" class="care-guide-btn secondary">
                 View Care Guide
               </a>
-              <a href="#" class="care-guide-btn">
+              <a href="/enclosure-builder.html?reptile=${info.enclosureId}" class="care-guide-btn">
                 Design an Enclosure
               </a>
             </div>

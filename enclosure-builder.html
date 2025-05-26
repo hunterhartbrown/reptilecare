@@ -632,7 +632,7 @@
                     <option value="leopard-gecko">Leopard Gecko</option>
                     <option value="bearded-dragon">Bearded Dragon</option>
                     <option value="crested-gecko">Crested Gecko</option>
-                    <option value="ball-python">Ball Python</option>
+                    <option value="eastern-collared-lizard">Eastern Collared Lizard</option>
                 </select>
             </div>
             <div class="reptile-info" id="reptile-info">
@@ -814,15 +814,15 @@
                     }
                 ]
             },
-            'ball-python': {
-                name: 'Ball Python',
+            'eastern-collared-lizard': {
+                name: 'Eastern Collared Lizard',
                 minSize: { length: 36, width: 18, height: 18 },
                 recommendedSize: { length: 48, width: 24, height: 24 },
-                temperature: { basking: '88-92°F', cool: '78-80°F' },
-                humidity: '50-60%',
+                temperature: { basking: '90-95°F', cool: '75-80°F' },
+                humidity: '30-40%',
                 enclosures: [
                     {
-                        id: 'bp-40gal',
+                        id: 'ecl-40gal',
                         name: '40 Gallon Breeder',
                         dimensions: '36" x 18" x 18"',
                         material: 'Glass',
@@ -832,14 +832,14 @@
                         model: { length: 36, width: 18, height: 18 }
                     },
                     {
-                        id: 'bp-pvc',
-                        name: 'PVC Enclosure',
-                        dimensions: '48" x 24" x 24"',
-                        material: 'PVC',
-                        features: 'Front opening, humidity resistant, insulated',
-                        price: 299.99,
-                        image: 'images/enclosures/pvc-enclosure.jpg',
-                        model: { length: 48, width: 24, height: 24 }
+                        id: 'ecl-75gal',
+                        name: '75 Gallon',
+                        dimensions: '48" x 18" x 21"',
+                        material: 'Glass',
+                        features: 'Front opening, ventilation, UVB compatible',
+                        price: 249.99,
+                        image: 'images/enclosures/75gal.jpg',
+                        model: { length: 48, width: 18, height: 21 }
                     }
                 ]
             }
@@ -848,7 +848,9 @@
         // Get reptile from URL parameter if coming from care guides
         function getReptileFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('reptile');
+            const reptile = urlParams.get('reptile');
+            // Only return the reptile if it exists in our data
+            return reptileData[reptile] ? reptile : null;
         }
 
         // Initialize the page
@@ -858,10 +860,11 @@
             
             // Set initial reptile if coming from care guides
             const initialReptile = getReptileFromUrl();
-            if (initialReptile && reptileData[initialReptile]) {
+            if (initialReptile) {
                 reptileSelect.value = initialReptile;
                 updateReptileInfo(initialReptile);
                 updatePageTitle(reptileData[initialReptile].name);
+                initializeEnclosureSelection(initialReptile);
             }
 
             // Handle reptile selection change
@@ -874,6 +877,7 @@
                 } else {
                     reptileInfo.style.display = 'none';
                     document.querySelector('.builder-header h1').textContent = 'Enclosure Builder';
+                    document.querySelector('.builder-header p').textContent = 'Design the perfect habitat for your reptile';
                 }
             });
         });
