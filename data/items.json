@@ -1,0 +1,149 @@
+{
+    "substrate": [
+        {
+            "id": "sub-001",
+            "name": "Eco Earth Coconut Fiber",
+            "price": 14.99,
+            "image": "images/eco-earth.jpg",
+            "description": "Natural coconut fiber substrate, ideal for tropical species",
+            "dimensions": {"length": 1, "width": 1, "height": 0.5},
+            "compatibleSpecies": ["crested-gecko", "ball-python"]
+        },
+        {
+            "id": "sub-002",
+            "name": "Reptile Carpet",
+            "price": 19.99,
+            "image": "images/reptile-carpet.jpg",
+            "description": "Washable carpet substrate, safe for all reptiles",
+            "dimensions": {"length": 1, "width": 1, "height": 0.25},
+            "compatibleSpecies": ["leopard-gecko", "bearded-dragon"]
+        },
+        {
+            "id": "sub-003",
+            "name": "Natural Slate Tile",
+            "price": 24.99,
+            "image": "images/tile.jpg",
+            "description": "Natural slate tiles, excellent heat retention",
+            "dimensions": {"length": 12, "width": 12, "height": 0.5},
+            "compatibleSpecies": ["leopard-gecko", "bearded-dragon"]
+        }
+    ],
+    "decor": [
+        {
+            "id": "dec-001",
+            "name": "Large Rock Formation",
+            "price": 29.99,
+            "image": "images/rock-formation.jpg",
+            "description": "Natural-looking rock formation for basking",
+            "dimensions": {"length": 12, "width": 8, "height": 6},
+            "compatibleSpecies": ["all"]
+        },
+        {
+            "id": "dec-002",
+            "name": "Wood Branch",
+            "price": 19.99,
+            "image": "images/branch.jpg",
+            "description": "Natural wood branch for climbing",
+            "dimensions": {"length": 18, "width": 4, "height": 4},
+            "compatibleSpecies": ["all"]
+        },
+        {
+            "id": "dec-003",
+            "name": "Background Wall",
+            "price": 34.99,
+            "image": "images/background.jpg",
+            "description": "3D textured background wall",
+            "dimensions": {"length": 24, "width": 1, "height": 18},
+            "compatibleSpecies": ["all"]
+        }
+    ],
+    "heating": [
+        {
+            "id": "heat-001",
+            "name": "Ceramic Heat Emitter",
+            "price": 24.99,
+            "image": "images/heat-emitter.jpg",
+            "description": "24-hour heat source, no light emission",
+            "dimensions": {"length": 4, "width": 4, "height": 6},
+            "compatibleSpecies": ["all"]
+        },
+        {
+            "id": "heat-002",
+            "name": "Heat Mat",
+            "price": 19.99,
+            "image": "images/heat-mat.jpg",
+            "description": "Under-tank heating pad",
+            "dimensions": {"length": 12, "width": 8, "height": 0.1},
+            "compatibleSpecies": ["leopard-gecko", "ball-python"]
+        },
+        {
+            "id": "heat-003",
+            "name": "Basking Lamp",
+            "price": 29.99,
+            "image": "images/basking-lamp.jpg",
+            "description": "UVA/UVB basking lamp",
+            "dimensions": {"length": 5, "width": 5, "height": 7},
+            "compatibleSpecies": ["bearded-dragon", "leopard-gecko"]
+        }
+    ],
+    "lighting": [
+        {
+            "id": "light-001",
+            "name": "UVB Tube Light",
+            "price": 39.99,
+            "image": "images/uvb-tube.jpg",
+            "description": "Full-spectrum UVB tube light",
+            "dimensions": {"length": 24, "width": 2, "height": 2},
+            "compatibleSpecies": ["bearded-dragon", "leopard-gecko"]
+        },
+        {
+            "id": "light-002",
+            "name": "LED Day/Night Light",
+            "price": 29.99,
+            "image": "images/led-light.jpg",
+            "description": "Programmable LED light with day/night cycles",
+            "dimensions": {"length": 6, "width": 6, "height": 2},
+            "compatibleSpecies": ["all"]
+        }
+    ],
+    "hides": [
+        {
+            "id": "hide-001",
+            "name": "Cave Hide",
+            "price": 14.99,
+            "image": "images/cave-hide.jpg",
+            "description": "Natural-looking cave hide",
+            "dimensions": {"length": 8, "width": 6, "height": 4},
+            "compatibleSpecies": ["all"]
+        },
+        {
+            "id": "hide-002",
+            "name": "Cork Bark",
+            "price": 12.99,
+            "image": "images/cork-bark.jpg",
+            "description": "Natural cork bark hide",
+            "dimensions": {"length": 12, "width": 4, "height": 6},
+            "compatibleSpecies": ["all"]
+        }
+    ],
+    "plants": [
+        {
+            "id": "plant-001",
+            "name": "Artificial Succulent",
+            "price": 9.99,
+            "image": "images/succulent.jpg",
+            "description": "Realistic artificial succulent",
+            "dimensions": {"length": 4, "width": 4, "height": 3},
+            "compatibleSpecies": ["all"]
+        },
+        {
+            "id": "plant-002",
+            "name": "Hanging Vine",
+            "price": 14.99,
+            "image": "images/vine.jpg",
+            "description": "Artificial hanging vine",
+            "dimensions": {"length": 24, "width": 6, "height": 1},
+            "compatibleSpecies": ["crested-gecko"]
+        }
+    ]
+} 
