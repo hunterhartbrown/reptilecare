@@ -92,7 +92,7 @@
         }
         /* --- Care Guide Styles --- */
         .care-guides {
-            padding: 100px 20px 20px;
+            padding: 80px 8px 12px;
             background-color: #000;
             color: #fff;
             min-height: 100vh;
@@ -108,25 +108,25 @@
             text-align: center;
             font-size: 1.2rem;
             font-weight: 400;
-            margin: 0 0 30px 0;
+            margin: 0 0 24px 0;
             font-family: 'Open Sans', Arial, sans-serif;
         }
         .care-guide-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 32px 24px;
+            gap: 20px 14px;
         }
         .care-guide {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            width: 220px;
-            min-width: 200px;
-            max-width: 260px;
-            min-height: 370px;
-            padding: 18px 14px 14px 14px;
+            width: 180px;
+            min-width: 150px;
+            max-width: 210px;
+            min-height: 275px;
+            padding: 10px 8px 10px 8px;
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -143,13 +143,13 @@
         }
         .care-guide-img-frame {
             width: 100%;
-            height: 150px;
+            height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f4f4f4;
             border-radius: 7px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             overflow: hidden;
         }
         .care-guide-img {
@@ -159,11 +159,11 @@
             display: block;
         }
         .care-guide-label {
-            font-size: 1.15rem;
+            font-size: 1.07rem;
             font-weight: 700;
             color: #222;
-            margin: 0 0 12px 0;
-            min-height: 30px;
+            margin: 0 0 7px 0;
+            min-height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -175,18 +175,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 7px;
             margin-top: 0;
         }
         .availability-bar {
             display: flex;
             gap: 2px;
-            margin-bottom: 7px; /* Space under slider */
+            margin-bottom: 5px;
             margin-top: 0;
             justify-content: center;
         }
         .availability-value {
-            font-size: 1.06rem;
+            font-size: 0.99rem;
             color: #444;
             font-family: 'Open Sans', Arial, sans-serif;
             text-align: center;
@@ -195,9 +195,9 @@
         }
         .care-guide-btn-row {
             display: flex;
-            gap: 12px;
-            margin-top: auto;
-            margin-bottom: 2px;
+            gap: 7px;
+            margin-top: 4px;
+            margin-bottom: 0;
             width: 100%;
             justify-content: center;
         }
@@ -207,11 +207,11 @@
             justify-content: center;
             align-items: center;
             font-family: 'Open Sans', Arial, sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             padding: 0;
-            width: 120px;
-            height: 60px;
+            width: 85px;
+            height: 36px;
             border-radius: 6px;
             border: 1px solid #000;
             background: #fff;
@@ -240,43 +240,43 @@
         }
         @media (max-width: 900px) {
             .care-guide-container {
-                gap: 22px 10px;
+                gap: 15px 5px;
             }
             .care-guide {
-                width: 42vw;
-                min-width: 180px;
-                max-width: 320px;
+                width: 43vw;
+                min-width: 110px;
+                max-width: 230px;
             }
         }
         @media (max-width: 600px) {
             .care-guides {
-                padding: 92px 6px 12px 6px;
+                padding: 84px 2px 8px 2px;
             }
             .care-guide-container {
-                gap: 15px 0;
+                gap: 10px 0;
             }
             .care-guide {
-                width: 90vw;
-                min-width: 130px;
-                max-width: 98vw;
-                padding: 11px 4px 8px 4px;
-                min-height: 220px;
-            }
-            .care-guides-title { font-size: 1.5rem; }
-            .care-guides-desc { font-size: 1rem; }
-            .care-guide-img-frame { height: 90px; }
-            .availability-segment { width: 11px; height: 9px; }
-            .care-guide-label { min-height: 30px; font-size: 1rem; }
-            .care-guide-btn {
-                width: 45vw;
+                width: 92vw;
                 min-width: 90px;
-                height: 44px;
-                font-size: 0.98rem;
+                max-width: 98vw;
+                padding: 8px 2px 5px 2px;
+                min-height: 155px;
+            }
+            .care-guides-title { font-size: 1.25rem; }
+            .care-guides-desc { font-size: 0.98rem; }
+            .care-guide-img-frame { height: 50px; }
+            .availability-segment { width: 9px; height: 6px; }
+            .care-guide-label { min-height: 20px; font-size: 0.99rem; }
+            .care-guide-btn {
+                width: 42vw;
+                min-width: 45px;
+                height: 28px;
+                font-size: 0.90rem;
             }
         }
         .availability-segment {
-            width: 18px;
-            height: 14px;
+            width: 13px;
+            height: 10px;
             border-radius: 2.5px;
             background: #e0e0e0;
             transition: background 0.3s;
@@ -341,15 +341,14 @@
             img: "images/bearded drag trans bg.png",
             url: "/bearded-dragon.html"
           },
-          "Gargoyle Gecko": {
-            img: "images/gargoyle gecko trans bg.png",
-            url: "/gargoyle-gecko.html"
+          "Crested Gecko": {
+            img: "crested gecko trans bg.png",
+            url: "/crested-gecko.html"
           },
           "Eastern Collared Lizard": {
             img: "images/collared lizard trans bg.png",
             url: "/eastern-collared-lizard.html"
           }
-          // Add more animals as needed!
         };
         // Build care guide card HTML
         function buildCareGuideCard(animal, listings, info) {
@@ -369,10 +368,10 @@
             </div>
             <div class="care-guide-btn-row">
               <a href="${info.url}" class="care-guide-btn secondary">
-                View<br>Care Guide
+                View Care Guide
               </a>
               <a href="#" class="care-guide-btn">
-                Design an<br>Enclosure
+                Design an Enclosure
               </a>
             </div>
           </div>
