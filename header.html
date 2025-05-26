@@ -84,6 +84,8 @@
     .search-input-container {
         position: relative;
         width: 100%;
+        display: flex;
+        justify-content: flex-end;
     }
 
     .search-input {
@@ -95,12 +97,16 @@
         width: 100%;
         transition: all 0.3s ease;
         box-sizing: border-box;
+        position: relative;
     }
 
     .search-input:focus {
         outline: none;
         border-color: #000;
         width: 250px;
+        position: absolute;
+        right: 0;
+        transform-origin: right center;
     }
 
     .search-btn {
