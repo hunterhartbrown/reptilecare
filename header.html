@@ -172,6 +172,104 @@
         border-color: #444;
     }
 
+    /* Mobile menu toggle button */
+    .mobile-menu-toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        background: none;
+        border: none;
+        z-index: 1001;
+    }
+
+    .mobile-menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background-color: #000;
+        margin: 3px 0;
+        transition: 0.3s;
+        display: block;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    /* Mobile dropdown menu */
+    .mobile-dropdown {
+        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .mobile-dropdown.show {
+        display: block;
+    }
+
+    .mobile-nav-links {
+        list-style: none;
+        margin: 0 0 20px 0;
+        padding: 0;
+    }
+
+    .mobile-nav-links li {
+        margin: 10px 0;
+    }
+
+    .mobile-nav-links a {
+        text-decoration: none;
+        color: #222;
+        font-size: 1.1rem;
+        font-weight: 600;
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .mobile-nav-links a:hover {
+        color: #000;
+        background-color: #f8f8f8;
+        padding-left: 10px;
+    }
+
+    .mobile-search {
+        margin: 20px 0;
+    }
+
+    .mobile-search .search-input {
+        position: relative;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .mobile-auth {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .mobile-auth button {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    /* Tablet breakpoint */
     @media (max-width: 992px) {
         .nav-links {
             gap: 10px;
@@ -200,29 +298,82 @@
         }
     }
 
+    /* Small tablet/large mobile breakpoint */
     @media (max-width: 768px) {
         header {
-            padding: 0 10px;
+            padding: 0 15px;
+            height: 70px;
         }
 
         header img.logo {
             height: 50px;
         }
 
-        .nav-links {
-            gap: 5px;
+        /* Hide desktop navigation and search */
+        nav,
+        .site-search,
+        .auth-buttons {
+            display: none;
         }
 
-        .site-search {
-            margin-right: 10px;
+        /* Show mobile menu toggle */
+        .mobile-menu-toggle {
+            display: flex;
         }
 
-        .search-input {
-            width: 120px;
+        /* Adjust main content padding for smaller header */
+        body {
+            padding-top: 70px;
+        }
+    }
+
+    /* Mobile breakpoint */
+    @media (max-width: 480px) {
+        header {
+            padding: 0 10px;
+            height: 60px;
         }
 
-        .search-input:focus {
-            width: 160px;
+        header img.logo {
+            height: 40px;
+        }
+
+        .mobile-dropdown {
+            top: 60px;
+            padding: 15px;
+        }
+
+        .mobile-nav-links a {
+            font-size: 1rem;
+        }
+
+        .mobile-auth button {
+            font-size: 0.9rem;
+            padding: 8px 12px;
+        }
+
+        body {
+            padding-top: 60px;
+        }
+    }
+
+    /* Very small mobile breakpoint */
+    @media (max-width: 360px) {
+        header {
+            padding: 0 8px;
+        }
+
+        .mobile-dropdown {
+            padding: 10px;
+        }
+
+        .mobile-auth {
+            flex-direction: column;
+        }
+
+        .mobile-auth button {
+            width: 100%;
+            margin: 5px 0;
         }
     }
 </style>
@@ -231,6 +382,8 @@
     <a href="index.html">
         <img src="images/reptilecarelogo.png" alt="ReptileCare Logo" class="logo">
     </a>
+    
+    <!-- Desktop Navigation -->
     <nav>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -240,6 +393,8 @@
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
+    
+    <!-- Desktop Search -->
     <form class="site-search" action="#" method="get" autocomplete="off">
         <div class="search-input-container">
             <input
@@ -252,8 +407,72 @@
             <button type="submit" class="search-btn" aria-label="Submit search">&#128269;</button>
         </div>
     </form>
+    
+    <!-- Desktop Auth Buttons -->
     <div class="auth-buttons">
         <button class="login">Log In</button>
         <button class="signup">Sign Up</button>
     </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Dropdown Menu -->
+    <div class="mobile-dropdown">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="all-care-guides.html">Care Guides</a></li>
+            <li><a href="enclosure-builder.html">Enclosure Designer</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <form class="mobile-search" action="#" method="get" autocomplete="off">
+            <input
+                type="text"
+                name="q"
+                class="search-input"
+                placeholder="Search guides, reptiles..."
+                aria-label="Search"
+            />
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+        
+        <div class="mobile-auth">
+            <button class="login">Log In</button>
+            <button class="signup">Sign Up</button>
+        </div>
+    </div>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileDropdown = document.querySelector('.mobile-dropdown');
+    
+    mobileToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        mobileDropdown.classList.toggle('show');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('header')) {
+            mobileToggle.classList.remove('active');
+            mobileDropdown.classList.remove('show');
+        }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            mobileToggle.classList.remove('active');
+            mobileDropdown.classList.remove('show');
+        }
+    });
+});
+</script>
