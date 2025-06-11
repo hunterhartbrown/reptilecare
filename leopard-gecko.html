@@ -141,7 +141,7 @@
       </div>
       <div id="habitatSize" class="section-content">
         <p>
-          Proper housing is critical: adult leopard geckos require at least a <a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-terrarium-size/" target="_blank" rel="noopener">36″ × 18″ × 18″ (90 × 45 × 45 cm) enclosure</a> (~4.5 sq ft floor space) to establish thermal gradients and allow natural behavior. While some guidelines mention smaller minimums (e.g., RSPCA’s 40 × 30 × 30 cm), a larger vivarium supports better exercise, exploration, and overall health.
+          Proper housing is critical: adult leopard geckos require at least a <a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-terrarium-size/" target="_blank" rel="noopener">36″ × 18″ × 18″ (90 × 45 × 45 cm) enclosure</a> (~4.5 sq ft floor space) to establish thermal gradients and allow natural behavior. While some guidelines mention smaller minimums (e.g., RSPCA's 40 × 30 × 30 cm), a larger vivarium supports better exercise, exploration, and overall health.
         </p>
         <p>
           Substrate choices range from paper towels for quarantine to a semiarid mix (e.g., 50% organic soil, 50% play sand). Avoid loose sediment that poses impaction risks, and monitor substrate ingestion (<a href="https://www.rspca.org.uk/adviceandwelfare/pets/other/leopardgecko" target="_blank" rel="noopener">RSPCA</a>).
@@ -163,7 +163,7 @@
     <div class="content-area">
       <div id="heatingReqs" class="section-content">
         <p>
-          To create a “basking zone,” use a 60–100 W ceramic lamp or basking bulb that’s properly guarded to prevent burns or injury if the bulb shatters. Leopard geckos sense heat through their bellies, so place natural slate or rock under the heat source to absorb daytime warmth. Always use a thermostat with all heat sources: position the probe of a dimming thermostat just above the substrate, then adjust until the basking zone measures 28–30 °C (82–86 °F) with a digital thermometer. The cool end of the enclosure should read 24–26 °C (75–79 °F) (<a href="https://www.rspca.org.uk/documents/1494939/0/Leopard%2BGecko%2BCare%2BSheet%2B%28PDF%2B379KB%29.pdf" target="_blank" rel="noopener">RSPCA Care Sheet</a>).
+          To create a "basking zone," use a 60–100 W ceramic lamp or basking bulb that's properly guarded to prevent burns or injury if the bulb shatters. Leopard geckos sense heat through their bellies, so place natural slate or rock under the heat source to absorb daytime warmth. Always use a thermostat with all heat sources: position the probe of a dimming thermostat just above the substrate, then adjust until the basking zone measures 28–30 °C (82–86 °F) with a digital thermometer. The cool end of the enclosure should read 24–26 °C (75–79 °F) (<a href="https://www.rspca.org.uk/documents/1494939/0/Leopard%2BGecko%2BCare%2BSheet%2B%28PDF%2B379KB%29.pdf" target="_blank" rel="noopener">RSPCA Care Sheet</a>).
         </p>
         <p>
           UVB lighting is optional but can enhance calcium metabolism. A low-output UVB bulb (e.g., Zoo Med ReptiSun 5.0) on a 10–12 hour schedule can benefit your gecko (<a href="https://www.petmd.com/reptile/leopard-gecko-care-sheet" target="_blank" rel="noopener">PetMD</a>).
@@ -174,7 +174,7 @@
           Leopard geckos thrive in low ambient humidity of 30–40%, with high ventilation to prevent respiratory issues. A mesh lid or side vents ensure airflow (<a href="https://reptifiles.com/leopard-gecko-care/leopard-gecko-caresheet-reptifiles" target="_blank" rel="noopener">ReptiFiles</a>). Avoid sustained levels above 50%.
         </p>
         <p>
-          Provide a <strong>humid hide</strong> (~70–80% humidity) by placing damp sphagnum moss or paper towels inside a hide on the cool side. This microclimate assists shedding without raising the entire tank’s humidity (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>).
+          Provide a <strong>humid hide</strong> (~70–80% humidity) by placing damp sphagnum moss or paper towels inside a hide on the cool side. This microclimate assists shedding without raising the entire tank's humidity (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
       </div>
     </div>
@@ -207,7 +207,7 @@
           Enrichment promotes natural behaviors and mental stimulation, so it is important to include multiple hides (warm, cool, and humid), low climbing structures, and a digging area to encourage exploration and exercise (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10044651/" target="_blank" rel="noopener">PMC Study</a>).
         </p>
         <p>
-          Decorate with rocks, cork bark, and artificial plants to create cover and visual barriers, reducing stress and mimicking the gecko’s natural habitat. Periodically rearrange decor for novelty, and allow supervised free-range time in a safe space can also be enriching (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>).
+          Decorate with rocks, cork bark, and artificial plants to create cover and visual barriers, reducing stress and mimicking the gecko's natural habitat. Periodically rearrange decor for novelty, and allow supervised free-range time in a safe space can also be enriching (<a href="https://reptifiles.com/leopard-gecko-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
       </div>
     </div>
@@ -216,7 +216,8 @@
   <footer>
     <p>&copy; 2025 ReptileCare. All rights reserved.</p>
   </footer>
-
+  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+  <script src="js/mobile-menu.js"></script>
   <script>
     // Simple accordion toggle
     function toggleSection(sectionId) {
@@ -227,14 +228,6 @@
       const clicked = document.getElementById(sectionId);
       clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
     }
-  </script>
-  <!-- Header Loader Script -->
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('main-header').innerHTML = data;
-      });
   </script>
 </body>
 </html>

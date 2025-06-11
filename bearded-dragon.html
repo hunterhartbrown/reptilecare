@@ -129,7 +129,7 @@
     <div class="content-area">
       <div id="speciesInfo" class="section-content">
         <p>
-          <strong>Bearded Dragons (Pogona vitticeps)</strong> originate from the dry, rocky deserts and open woodlands of central Australia (<a href="https://reptifiles.com/bearded-dragon-care/" target="_blank" rel="noopener">ReptiFiles</a>). Their iconic “beard” is an expandable throat pouch used for communication and display. These lizards are diurnal and enjoy basking under intense heat and UVB. When well-cared-for, they become docile and responsive to human interaction.
+          <strong>Bearded Dragons (Pogona vitticeps)</strong> originate from the dry, rocky deserts and open woodlands of central Australia (<a href="https://reptifiles.com/bearded-dragon-care/" target="_blank" rel="noopener">ReptiFiles</a>). Their iconic "beard" is an expandable throat pouch used for communication and display. These lizards are diurnal and enjoy basking under intense heat and UVB. When well-cared-for, they become docile and responsive to human interaction.
         </p>
       </div>
       <div id="habitatSize" class="section-content">
@@ -203,13 +203,7 @@
       clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
     }
   </script>
-  <!-- Header Loader Script -->
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('main-header').innerHTML = data;
-      });
-  </script>
+  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+  <script src="js/mobile-menu.js"></script>
 </body>
 </html>

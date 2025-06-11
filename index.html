@@ -20,6 +20,10 @@
         <p>&copy; 2025 ReptileCare. All rights reserved.</p>
     </footer>    
 
+  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+  <script src="js/mobile-menu.js"></script>
+
+  <!-- Page-specific JavaScript for slides -->
   <script>
     // loadJson stays the same…
     function loadJson(fileName, callback) {
@@ -116,100 +120,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
-  </script>
-
-  <!-- Header Loader Script -->
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('main-header').innerHTML = data;
-        
-        // Initialize mobile menu after header is loaded
-        initMobileMenu();
-      })
-      .catch(error => {
-        console.error('Error loading header:', error);
-      });
-
-    // Mobile Menu Functionality
-    function initMobileMenu() {
-      // Small delay to ensure DOM is fully rendered
-      setTimeout(function() {
-        const mobileToggle = document.getElementById('mobile-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (!mobileToggle || !mobileMenu) {
-          console.warn('Mobile menu elements not found - retrying...');
-          // Retry after a short delay if elements aren't found
-          setTimeout(initMobileMenu, 100);
-          return;
-        }
-
-        console.log('Mobile menu initialized successfully');
-
-        // Remove any existing event listeners to prevent duplicates
-        mobileToggle.replaceWith(mobileToggle.cloneNode(true));
-        const newMobileToggle = document.getElementById('mobile-toggle');
-
-        // Toggle mobile menu
-        newMobileToggle.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          console.log('Mobile menu toggle clicked');
-          
-          const isActive = this.classList.contains('active');
-          
-          if (isActive) {
-            // Close menu
-            this.classList.remove('active');
-            mobileMenu.classList.remove('show');
-            console.log('Menu closed');
-          } else {
-            // Open menu
-            this.classList.add('active');
-            mobileMenu.classList.add('show');
-            console.log('Menu opened');
-          }
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-          const isClickInsideHeader = event.target.closest('header');
-          
-          if (!isClickInsideHeader && mobileMenu.classList.contains('show')) {
-            newMobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('show');
-            console.log('Menu closed by outside click');
-          }
-        });
-
-        // Close mobile menu when clicking on a nav link
-        const mobileNavLinks = mobileMenu.querySelectorAll('.mobile-nav-links a');
-        mobileNavLinks.forEach(function(link) {
-          link.addEventListener('click', function() {
-            newMobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('show');
-            console.log('Menu closed by nav link click');
-          });
-        });
-
-        // Close mobile menu when window is resized to desktop
-        window.addEventListener('resize', function() {
-          if (window.innerWidth > 1024) {
-            newMobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('show');
-            console.log('Menu closed due to window resize');
-          }
-        });
-
-        // Test the mobile menu functionality
-        console.log('Mobile toggle element:', newMobileToggle);
-        console.log('Mobile menu element:', mobileMenu);
-        
-      }, 50);
-    }
   </script>
 </body>
 </html>

@@ -232,13 +232,7 @@
       el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
   </script>
-  <!-- Header Loader Script -->
-  <script>
-    fetch('../header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('main-header').innerHTML = data;
-      });
-  </script>
+  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+  <script src="../js/mobile-menu.js"></script>
 </body>
 </html>

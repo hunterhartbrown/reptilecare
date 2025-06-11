@@ -617,7 +617,7 @@
 </head>
 <body>
     <header id="main-header"></header>
-
+    
     <div class="builder-container">
         <div class="builder-header">
             <h1>Enclosure Builder</h1>
@@ -708,13 +708,6 @@
     </div>
 
     <script>
-        // Load header
-        fetch('header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('main-header').innerHTML = data;
-            });
-
         // Reptile-specific data
         const reptileData = {
             'leopard-gecko': {
@@ -960,7 +953,8 @@
         }
     </script>
 
-    <!-- Load our enclosure builder script -->
+    <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+    <script src="js/mobile-menu.js"></script>
     <script src="js/enclosure-builder.js"></script>
 </body>
 </html> 
