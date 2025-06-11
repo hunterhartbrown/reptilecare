@@ -228,49 +228,34 @@
         transform: translateY(0);
     }
 
-    .mobile-nav-links {
-        list-style: none;
-        margin: 0 0 20px 0;
-        padding: 0;
+    /* Mobile search at the top */
+    .mobile-search {
+        margin: 0 0 25px 0;
+        padding: 0 0 20px 0;
+        border-bottom: 2px solid #eee;
     }
 
-    .mobile-nav-links li {
-        margin: 10px 0;
-    }
-
-    .mobile-nav-links a {
-        text-decoration: none;
+    .mobile-search h4 {
+        margin: 0 0 15px 0;
         color: #222;
         font-size: 1.1rem;
         font-weight: 600;
-        display: block;
-        padding: 15px 10px;
-        border-bottom: 1px solid #eee;
-        transition: all 0.2s ease;
-        border-radius: 5px;
-    }
-
-    .mobile-nav-links a:hover {
-        color: #fff;
-        background-color: #000;
-        transform: translateX(5px);
-    }
-
-    .mobile-search {
-        margin: 20px 0;
-        padding: 15px 0;
-        border-top: 1px solid #eee;
-        border-bottom: 1px solid #eee;
     }
 
     .mobile-search .search-input {
         position: relative;
         width: 100%;
-        margin-bottom: 10px;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
+        margin-bottom: 12px;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
         font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+    .mobile-search .search-input:focus {
+        outline: none;
+        border-color: #000;
     }
 
     .mobile-search .search-btn {
@@ -279,12 +264,13 @@
         top: auto;
         transform: none;
         width: 100%;
-        padding: 12px;
+        padding: 15px;
         background: #000;
         color: #fff;
         border: none;
-        border-radius: 8px;
-        font-size: 1rem;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
         cursor: pointer;
         transition: background 0.2s;
     }
@@ -293,20 +279,52 @@
         background: #333;
     }
 
+    .mobile-nav-links {
+        list-style: none;
+        margin: 0 0 25px 0;
+        padding: 0;
+    }
+
+    .mobile-nav-links li {
+        margin: 8px 0;
+    }
+
+    .mobile-nav-links a {
+        text-decoration: none;
+        color: #222;
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: block;
+        padding: 18px 15px;
+        border-bottom: 1px solid #eee;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+    }
+
+    .mobile-nav-links a:hover {
+        color: #fff;
+        background-color: #000;
+        transform: translateX(5px);
+        border-bottom-color: transparent;
+    }
+
     .mobile-auth {
         display: flex;
-        gap: 10px;
+        gap: 12px;
         flex-wrap: wrap;
-        padding-top: 15px;
+        padding-top: 20px;
+        border-top: 2px solid #eee;
     }
 
     .mobile-auth button {
         flex: 1;
         min-width: 120px;
-        padding: 12px 16px;
-        font-size: 1rem;
-        border-radius: 8px;
+        padding: 15px 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 10px;
         transition: all 0.2s ease;
+        cursor: pointer;
     }
 
     .mobile-auth .login {
@@ -416,13 +434,13 @@
         }
 
         .mobile-nav-links a {
-            font-size: 1rem;
-            padding: 12px 8px;
+            font-size: 1.1rem;
+            padding: 15px 12px;
         }
 
         .mobile-auth button {
-            font-size: 0.9rem;
-            padding: 10px 12px;
+            font-size: 1rem;
+            padding: 12px 16px;
         }
 
         body {
@@ -437,7 +455,7 @@
         }
 
         .mobile-dropdown {
-            padding: 10px;
+            padding: 12px;
         }
 
         .mobile-auth {
@@ -446,7 +464,7 @@
 
         .mobile-auth button {
             width: 100%;
-            margin: 5px 0;
+            margin: 6px 0;
         }
     }
 </style>
@@ -496,15 +514,9 @@
 
     <!-- Mobile Dropdown Menu -->
     <div class="mobile-dropdown" id="mobile-menu">
-        <ul class="mobile-nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="all-care-guides.html">Care Guides</a></li>
-            <li><a href="enclosure-builder.html">Enclosure Designer</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-        
+        <!-- Search Bar at the Top -->
         <div class="mobile-search">
+            <h4>🔍 Search</h4>
             <form action="#" method="get" autocomplete="off">
                 <input
                     type="text"
@@ -513,87 +525,23 @@
                     placeholder="Search guides, reptiles..."
                     aria-label="Search"
                 />
-                <button type="submit" class="search-btn">🔍 Search</button>
+                <button type="submit" class="search-btn">Search</button>
             </form>
         </div>
         
+        <!-- Navigation Links -->
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="all-care-guides.html">📚 Care Guides</a></li>
+            <li><a href="enclosure-builder.html">🔧 Enclosure Designer</a></li>
+            <li><a href="about.html">ℹ️ About</a></li>
+            <li><a href="contact.html">📞 Contact</a></li>
+        </ul>
+        
+        <!-- Auth Buttons at Bottom -->
         <div class="mobile-auth">
             <button class="login">Log In</button>
             <button class="signup">Sign Up</button>
         </div>
     </div>
 </header>
-
-<script>
-(function() {
-    'use strict';
-    
-    function initMobileMenu() {
-        const mobileToggle = document.getElementById('mobile-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (!mobileToggle || !mobileMenu) {
-            console.warn('Mobile menu elements not found');
-            return;
-        }
-
-        console.log('Mobile menu initialized');
-
-        // Toggle mobile menu
-        mobileToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            console.log('Mobile menu toggle clicked');
-            
-            const isActive = this.classList.contains('active');
-            
-            if (isActive) {
-                // Close menu
-                this.classList.remove('active');
-                mobileMenu.classList.remove('show');
-                console.log('Menu closed');
-            } else {
-                // Open menu
-                this.classList.add('active');
-                mobileMenu.classList.add('show');
-                console.log('Menu opened');
-            }
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const isClickInsideHeader = event.target.closest('header');
-            
-            if (!isClickInsideHeader) {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('show');
-            }
-        });
-
-        // Close mobile menu when clicking on a nav link
-        const mobileNavLinks = mobileMenu.querySelectorAll('.mobile-nav-links a');
-        mobileNavLinks.forEach(function(link) {
-            link.addEventListener('click', function() {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('show');
-            });
-        });
-
-        // Close mobile menu when window is resized to desktop
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 1024) {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('show');
-            }
-        });
-    }
-
-    // Initialize when DOM is loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initMobileMenu);
-    } else {
-        initMobileMenu();
-    }
-})();
-</script>
