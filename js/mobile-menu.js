@@ -123,6 +123,9 @@
                 
                 // Initialize mobile menu after header is loaded
                 initMobileMenu();
+                
+                // Load and initialize search functionality
+                loadSearchFunctionality();
             })
             .catch(error => {
                 console.error('Error loading header:', error);
@@ -136,6 +139,7 @@
                     .then(data => {
                         headerElement.innerHTML = data;
                         initMobileMenu();
+                        loadSearchFunctionality();
                     })
                     .catch(fallbackError => {
                         console.error('Failed to load header from alternative path:', fallbackError);
@@ -143,6 +147,39 @@
                         setTimeout(initMobileMenu, 100);
                     });
             });
+    }
+
+    // Load search functionality script
+    function loadSearchFunctionality() {
+        // Check if search functionality is already loaded
+        if (window.searchFunctionality) {
+            window.searchFunctionality.initialize();
+            return;
+        }
+        
+        // Determine script path based on current location
+        const currentPath = window.location.pathname;
+        const isInSubdirectory = currentPath.includes('/crested-gecko') || currentPath.includes('/eastern-collared-lizard');
+        const scriptPath = isInSubdirectory ? '../js/search-functionality.js' : 'js/search-functionality.js';
+        
+        // Create script element
+        const script = document.createElement('script');
+        script.src = scriptPath;
+        script.onload = function() {
+            console.log('Search functionality loaded successfully');
+            // Initialize search after a short delay to ensure DOM is ready
+            setTimeout(function() {
+                if (window.searchFunctionality) {
+                    window.searchFunctionality.initialize();
+                }
+            }, 100);
+        };
+        script.onerror = function() {
+            console.error('Failed to load search functionality script');
+        };
+        
+        // Add to document head
+        document.head.appendChild(script);
     }
 
     // Initialize when DOM is ready
