@@ -7,7 +7,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: #ffffff;
-    /* Remove fixed padding - this will be handled by responsive styles */
+    /* Responsive padding will be handled by media queries */
+    padding-top: 80px; /* Default for desktop */
 }
 
 header {
@@ -84,7 +85,7 @@ nav {
 }
 
 section {
-    padding: 100px 0 1em 0; /* Adjusted padding to account for fixed header */
+    padding: 20px 0 1em 0; /* Reduced default padding */
     width: 100%;
     background-color: #000;
 }
@@ -129,7 +130,7 @@ section {
     align-items: center;
     position: relative;
     width: 100%;
-    height: calc(100vh - 100px); /* Adjust height dynamically based on viewport */
+    height: calc(100vh - 80px); /* Adjust height dynamically based on viewport */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
 }
@@ -185,24 +186,6 @@ section {
     font-style: italic;
     font-weight: 300; /* light italic */
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-@media (max-width: 768px) {
-    .overlay-text h3.common-name {
-        font-size: 3vw;
-    }
-    .overlay-text h4.species-name {
-        font-size: 2.5vw;
-    }
-}
-
-@media (max-width: 480px) {
-    .overlay-text h3.common-name {
-        font-size: 4vw;
-    }
-    .overlay-text h4.species-name {
-        font-size: 3.5vw;
-    }
 }
 
 /* New styles for care guides section */
@@ -283,25 +266,36 @@ section {
 
 /* ────────────── RESPONSIVE STYLES ────────────── */
 
-/* Large tablets and laptops */
-@media (max-width: 1024px) {
+/* Large desktop - maintain full layout */
+@media (min-width: 1200px) {
+    section {
+        padding: 30px 0 1em 0;
+    }
+    
+    .slide {
+        height: calc(100vh - 80px);
+    }
+}
+
+/* Medium desktop - condensed but still desktop layout */
+@media (max-width: 1199px) and (min-width: 1025px) {
     .care-guide {
         width: 30%;
     }
     
     section {
-        padding: 90px 0 1em 0;
+        padding: 25px 0 1em 0;
     }
     
     .slide {
-        height: calc(100vh - 90px);
+        height: calc(100vh - 80px);
     }
 }
 
-/* Tablets */
-@media (max-width: 768px) {
+/* Switch to mobile layout to prevent overlapping */
+@media (max-width: 1024px) {
     body {
-        padding-top: 70px;
+        padding-top: 80px; /* Keep default header height initially */
     }
     
     section {
@@ -311,7 +305,7 @@ section {
     .slide {
         flex-direction: column;
         height: auto;
-        min-height: calc(100vh - 70px);
+        min-height: calc(100vh - 80px);
     }
     
     .slide-image {
@@ -356,6 +350,22 @@ section {
         width: 12px;
         height: 12px;
         margin: 0 8px;
+    }
+}
+
+/* Tablets - smaller header height */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+    
+    .slide {
+        min-height: calc(100vh - 70px);
+    }
+    
+    .slide-image {
+        height: 45vh;
+        min-height: 280px;
     }
 }
 
@@ -424,10 +434,6 @@ section {
 
 /* Very small mobile devices */
 @media (max-width: 360px) {
-    body {
-        padding-top: 60px;
-    }
-    
     .slide-image {
         height: 35vh;
         min-height: 200px;
@@ -468,7 +474,7 @@ section {
 }
 
 /* Landscape orientation on mobile */
-@media (max-width: 768px) and (orientation: landscape) {
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
     .slide {
         flex-direction: row;
         height: 100vh;
