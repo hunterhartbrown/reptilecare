@@ -105,11 +105,14 @@ class EnclosureBuilder {
         const width = this.enclosureDimensions.width * 0.0254;
         const height = this.enclosureDimensions.height * 0.0254;
 
-        // Check if this is the REPTIZOO model for enhanced features
+        // Check the enclosure type for enhanced features
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
+        const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
 
         if (isReptizoo) {
             this.createReptizooModel(enclosure, length, width, height);
+        } else if (isPVC) {
+            this.createPVCPanelModel(enclosure, length, width, height);
         } else {
             this.createBasicEnclosure(enclosure, length, width, height);
         }
@@ -124,7 +127,7 @@ class EnclosureBuilder {
         }
 
         // Update camera position - optimize for the model type
-        this.updateCameraPosition(length, width, height, isReptizoo);
+        this.updateCameraPosition(length, width, height, isReptizoo, isPVC);
     }
 
     createBasicEnclosure(enclosure, length, width, height) {
@@ -533,6 +536,273 @@ class EnclosureBuilder {
         enclosure.add(logo);
     }
 
+    createPVCPanelModel(enclosure, length, width, height) {
+        // Enhanced PVC Panel model matching the Dubia.com image
+        
+        // Materials
+        const pvcMaterial = new THREE.MeshStandardMaterial({
+            color: 0x1a1a1a,  // Black PVC panels
+            roughness: 0.3,
+            metalness: 0.1
+        });
+
+        const aluminumMaterial = new THREE.MeshStandardMaterial({
+            color: 0xc0c0c0,
+            metalness: 0.9,
+            roughness: 0.1
+        });
+
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.3,
+            roughness: 0,
+            transmission: 0.9,
+            thickness: 0.05
+        });
+
+        const acrylicMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xf8f8f8,
+            transparent: true,
+            opacity: 0.4,
+            roughness: 0.1,
+            transmission: 0.8
+        });
+
+        const screenMaterial = new THREE.MeshBasicMaterial({
+            color: 0x2a2a2a,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide
+        });
+
+        const frameThickness = 0.015;  // Thicker aluminum frame
+        const panelThickness = 0.008;   // PVC panel thickness
+
+        // Create aluminum frame structure
+        const frameGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
+        
+        // Bottom frame corners
+        const bottomCorners = [
+            [-length/2 + frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
+            [length/2 - frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
+            [-length/2 + frameThickness/2, -height/2 + frameThickness/2, width/2 - frameThickness/2],
+            [length/2 - frameThickness/2, -height/2 + frameThickness/2, width/2 - frameThickness/2]
+        ];
+
+        // Top frame corners
+        const topCorners = [
+            [-length/2 + frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
+            [length/2 - frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
+            [-length/2 + frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2],
+            [length/2 - frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2]
+        ];
+
+        // Create frame corner pieces
+        [...bottomCorners, ...topCorners].forEach(pos => {
+            const frame = new THREE.Mesh(frameGeometry, aluminumMaterial);
+            frame.position.set(pos[0], pos[1], pos[2]);
+            enclosure.add(frame);
+        });
+
+        // Vertical frame posts
+        const verticalPosts = [
+            [-length/2 + frameThickness/2, 0, -width/2 + frameThickness/2],
+            [length/2 - frameThickness/2, 0, -width/2 + frameThickness/2],
+            [-length/2 + frameThickness/2, 0, width/2 - frameThickness/2],
+            [length/2 - frameThickness/2, 0, width/2 - frameThickness/2]
+        ];
+
+        verticalPosts.forEach(pos => {
+            const post = new THREE.Mesh(
+                new THREE.BoxGeometry(frameThickness, height, frameThickness),
+                aluminumMaterial
+            );
+            post.position.set(pos[0], pos[1], pos[2]);
+            enclosure.add(post);
+        });
+
+        // PVC side panels (left and right) - Black
+        const leftPanel = new THREE.Mesh(
+            new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness),
+            pvcMaterial
+        );
+        leftPanel.position.set(-length/2 + panelThickness/2, 0, 0);
+        enclosure.add(leftPanel);
+
+        const rightPanel = new THREE.Mesh(
+            new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness),
+            pvcMaterial
+        );
+        rightPanel.position.set(length/2 - panelThickness/2, 0, 0);
+        enclosure.add(rightPanel);
+
+        // PVC back panel - Black
+        const backPanel = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, height - 2*frameThickness, panelThickness),
+            pvcMaterial
+        );
+        backPanel.position.set(0, 0, -width/2 + panelThickness/2);
+        enclosure.add(backPanel);
+
+        // PVC bottom panel - Black (thicker)
+        const bottomPanel = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, panelThickness*1.5, width - 2*frameThickness),
+            pvcMaterial
+        );
+        bottomPanel.position.set(0, -height/2 + panelThickness*0.75, 0);
+        enclosure.add(bottomPanel);
+
+        // Front section with glass sliding doors
+        // The image shows sliding doors in the upper portion, with a black bar in the middle, and a lower glass section
+
+        // Calculate door heights based on the image: upper 60%, black bar 10%, lower 30%
+        const upperDoorHeight = (height - 2*frameThickness) * 0.6;
+        const blackBarHeight = 0.025;  // Black bar thickness
+        const lowerGlassHeight = (height - 2*frameThickness) * 0.3;
+
+        // Black horizontal bar (divider between upper and lower glass sections)
+        const blackBar = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, blackBarHeight, panelThickness),
+            pvcMaterial
+        );
+        blackBar.position.set(0, -upperDoorHeight/2 + blackBarHeight/2, width/2 - panelThickness/2);
+        enclosure.add(blackBar);
+
+        // Upper sliding glass doors (left and right)
+        const doorWidth = (length - 3*frameThickness) / 2;  // Account for center frame
+        
+        const leftDoor = new THREE.Mesh(
+            new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004),
+            glassMaterial
+        );
+        leftDoor.position.set(-doorWidth/2 - frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
+        enclosure.add(leftDoor);
+
+        const rightDoor = new THREE.Mesh(
+            new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004),
+            glassMaterial
+        );
+        rightDoor.position.set(doorWidth/2 + frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
+        enclosure.add(rightDoor);
+
+        // Center vertical frame between doors
+        const centerFrame = new THREE.Mesh(
+            new THREE.BoxGeometry(frameThickness, upperDoorHeight, frameThickness),
+            aluminumMaterial
+        );
+        centerFrame.position.set(0, upperDoorHeight/2 - blackBarHeight/2, width/2 - frameThickness/2);
+        enclosure.add(centerFrame);
+
+        // Lower acrylic viewing panel
+        const lowerPanel = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, lowerGlassHeight, 0.006),
+            acrylicMaterial
+        );
+        lowerPanel.position.set(0, -upperDoorHeight/2 - blackBarHeight/2 - lowerGlassHeight/2, width/2 - 0.003);
+        enclosure.add(lowerPanel);
+
+        // Door handles - Black plastic handles on sliding doors
+        const handleMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x2c2c2c,
+            roughness: 0.8,
+            metalness: 0.1
+        });
+
+        const handleWidth = 0.006;
+        const handleHeight = 0.003;
+        const handleDepth = 0.02;
+
+        // Left door handle
+        const leftHandle = new THREE.Mesh(
+            new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth),
+            handleMaterial
+        );
+        leftHandle.position.set(-doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        enclosure.add(leftHandle);
+
+        // Right door handle
+        const rightHandle = new THREE.Mesh(
+            new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth),
+            handleMaterial
+        );
+        rightHandle.position.set(doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        enclosure.add(rightHandle);
+
+        // Door tracks (aluminum rails for sliding doors)
+        const trackMaterial = new THREE.MeshStandardMaterial({
+            color: 0xa0a0a0,
+            metalness: 0.7,
+            roughness: 0.2
+        });
+
+        // Top track
+        const topTrack = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
+            trackMaterial
+        );
+        topTrack.position.set(0, height/2 - frameThickness - 0.004, width/2 - 0.006);
+        enclosure.add(topTrack);
+
+        // Bottom track (at black bar level)
+        const bottomTrack = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
+            trackMaterial
+        );
+        bottomTrack.position.set(0, -blackBarHeight/2 - 0.004, width/2 - 0.006);
+        enclosure.add(bottomTrack);
+
+        // Screen top ventilation
+        const screenWidth = length - 2*frameThickness;
+        const screenDepth = width - 2*frameThickness;
+        
+        // Create mesh pattern for screen top
+        const meshSize = 0.004;
+        const meshSpacing = 0.006;
+        
+        for (let x = -screenWidth/2; x < screenWidth/2; x += meshSpacing) {
+            for (let z = -screenDepth/2; z < screenDepth/2; z += meshSpacing) {
+                const meshElement = new THREE.Mesh(
+                    new THREE.PlaneGeometry(meshSize, meshSize),
+                    screenMaterial
+                );
+                meshElement.position.set(x, height/2 - 0.001, z);
+                meshElement.rotation.x = -Math.PI/2;
+                enclosure.add(meshElement);
+            }
+        }
+
+        // Add corner reinforcements (typical of PVC construction)
+        const cornerMaterial = new THREE.MeshStandardMaterial({
+            color: 0x333333,
+            roughness: 0.4
+        });
+
+        const cornerSize = 0.012;
+        const corners = [
+            [-length/2 + cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
+            [length/2 - cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
+            [-length/2 + cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2],
+            [length/2 - cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2]
+        ];
+
+        corners.forEach(pos => {
+            const corner = new THREE.Mesh(
+                new THREE.BoxGeometry(cornerSize, cornerSize, cornerSize),
+                cornerMaterial
+            );
+            corner.position.set(pos[0], pos[1], pos[2]);
+            enclosure.add(corner);
+        });
+
+        // Add brand marking for PVC enclosure
+        const brandGeometry = new THREE.BoxGeometry(0.025, 0.004, 0.001);
+        const brandMaterial = new THREE.MeshBasicMaterial({ color: 0x444444 });
+        const brand = new THREE.Mesh(brandGeometry, brandMaterial);
+        brand.position.set(0, -height/2 + 0.015, width/2 + 0.001);
+        enclosure.add(brand);
+    }
+
     createMeasurements(length, width, height) {
         const measurementsGroup = new THREE.Group();
         measurementsGroup.name = 'measurements';
@@ -915,12 +1185,17 @@ class EnclosureBuilder {
     }
 
     // Update camera position based on enclosure type
-    updateCameraPosition(length, width, height, isReptizoo = false) {
+    updateCameraPosition(length, width, height, isReptizoo = false, isPVC = false) {
         const maxDim = Math.max(length, width, height);
         
         if (isReptizoo) {
             // Position camera to showcase REPTIZOO features (front-angled view)
             this.camera.position.set(maxDim * 1.8, maxDim * 1.2, maxDim * 2.2);
+            this.camera.lookAt(0, 0, 0);
+            this.controls.target.set(0, 0, 0);
+        } else if (isPVC) {
+            // Position camera to showcase PVC sliding doors and front features
+            this.camera.position.set(maxDim * 1.6, maxDim * 1.0, maxDim * 2.4);
             this.camera.lookAt(0, 0, 0);
             this.controls.target.set(0, 0, 0);
         } else {
@@ -939,8 +1214,9 @@ class EnclosureBuilder {
         const width = this.enclosureDimensions.width * 0.0254;
         const height = this.enclosureDimensions.height * 0.0254;
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
+        const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
         
-        this.updateCameraPosition(length, width, height, isReptizoo);
+        this.updateCameraPosition(length, width, height, isReptizoo, isPVC);
     }
 
     // Test method to verify zoom functionality
