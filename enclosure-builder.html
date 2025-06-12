@@ -17,6 +17,7 @@
             padding: 100px 20px 40px;
             max-width: 1400px;
             margin: 0 auto;
+            overflow-x: hidden;
         }
 
         .builder-header {
@@ -43,13 +44,19 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         #enclosure-canvas {
             width: 100%;
             height: 600px;
+            max-width: 100%;
             background: #f8f8f8;
             border-radius: 8px;
+            display: block;
+            box-sizing: border-box;
         }
 
         .canvas-controls {
@@ -84,6 +91,13 @@
             display: flex;
             align-items: center;
             gap: 30px;
+            min-height: 250px;
+        }
+
+        .selected-enclosure-content.drag-over {
+            background-color: #f0f8ff;
+            border: 2px dashed #2ecc71;
+            border-radius: 8px;
         }
 
         .selected-enclosure-image {
@@ -155,6 +169,7 @@
             padding: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .enclosure-option:hover {
@@ -166,6 +181,30 @@
         .enclosure-option.selected {
             border-color: #2ecc71;
             box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .enclosure-option.premium {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #fff 0%, #fef9e7 100%);
+        }
+
+        .enclosure-option.premium::before {
+            content: '⭐ PREMIUM';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f39c12;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .enclosure-option.premium:hover {
+            border-color: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.3);
         }
 
         .enclosure-option img {
@@ -653,10 +692,10 @@
 
         <!-- Selected Enclosure Section - Now below 3D preview -->
         <div class="selected-enclosure">
-            <h2>Selected Enclosure (1/1)</h2>
-            <div class="selected-enclosure-content">
+            <h2 id="selected-enclosure-count">Selected Enclosure (0/1)</h2>
+            <div class="selected-enclosure-content" id="selected-enclosure-drop-zone">
                 <div class="selected-enclosure-image" id="selected-enclosure-image">
-                    <p>Drag an enclosure here</p>
+                    <p>Drag an enclosure here or click one below</p>
                 </div>
                 <div class="selected-enclosure-details">
                     <p><strong>Dimensions:</strong> <span id="selected-dimensions">-</span></p>
@@ -736,6 +775,18 @@
                         price: 199.99,
                         image: 'images/enclosures/pvc-enclosure.jpg',
                         model: { length: 36, width: 18, height: 18 }
+                    },
+                    {
+                        id: 'lg-reptizoo',
+                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
+                        dimensions: '36" x 18" x 18"',
+                        material: 'Tempered Glass',
+                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
+                        price: 192.47,
+                        image: 'images/enclosures/reptizoo-36x18x18.jpg',
+                        model: { length: 36, width: 18, height: 18 },
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        isPremium: true
                     }
                 ]
             },
@@ -765,6 +816,18 @@
                         price: 249.99,
                         image: 'images/enclosures/75gal.jpg',
                         model: { length: 48, width: 18, height: 21 }
+                    },
+                    {
+                        id: 'bd-reptizoo',
+                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
+                        dimensions: '36" x 18" x 18"',
+                        material: 'Tempered Glass',
+                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
+                        price: 192.47,
+                        image: 'images/enclosures/reptizoo-36x18x18.jpg',
+                        model: { length: 36, width: 18, height: 18 },
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        isPremium: true
                     }
                 ]
             },
@@ -794,6 +857,18 @@
                         price: 199.99,
                         image: 'images/enclosures/24x18x36.jpg',
                         model: { length: 24, width: 18, height: 36 }
+                    },
+                    {
+                        id: 'cg-reptizoo',
+                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
+                        dimensions: '36" x 18" x 18"',
+                        material: 'Tempered Glass',
+                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
+                        price: 192.47,
+                        image: 'images/enclosures/reptizoo-36x18x18.jpg',
+                        model: { length: 36, width: 18, height: 18 },
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        isPremium: true
                     }
                 ]
             },
@@ -823,6 +898,18 @@
                         price: 249.99,
                         image: 'images/enclosures/75gal.jpg',
                         model: { length: 48, width: 18, height: 21 }
+                    },
+                    {
+                        id: 'ecl-reptizoo',
+                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
+                        dimensions: '36" x 18" x 18"',
+                        material: 'Tempered Glass',
+                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
+                        price: 192.47,
+                        image: 'images/enclosures/reptizoo-36x18x18.jpg',
+                        model: { length: 36, width: 18, height: 18 },
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        isPremium: true
                     }
                 ]
             }
@@ -889,13 +976,22 @@
             const selectionContainer = document.getElementById('enclosure-selection');
             selectionContainer.innerHTML = ''; // Clear existing enclosures
             
+            // Reset selected enclosure count
+            document.getElementById('selected-enclosure-count').textContent = 'Selected Enclosure (0/1)';
+            document.getElementById('selected-enclosure-image').innerHTML = '<p>Drag an enclosure here or click one below</p>';
+            document.getElementById('selected-dimensions').textContent = '-';
+            document.getElementById('selected-material').textContent = '-';
+            document.getElementById('selected-features').textContent = '-';
+            document.getElementById('selected-price').textContent = '0.00';
+            
             const enclosures = reptileData[reptileId].enclosures;
             enclosures.forEach(enclosure => {
                 const enclosureElement = document.createElement('div');
-                enclosureElement.className = 'enclosure-option';
+                enclosureElement.className = `enclosure-option${enclosure.isPremium ? ' premium' : ''}`;
                 enclosureElement.draggable = true;
+                enclosureElement.setAttribute('data-enclosure-id', enclosure.id);
                 enclosureElement.innerHTML = `
-                    <img src="${enclosure.image}" alt="${enclosure.name}">
+                    <img src="${enclosure.image}" alt="${enclosure.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2Y4ZjhmOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzk5OSI+SW1hZ2U8L3RleHQ+PC9zdmc+'">
                     <h3>${enclosure.name}</h3>
                     <p>${enclosure.dimensions}</p>
                     <p>${enclosure.material}</p>
@@ -905,23 +1001,50 @@
                 // Add drag and drop functionality
                 enclosureElement.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', JSON.stringify(enclosure));
+                    e.dataTransfer.effectAllowed = 'copy';
                 });
 
                 // Add click functionality
-                enclosureElement.addEventListener('click', () => {
+                enclosureElement.addEventListener('click', (e) => {
                     selectEnclosure(enclosure);
                 });
 
                 selectionContainer.appendChild(enclosureElement);
             });
+            
+            // Setup drop zone functionality
+            setupDropZone();
         }
 
         // Handle enclosure selection
         function selectEnclosure(enclosure) {
+            // Update selected enclosure count
+            document.getElementById('selected-enclosure-count').textContent = 'Selected Enclosure (1/1)';
+            
             // Update selected enclosure display
-            document.getElementById('selected-enclosure-image').innerHTML = `
+            const imageElement = document.getElementById('selected-enclosure-image');
+            imageElement.innerHTML = `
                 <img src="${enclosure.image}" alt="${enclosure.name}">
             `;
+            
+            // Add Amazon link for REPTIZOO
+            if (enclosure.amazonUrl) {
+                imageElement.innerHTML += `
+                    <div style="margin-top: 10px;">
+                        <a href="${enclosure.amazonUrl}" target="_blank" style="
+                            display: inline-block;
+                            background: #ff9900;
+                            color: white;
+                            padding: 8px 16px;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                        ">View on Amazon</a>
+                    </div>
+                `;
+            }
+            
             document.getElementById('selected-dimensions').textContent = enclosure.dimensions;
             document.getElementById('selected-material').textContent = enclosure.material;
             document.getElementById('selected-features').textContent = enclosure.features;
@@ -932,12 +1055,49 @@
                 window.enclosureBuilder.updateEnclosureDimensions(
                     enclosure.model.length,
                     enclosure.model.width,
-                    enclosure.model.height
+                    enclosure.model.height,
+                    enclosure
                 );
             }
 
             // Update summary
             updateSummary(enclosure);
+            
+            // Mark all enclosures as unselected, then select this one
+            document.querySelectorAll('.enclosure-option').forEach(el => el.classList.remove('selected'));
+            // Find and mark the selected enclosure by ID
+            const selectedElement = document.querySelector(`[data-enclosure-id="${enclosure.id}"]`);
+            if (selectedElement) {
+                selectedElement.classList.add('selected');
+            }
+        }
+
+        // Setup drop zone functionality
+        function setupDropZone() {
+            const dropZone = document.getElementById('selected-enclosure-drop-zone');
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+                dropZone.classList.add('drag-over');
+            });
+            
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                
+                try {
+                    const enclosureData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                    selectEnclosure(enclosureData);
+                } catch (error) {
+                    console.error('Error parsing dropped enclosure data:', error);
+                }
+            });
         }
 
         // Update summary panel
