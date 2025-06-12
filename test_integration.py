@@ -37,7 +37,11 @@ def test_terrarium_model():
         ("Canvas overflow fix", "overflow: hidden" in html_content),
         ("Premium CSS styling", "enclosure-option.premium" in html_content),
         ("Enhanced 3D model", "createReptizooModel" in js_content),
-        ("JavaScript file referenced", "enclosure-builder.js" in html_content)
+        ("JavaScript file referenced", "enclosure-builder.js" in html_content),
+        ("Camera controls working", "rotateCamera" in js_content and "zoomCamera" in js_content),
+        ("Reset view functionality", "resetCamera" in js_content),
+        ("Keyboard shortcuts", "keydown" in js_content),
+        ("Help panel", "help-toggle" in html_content)
     ]
     
     print("🔍 Integration Test Results:")

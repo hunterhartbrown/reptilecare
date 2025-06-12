@@ -93,11 +93,8 @@ class EnclosureBuilder {
         // Add to scene
         this.scene.add(enclosure);
 
-        // Update camera position
-        const maxDim = Math.max(length, width, height);
-        this.camera.position.set(maxDim * 2, maxDim * 1.5, maxDim * 2);
-        this.camera.lookAt(0, 0, 0);
-        this.controls.target.set(0, 0, 0);
+        // Update camera position - optimize for the model type
+        this.updateCameraPosition(length, width, height, isReptizoo);
     }
 
     createBasicEnclosure(enclosure, length, width, height) {
@@ -392,6 +389,76 @@ class EnclosureBuilder {
         this.renderer.setSize(containerWidth, containerHeight);
     }
 
+    // Camera control methods
+    rotateCamera(angle) {
+        // Get current camera position relative to target
+        const target = this.controls.target.clone();
+        const position = this.camera.position.clone().sub(target);
+        
+        // Rotate around Y axis
+        const rotationMatrix = new THREE.Matrix4().makeRotationY(angle);
+        position.applyMatrix4(rotationMatrix);
+        
+        // Set new camera position
+        this.camera.position.copy(position.add(target));
+        this.camera.lookAt(target);
+        this.controls.update();
+    }
+
+    zoomCamera(factor) {
+        // Get current distance from target
+        const target = this.controls.target.clone();
+        const direction = this.camera.position.clone().sub(target);
+        
+        // Scale the distance
+        direction.multiplyScalar(factor);
+        
+        // Clamp to reasonable limits
+        const distance = direction.length();
+        const minDistance = this.controls.minDistance || 0.5;
+        const maxDistance = this.controls.maxDistance || 100;
+        
+        if (distance < minDistance) {
+            direction.normalize().multiplyScalar(minDistance);
+        } else if (distance > maxDistance) {
+            direction.normalize().multiplyScalar(maxDistance);
+        }
+        
+        // Set new camera position
+        this.camera.position.copy(target.clone().add(direction));
+        this.camera.lookAt(target);
+        this.controls.update();
+    }
+
+    // Update camera position based on enclosure type
+    updateCameraPosition(length, width, height, isReptizoo = false) {
+        const maxDim = Math.max(length, width, height);
+        
+        if (isReptizoo) {
+            // Position camera to showcase REPTIZOO features (front-angled view)
+            this.camera.position.set(maxDim * 1.8, maxDim * 1.2, maxDim * 2.2);
+            this.camera.lookAt(0, 0, 0);
+            this.controls.target.set(0, 0, 0);
+        } else {
+            // Standard positioning for basic enclosures
+            this.camera.position.set(maxDim * 2, maxDim * 1.5, maxDim * 2);
+            this.camera.lookAt(0, 0, 0);
+            this.controls.target.set(0, 0, 0);
+        }
+        
+        this.controls.update();
+    }
+
+    // Reset camera to optimal viewing position
+    resetCamera() {
+        const length = this.enclosureDimensions.length * 0.0254;
+        const width = this.enclosureDimensions.width * 0.0254;
+        const height = this.enclosureDimensions.height * 0.0254;
+        const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
+        
+        this.updateCameraPosition(length, width, height, isReptizoo);
+    }
+
     animate() {
         requestAnimationFrame(() => this.animate());
         this.controls.update();
@@ -405,19 +472,70 @@ window.addEventListener('load', () => {
     
     // Add event listeners for controls
     document.getElementById('rotate-left').addEventListener('click', () => {
-        builder.controls.rotateLeft(Math.PI / 4);
+        builder.rotateCamera(-Math.PI / 4);
     });
     
     document.getElementById('rotate-right').addEventListener('click', () => {
-        builder.controls.rotateRight(Math.PI / 4);
+        builder.rotateCamera(Math.PI / 4);
     });
     
     document.getElementById('zoom-in').addEventListener('click', () => {
-        builder.controls.zoomIn();
+        builder.zoomCamera(0.8);
     });
     
     document.getElementById('zoom-out').addEventListener('click', () => {
-        builder.controls.zoomOut();
+        builder.zoomCamera(1.2);
+    });
+    
+    document.getElementById('reset-view').addEventListener('click', () => {
+        builder.resetCamera();
+    });
+
+    // Help panel toggle
+    document.getElementById('help-toggle').addEventListener('click', () => {
+        const helpContent = document.getElementById('help-content');
+        helpContent.classList.toggle('show');
+    });
+
+    // Close help panel when clicking outside
+    document.addEventListener('click', (e) => {
+        const helpPanel = document.querySelector('.camera-help');
+        const helpContent = document.getElementById('help-content');
+        
+        if (!helpPanel.contains(e.target) && helpContent.classList.contains('show')) {
+            helpContent.classList.remove('show');
+        }
+    });
+
+    // Add keyboard shortcuts for camera controls
+    document.addEventListener('keydown', (e) => {
+        // Only activate if not typing in an input field
+        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea') {
+            return;
+        }
+        
+        switch(e.key.toLowerCase()) {
+            case 'a':
+                e.preventDefault();
+                builder.rotateCamera(-Math.PI / 4);
+                break;
+            case 'd':
+                e.preventDefault();
+                builder.rotateCamera(Math.PI / 4);
+                break;
+            case 'w':
+                e.preventDefault();
+                builder.zoomCamera(0.8);
+                break;
+            case 's':
+                e.preventDefault();
+                builder.zoomCamera(1.2);
+                break;
+            case 'r':
+                e.preventDefault();
+                builder.resetCamera();
+                break;
+        }
     });
 
     // Add event listeners for dimension inputs
