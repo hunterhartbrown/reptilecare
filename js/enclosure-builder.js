@@ -262,21 +262,70 @@ class EnclosureBuilder {
         bottomPanel.position.set(0, -height/2 + 0.004, 0);
         enclosure.add(bottomPanel);
 
-        // Front doors (double hinge) - replace the front 36" x 18" face
-        const doorWidth = (length - 3*frameThickness) / 2;  // Each door spans half the 36" length
+        // Horizontal support rail around entire enclosure (1/4 up from bottom)
+        const railHeight = height * 0.25;  // 1/4 up from bottom
+        const railThickness = 0.012;  // Thicker than top rim
+        const railMaterial = new THREE.MeshStandardMaterial({
+            color: 0x1a1a1a,  // Black plastic
+            roughness: 0.8,
+            metalness: 0.1
+        });
+        
+        // Front rail (will be interrupted by doors but shows structure)
+        const frontRailLeft = new THREE.Mesh(
+            new THREE.BoxGeometry((length - 3*frameThickness)/2, railThickness, railThickness),
+            railMaterial
+        );
+        frontRailLeft.position.set(-(length - 3*frameThickness)/4 - frameThickness, -height/2 + railHeight, width/2 - railThickness/2);
+        enclosure.add(frontRailLeft);
+        
+        const frontRailRight = new THREE.Mesh(
+            new THREE.BoxGeometry((length - 3*frameThickness)/2, railThickness, railThickness),
+            railMaterial
+        );
+        frontRailRight.position.set((length - 3*frameThickness)/4 + frameThickness, -height/2 + railHeight, width/2 - railThickness/2);
+        enclosure.add(frontRailRight);
+        
+        // Back rail
+        const backRail = new THREE.Mesh(
+            new THREE.BoxGeometry(length, railThickness, railThickness),
+            railMaterial
+        );
+        backRail.position.set(0, -height/2 + railHeight, -width/2 + railThickness/2);
+        enclosure.add(backRail);
+        
+        // Left side rail
+        const leftRail = new THREE.Mesh(
+            new THREE.BoxGeometry(railThickness, railThickness, width),
+            railMaterial
+        );
+        leftRail.position.set(-length/2 + railThickness/2, -height/2 + railHeight, 0);
+        enclosure.add(leftRail);
+        
+        // Right side rail
+        const rightRail = new THREE.Mesh(
+            new THREE.BoxGeometry(railThickness, railThickness, width),
+            railMaterial
+        );
+        rightRail.position.set(length/2 - railThickness/2, -height/2 + railHeight, 0);
+        enclosure.add(rightRail);
+
+        // Front doors (double hinge) - now shortened to not overlap with rail
+        const doorWidth = (length - 3*frameThickness) / 2;
+        const doorHeight = height - 2*frameThickness - railHeight - railThickness;  // Height above rail
         
         const leftDoor = new THREE.Mesh(
-            new THREE.BoxGeometry(doorWidth, height - 2*frameThickness, glassThickness),
+            new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness),
             glassMaterial
         );
-        leftDoor.position.set(-doorWidth/2 - frameThickness/2, 0, width/2 - glassThickness/2);
+        leftDoor.position.set(-doorWidth/2 - frameThickness/2, railHeight/2 + railThickness/2, width/2 - glassThickness/2);
         enclosure.add(leftDoor);
 
         const rightDoor = new THREE.Mesh(
-            new THREE.BoxGeometry(doorWidth, height - 2*frameThickness, glassThickness),
+            new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness),
             glassMaterial
         );
-        rightDoor.position.set(doorWidth/2 + frameThickness/2, 0, width/2 - glassThickness/2);
+        rightDoor.position.set(doorWidth/2 + frameThickness/2, railHeight/2 + railThickness/2, width/2 - glassThickness/2);
         enclosure.add(rightDoor);
 
         // Door handles - Accurate REPTIZOO style black plastic handles
@@ -291,16 +340,16 @@ class EnclosureBuilder {
         const handleHeight = 0.004;
         const handleDepth = 0.025;
 
-        // Left door handle - positioned closer to center but not touching edge
+        // Left door handle - positioned closer to center but not touching edge, on shortened door
         const leftHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
         const leftHandle = new THREE.Mesh(leftHandleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/4, 0, width/2 + 0.008);  // Closer to center of left door
+        leftHandle.position.set(-doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);  // Centered on shortened door
         enclosure.add(leftHandle);
 
-        // Right door handle - positioned closer to center but not touching edge
+        // Right door handle - positioned closer to center but not touching edge, on shortened door
         const rightHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
         const rightHandle = new THREE.Mesh(rightHandleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/4, 0, width/2 + 0.008);  // Closer to center of right door
+        rightHandle.position.set(doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);  // Centered on shortened door
         enclosure.add(rightHandle);
 
         // Add handle mounting screws for realism
@@ -309,36 +358,62 @@ class EnclosureBuilder {
 
         // Left handle screws
         const leftScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
-        leftScrew1.position.set(-doorWidth/4, 0.008, width/2 + 0.006);
+        leftScrew1.position.set(-doorWidth/4, railHeight/2 + railThickness/2 + 0.008, width/2 + 0.006);
         leftScrew1.rotation.z = Math.PI/2;
         enclosure.add(leftScrew1);
 
         const leftScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
-        leftScrew2.position.set(-doorWidth/4, -0.008, width/2 + 0.006);
+        leftScrew2.position.set(-doorWidth/4, railHeight/2 + railThickness/2 - 0.008, width/2 + 0.006);
         leftScrew2.rotation.z = Math.PI/2;
         enclosure.add(leftScrew2);
 
         // Right handle screws
         const rightScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
-        rightScrew1.position.set(doorWidth/4, 0.008, width/2 + 0.006);
+        rightScrew1.position.set(doorWidth/4, railHeight/2 + railThickness/2 + 0.008, width/2 + 0.006);
         rightScrew1.rotation.z = Math.PI/2;
         enclosure.add(rightScrew1);
 
         const rightScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
-        rightScrew2.position.set(doorWidth/4, -0.008, width/2 + 0.006);
+        rightScrew2.position.set(doorWidth/4, railHeight/2 + railThickness/2 - 0.008, width/2 + 0.006);
         rightScrew2.rotation.z = Math.PI/2;
         enclosure.add(rightScrew2);
 
-        // Add door lock mechanism (center latch)
-        const lockGeometry = new THREE.BoxGeometry(0.015, 0.006, 0.004);
+        // Add detailed door lock mechanism (center latch with keyhole)
         const lockMaterial = new THREE.MeshStandardMaterial({ 
             color: 0x1a1a1a,  // Black plastic
             roughness: 0.9 
         });
         
-        const doorLock = new THREE.Mesh(lockGeometry, lockMaterial);
-        doorLock.position.set(0, -height/4, width/2 + 0.005);  // Center between doors, lower position
-        enclosure.add(doorLock);
+        // Main lock body (squarish)
+        const lockBodyGeometry = new THREE.BoxGeometry(0.02, 0.015, 0.008);
+        const lockBody = new THREE.Mesh(lockBodyGeometry, lockMaterial);
+        lockBody.position.set(0, -height/6, width/2 + 0.004);  // Positioned on the rail level
+        enclosure.add(lockBody);
+        
+        // Keyhole (circular depression)
+        const keyholeGeometry = new THREE.CylinderGeometry(0.003, 0.003, 0.002);
+        const keyholeMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x0a0a0a,  // Darker for depression effect
+            roughness: 1.0 
+        });
+        const keyhole = new THREE.Mesh(keyholeGeometry, keyholeMaterial);
+        keyhole.position.set(0, -height/6, width/2 + 0.008);
+        keyhole.rotation.x = Math.PI/2;
+        enclosure.add(keyhole);
+        
+        // Lock mounting screws
+        const lockScrewGeometry = new THREE.CylinderGeometry(0.001, 0.001, 0.001);
+        const lockScrewMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+        
+        const lockScrew1 = new THREE.Mesh(lockScrewGeometry, lockScrewMaterial);
+        lockScrew1.position.set(-0.008, -height/6 + 0.006, width/2 + 0.007);
+        lockScrew1.rotation.x = Math.PI/2;
+        enclosure.add(lockScrew1);
+        
+        const lockScrew2 = new THREE.Mesh(lockScrewGeometry, lockScrewMaterial);
+        lockScrew2.position.set(0.008, -height/6 + 0.006, width/2 + 0.007);
+        lockScrew2.rotation.x = Math.PI/2;
+        enclosure.add(lockScrew2);
 
         // Add door frame separators
         const frameSeparatorGeometry = new THREE.BoxGeometry(frameThickness, height - 2*frameThickness, frameThickness);
@@ -356,22 +431,25 @@ class EnclosureBuilder {
             roughness: 0.3
         });
 
-        // Left door hinges (2 hinges per door)
+        // Left door hinges (2 hinges per door) - positioned for shortened doors
+        const doorTopY = railHeight/2 + railThickness/2 + doorHeight/3;
+        const doorBottomY = railHeight/2 + railThickness/2 - doorHeight/3;
+        
         const leftHinge1 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        leftHinge1.position.set(-length/2 + frameThickness, height/3, width/2 - 0.002);
+        leftHinge1.position.set(-length/2 + frameThickness, doorTopY, width/2 - 0.002);
         enclosure.add(leftHinge1);
 
         const leftHinge2 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        leftHinge2.position.set(-length/2 + frameThickness, -height/3, width/2 - 0.002);
+        leftHinge2.position.set(-length/2 + frameThickness, doorBottomY, width/2 - 0.002);
         enclosure.add(leftHinge2);
 
         // Right door hinges
         const rightHinge1 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        rightHinge1.position.set(length/2 - frameThickness, height/3, width/2 - 0.002);
+        rightHinge1.position.set(length/2 - frameThickness, doorTopY, width/2 - 0.002);
         enclosure.add(rightHinge1);
 
         const rightHinge2 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        rightHinge2.position.set(length/2 - frameThickness, -height/3, width/2 - 0.002);
+        rightHinge2.position.set(length/2 - frameThickness, doorBottomY, width/2 - 0.002);
         enclosure.add(rightHinge2);
 
         // Top ventilation screen with black rim and mesh pattern
