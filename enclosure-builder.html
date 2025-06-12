@@ -57,6 +57,12 @@
             border-radius: 8px;
             display: block;
             box-sizing: border-box;
+            cursor: grab;
+            touch-action: none; /* Prevent default touch behaviors */
+        }
+
+        #enclosure-canvas:active {
+            cursor: grabbing;
         }
 
         .canvas-controls {

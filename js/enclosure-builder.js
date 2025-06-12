@@ -47,9 +47,15 @@ class EnclosureBuilder {
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
-        this.controls.minDistance = 10;
-        this.controls.maxDistance = 100;
+        
+        // Set appropriate zoom limits for terrarium size (36x18x18 inches = ~0.9x0.45x0.45 meters)
+        this.controls.minDistance = 0.3;  // Allow close inspection
+        this.controls.maxDistance = 5.0;  // Keep model visible
         this.controls.maxPolarAngle = Math.PI / 2;
+        
+        // Ensure zoom is enabled
+        this.controls.enableZoom = true;
+        this.controls.zoomSpeed = 1.0;
 
         // Create enclosure
         this.createEnclosure();
@@ -60,9 +66,16 @@ class EnclosureBuilder {
         // Add event listeners
         window.addEventListener('resize', () => this.onWindowResize());
         this.setupDragAndDrop();
+        this.setupCanvasEvents();
 
         // Make the builder globally accessible
         window.enclosureBuilder = this;
+        
+        // Debug: Log initial camera position and controls
+        console.log('EnclosureBuilder initialized');
+        console.log('Camera position:', this.camera.position);
+        console.log('Controls zoom enabled:', this.controls.enableZoom);
+        console.log('Min/Max distance:', this.controls.minDistance, this.controls.maxDistance);
     }
 
     createEnclosure() {
@@ -377,6 +390,29 @@ class EnclosureBuilder {
         });
     }
 
+    setupCanvasEvents() {
+        const canvas = this.renderer.domElement;
+        
+        // Ensure canvas can receive focus for keyboard events
+        canvas.setAttribute('tabindex', '0');
+        
+        // Add wheel event listener for debugging
+        canvas.addEventListener('wheel', (e) => {
+            console.log('Wheel event detected:', e.deltaY);
+        }, { passive: false });
+        
+        // Add mouse event listeners for debugging
+        canvas.addEventListener('mousedown', (e) => {
+            console.log('Mouse down on canvas');
+            canvas.focus(); // Ensure canvas has focus
+        });
+        
+        // Prevent context menu on right click
+        canvas.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+    }
+
     onWindowResize() {
         // Update canvas size based on container, not window
         const canvas = document.getElementById('enclosure-canvas');
@@ -409,22 +445,19 @@ class EnclosureBuilder {
         // Get current distance from target
         const target = this.controls.target.clone();
         const direction = this.camera.position.clone().sub(target);
+        const currentDistance = direction.length();
         
-        // Scale the distance
-        direction.multiplyScalar(factor);
+        // Calculate new distance
+        const newDistance = currentDistance * factor;
         
-        // Clamp to reasonable limits
-        const distance = direction.length();
-        const minDistance = this.controls.minDistance || 0.5;
-        const maxDistance = this.controls.maxDistance || 100;
+        // Clamp to the same limits as OrbitControls
+        const minDistance = this.controls.minDistance;
+        const maxDistance = this.controls.maxDistance;
         
-        if (distance < minDistance) {
-            direction.normalize().multiplyScalar(minDistance);
-        } else if (distance > maxDistance) {
-            direction.normalize().multiplyScalar(maxDistance);
-        }
+        const clampedDistance = Math.max(minDistance, Math.min(maxDistance, newDistance));
         
         // Set new camera position
+        direction.normalize().multiplyScalar(clampedDistance);
         this.camera.position.copy(target.clone().add(direction));
         this.camera.lookAt(target);
         this.controls.update();
@@ -459,6 +492,19 @@ class EnclosureBuilder {
         this.updateCameraPosition(length, width, height, isReptizoo);
     }
 
+    // Test method to verify zoom functionality
+    testZoom() {
+        console.log('Testing zoom functionality...');
+        const currentDistance = this.camera.position.distanceTo(this.controls.target);
+        console.log('Current distance:', currentDistance);
+        console.log('Min distance:', this.controls.minDistance);
+        console.log('Max distance:', this.controls.maxDistance);
+        console.log('Zoom enabled:', this.controls.enableZoom);
+        
+        // Try manual zoom
+        this.zoomCamera(0.8);
+    }
+
     animate() {
         requestAnimationFrame(() => this.animate());
         this.controls.update();
@@ -480,10 +526,12 @@ window.addEventListener('load', () => {
     });
     
     document.getElementById('zoom-in').addEventListener('click', () => {
+        console.log('Zoom In button clicked');
         builder.zoomCamera(0.8);
     });
     
     document.getElementById('zoom-out').addEventListener('click', () => {
+        console.log('Zoom Out button clicked');
         builder.zoomCamera(1.2);
     });
     
@@ -525,10 +573,12 @@ window.addEventListener('load', () => {
                 break;
             case 'w':
                 e.preventDefault();
+                console.log('W key pressed - Zoom In');
                 builder.zoomCamera(0.8);
                 break;
             case 's':
                 e.preventDefault();
+                console.log('S key pressed - Zoom Out');
                 builder.zoomCamera(1.2);
                 break;
             case 'r':
@@ -549,4 +599,27 @@ window.addEventListener('load', () => {
     document.getElementById('length').addEventListener('change', updateDimensions);
     document.getElementById('width').addEventListener('change', updateDimensions);
     document.getElementById('height').addEventListener('change', updateDimensions);
+    
+    // Global test functions for debugging
+    window.testZoom = () => {
+        if (window.enclosureBuilder) {
+            window.enclosureBuilder.testZoom();
+        } else {
+            console.log('EnclosureBuilder not initialized');
+        }
+    };
+    
+    window.testZoomIn = () => {
+        if (window.enclosureBuilder) {
+            console.log('Manual zoom in test');
+            window.enclosureBuilder.zoomCamera(0.8);
+        }
+    };
+    
+    window.testZoomOut = () => {
+        if (window.enclosureBuilder) {
+            console.log('Manual zoom out test');
+            window.enclosureBuilder.zoomCamera(1.2);
+        }
+    };
 }); 
