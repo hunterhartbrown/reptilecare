@@ -312,14 +312,14 @@ class EnclosureBuilder {
 
         // Front doors (double hinge) - sized to fit perfectly from rail to top
         const doorWidth = (length - 3*frameThickness) / 2;
-        const doorHeight = height/2 - railHeight - frameThickness;  // From rail top to frame top
+        const doorHeight = height/2 - railHeight/2 - railThickness/2 - frameThickness;  // From rail top to frame top
         
         const leftDoor = new THREE.Mesh(
             new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness),
             glassMaterial
         );
         // Position door so bottom edge touches top of rail
-        leftDoor.position.set(-doorWidth/2 - frameThickness/2, -height/2 + railHeight + railThickness + doorHeight/2, width/2 - glassThickness/2);
+        leftDoor.position.set(-doorWidth/2 - frameThickness/2, railHeight/2 + railThickness/2 + doorHeight/2, width/2 - glassThickness/2);
         enclosure.add(leftDoor);
 
         const rightDoor = new THREE.Mesh(
@@ -327,11 +327,11 @@ class EnclosureBuilder {
             glassMaterial
         );
         // Position door so bottom edge touches top of rail
-        rightDoor.position.set(doorWidth/2 + frameThickness/2, -height/2 + railHeight + railThickness + doorHeight/2, width/2 - glassThickness/2);
+        rightDoor.position.set(doorWidth/2 + frameThickness/2, railHeight/2 + railThickness/2 + doorHeight/2, width/2 - glassThickness/2);
         enclosure.add(rightDoor);
 
         // Glass panels below the rail (bottom section of front face)
-        const bottomPanelHeight = railHeight - 2*frameThickness;
+        const bottomPanelHeight = railHeight - frameThickness;
         
         const leftBottomPanel = new THREE.Mesh(
             new THREE.BoxGeometry(doorWidth, bottomPanelHeight, glassThickness),
@@ -451,7 +451,7 @@ class EnclosureBuilder {
         });
 
         // Left door hinges (2 hinges per door) - positioned for doors that touch rail
-        const doorCenterY = -height/2 + railHeight + railThickness + doorHeight/2;
+        const doorCenterY = railHeight/2 + railThickness/2 + doorHeight/2;
         const doorTopY = doorCenterY + doorHeight/3;
         const doorBottomY = doorCenterY - doorHeight/3;
         
