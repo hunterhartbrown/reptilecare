@@ -248,12 +248,18 @@ class EnclosureBuilder {
         rightPanel.position.set(length/2 - glassThickness/2, 0, 0);
         enclosure.add(rightPanel);
 
-        // Bottom panel
+        // Bottom panel - Black plastic base like real REPTIZOO
+        const bottomMaterial = new THREE.MeshStandardMaterial({
+            color: 0x1a1a1a,  // Black plastic
+            roughness: 0.8,
+            metalness: 0.1
+        });
+        
         const bottomPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, glassThickness, width - 2*frameThickness),
-            glassMaterial
+            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, width - 2*frameThickness), // Thicker black bottom
+            bottomMaterial
         );
-        bottomPanel.position.set(0, -height/2 + glassThickness/2, 0);
+        bottomPanel.position.set(0, -height/2 + 0.004, 0);
         enclosure.add(bottomPanel);
 
         // Front doors (double hinge) - replace the front 36" x 18" face
@@ -285,16 +291,16 @@ class EnclosureBuilder {
         const handleHeight = 0.004;
         const handleDepth = 0.025;
 
-        // Left door handle
+        // Left door handle - positioned closer to center but not touching edge
         const leftHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
         const leftHandle = new THREE.Mesh(leftHandleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/2 - frameThickness/2 - 0.015, 0, width/2 + 0.008);
+        leftHandle.position.set(-doorWidth/4, 0, width/2 + 0.008);  // Closer to center of left door
         enclosure.add(leftHandle);
 
-        // Right door handle  
+        // Right door handle - positioned closer to center but not touching edge
         const rightHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
         const rightHandle = new THREE.Mesh(rightHandleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/2 + frameThickness/2 + 0.015, 0, width/2 + 0.008);
+        rightHandle.position.set(doorWidth/4, 0, width/2 + 0.008);  // Closer to center of right door
         enclosure.add(rightHandle);
 
         // Add handle mounting screws for realism
@@ -303,23 +309,23 @@ class EnclosureBuilder {
 
         // Left handle screws
         const leftScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
-        leftScrew1.position.set(-doorWidth/2 - frameThickness/2 - 0.015, 0.008, width/2 + 0.006);
+        leftScrew1.position.set(-doorWidth/4, 0.008, width/2 + 0.006);
         leftScrew1.rotation.z = Math.PI/2;
         enclosure.add(leftScrew1);
 
         const leftScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
-        leftScrew2.position.set(-doorWidth/2 - frameThickness/2 - 0.015, -0.008, width/2 + 0.006);
+        leftScrew2.position.set(-doorWidth/4, -0.008, width/2 + 0.006);
         leftScrew2.rotation.z = Math.PI/2;
         enclosure.add(leftScrew2);
 
         // Right handle screws
         const rightScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
-        rightScrew1.position.set(doorWidth/2 + frameThickness/2 + 0.015, 0.008, width/2 + 0.006);
+        rightScrew1.position.set(doorWidth/4, 0.008, width/2 + 0.006);
         rightScrew1.rotation.z = Math.PI/2;
         enclosure.add(rightScrew1);
 
         const rightScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
-        rightScrew2.position.set(doorWidth/2 + frameThickness/2 + 0.015, -0.008, width/2 + 0.006);
+        rightScrew2.position.set(doorWidth/4, -0.008, width/2 + 0.006);
         rightScrew2.rotation.z = Math.PI/2;
         enclosure.add(rightScrew2);
 
@@ -368,9 +374,48 @@ class EnclosureBuilder {
         rightHinge2.position.set(length/2 - frameThickness, -height/3, width/2 - 0.002);
         enclosure.add(rightHinge2);
 
-        // Top ventilation screen with mesh pattern
+        // Top ventilation screen with black rim and mesh pattern
         const topScreenWidth = length - 2*frameThickness;
         const topScreenDepth = width - 2*frameThickness;
+        
+        // Black rim around the top screen
+        const rimMaterial = new THREE.MeshStandardMaterial({
+            color: 0x1a1a1a,  // Black plastic
+            roughness: 0.8,
+            metalness: 0.1
+        });
+        
+        const rimThickness = 0.008;
+        const rimHeight = 0.003;
+        
+        // Top rim pieces
+        const topRim = new THREE.Mesh(
+            new THREE.BoxGeometry(length, rimHeight, rimThickness),
+            rimMaterial
+        );
+        topRim.position.set(0, height/2 + rimHeight/2, -width/2 + rimThickness/2);
+        enclosure.add(topRim);
+        
+        const bottomRim = new THREE.Mesh(
+            new THREE.BoxGeometry(length, rimHeight, rimThickness),
+            rimMaterial
+        );
+        bottomRim.position.set(0, height/2 + rimHeight/2, width/2 - rimThickness/2);
+        enclosure.add(bottomRim);
+        
+        const leftRim = new THREE.Mesh(
+            new THREE.BoxGeometry(rimThickness, rimHeight, width),
+            rimMaterial
+        );
+        leftRim.position.set(-length/2 + rimThickness/2, height/2 + rimHeight/2, 0);
+        enclosure.add(leftRim);
+        
+        const rightRim = new THREE.Mesh(
+            new THREE.BoxGeometry(rimThickness, rimHeight, width),
+            rimMaterial
+        );
+        rightRim.position.set(length/2 - rimThickness/2, height/2 + rimHeight/2, 0);
+        enclosure.add(rightRim);
         
         // Create mesh pattern by using multiple small rectangles
         const meshSize = 0.005;  // Size of each mesh opening
@@ -387,26 +432,6 @@ class EnclosureBuilder {
                 enclosure.add(meshElement);
             }
         }
-
-        // Side ventilation strips with improved positioning
-        const sideScreenHeight = height * 0.15;
-        const sideScreenWidth = length * 0.7;
-        
-        // Left side ventilation
-        const leftSideScreen = new THREE.Mesh(
-            new THREE.PlaneGeometry(sideScreenWidth, sideScreenHeight),
-            screenMaterial
-        );
-        leftSideScreen.position.set(0, height * 0.25, -width/2 + 0.001);
-        enclosure.add(leftSideScreen);
-
-        // Right side ventilation
-        const rightSideScreen = new THREE.Mesh(
-            new THREE.PlaneGeometry(sideScreenWidth, sideScreenHeight),
-            screenMaterial
-        );
-        rightSideScreen.position.set(0, height * 0.25, width/2 - 0.001);
-        enclosure.add(rightSideScreen);
 
         // Add REPTIZOO branding (small text on front bottom)
         // Note: In a real implementation, you'd use TextGeometry, but for simplicity we'll add a small logo placeholder
