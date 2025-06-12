@@ -120,6 +120,7 @@ class EnclosureBuilder {
         // Add measurements if enabled
         if (this.measurementsVisible) {
             this.createMeasurements(length, width, height);
+            console.log('Measurements recreated with dimensions:', this.enclosureDimensions);
         }
 
         // Update camera position - optimize for the model type
@@ -756,9 +757,11 @@ class EnclosureBuilder {
     }
 
     updateEnclosureDimensions(length, width, height, enclosureData = null) {
+        console.log('Updating enclosure dimensions:', { length, width, height });
         this.enclosureDimensions = { length, width, height };
         this.currentEnclosureData = enclosureData;
         this.createEnclosure();
+        console.log('Measurements should now show:', `${length}" x ${width}" x ${height}"`);
     }
 
     addItem(itemData) {
@@ -1050,17 +1053,8 @@ window.addEventListener('load', () => {
         }
     });
 
-    // Add event listeners for dimension inputs
-    const updateDimensions = () => {
-        const length = parseFloat(document.getElementById('length').value) || 36;
-        const width = parseFloat(document.getElementById('width').value) || 18;
-        const height = parseFloat(document.getElementById('height').value) || 18;
-        builder.updateEnclosureDimensions(length, width, height);
-    };
-
-    document.getElementById('length').addEventListener('change', updateDimensions);
-    document.getElementById('width').addEventListener('change', updateDimensions);
-    document.getElementById('height').addEventListener('change', updateDimensions);
+    // Note: Dimension inputs are handled through enclosure selection in the HTML
+    // The measurements will automatically update when an enclosure is selected
     
     // Global test functions for debugging
     window.testZoom = () => {
