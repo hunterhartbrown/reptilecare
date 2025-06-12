@@ -1,0 +1,40 @@
+# Requirements for Python 3D Modeling of REPTIZOO 36x18x18 Terrarium
+# Install with: pip install -r requirements.txt
+
+# Core 3D libraries
+open3d>=0.15.0              # 3D data processing and visualization
+trimesh>=3.15.0             # Lightweight mesh processing
+vtk>=9.2.0                  # Visualization Toolkit
+pyvista>=0.40.0             # High-level VTK wrapper
+
+# Mathematical and scientific computing
+numpy>=1.21.0               # Numerical arrays and operations
+scipy>=1.7.0                # Scientific computing
+mathutils>=3.3.0            # 3D math utilities (similar to Blender's)
+
+# Visualization
+matplotlib>=3.5.0           # 2D/3D plotting
+plotly>=5.10.0              # Interactive 3D plotting
+mayavi>=4.8.0               # Advanced 3D visualization (optional)
+
+# Mesh processing and geometry
+pymeshlab>=2022.2           # MeshLab Python bindings
+meshio>=5.3.0               # Mesh I/O
+scikit-image>=0.19.0        # Image processing for textures
+
+# Animation and rendering
+imageio>=2.21.0             # Image/video I/O for animations
+imageio-ffmpeg>=0.4.7       # Video encoding support
+pillow>=9.0.0               # Image processing
+
+# Optional: Advanced rendering
+# moderngl>=5.7.0           # Modern OpenGL bindings
+# pyrr>=0.10.3              # 3D math library for OpenGL
+
+# Optional: Physics simulation
+# pybullet>=3.2.5           # Physics simulation for animation
+
+# Development and utilities
+jupyter>=1.0.0              # Interactive notebooks
+ipywidgets>=7.7.0           # Interactive widgets for Jupyter
+tqdm>=4.64.0                # Progress bars 
