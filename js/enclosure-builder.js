@@ -27,6 +27,10 @@ class EnclosureBuilder {
         this.renderer.setClearColor(0xf8f8f8);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        
+        // Improve transparency rendering
+        this.renderer.sortObjects = true;
+        this.renderer.alpha = true;
 
         // Setup camera
         this.camera.position.set(50, 30, 50);
@@ -150,15 +154,13 @@ class EnclosureBuilder {
     createReptizooModel(enclosure, length, width, height) {
         // Enhanced REPTIZOO model with detailed features
         
-        // Materials
-        const glassMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
+        // Materials - Improved glass that's visible from all angles
+        const glassMaterial = new THREE.MeshLambertMaterial({
+            color: 0xe8e8e8,  // Light grey tint
             transparent: true,
-            opacity: 0.25,
-            roughness: 0,
-            transmission: 0.95,
-            thickness: 0.005,
-            envMapIntensity: 1.0
+            opacity: 0.4,
+            side: THREE.DoubleSide,  // Render both sides to prevent disappearing
+            depthWrite: false  // Prevent depth sorting issues
         });
 
         const aluminumMaterial = new THREE.MeshStandardMaterial({
@@ -168,9 +170,10 @@ class EnclosureBuilder {
         });
 
         const screenMaterial = new THREE.MeshBasicMaterial({
-            color: 0x404040,
+            color: 0x2a2a2a,  // Darker screen color
             transparent: true,
-            opacity: 0.7
+            opacity: 0.8,
+            side: THREE.DoubleSide
         });
 
         const frameThickness = 0.01;
@@ -269,42 +272,148 @@ class EnclosureBuilder {
         rightDoor.position.set(length/2 - glassThickness/2, 0, doorWidth/2 + frameThickness/2);
         enclosure.add(rightDoor);
 
-        // Door handles
-        const handleGeometry = new THREE.CylinderGeometry(0.002, 0.002, 0.01);
-        const handleMaterial = new THREE.MeshStandardMaterial({ color: 0x666666 });
+        // Door handles - Accurate REPTIZOO style black plastic handles
+        const handleMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x2c2c2c,  // Dark grey/black plastic
+            roughness: 0.8,
+            metalness: 0.1
+        });
 
-        const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        leftHandle.position.set(length/2 - 0.005, 0, -doorWidth/2 - frameThickness/2 - 0.02);
-        leftHandle.rotation.z = Math.PI/2;
+        // Create more realistic handle shape (rectangular with rounded edges)
+        const handleWidth = 0.008;
+        const handleHeight = 0.004;
+        const handleDepth = 0.025;
+
+        // Left door handle
+        const leftHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
+        const leftHandle = new THREE.Mesh(leftHandleGeometry, handleMaterial);
+        leftHandle.position.set(length/2 + 0.008, 0, -doorWidth/2 - frameThickness/2 - 0.015);
         enclosure.add(leftHandle);
 
-        const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        rightHandle.position.set(length/2 - 0.005, 0, doorWidth/2 + frameThickness/2 + 0.02);
-        rightHandle.rotation.z = Math.PI/2;
+        // Right door handle  
+        const rightHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
+        const rightHandle = new THREE.Mesh(rightHandleGeometry, handleMaterial);
+        rightHandle.position.set(length/2 + 0.008, 0, doorWidth/2 + frameThickness/2 + 0.015);
         enclosure.add(rightHandle);
 
-        // Top ventilation screen
-        const screenGeometry = new THREE.PlaneGeometry(length - 2*frameThickness, width - 2*frameThickness);
-        const topScreen = new THREE.Mesh(screenGeometry, screenMaterial);
-        topScreen.position.set(0, height/2 - 0.001, 0);
-        topScreen.rotation.x = -Math.PI/2;
-        enclosure.add(topScreen);
+        // Add handle mounting screws for realism
+        const screwGeometry = new THREE.CylinderGeometry(0.001, 0.001, 0.002);
+        const screwMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
 
-        // Side ventilation strips
-        const sideScreenHeight = height * 0.2;
+        // Left handle screws
+        const leftScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
+        leftScrew1.position.set(length/2 + 0.006, 0.008, -doorWidth/2 - frameThickness/2 - 0.015);
+        leftScrew1.rotation.z = Math.PI/2;
+        enclosure.add(leftScrew1);
+
+        const leftScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
+        leftScrew2.position.set(length/2 + 0.006, -0.008, -doorWidth/2 - frameThickness/2 - 0.015);
+        leftScrew2.rotation.z = Math.PI/2;
+        enclosure.add(leftScrew2);
+
+        // Right handle screws
+        const rightScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
+        rightScrew1.position.set(length/2 + 0.006, 0.008, doorWidth/2 + frameThickness/2 + 0.015);
+        rightScrew1.rotation.z = Math.PI/2;
+        enclosure.add(rightScrew1);
+
+        const rightScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
+        rightScrew2.position.set(length/2 + 0.006, -0.008, doorWidth/2 + frameThickness/2 + 0.015);
+        rightScrew2.rotation.z = Math.PI/2;
+        enclosure.add(rightScrew2);
+
+        // Add door lock mechanism (center latch)
+        const lockGeometry = new THREE.BoxGeometry(0.015, 0.006, 0.004);
+        const lockMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x1a1a1a,  // Black plastic
+            roughness: 0.9 
+        });
+        
+        const doorLock = new THREE.Mesh(lockGeometry, lockMaterial);
+        doorLock.position.set(length/2 + 0.005, -height/4, 0);  // Center between doors, lower position
+        enclosure.add(doorLock);
+
+        // Add door frame separators
+        const frameSeparatorGeometry = new THREE.BoxGeometry(frameThickness, height - 2*frameThickness, frameThickness);
+        
+        // Center vertical separator between doors
+        const centerSeparator = new THREE.Mesh(frameSeparatorGeometry, aluminumMaterial);
+        centerSeparator.position.set(length/2 - frameThickness/2, 0, 0);
+        enclosure.add(centerSeparator);
+
+        // Add realistic hinges
+        const hingeGeometry = new THREE.BoxGeometry(0.003, 0.015, 0.008);
+        const hingeMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x666666,  // Dark metal
+            metalness: 0.8,
+            roughness: 0.3
+        });
+
+        // Left door hinges (2 hinges per door)
+        const leftHinge1 = new THREE.Mesh(hingeGeometry, hingeMaterial);
+        leftHinge1.position.set(length/2 - 0.002, height/3, -width/2 + frameThickness);
+        enclosure.add(leftHinge1);
+
+        const leftHinge2 = new THREE.Mesh(hingeGeometry, hingeMaterial);
+        leftHinge2.position.set(length/2 - 0.002, -height/3, -width/2 + frameThickness);
+        enclosure.add(leftHinge2);
+
+        // Right door hinges
+        const rightHinge1 = new THREE.Mesh(hingeGeometry, hingeMaterial);
+        rightHinge1.position.set(length/2 - 0.002, height/3, width/2 - frameThickness);
+        enclosure.add(rightHinge1);
+
+        const rightHinge2 = new THREE.Mesh(hingeGeometry, hingeMaterial);
+        rightHinge2.position.set(length/2 - 0.002, -height/3, width/2 - frameThickness);
+        enclosure.add(rightHinge2);
+
+        // Top ventilation screen with mesh pattern
+        const topScreenWidth = length - 2*frameThickness;
+        const topScreenDepth = width - 2*frameThickness;
+        
+        // Create mesh pattern by using multiple small rectangles
+        const meshSize = 0.005;  // Size of each mesh opening
+        const meshSpacing = 0.008;  // Spacing between mesh elements
+        
+        for (let x = -topScreenWidth/2; x < topScreenWidth/2; x += meshSpacing) {
+            for (let z = -topScreenDepth/2; z < topScreenDepth/2; z += meshSpacing) {
+                const meshElement = new THREE.Mesh(
+                    new THREE.PlaneGeometry(meshSize, meshSize),
+                    screenMaterial
+                );
+                meshElement.position.set(x, height/2 - 0.001, z);
+                meshElement.rotation.x = -Math.PI/2;
+                enclosure.add(meshElement);
+            }
+        }
+
+        // Side ventilation strips with improved positioning
+        const sideScreenHeight = height * 0.15;
+        const sideScreenWidth = length * 0.7;
+        
+        // Left side ventilation
         const leftSideScreen = new THREE.Mesh(
-            new THREE.PlaneGeometry(length * 0.6, sideScreenHeight),
+            new THREE.PlaneGeometry(sideScreenWidth, sideScreenHeight),
             screenMaterial
         );
-        leftSideScreen.position.set(0, height * 0.2, -width/2 + 0.001);
+        leftSideScreen.position.set(0, height * 0.25, -width/2 + 0.001);
         enclosure.add(leftSideScreen);
 
+        // Right side ventilation
         const rightSideScreen = new THREE.Mesh(
-            new THREE.PlaneGeometry(length * 0.6, sideScreenHeight),
+            new THREE.PlaneGeometry(sideScreenWidth, sideScreenHeight),
             screenMaterial
         );
-        rightSideScreen.position.set(0, height * 0.2, width/2 - 0.001);
+        rightSideScreen.position.set(0, height * 0.25, width/2 - 0.001);
         enclosure.add(rightSideScreen);
+
+        // Add REPTIZOO branding (small text on front bottom)
+        // Note: In a real implementation, you'd use TextGeometry, but for simplicity we'll add a small logo placeholder
+        const logoGeometry = new THREE.BoxGeometry(0.03, 0.005, 0.001);
+        const logoMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+        const logo = new THREE.Mesh(logoGeometry, logoMaterial);
+        logo.position.set(length/2 + 0.001, -height/2 + 0.02, 0);
+        enclosure.add(logo);
     }
 
     updateEnclosureDimensions(length, width, height, enclosureData = null) {
