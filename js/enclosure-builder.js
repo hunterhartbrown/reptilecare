@@ -12,6 +12,7 @@ class EnclosureBuilder {
         this.items = [];
         this.selectedItem = null;
         this.enclosureDimensions = { length: 36, width: 18, height: 18 }; // Default size
+        this.measurementsVisible = true; // Add control for measurements visibility
         
         this.init();
     }
@@ -89,6 +90,12 @@ class EnclosureBuilder {
             this.scene.remove(existingEnclosure);
         }
 
+        // Remove existing measurements
+        const existingMeasurements = this.scene.getObjectByName('measurements');
+        if (existingMeasurements) {
+            this.scene.remove(existingMeasurements);
+        }
+
         // Create enclosure group
         const enclosure = new THREE.Group();
         enclosure.name = 'enclosure';
@@ -109,6 +116,11 @@ class EnclosureBuilder {
 
         // Add to scene
         this.scene.add(enclosure);
+
+        // Add measurements if enabled
+        if (this.measurementsVisible) {
+            this.createMeasurements(length, width, height);
+        }
 
         // Update camera position - optimize for the model type
         this.updateCameraPosition(length, width, height, isReptizoo);
@@ -520,6 +532,229 @@ class EnclosureBuilder {
         enclosure.add(logo);
     }
 
+    createMeasurements(length, width, height) {
+        const measurementsGroup = new THREE.Group();
+        measurementsGroup.name = 'measurements';
+
+        // Measurement line material
+        const lineMaterial = new THREE.LineBasicMaterial({ 
+            color: 0x333333,
+            linewidth: 2,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        // Text material
+        const textMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.9
+        });
+
+        // Font loader for text (we'll create simple text for now)
+        const fontLoader = new THREE.FontLoader();
+
+        // Since we might not have font loading, let's create simple text using CSS2DRenderer approach
+        // For now, we'll create dimension lines and use DOM elements for text
+
+        // Create dimension lines
+        this.createDimensionLine(measurementsGroup, 
+            new THREE.Vector3(-length/2, -height/2 - 0.05, width/2 + 0.05),
+            new THREE.Vector3(length/2, -height/2 - 0.05, width/2 + 0.05),
+            `${this.enclosureDimensions.length}"`,
+            'length',
+            lineMaterial
+        );
+
+        this.createDimensionLine(measurementsGroup,
+            new THREE.Vector3(-length/2 - 0.05, -height/2 - 0.05, -width/2),
+            new THREE.Vector3(-length/2 - 0.05, -height/2 - 0.05, width/2),
+            `${this.enclosureDimensions.width}"`,
+            'width',
+            lineMaterial
+        );
+
+        this.createDimensionLine(measurementsGroup,
+            new THREE.Vector3(-length/2 - 0.05, -height/2, width/2 + 0.05),
+            new THREE.Vector3(-length/2 - 0.05, height/2, width/2 + 0.05),
+            `${this.enclosureDimensions.height}"`,
+            'height',
+            lineMaterial
+        );
+
+        // Add grid lines for better scale reference
+        this.createGridLines(measurementsGroup, length, width, height);
+
+        this.scene.add(measurementsGroup);
+    }
+
+    createDimensionLine(parent, start, end, text, dimension, material) {
+        // Create the main dimension line
+        const points = [start, end];
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material);
+        parent.add(line);
+
+        // Create extension lines (perpendicular lines at each end)
+        const direction = new THREE.Vector3().subVectors(end, start).normalize();
+        const perpendicular = new THREE.Vector3();
+        
+        if (dimension === 'height') {
+            perpendicular.set(0.02, 0, 0);
+        } else if (dimension === 'width') {
+            perpendicular.set(0, 0.02, 0);
+        } else { // length
+            perpendicular.set(0, 0.02, 0);
+        }
+
+        // Start extension line
+        const startExt1 = start.clone().add(perpendicular);
+        const startExt2 = start.clone().sub(perpendicular);
+        const startExtGeometry = new THREE.BufferGeometry().setFromPoints([startExt1, startExt2]);
+        const startExtLine = new THREE.Line(startExtGeometry, material);
+        parent.add(startExtLine);
+
+        // End extension line
+        const endExt1 = end.clone().add(perpendicular);
+        const endExt2 = end.clone().sub(perpendicular);
+        const endExtGeometry = new THREE.BufferGeometry().setFromPoints([endExt1, endExt2]);
+        const endExtLine = new THREE.Line(endExtGeometry, material);
+        parent.add(endExtLine);
+
+        // Create text label using CSS2D for better readability
+        this.createTextLabel(parent, start.clone().lerp(end, 0.5), text, dimension);
+    }
+
+    createTextLabel(parent, position, text, dimension) {
+        // Create a DOM element for the text
+        const textDiv = document.createElement('div');
+        textDiv.className = 'measurement-label';
+        textDiv.textContent = text;
+        textDiv.style.cssText = `
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        `;
+
+        // Create CSS2DObject (we'll simulate this with a simple plane for now)
+        // Since CSS2DRenderer might not be available, let's create a simple text texture
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = 128;
+        canvas.height = 32;
+        
+        // Set up text style
+        context.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.strokeStyle = '#333';
+        context.strokeRect(0, 0, canvas.width, canvas.height);
+        
+        context.fillStyle = '#333';
+        context.font = 'bold 16px Arial';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        // Create texture from canvas
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.needsUpdate = true;
+
+        // Create sprite material and sprite
+        const spriteMaterial = new THREE.SpriteMaterial({ 
+            map: texture,
+            transparent: true,
+            alphaTest: 0.1
+        });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        
+        // Scale the sprite appropriately
+        const scale = 0.1;
+        sprite.scale.set(scale * 2, scale * 0.5, 1);
+        
+        // Position the sprite
+        sprite.position.copy(position);
+        
+        // Adjust position based on dimension to avoid overlap
+        if (dimension === 'length') {
+            sprite.position.y -= 0.03;
+        } else if (dimension === 'width') {
+            sprite.position.x -= 0.03;
+        } else if (dimension === 'height') {
+            sprite.position.x -= 0.03;
+        }
+
+        parent.add(sprite);
+    }
+
+    createGridLines(parent, length, width, height) {
+        const gridMaterial = new THREE.LineBasicMaterial({ 
+            color: 0xcccccc,
+            transparent: true,
+            opacity: 0.3
+        });
+
+        // Floor grid lines every 6 inches (0.1524 meters)
+        const gridSpacing = 6 * 0.0254; // 6 inches in meters
+        const gridSize = Math.max(length, width);
+
+        // Create floor grid
+        const gridHelper = new THREE.GridHelper(gridSize * 1.5, Math.floor(gridSize / gridSpacing));
+        gridHelper.material = gridMaterial;
+        gridHelper.position.y = -height/2 - 0.001; // Just below the enclosure floor
+        parent.add(gridHelper);
+
+        // Add scale reference markers
+        this.createScaleMarkers(parent, length, width, height);
+    }
+
+    createScaleMarkers(parent, length, width, height) {
+        const markerMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0xff6b6b,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        // Create small reference markers at key measurements
+        const markerSize = 0.01;
+        const markerGeometry = new THREE.SphereGeometry(markerSize, 8, 6);
+
+        // Corner markers
+        const corners = [
+            new THREE.Vector3(-length/2, -height/2, -width/2),
+            new THREE.Vector3(length/2, -height/2, -width/2),
+            new THREE.Vector3(-length/2, -height/2, width/2),
+            new THREE.Vector3(length/2, -height/2, width/2),
+            new THREE.Vector3(-length/2, height/2, -width/2),
+            new THREE.Vector3(length/2, height/2, -width/2),
+            new THREE.Vector3(-length/2, height/2, width/2),
+            new THREE.Vector3(length/2, height/2, width/2)
+        ];
+
+        corners.forEach(corner => {
+            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            marker.position.copy(corner);
+            parent.add(marker);
+        });
+    }
+
+    toggleMeasurements() {
+        this.measurementsVisible = !this.measurementsVisible;
+        const measurements = this.scene.getObjectByName('measurements');
+        if (measurements) {
+            measurements.visible = this.measurementsVisible;
+        }
+        return this.measurementsVisible;
+    }
+
     updateEnclosureDimensions(length, width, height, enclosureData = null) {
         this.enclosureDimensions = { length, width, height };
         this.currentEnclosureData = enclosureData;
@@ -751,6 +986,13 @@ window.addEventListener('load', () => {
     document.getElementById('reset-view').addEventListener('click', () => {
         builder.resetCamera();
     });
+    
+    document.getElementById('toggle-measurements').addEventListener('click', () => {
+        const isVisible = builder.toggleMeasurements();
+        const button = document.getElementById('toggle-measurements');
+        button.textContent = isVisible ? '📏 Hide Measurements' : '📏 Show Measurements';
+        console.log('Measurements toggled:', isVisible ? 'visible' : 'hidden');
+    });
 
     // Help panel toggle
     document.getElementById('help-toggle').addEventListener('click', () => {
@@ -797,6 +1039,13 @@ window.addEventListener('load', () => {
             case 'r':
                 e.preventDefault();
                 builder.resetCamera();
+                break;
+            case 'm':
+                e.preventDefault();
+                console.log('M key pressed - Toggle Measurements');
+                const isVisible = builder.toggleMeasurements();
+                const button = document.getElementById('toggle-measurements');
+                button.textContent = isVisible ? '📏 Hide Measurements' : '📏 Show Measurements';
                 break;
         }
     });
