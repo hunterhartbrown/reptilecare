@@ -1,14 +1,14 @@
 <!-- header.html -->
 <style>
     header {
-        background-color: #F8F5F2;
+        background-color: #ffffff;
         width: 100%;
         height: 80px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 20px;
-        box-shadow: 0 2px 4px rgba(123, 168, 132, 0.15);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         position: fixed;
         top: 0;
         left: 0;
@@ -56,12 +56,12 @@
 
     .nav-links a {
         text-decoration: none;
-        color: #7ba884;
+        color: #222;
         font-size: 1rem;
         font-weight: 600;
         padding: 6px 12px;
         border-radius: 5px;
-        transition: background 0.3s, color 0.3s;
+        transition: background 0.2s, color 0.2s;
         display: flex;
         align-items: center;
         white-space: nowrap;
@@ -69,8 +69,8 @@
 
     .nav-links a:hover,
     .nav-links a:focus {
-        background: #7ba884;
-        color: #F8F5F2;
+        background: #000;
+        color: #fff;
     }
 
     .site-search {
@@ -106,7 +106,7 @@
 
     .search-input:focus {
         outline: none;
-        border-color: #7ba884;
+        border-color: #000;
         width: 300px;
     }
 
@@ -119,7 +119,7 @@
         right: 4px;
         top: 50%;
         transform: translateY(-50%);
-        color: #A1C181;
+        color: #666;
         transition: color 0.2s;
         z-index: 3;
         height: 36px;
@@ -129,7 +129,7 @@
     }
 
     .search-btn:hover {
-        color: #7ba884;
+        color: #000;
     }
 
     .auth-buttons {
@@ -149,27 +149,27 @@
     }
 
     .auth-buttons .login {
-        background: transparent;
-        color: #7ba884;
-        border: 1px solid #7ba884;
+        background: #fff;
+        color: #000;
+        border: 1px solid #000;
     }
 
     .auth-buttons .signup {
-        background: #D97D54;
-        color: #F8F5F2;
-        border: 1px solid #D97D54;
+        background: #000;
+        color: #fff;
+        border: 1px solid #000;
     }
 
     .auth-buttons .login:hover,
     .auth-buttons .login:focus {
-        background: #7ba884;
-        color: #F8F5F2;
+        background: #000;
+        color: #fff;
     }
 
     .auth-buttons .signup:hover,
     .auth-buttons .signup:focus {
-        background: #C86A41;
-        border-color: #C86A41;
+        background: #444;
+        border-color: #444;
     }
 
     /* Mobile menu toggle button */
@@ -291,19 +291,19 @@
 
     .mobile-nav-links a {
         text-decoration: none;
-        color: #7ba884;
+        color: #222;
         font-size: 1.2rem;
         font-weight: 600;
         display: block;
         padding: 18px 15px;
-        border-bottom: 1px solid #A1C181;
+        border-bottom: 1px solid #eee;
         transition: all 0.2s ease;
         border-radius: 8px;
     }
 
     .mobile-nav-links a:hover {
-        color: #F8F5F2;
-        background-color: #7ba884;
+        color: #fff;
+        background-color: #000;
         transform: translateX(5px);
         border-bottom-color: transparent;
     }
@@ -328,25 +328,20 @@
     }
 
     .mobile-auth .login {
-        background: transparent;
-        color: #7ba884;
-        border: 2px solid #7ba884;
+        background: #fff;
+        color: #000;
+        border: 2px solid #000;
     }
 
     .mobile-auth .signup {
-        background: #D97D54;
-        color: #F8F5F2;
-        border: 2px solid #D97D54;
+        background: #000;
+        color: #fff;
+        border: 2px solid #000;
     }
 
     .mobile-auth .login:hover {
-        background: #7ba884;
-        color: #F8F5F2;
-    }
-
-    .mobile-auth .signup:hover {
-        background: #C86A41;
-        border-color: #C86A41;
+        background: #000;
+        color: #fff;
     }
 
     .mobile-auth .signup:hover {

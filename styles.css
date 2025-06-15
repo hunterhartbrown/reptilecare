@@ -6,21 +6,20 @@ body {
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F8F5F2;
-    color: #2E2E2E;
+    background-color: #ffffff;
     /* Responsive padding will be handled by media queries */
     padding-top: 80px; /* Default for desktop */
 }
 
 header {
-    background-color: #F8F5F2;
+    background-color: #ffffff;
     width: 100%;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(123, 168, 132, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
     z-index: 1000;
@@ -51,16 +50,13 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: #7ba884;
+    color: #000;
     font-weight: 700; /* bold */
     padding: 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
-    background-color: #7ba884;
-    color: #F8F5F2;
+    background-color: #ffffff;
     border-radius: 5px;
 }
 
@@ -72,29 +68,20 @@ nav {
 
 .auth-buttons button {
     background-color: transparent;
-    border: 1px solid #7ba884;
-    color: #7ba884;
+    border: 1px solid #000;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
     font-weight: 400; /* regular */
-    transition: all 0.3s ease;
 }
 
 .auth-buttons .signup {
-    background-color: #D97D54;
-    color: #F8F5F2;
-    border: 1px solid #D97D54;
+    background-color: #000;
+    color: #fff;
 }
 
 .auth-buttons button:hover {
-    background-color: #7ba884;
-    color: #F8F5F2;
-}
-
-.auth-buttons .signup:hover {
-    background-color: #C86A41;
-    border-color: #C86A41;
+    opacity: 0.8;
 }
 
 section {
@@ -129,11 +116,11 @@ section {
 }
 
 .dots-container .dot:hover {
-    background-color: #A1C181;
+    background-color: #999;
 }
 
 .dots-container .dot.active {
-    background-color: #D97D54;
+    background-color: #333;
 }
 
 .slide {
@@ -204,7 +191,7 @@ section {
 /* New styles for care guides section */
 .care-guides {
     padding: 20px;
-    background-color: #F8F5F2;
+    background-color: #fff;
 }
 
 .care-guide-container {
@@ -218,20 +205,13 @@ section {
 
 .care-guide {
     width: 21%; /* Reduced width to make them smaller */
-    background-color: #F8F5F2;
+    background-color: #fff;
     text-align: center;
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid #A1C181;
+    border: 1px solid #ddd;
     border-radius: 5px;
     box-sizing: border-box;
-    transition: all 0.3s ease;
-}
-
-.care-guide:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(123, 168, 132, 0.15);
-    border-color: #7ba884;
 }
 
 .care-guide img {
@@ -264,15 +244,15 @@ section {
 }
 
 .search-input:focus {
-    border-color: #7ba884;
+    border-color: #005f6b;
 }
 
 .search-btn {
     padding: 7px 13px;
-    border: 1px solid #A1C181;
+    border: 1px solid #bbb;
     border-left: none;
-    background: #D97D54;
-    color: #F8F5F2;
+    background: #000;
+    color: #fff;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     font-size: 1.1em;
@@ -280,8 +260,8 @@ section {
 }
 
 .search-btn:hover, .search-btn:focus {
-    background: #C86A41;
-    color: #F8F5F2;
+    background: #005f6b;
+    color: #fff;
 }
 
 /* ────────────── RESPONSIVE STYLES ────────────── */
