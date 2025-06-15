@@ -6,20 +6,21 @@ body {
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
+    background-color: #F8F5F2;
+    color: #2E2E2E;
     /* Responsive padding will be handled by media queries */
     padding-top: 80px; /* Default for desktop */
 }
 
 header {
-    background-color: #ffffff;
+    background-color: #F8F5F2;
     width: 100%;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(78, 115, 63, 0.15);
     position: fixed;
     top: 0;
     z-index: 1000;
@@ -50,13 +51,16 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: #000;
+    color: #4E733F;
     font-weight: 700; /* bold */
     padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
-    background-color: #ffffff;
+    background-color: #4E733F;
+    color: #F8F5F2;
     border-radius: 5px;
 }
 
@@ -68,26 +72,35 @@ nav {
 
 .auth-buttons button {
     background-color: transparent;
-    border: 1px solid #000;
+    border: 1px solid #4E733F;
+    color: #4E733F;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
     font-weight: 400; /* regular */
+    transition: all 0.3s ease;
 }
 
 .auth-buttons .signup {
-    background-color: #000;
-    color: #fff;
+    background-color: #D97D54;
+    color: #F8F5F2;
+    border: 1px solid #D97D54;
 }
 
 .auth-buttons button:hover {
-    opacity: 0.8;
+    background-color: #4E733F;
+    color: #F8F5F2;
+}
+
+.auth-buttons .signup:hover {
+    background-color: #C86A41;
+    border-color: #C86A41;
 }
 
 section {
     padding: 20px 0 1em 0; /* Reduced default padding */
     width: 100%;
-    background-color: #000;
+    background-color: #4E733F;
 }
 
 .content-slider {
@@ -116,11 +129,11 @@ section {
 }
 
 .dots-container .dot:hover {
-    background-color: #999;
+    background-color: #A1C181;
 }
 
 .dots-container .dot.active {
-    background-color: #333;
+    background-color: #D97D54;
 }
 
 .slide {
@@ -143,7 +156,7 @@ section {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #000; /* Match the background color */
+    background-color: #4E733F; /* Match the background color */
 }
 
 .slide-image img {
@@ -191,7 +204,7 @@ section {
 /* New styles for care guides section */
 .care-guides {
     padding: 20px;
-    background-color: #fff;
+    background-color: #F8F5F2;
 }
 
 .care-guide-container {
@@ -205,13 +218,20 @@ section {
 
 .care-guide {
     width: 21%; /* Reduced width to make them smaller */
-    background-color: #fff;
+    background-color: #F8F5F2;
     text-align: center;
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #A1C181;
     border-radius: 5px;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.care-guide:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(78, 115, 63, 0.15);
+    border-color: #4E733F;
 }
 
 .care-guide img {
@@ -244,15 +264,15 @@ section {
 }
 
 .search-input:focus {
-    border-color: #005f6b;
+    border-color: #4E733F;
 }
 
 .search-btn {
     padding: 7px 13px;
-    border: 1px solid #bbb;
+    border: 1px solid #A1C181;
     border-left: none;
-    background: #000;
-    color: #fff;
+    background: #D97D54;
+    color: #F8F5F2;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     font-size: 1.1em;
@@ -260,8 +280,8 @@ section {
 }
 
 .search-btn:hover, .search-btn:focus {
-    background: #005f6b;
-    color: #fff;
+    background: #C86A41;
+    color: #F8F5F2;
 }
 
 /* ────────────── RESPONSIVE STYLES ────────────── */
