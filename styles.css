@@ -20,7 +20,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(78, 115, 63, 0.15);
+    box-shadow: 0 2px 4px rgba(123, 168, 132, 0.15);
     position: fixed;
     top: 0;
     z-index: 1000;
@@ -51,7 +51,7 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: #4E733F;
+    color: #7ba884;
     font-weight: 700; /* bold */
     padding: 10px;
     border-radius: 5px;
@@ -59,7 +59,7 @@ nav {
 }
 
 .nav-links a:hover {
-    background-color: #4E733F;
+    background-color: #7ba884;
     color: #F8F5F2;
     border-radius: 5px;
 }
@@ -72,8 +72,8 @@ nav {
 
 .auth-buttons button {
     background-color: transparent;
-    border: 1px solid #4E733F;
-    color: #4E733F;
+    border: 1px solid #7ba884;
+    color: #7ba884;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
@@ -88,7 +88,7 @@ nav {
 }
 
 .auth-buttons button:hover {
-    background-color: #4E733F;
+    background-color: #7ba884;
     color: #F8F5F2;
 }
 
@@ -100,7 +100,7 @@ nav {
 section {
     padding: 20px 0 1em 0; /* Reduced default padding */
     width: 100%;
-    background-color: #4E733F;
+    background-color: #000;
 }
 
 .content-slider {
@@ -156,7 +156,7 @@ section {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #4E733F; /* Match the background color */
+    background-color: #000; /* Match the background color */
 }
 
 .slide-image img {
@@ -230,8 +230,8 @@ section {
 
 .care-guide:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(78, 115, 63, 0.15);
-    border-color: #4E733F;
+    box-shadow: 0 8px 25px rgba(123, 168, 132, 0.15);
+    border-color: #7ba884;
 }
 
 .care-guide img {
@@ -264,7 +264,7 @@ section {
 }
 
 .search-input:focus {
-    border-color: #4E733F;
+    border-color: #7ba884;
 }
 
 .search-btn {
