@@ -272,7 +272,18 @@
             }
             .care-guides-title { font-size: 1.25rem; }
             .care-guides-desc { font-size: 0.98rem; }
-            .care-guide-img-frame { height: 140px; }
+            .care-guide-img-frame { 
+                height: 0;
+                padding-bottom: 42.86%; /* This maintains the same 2.33:1 aspect ratio as desktop (90px/210px) */
+                position: relative;
+            }
+            .care-guide-img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
             .availability-segment { width: 9px; height: 6px; }
             .care-guide-label { min-height: 20px; font-size: 0.99rem; }
             .care-guide-btn {
