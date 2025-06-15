@@ -124,111 +124,81 @@
 
     <!-- Row 1 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('speciesOverview')">
+      <button class="section-button" onclick="toggleSection('speciesInfo')">
         <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
-        <span>Species Overview</span>
+        <span>Species Info</span>
       </button>
-      <button class="section-button" onclick="toggleSection('colorationPatterns')">
-        <img src="images/coloration icon.png" alt="Coloration Icon" class="button-icon">
-        <span>Coloration & Patterns</span>
+      <button class="section-button" onclick="toggleSection('habitatSize')">
+        <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
+        <span>Habitat Size</span>
       </button>
     </div>
     <div class="content-area">
-      <div id="speciesOverview" class="section-content">
+      <div id="speciesInfo" class="section-content">
         <p>
-          Crested geckos are native to the southern forests of New Caledonia, east of Australia. Their prominent eyelash-like crests and prehensile tails help them navigate branches and leaves. Males are best housed separately due to territoriality, while females may be grouped in larger enclosures.
+          Crested geckos are native to the southern forests of New Caledonia, east of Australia. Their prominent eyelash-like crests and prehensile tails help them navigate branches and leaves. These geckos are available in a dazzling range of colors and patterns, from soft earth tones to bold oranges, reds, and whites. Males are best housed separately due to territoriality, while females may be grouped in larger enclosures.
         </p>
       </div>
-      <div id="colorationPatterns" class="section-content">
+      <div id="habitatSize" class="section-content">
         <p>
-          These geckos are available in a dazzling range of colors and patterns, from soft earth tones to bold oranges, reds, and whites. Some display stripes or spots, others are nearly solid—morphs continue to expand with captive breeding.
+          One adult (or a pair) can thrive in a <strong>20-gallon tank</strong> or an <strong>18×18×24" terrarium</strong>. Juveniles should be housed separately until mature, as they may fight. Never house males together, but a male can be kept with females if the enclosure is spacious and well-planted.
+        </p>
+        <p>
+          Provide plenty of vertical space and climbing opportunities using branches, vines, and cork bark. Coco fiber or bioactive substrates support humidity and digging. Keep substrate moist (not soggy).
         </p>
       </div>
     </div>
 
     <!-- Row 2 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('enclosureSize')">
-        <img src="images/habitat icon.png" alt="Enclosure Icon" class="button-icon">
-        <span>Enclosure Size</span>
+      <button class="section-button" onclick="toggleSection('heatingReqs')">
+        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
+        <span>Heating</span>
       </button>
-      <button class="section-button" onclick="toggleSection('enclosureSetup')">
-        <img src="images/setup icon.png" alt="Enclosure Setup Icon" class="button-icon">
-        <span>Enclosure Setup</span>
-      </button>
-    </div>
-    <div class="content-area">
-      <div id="enclosureSize" class="section-content">
-        <p>
-          One adult (or a pair) can thrive in a <strong>20-gallon tank</strong> or an <strong>18×18×24" terrarium</strong>. Juveniles should be housed separately until mature, as they may fight. Never house males together, but a male can be kept with females if the enclosure is spacious and well-planted.
-        </p>
-      </div>
-      <div id="enclosureSetup" class="section-content">
-        <p>
-          Provide plenty of vertical space and climbing opportunities using branches, vines, and cork bark. Coco fiber or bioactive substrates support humidity and digging. Keep substrate moist (not soggy). Maintain temperatures of 74–78°F with humidity 60–70%.
-        </p>
-      </div>
-    </div>
-
-    <!-- Row 3 Buttons -->
-    <div class="button-row">
-      <button class="section-button" onclick="toggleSection('temperatureReqs')">
-        <img src="images/heating icon.png" alt="Temperature Icon" class="button-icon">
-        <span>Temperature</span>
-      </button>
-      <button class="section-button" onclick="toggleSection('humidityVent')">
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">
         <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
-        <span>Humidity & Ventilation</span>
+        <span>Humidity/Airflow</span>
       </button>
     </div>
     <div class="content-area">
-      <div id="temperatureReqs" class="section-content">
+      <div id="heatingReqs" class="section-content">
         <p>
           Crested geckos do best at <strong>72–78°F</strong>. Supplemental heating is only needed if your home drops below 65°F. Avoid temps over 85°F. Use a thermometer to monitor conditions—usually, room temperature suffices.
         </p>
       </div>
-      <div id="humidityVent" class="section-content">
+      <div id="humidityAirflow" class="section-content">
         <p>
           Target humidity: <strong>60–70%</strong>. Mist the enclosure 1–2 times daily to maintain humidity, but allow the enclosure to dry out between mistings. Good ventilation is critical for health—use a mesh top and monitor with a hygrometer. Always provide fresh water.
         </p>
       </div>
     </div>
 
-    <!-- Row 4 Buttons -->
+    <!-- Row 3 Buttons -->
     <div class="button-row">
-      <button class="section-button" onclick="toggleSection('dietaryNeeds')">
-        <img src="images/food icon.png" alt="Diet Icon" class="button-icon">
-        <span>Dietary Needs</span>
+      <button class="section-button" onclick="toggleSection('foodReqs')">
+        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
+        <span>Food</span>
       </button>
-      <button class="section-button" onclick="toggleSection('sizeLifespan')">
-        <img src="images/size icon.png" alt="Size Icon" class="button-icon">
-        <span>Size & Lifespan</span>
+      <button class="section-button" onclick="toggleSection('enrichment')">
+        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
+        <span>Enrichment</span>
       </button>
     </div>
     <div class="content-area">
-      <div id="dietaryNeeds" class="section-content">
+      <div id="foodReqs" class="section-content">
         <p>
           Offer a mix of fruit-based commercial diets (e.g., Pangea, Repashy) as the staple. Supplement with live insects (crickets, dubia roaches) weekly—gut-load and dust insects with calcium and vitamins. Remove uneaten food promptly.
         </p>
+        <p>
+          Always provide a shallow dish of fresh water, cleaned daily. Water dishes also create slight humidity, which can be beneficial near hides.
+        </p>
       </div>
-      <div id="sizeLifespan" class="section-content">
+      <div id="enrichment" class="section-content">
         <p>
           Crested geckos grow to <strong>7–9 inches</strong>, including tail. They may drop (and not regrow) their tails if stressed. With proper care, expect lifespans of <strong>15–20 years</strong>. Juveniles are sold at about 4–5 inches in length.
         </p>
-      </div>
-    </div>
-
-    <!-- Row 5 Button -->
-    <div class="button-row">
-      <button class="section-button" onclick="toggleSection('sexingBreeding')">
-        <img src="images/breeding icon.png" alt="Breeding Icon" class="button-icon">
-        <span>Sexing & Breeding</span>
-      </button>
-    </div>
-    <div class="content-area">
-      <div id="sexingBreeding" class="section-content">
         <p>
-          Males develop bulges at the tail base and mature at 1.5–2 years. Breeding season is December–August; females lay two eggs every 30–45 days. After breeding, separate males and allow females time to recover.
+          Enrichment promotes natural behaviors: include multiple hides, climbing structures, and visual barriers using cork bark and artificial plants. Males develop bulges at the tail base and mature at 1.5–2 years. Periodically rearrange decor for novelty to encourage exploration.
         </p>
       </div>
     </div>
