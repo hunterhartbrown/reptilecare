@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Crested Gecko Care Guide</title>
 
-  <link rel="stylesheet" href="../styles.css">
+  <!-- Link to your main stylesheet for .logo, .login, .signup, etc. -->
+  <link rel="stylesheet" href="styles.css">
+
   <style>
     header {
       background-color: #ffffff;
@@ -15,25 +17,27 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
+
     section.care-guide-content {
       padding: 100px 20px 20px;
       max-width: 800px;
       margin: 0 auto;
-      background-color: #f0e4c4;
+      background-color: #fff;
     }
+
     .care-guide-content h1 {
       text-align: center;
       font-size: 36px;
       font-weight: bold;
-      color: #000;
       margin-top: 0;
       margin-bottom: 10px;
     }
+
     .care-guide-content img {
       display: block;
       margin: 0 auto 20px;
@@ -41,19 +45,21 @@
       max-width: 500px;
       border-radius: 10px;
     }
+
     .care-guide-content p {
       margin: 15px 0;
       font-size: 18px;
       line-height: 1.6;
       text-indent: 2em;
-      color: #222;
     }
+
     .button-row {
       display: flex;
       justify-content: center;
       gap: 20px;
       margin: 20px 0;
     }
+
     .section-button {
       flex: 0 0 170px;
       width: 170px;
@@ -67,45 +73,47 @@
       text-align: center;
       white-space: normal;
       word-break: break-word;
-      background-color: #fff7e0;
-      border: 1px solid #e1ceac;
+      background-color: #f2f2f2;
+      border: 1px solid #ddd;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.18s;
     }
-    .section-button:hover {
-      background: #f7eed7;
-    }
+
     .section-button .button-icon {
       width: 24px;
       height: 24px;
       margin: 0;
     }
+
     .content-area {
       margin-bottom: 20px;
       text-align: left;
     }
+
     .section-content {
       display: none;
     }
+
     footer {
-      background-color: #000;
-      color: #fff;
+      margin-left: 20px;
+      background-color: #fff;
+      color: #000;
       padding: 20px 0;
-      text-align: center;
-      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      text-align: left;
     }
     footer p {
-      margin: 0;
+      margin: 0 0 0 20px;
     }
   </style>
 </head>
 <body>
+
   <header id="main-header"></header>
 
   <section class="care-guide-content">
     <h1>Crested Gecko Care Guide</h1>
-    <img src="../images/crested_gecko_trans_bg.png" alt="Crested Gecko" />
+    <img src="images/crested gecko trans bg.png" alt="Crested Gecko" />
 
     <p>
       <a href="https://en.wikipedia.org/wiki/Crested_gecko" target="_blank" rel="noopener">Crested geckos (Correlophus ciliatus)</a> are gentle, arboreal lizards from New Caledonia. Famous for their eyelash-like crests and prehensile tails, they thrive in home vivariums and make engaging pets for keepers of all experience levels.
@@ -117,11 +125,11 @@
     <!-- Row 1 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('speciesOverview')">
-        <img src="../images/species_info_icon.png" alt="Species Info Icon" class="button-icon">
+        <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Overview</span>
       </button>
       <button class="section-button" onclick="toggleSection('colorationPatterns')">
-        <img src="../images/coloration_icon.png" alt="Coloration Icon" class="button-icon">
+        <img src="images/coloration icon.png" alt="Coloration Icon" class="button-icon">
         <span>Coloration & Patterns</span>
       </button>
     </div>
@@ -141,11 +149,11 @@
     <!-- Row 2 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('enclosureSize')">
-        <img src="../images/habitat_icon.png" alt="Enclosure Icon" class="button-icon">
+        <img src="images/habitat icon.png" alt="Enclosure Icon" class="button-icon">
         <span>Enclosure Size</span>
       </button>
       <button class="section-button" onclick="toggleSection('enclosureSetup')">
-        <img src="../images/setup_icon.png" alt="Enclosure Setup Icon" class="button-icon">
+        <img src="images/setup icon.png" alt="Enclosure Setup Icon" class="button-icon">
         <span>Enclosure Setup</span>
       </button>
     </div>
@@ -165,11 +173,11 @@
     <!-- Row 3 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('temperatureReqs')">
-        <img src="../images/heating_icon.png" alt="Temperature Icon" class="button-icon">
+        <img src="images/heating icon.png" alt="Temperature Icon" class="button-icon">
         <span>Temperature</span>
       </button>
       <button class="section-button" onclick="toggleSection('humidityVent')">
-        <img src="../images/humidity_icon.png" alt="Humidity Icon" class="button-icon">
+        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
         <span>Humidity & Ventilation</span>
       </button>
     </div>
@@ -189,11 +197,11 @@
     <!-- Row 4 Buttons -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('dietaryNeeds')">
-        <img src="../images/food_icon.png" alt="Diet Icon" class="button-icon">
+        <img src="images/food icon.png" alt="Diet Icon" class="button-icon">
         <span>Dietary Needs</span>
       </button>
       <button class="section-button" onclick="toggleSection('sizeLifespan')">
-        <img src="../images/size_icon.png" alt="Size Icon" class="button-icon">
+        <img src="images/size icon.png" alt="Size Icon" class="button-icon">
         <span>Size & Lifespan</span>
       </button>
     </div>
@@ -213,7 +221,7 @@
     <!-- Row 5 Button -->
     <div class="button-row">
       <button class="section-button" onclick="toggleSection('sexingBreeding')">
-        <img src="../images/breeding_icon.png" alt="Breeding Icon" class="button-icon">
+        <img src="images/breeding icon.png" alt="Breeding Icon" class="button-icon">
         <span>Sexing & Breeding</span>
       </button>
     </div>
@@ -227,11 +235,13 @@
   </section>
 
   <footer>
-    <p>&copy; 2024 Reptile Care. All rights reserved.</p>
+    <p>&copy; 2025 ReptileCare. All rights reserved.</p>
   </footer>
 
+  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+  <script src="js/mobile-menu.js"></script>
   <script>
-    // Accordion toggle logic
+    // Simple accordion toggle
     function toggleSection(sectionId) {
       const allSections = document.querySelectorAll('.section-content');
       allSections.forEach(sec => {
@@ -241,7 +251,5 @@
       clicked.style.display = (clicked.style.display === 'block') ? 'none' : 'block';
     }
   </script>
-  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
-  <script src="../js/mobile-menu.js"></script>
 </body>
 </html>
