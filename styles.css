@@ -50,7 +50,7 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: #000;
+    color: #0f0f0f;
     font-weight: 700; /* bold */
     padding: 10px;
 }
@@ -68,7 +68,7 @@ nav {
 
 .auth-buttons button {
     background-color: transparent;
-    border: 1px solid #000;
+    border: 1px solid #0f0f0f;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
@@ -76,7 +76,7 @@ nav {
 }
 
 .auth-buttons .signup {
-    background-color: #000;
+    background-color: #0f0f0f;
     color: #fff;
 }
 
@@ -87,7 +87,7 @@ nav {
 section {
     padding: 20px 0 1em 0; /* Reduced default padding */
     width: 100%;
-    background-color: #000;
+    background-color: #0f0f0f;
 }
 
 .content-slider {
@@ -120,7 +120,7 @@ section {
 }
 
 .dots-container .dot.active {
-    background-color: #333;
+    background-color: #0f0f0f;
 }
 
 .slide {
@@ -143,7 +143,7 @@ section {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #000; /* Match the background color */
+    background-color: #0f0f0f; /* Match the background color */
 }
 
 .slide-image img {
@@ -251,7 +251,7 @@ section {
     padding: 7px 13px;
     border: 1px solid #bbb;
     border-left: none;
-    background: #000;
+    background: #0f0f0f;
     color: #fff;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
