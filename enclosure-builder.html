@@ -1158,16 +1158,25 @@
             // Update selected enclosure count
             document.getElementById('selected-enclosure-count').textContent = 'Selected Enclosure (1/1)';
             
-            // Update selected enclosure display
+            // Update selected enclosure display - ONLY the image in the image container
             const imageElement = document.getElementById('selected-enclosure-image');
             imageElement.innerHTML = `
-                <img src="${enclosure.image}" alt="${enclosure.name}">
+                <img src="${enclosure.image}" alt="${enclosure.name}" style="
+                    max-width: 100%; 
+                    max-height: 100%; 
+                    object-fit: contain; 
+                    width: auto; 
+                    height: auto; 
+                    display: block;
+                    margin: 0 auto;
+                ">
             `;
             
-            // Add purchase links
+            // Add purchase links to the details section instead
+            let purchaseLink = '';
             if (enclosure.amazonUrl) {
-                imageElement.innerHTML += `
-                    <div style="margin-top: 10px;">
+                purchaseLink = `
+                    <p style="margin-top: 15px;">
                         <a href="${enclosure.amazonUrl}" target="_blank" style="
                             display: inline-block;
                             background: #ff9900;
@@ -1179,11 +1188,11 @@
                             font-weight: bold;
                             margin-right: 8px;
                         ">View on Amazon</a>
-                    </div>
+                    </p>
                 `;
             } else if (enclosure.productUrl) {
-                imageElement.innerHTML += `
-                    <div style="margin-top: 10px;">
+                purchaseLink = `
+                    <p style="margin-top: 15px;">
                         <a href="${enclosure.productUrl}" target="_blank" style="
                             display: inline-block;
                             background: #2ecc71;
@@ -1194,7 +1203,7 @@
                             font-size: 0.9rem;
                             font-weight: bold;
                         ">View on Dubia.com</a>
-                    </div>
+                    </p>
                 `;
             }
             
@@ -1202,6 +1211,16 @@
             document.getElementById('selected-material').textContent = enclosure.material;
             document.getElementById('selected-features').textContent = enclosure.features;
             document.getElementById('selected-price').textContent = enclosure.price.toFixed(2);
+            
+            // Add purchase link to the price area
+            const priceElement = document.getElementById('selected-price').parentElement;
+            const existingLink = priceElement.querySelector('a');
+            if (existingLink) {
+                existingLink.remove(); // Remove existing link
+            }
+            if (purchaseLink) {
+                priceElement.insertAdjacentHTML('beforeend', purchaseLink);
+            }
 
             // Update 3D model
             if (window.enclosureBuilder) {
