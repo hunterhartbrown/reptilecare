@@ -99,6 +99,19 @@
         return isInSubdirectory ? '../header.html' : 'header.html';
     }
 
+    // Determine the correct footer path based on current page location
+    function getFooterPath() {
+        const currentPath = window.location.pathname;
+        
+        // Check if we're in a subdirectory by looking for multiple slashes
+        // or if the path contains specific subdirectory indicators
+        const isInSubdirectory = (currentPath.match(/\//g) || []).length > 1 || 
+                                 currentPath.includes('/crested-gecko') || 
+                                 currentPath.includes('/eastern-collared-lizard');
+        
+        return isInSubdirectory ? '../footer.html' : 'footer.html';
+    }
+
     // Header Loader Function - works on all pages
     function loadHeaderWithMobileMenu() {
         const headerElement = document.getElementById('main-header');
@@ -126,6 +139,9 @@
                 
                 // Load and initialize search functionality
                 loadSearchFunctionality();
+                
+                // Load footer
+                loadFooter();
             })
             .catch(error => {
                 console.error('Error loading header:', error);
@@ -140,11 +156,57 @@
                         headerElement.innerHTML = data;
                         initMobileMenu();
                         loadSearchFunctionality();
+                        loadFooter();
                     })
                     .catch(fallbackError => {
                         console.error('Failed to load header from alternative path:', fallbackError);
                         // Final fallback: try to initialize mobile menu anyway
                         setTimeout(initMobileMenu, 100);
+                        loadFooter();
+                    });
+            });
+    }
+
+    // Footer Loader Function - works on all pages
+    function loadFooter() {
+        const footerElement = document.getElementById('main-footer');
+        
+        if (!footerElement) {
+            console.warn('Footer element with id "main-footer" not found');
+            return;
+        }
+
+        const footerPath = getFooterPath();
+        console.log('Loading footer from:', footerPath);
+
+        fetch(footerPath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load footer: ' + response.status);
+                }
+                return response.text();
+            })
+            .then(data => {
+                footerElement.innerHTML = data;
+                console.log('Footer loaded successfully');
+            })
+            .catch(error => {
+                console.error('Error loading footer:', error);
+                
+                // Fallback: try alternative path
+                const alternatePath = footerPath === 'footer.html' ? '../footer.html' : 'footer.html';
+                console.log('Trying alternative footer path:', alternatePath);
+                
+                fetch(alternatePath)
+                    .then(response => response.text())
+                    .then(data => {
+                        footerElement.innerHTML = data;
+                        console.log('Footer loaded from alternative path');
+                    })
+                    .catch(fallbackError => {
+                        console.error('Failed to load footer from alternative path:', fallbackError);
+                        // Final fallback: show basic footer
+                        footerElement.innerHTML = '<footer style="margin-left: 20px;"><p>&copy; 2025 ReptileCare. All rights reserved.</p></footer>';
                     });
             });
     }
@@ -197,5 +259,6 @@
     // Make functions available globally if needed
     window.initMobileMenu = initMobileMenu;
     window.loadHeaderWithMobileMenu = loadHeaderWithMobileMenu;
+    window.loadFooter = loadFooter;
 
 })(); 
