@@ -14,6 +14,9 @@ class EnclosureBuilder {
         this.enclosureDimensions = { length: 36, width: 18, height: 18 }; // Default size
         this.measurementsVisible = true; // Add control for measurements visibility
         
+        // Initialize optimized model loader
+        this.modelLoader = new OptimizedModelLoader();
+        
         this.init();
     }
 
@@ -83,7 +86,7 @@ class EnclosureBuilder {
         console.log('Min/Max distance:', this.controls.minDistance, this.controls.maxDistance);
     }
 
-    createEnclosure() {
+    async createEnclosure() {
         // Remove existing enclosure if any
         const existingEnclosure = this.scene.getObjectByName('enclosure');
         if (existingEnclosure) {
@@ -96,10 +99,6 @@ class EnclosureBuilder {
             this.scene.remove(existingMeasurements);
         }
 
-        // Create enclosure group
-        const enclosure = new THREE.Group();
-        enclosure.name = 'enclosure';
-
         // Convert dimensions to meters (1 inch = 0.0254 meters)
         const length = this.enclosureDimensions.length * 0.0254;
         const width = this.enclosureDimensions.width * 0.0254;
@@ -109,12 +108,42 @@ class EnclosureBuilder {
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
         const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
 
-        if (isReptizoo) {
-            this.createReptizooModel(enclosure, length, width, height);
-        } else if (isPVC) {
-            this.createPVCPanelModel(enclosure, length, width, height);
-        } else {
-            this.createBasicEnclosure(enclosure, length, width, height);
+        let enclosure;
+
+        // Try to load optimized pre-generated model first
+        if (this.currentEnclosureData && this.modelLoader) {
+            const modelConfig = this.modelLoader.getModelConfig(this.currentEnclosureData);
+            
+            if (modelConfig.modelPath && !modelConfig.fallbackToProcedural) {
+                try {
+                    console.log('🚀 Loading optimized model instead of procedural generation...');
+                    enclosure = await this.modelLoader.loadModel(modelConfig.modelPath, modelConfig.modelId);
+                    enclosure.name = 'enclosure';
+                    
+                    // Scale the model to match expected dimensions (models are created at real scale)
+                    // No scaling needed since our Blender script creates models at the correct scale
+                    
+                    console.log('✅ Optimized model loaded successfully!');
+                } catch (error) {
+                    console.warn('⚠️ Failed to load optimized model, falling back to procedural generation:', error);
+                    enclosure = null;
+                }
+            }
+        }
+
+        // Fall back to procedural generation if optimized model failed or not available
+        if (!enclosure) {
+            console.log('🔧 Using procedural generation...');
+            enclosure = new THREE.Group();
+            enclosure.name = 'enclosure';
+
+            if (isReptizoo) {
+                this.createReptizooModel(enclosure, length, width, height);
+            } else if (isPVC) {
+                this.createPVCPanelModel(enclosure, length, width, height);
+            } else {
+                this.createBasicEnclosure(enclosure, length, width, height);
+            }
         }
 
         // Add to scene
