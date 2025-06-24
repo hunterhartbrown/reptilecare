@@ -14,9 +14,6 @@ class EnclosureBuilder {
         this.enclosureDimensions = { length: 36, width: 18, height: 18 }; // Default size
         this.measurementsVisible = true; // Add control for measurements visibility
         
-        // Initialize optimized model loader (only if OptimizedModelLoader is available)
-        this.modelLoader = window.OptimizedModelLoader ? new OptimizedModelLoader() : null;
-        
         this.init();
     }
 
@@ -66,11 +63,7 @@ class EnclosureBuilder {
         this.controls.zoomSpeed = 1.0;
 
         // Create enclosure
-        this.createEnclosure().catch(error => {
-            console.error('Error creating enclosure:', error);
-            // Fallback: create a basic enclosure
-            this.createBasicEnclosureFallback();
-        });
+        this.createEnclosure();
 
         // Start animation loop
         this.animate();
@@ -90,7 +83,7 @@ class EnclosureBuilder {
         console.log('Min/Max distance:', this.controls.minDistance, this.controls.maxDistance);
     }
 
-    async createEnclosure() {
+    createEnclosure() {
         // Remove existing enclosure if any
         const existingEnclosure = this.scene.getObjectByName('enclosure');
         if (existingEnclosure) {
@@ -103,6 +96,10 @@ class EnclosureBuilder {
             this.scene.remove(existingMeasurements);
         }
 
+        // Create enclosure group
+        const enclosure = new THREE.Group();
+        enclosure.name = 'enclosure';
+
         // Convert dimensions to meters (1 inch = 0.0254 meters)
         const length = this.enclosureDimensions.length * 0.0254;
         const width = this.enclosureDimensions.width * 0.0254;
@@ -112,40 +109,12 @@ class EnclosureBuilder {
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
         const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
 
-        let enclosure = null;
-
-        // ONLY try optimized model for the specific PVC 50 gallon enclosure we created
-        const isPVC50Gal = this.currentEnclosureData && 
-                          this.currentEnclosureData.enclosureType === 'pvc' &&
-                          this.currentEnclosureData.model?.length === 36 && 
-                          this.currentEnclosureData.model?.width === 18 && 
-                          this.currentEnclosureData.model?.height === 18;
-
-        if (isPVC50Gal && this.modelLoader) {
-            try {
-                console.log('🚀 Loading optimized PVC 50gal model...');
-                enclosure = await this.modelLoader.loadModel('models/pvc_50gal_optimized.glb', 'pvc_50gal');
-                enclosure.name = 'enclosure';
-                console.log('✅ Optimized PVC model loaded successfully!');
-            } catch (error) {
-                console.warn('⚠️ PVC model not found, falling back to procedural generation:', error);
-                enclosure = null;
-            }
-        }
-
-        // Use procedural generation for everything else (including PVC if optimized failed)
-        if (!enclosure) {
-            console.log('🔧 Using procedural generation...');
-            enclosure = new THREE.Group();
-            enclosure.name = 'enclosure';
-
-            if (isReptizoo) {
-                this.createReptizooModel(enclosure, length, width, height);
-            } else if (isPVC) {
-                this.createPVCPanelModel(enclosure, length, width, height);
-            } else {
-                this.createBasicEnclosure(enclosure, length, width, height);
-            }
+        if (isReptizoo) {
+            this.createReptizooModel(enclosure, length, width, height);
+        } else if (isPVC) {
+            this.createPVCPanelModel(enclosure, length, width, height);
+        } else {
+            this.createBasicEnclosure(enclosure, length, width, height);
         }
 
         // Add to scene
@@ -159,20 +128,6 @@ class EnclosureBuilder {
 
         // Update camera position - optimize for the model type
         this.updateCameraPosition(length, width, height, isReptizoo, isPVC);
-    }
-
-    createBasicEnclosureFallback() {
-        // Emergency fallback if everything fails
-        console.log('🆘 Using emergency fallback...');
-        const enclosure = new THREE.Group();
-        enclosure.name = 'enclosure';
-        
-        const length = this.enclosureDimensions.length * 0.0254;
-        const width = this.enclosureDimensions.width * 0.0254;
-        const height = this.enclosureDimensions.height * 0.0254;
-        
-        this.createBasicEnclosure(enclosure, length, width, height);
-        this.scene.add(enclosure);
     }
 
     createBasicEnclosure(enclosure, length, width, height) {
@@ -1075,10 +1030,7 @@ class EnclosureBuilder {
         console.log('Updating enclosure dimensions:', { length, width, height });
         this.enclosureDimensions = { length, width, height };
         this.currentEnclosureData = enclosureData;
-        this.createEnclosure().catch(error => {
-            console.error('Error updating enclosure:', error);
-            this.createBasicEnclosureFallback();
-        });
+        this.createEnclosure();
         console.log('Measurements should now show:', `${length}" x ${width}" x ${height}"`);
     }
 
