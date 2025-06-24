@@ -29,66 +29,38 @@ class EnclosureBuilder {
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
-        // OPTIMIZATION: Enhanced renderer settings for better performance
+        // Improve transparency rendering
         this.renderer.sortObjects = true;
         this.renderer.alpha = true;
-        this.renderer.antialias = true;
-        this.renderer.powerPreference = "high-performance";
-        this.renderer.precision = "mediump";  // Use medium precision for better performance
-        this.renderer.logarithmicDepthBuffer = false;
-        this.renderer.physicallyCorrectLights = false;  // Disable for better performance
-        
-        // OPTIMIZATION: Set pixel ratio for optimal performance
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        // OPTIMIZATION: Enable automatic geometry disposal
-        this.renderer.info.autoReset = true;
 
         // Setup camera
         this.camera.position.set(50, 30, 50);
         this.camera.lookAt(0, 0, 0);
-        
-        // OPTIMIZATION: Set optimal camera frustum
-        this.camera.near = 0.1;
-        this.camera.far = 100;
 
-        // OPTIMIZATION: Optimized lighting setup
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);  // Reduced intensity
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);  // Reduced intensity
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
         directionalLight.position.set(20, 30, 20);
-        directionalLight.castShadow = false;  // Disable shadows for better performance
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
         this.scene.add(directionalLight);
-        
-        // OPTIMIZATION: Add a simple fill light for better visibility
-        const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
-        fillLight.position.set(-20, 10, -20);
-        fillLight.castShadow = false;
-        this.scene.add(fillLight);
 
         // Add controls
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
         
-        // OPTIMIZATION: Optimize controls for better performance
-        this.controls.autoRotate = false;
-        this.controls.autoRotateSpeed = 0;
-        this.controls.enablePan = true;
-        this.controls.enableZoom = true;
-        this.controls.enableRotate = true;
-        
         // Set appropriate zoom limits for terrarium size (36x18x18 inches = ~0.9x0.45x0.45 meters)
         this.controls.minDistance = 0.3;  // Allow close inspection
         this.controls.maxDistance = 5.0;  // Keep model visible
         this.controls.maxPolarAngle = Math.PI / 2;
         
-        // OPTIMIZATION: Optimize controls update frequency
+        // Ensure zoom is enabled
+        this.controls.enableZoom = true;
         this.controls.zoomSpeed = 1.0;
-        this.controls.rotateSpeed = 1.0;
-        this.controls.panSpeed = 1.0;
-        this.controls.screenSpacePanning = false;
 
         // Create enclosure
         this.createEnclosure();
@@ -105,11 +77,10 @@ class EnclosureBuilder {
         window.enclosureBuilder = this;
         
         // Debug: Log initial camera position and controls
-        console.log('EnclosureBuilder initialized with optimizations');
+        console.log('EnclosureBuilder initialized');
         console.log('Camera position:', this.camera.position);
         console.log('Controls zoom enabled:', this.controls.enableZoom);
         console.log('Min/Max distance:', this.controls.minDistance, this.controls.maxDistance);
-        console.log('Renderer pixel ratio:', this.renderer.getPixelRatio());
     }
 
     createEnclosure() {
@@ -566,36 +537,38 @@ class EnclosureBuilder {
     }
 
     createPVCPanelModel(enclosure, length, width, height) {
-        // OPTIMIZED Enhanced PVC Panel model matching the Dubia.com image
+        // Enhanced PVC Panel model matching the Dubia.com image
         
-        // Optimized Materials - Reuse and simplify
-        const pvcMaterial = new THREE.MeshLambertMaterial({
+        // Materials
+        const pvcMaterial = new THREE.MeshStandardMaterial({
             color: 0x1a1a1a,  // Black PVC panels
-            roughness: 0.3
+            roughness: 0.3,
+            metalness: 0.1
         });
 
-        const aluminumMaterial = new THREE.MeshLambertMaterial({
+        const aluminumMaterial = new THREE.MeshStandardMaterial({
             color: 0xc0c0c0,
+            metalness: 0.9,
             roughness: 0.1
         });
 
-        // Simplified glass material for better performance
-        const glassMaterial = new THREE.MeshLambertMaterial({
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
             transparent: true,
             opacity: 0.3,
-            side: THREE.DoubleSide
+            roughness: 0,
+            transmission: 0.9,
+            thickness: 0.05
         });
 
-        // Simplified acrylic material
-        const acrylicMaterial = new THREE.MeshLambertMaterial({
+        const acrylicMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xf8f8f8,
             transparent: true,
             opacity: 0.4,
-            side: THREE.DoubleSide
+            roughness: 0.1,
+            transmission: 0.8
         });
 
-        // Optimized screen material
         const screenMaterial = new THREE.MeshBasicMaterial({
             color: 0x2a2a2a,
             transparent: true,
@@ -606,11 +579,10 @@ class EnclosureBuilder {
         const frameThickness = 0.015;  // Thicker aluminum frame
         const panelThickness = 0.008;   // PVC panel thickness
 
-        // OPTIMIZATION: Create aluminum frame using instanced geometry
+        // Create aluminum frame structure
         const frameGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
-        const postGeometry = new THREE.BoxGeometry(frameThickness, height, frameThickness);
         
-        // Frame corner positions
+        // Bottom frame corners
         const bottomCorners = [
             [-length/2 + frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
@@ -618,6 +590,7 @@ class EnclosureBuilder {
             [length/2 - frameThickness/2, -height/2 + frameThickness/2, width/2 - frameThickness/2]
         ];
 
+        // Top frame corners
         const topCorners = [
             [-length/2 + frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
@@ -625,6 +598,14 @@ class EnclosureBuilder {
             [length/2 - frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2]
         ];
 
+        // Create frame corner pieces
+        [...bottomCorners, ...topCorners].forEach(pos => {
+            const frame = new THREE.Mesh(frameGeometry, aluminumMaterial);
+            frame.position.set(pos[0], pos[1], pos[2]);
+            enclosure.add(frame);
+        });
+
+        // Vertical frame posts
         const verticalPosts = [
             [-length/2 + frameThickness/2, 0, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, 0, -width/2 + frameThickness/2],
@@ -632,30 +613,16 @@ class EnclosureBuilder {
             [length/2 - frameThickness/2, 0, width/2 - frameThickness/2]
         ];
 
-        // OPTIMIZATION: Use InstancedMesh for frame corners
-        const frameInstancedMesh = new THREE.InstancedMesh(frameGeometry, aluminumMaterial, bottomCorners.length + topCorners.length);
-        const matrix = new THREE.Matrix4();
-        let instanceIndex = 0;
-
-        [...bottomCorners, ...topCorners].forEach(pos => {
-            matrix.setPosition(pos[0], pos[1], pos[2]);
-            frameInstancedMesh.setMatrixAt(instanceIndex++, matrix);
-        });
-        frameInstancedMesh.instanceMatrix.needsUpdate = true;
-        enclosure.add(frameInstancedMesh);
-
-        // OPTIMIZATION: Use InstancedMesh for vertical posts
-        const postInstancedMesh = new THREE.InstancedMesh(postGeometry, aluminumMaterial, verticalPosts.length);
-        instanceIndex = 0;
         verticalPosts.forEach(pos => {
-            matrix.setPosition(pos[0], pos[1], pos[2]);
-            postInstancedMesh.setMatrixAt(instanceIndex++, matrix);
+            const post = new THREE.Mesh(
+                new THREE.BoxGeometry(frameThickness, height, frameThickness),
+                aluminumMaterial
+            );
+            post.position.set(pos[0], pos[1], pos[2]);
+            enclosure.add(post);
         });
-        postInstancedMesh.instanceMatrix.needsUpdate = true;
-        enclosure.add(postInstancedMesh);
 
-        // OPTIMIZATION: Create PVC panels as individual optimized meshes
-        // Left panel
+        // PVC side panels (left and right) - Black
         const leftPanel = new THREE.Mesh(
             new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness),
             pvcMaterial
@@ -663,7 +630,6 @@ class EnclosureBuilder {
         leftPanel.position.set(-length/2 + panelThickness/2, 0, 0);
         enclosure.add(leftPanel);
 
-        // Right panel
         const rightPanel = new THREE.Mesh(
             new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness),
             pvcMaterial
@@ -671,7 +637,7 @@ class EnclosureBuilder {
         rightPanel.position.set(length/2 - panelThickness/2, 0, 0);
         enclosure.add(rightPanel);
 
-        // Back panel
+        // PVC back panel - Black
         const backPanel = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, height - 2*frameThickness, panelThickness),
             pvcMaterial
@@ -679,7 +645,7 @@ class EnclosureBuilder {
         backPanel.position.set(0, 0, -width/2 + panelThickness/2);
         enclosure.add(backPanel);
 
-        // Bottom panel
+        // PVC bottom panel - Black (thicker)
         const bottomPanel = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, panelThickness*1.5, width - 2*frameThickness),
             pvcMaterial
@@ -688,6 +654,9 @@ class EnclosureBuilder {
         enclosure.add(bottomPanel);
 
         // Front section with glass sliding doors
+        // The image shows sliding doors in the upper portion, with a black bar in the middle, and a lower glass section
+
+        // Calculate door heights based on the image: upper 60%, black bar 10%, lower 30%
         const upperDoorHeight = (height - 2*frameThickness) * 0.6;
         const blackBarHeight = 0.025;  // Black bar thickness
         const lowerGlassHeight = (height - 2*frameThickness) * 0.3;
@@ -700,7 +669,7 @@ class EnclosureBuilder {
         blackBar.position.set(0, -upperDoorHeight/2 + blackBarHeight/2, width/2 - panelThickness/2);
         enclosure.add(blackBar);
 
-        // OPTIMIZATION: Glass doors
+        // Upper sliding glass doors (left and right)
         const doorWidth = (length - 3*frameThickness) / 2;  // Account for center frame
         
         const leftDoor = new THREE.Mesh(
@@ -733,35 +702,41 @@ class EnclosureBuilder {
         lowerPanel.position.set(0, -upperDoorHeight/2 - blackBarHeight/2 - lowerGlassHeight/2, width/2 - 0.003);
         enclosure.add(lowerPanel);
 
-        // OPTIMIZATION: Door handles using InstancedMesh
-        const handleMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x2c2c2c
+        // Door handles - Black plastic handles on sliding doors
+        const handleMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x2c2c2c,
+            roughness: 0.8,
+            metalness: 0.1
         });
 
         const handleWidth = 0.006;
         const handleHeight = 0.003;
         const handleDepth = 0.02;
-        const handleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
 
-        const handleInstancedMesh = new THREE.InstancedMesh(handleGeometry, handleMaterial, 2);
-        const handlePositions = [
-            [-doorWidth/4, upperDoorHeight/4, width/2 + 0.006],
-            [doorWidth/4, upperDoorHeight/4, width/2 + 0.006]
-        ];
+        // Left door handle
+        const leftHandle = new THREE.Mesh(
+            new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth),
+            handleMaterial
+        );
+        leftHandle.position.set(-doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        enclosure.add(leftHandle);
 
-        instanceIndex = 0;
-        handlePositions.forEach(pos => {
-            matrix.setPosition(pos[0], pos[1], pos[2]);
-            handleInstancedMesh.setMatrixAt(instanceIndex++, matrix);
+        // Right door handle
+        const rightHandle = new THREE.Mesh(
+            new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth),
+            handleMaterial
+        );
+        rightHandle.position.set(doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        enclosure.add(rightHandle);
+
+        // Door tracks (aluminum rails for sliding doors)
+        const trackMaterial = new THREE.MeshStandardMaterial({
+            color: 0xa0a0a0,
+            metalness: 0.7,
+            roughness: 0.2
         });
-        handleInstancedMesh.instanceMatrix.needsUpdate = true;
-        enclosure.add(handleInstancedMesh);
 
-        // OPTIMIZATION: Door tracks
-        const trackMaterial = new THREE.MeshLambertMaterial({
-            color: 0xa0a0a0
-        });
-
+        // Top track
         const topTrack = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
             trackMaterial
@@ -769,6 +744,7 @@ class EnclosureBuilder {
         topTrack.position.set(0, height/2 - frameThickness - 0.004, width/2 - 0.006);
         enclosure.add(topTrack);
 
+        // Bottom track (at black bar level)
         const bottomTrack = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
             trackMaterial
@@ -776,62 +752,33 @@ class EnclosureBuilder {
         bottomTrack.position.set(0, -blackBarHeight/2 - 0.004, width/2 - 0.006);
         enclosure.add(bottomTrack);
 
-        // OPTIMIZATION: Create simplified screen top ventilation using single texture
+        // Screen top ventilation
         const screenWidth = length - 2*frameThickness;
         const screenDepth = width - 2*frameThickness;
         
-        // Create a single plane with mesh texture instead of many small planes
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 128;
-        canvas.height = 128;
+        // Create mesh pattern for screen top
+        const meshSize = 0.004;
+        const meshSpacing = 0.006;
         
-        // Fill with dark background
-        ctx.fillStyle = '#2a2a2a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Create mesh pattern
-        ctx.fillStyle = 'transparent';
-        ctx.globalCompositeOperation = 'destination-out';
-        const meshSize = 8;
-        const meshSpacing = 12;
-        
-        for (let x = 0; x < canvas.width; x += meshSpacing) {
-            for (let y = 0; y < canvas.height; y += meshSpacing) {
-                ctx.fillRect(x, y, meshSize, meshSize);
+        for (let x = -screenWidth/2; x < screenWidth/2; x += meshSpacing) {
+            for (let z = -screenDepth/2; z < screenDepth/2; z += meshSpacing) {
+                const meshElement = new THREE.Mesh(
+                    new THREE.PlaneGeometry(meshSize, meshSize),
+                    screenMaterial
+                );
+                meshElement.position.set(x, height/2 - 0.001, z);
+                meshElement.rotation.x = -Math.PI/2;
+                enclosure.add(meshElement);
             }
         }
-        
-        const screenTexture = new THREE.CanvasTexture(canvas);
-        screenTexture.wrapS = THREE.RepeatWrapping;
-        screenTexture.wrapT = THREE.RepeatWrapping;
-        screenTexture.repeat.set(
-            screenWidth / 0.05,  // Adjust repeat based on actual size
-            screenDepth / 0.05
-        );
-        
-        const optimizedScreenMaterial = new THREE.MeshBasicMaterial({
-            map: screenTexture,
-            transparent: true,
-            opacity: 0.8,
-            side: THREE.DoubleSide
-        });
-        
-        const screenPlane = new THREE.Mesh(
-            new THREE.PlaneGeometry(screenWidth, screenDepth),
-            optimizedScreenMaterial
-        );
-        screenPlane.position.set(0, height/2 - 0.001, 0);
-        screenPlane.rotation.x = -Math.PI/2;
-        enclosure.add(screenPlane);
 
-        // OPTIMIZATION: Corner reinforcements using InstancedMesh
-        const cornerMaterial = new THREE.MeshLambertMaterial({
-            color: 0x333333
+        // Add corner reinforcements (typical of PVC construction)
+        const cornerMaterial = new THREE.MeshStandardMaterial({
+            color: 0x333333,
+            roughness: 0.4
         });
 
         const cornerSize = 0.012;
-        const cornerGeometry = new THREE.BoxGeometry(cornerSize, cornerSize, cornerSize);
         const corners = [
             [-length/2 + cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
             [length/2 - cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
@@ -839,20 +786,19 @@ class EnclosureBuilder {
             [length/2 - cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2]
         ];
 
-        const cornerInstancedMesh = new THREE.InstancedMesh(cornerGeometry, cornerMaterial, corners.length);
-        instanceIndex = 0;
         corners.forEach(pos => {
-            matrix.setPosition(pos[0], pos[1], pos[2]);
-            cornerInstancedMesh.setMatrixAt(instanceIndex++, matrix);
+            const corner = new THREE.Mesh(
+                new THREE.BoxGeometry(cornerSize, cornerSize, cornerSize),
+                cornerMaterial
+            );
+            corner.position.set(pos[0], pos[1], pos[2]);
+            enclosure.add(corner);
         });
-        cornerInstancedMesh.instanceMatrix.needsUpdate = true;
-        enclosure.add(cornerInstancedMesh);
 
         // Add brand marking for PVC enclosure
-        const brand = new THREE.Mesh(
-            new THREE.BoxGeometry(0.025, 0.004, 0.001),
-            new THREE.MeshBasicMaterial({ color: 0x444444 })
-        );
+        const brandGeometry = new THREE.BoxGeometry(0.025, 0.004, 0.001);
+        const brandMaterial = new THREE.MeshBasicMaterial({ color: 0x444444 });
+        const brand = new THREE.Mesh(brandGeometry, brandMaterial);
         brand.position.set(0, -height/2 + 0.015, width/2 + 0.001);
         enclosure.add(brand);
     }
@@ -1287,157 +1233,9 @@ class EnclosureBuilder {
     }
 
     animate() {
-        // OPTIMIZATION: Performance monitoring and throttling
-        const startTime = performance.now();
-        
         requestAnimationFrame(() => this.animate());
-        
-        // OPTIMIZATION: Only render if controls have been updated or camera moved
-        if (this.controls.update()) {
-            this.renderer.render(this.scene, this.camera);
-            
-            // OPTIMIZATION: Performance monitoring (only in development)
-            const endTime = performance.now();
-            const frameTime = endTime - startTime;
-            
-            // Log performance warnings only if frame time is excessive
-            if (frameTime > 16.67) { // More than 60fps threshold
-                console.warn(`Frame took ${frameTime.toFixed(2)}ms (target: 16.67ms)`);
-            }
-        }
-    }
-
-    // OPTIMIZATION TESTING: Comprehensive test suite for PVC model
-    testPVCModelOptimizations() {
-        console.log('=== PVC Model Optimization Tests ===');
-        
-        // Test 1: Check if PVC model is properly detected
-        const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
-        console.log('Test 1 - PVC Model Detection:', isPVC ? 'PASS' : 'FAIL');
-        
-        // Test 2: Count scene objects to verify optimization
-        const sceneChildren = this.scene.children.length;
-        console.log('Test 2 - Scene Object Count:', sceneChildren);
-        
-        // Test 3: Check for InstancedMesh usage
-        let instancedMeshCount = 0;
-        let regularMeshCount = 0;
-        this.scene.traverse((object) => {
-            if (object instanceof THREE.InstancedMesh) {
-                instancedMeshCount++;
-            } else if (object instanceof THREE.Mesh) {
-                regularMeshCount++;
-            }
-        });
-        console.log('Test 3 - InstancedMesh Count:', instancedMeshCount);
-        console.log('Test 3 - Regular Mesh Count:', regularMeshCount);
-        console.log('Test 3 - Instancing Optimization:', instancedMeshCount > 0 ? 'PASS' : 'FAIL');
-        
-        // Test 4: Check renderer performance settings
-        const pixelRatio = this.renderer.getPixelRatio();
-        const isOptimized = pixelRatio <= 2 && !this.renderer.physicallyCorrectLights;
-        console.log('Test 4 - Renderer Optimization:', isOptimized ? 'PASS' : 'FAIL');
-        console.log('Test 4 - Pixel Ratio:', pixelRatio);
-        
-        // Test 5: Verify material optimization (Lambert vs Standard/Physical)
-        let lambertMaterialCount = 0;
-        let expensiveMaterialCount = 0;
-        this.scene.traverse((object) => {
-            if (object.material) {
-                if (object.material instanceof THREE.MeshLambertMaterial || object.material instanceof THREE.MeshBasicMaterial) {
-                    lambertMaterialCount++;
-                } else if (object.material instanceof THREE.MeshStandardMaterial || object.material instanceof THREE.MeshPhysicalMaterial) {
-                    expensiveMaterialCount++;
-                }
-            }
-        });
-        console.log('Test 5 - Optimized Materials (Lambert/Basic):', lambertMaterialCount);
-        console.log('Test 5 - Expensive Materials (Standard/Physical):', expensiveMaterialCount);
-        console.log('Test 5 - Material Optimization:', lambertMaterialCount > expensiveMaterialCount ? 'PASS' : 'FAIL');
-        
-        // Test 6: Check for screen texture optimization
-        let textureOptimized = false;
-        this.scene.traverse((object) => {
-            if (object.material && object.material.map && object.material.map instanceof THREE.CanvasTexture) {
-                textureOptimized = true;
-            }
-        });
-        console.log('Test 6 - Screen Texture Optimization:', textureOptimized ? 'PASS' : 'FAIL');
-        
-        // Test 7: Performance benchmark
-        this.runPerformanceBenchmark();
-        
-        console.log('=== PVC Model Tests Complete ===');
-    }
-    
-    runPerformanceBenchmark() {
-        console.log('Running performance benchmark...');
-        const iterations = 60; // Test 60 frames
-        const frameTimes = [];
-        let iteration = 0;
-        
-        const benchmarkFrame = () => {
-            const startTime = performance.now();
-            
-            // Force render
-            this.renderer.render(this.scene, this.camera);
-            
-            const endTime = performance.now();
-            frameTimes.push(endTime - startTime);
-            iteration++;
-            
-            if (iteration < iterations) {
-                requestAnimationFrame(benchmarkFrame);
-            } else {
-                // Calculate statistics
-                const avgFrameTime = frameTimes.reduce((a, b) => a + b, 0) / frameTimes.length;
-                const maxFrameTime = Math.max(...frameTimes);
-                const minFrameTime = Math.min(...frameTimes);
-                const fps = 1000 / avgFrameTime;
-                
-                console.log('Benchmark Results:');
-                console.log(`Average Frame Time: ${avgFrameTime.toFixed(2)}ms`);
-                console.log(`Max Frame Time: ${maxFrameTime.toFixed(2)}ms`);
-                console.log(`Min Frame Time: ${minFrameTime.toFixed(2)}ms`);
-                console.log(`Average FPS: ${fps.toFixed(1)}`);
-                console.log(`Performance: ${fps >= 30 ? 'GOOD' : fps >= 20 ? 'ACCEPTABLE' : 'POOR'}`);
-            }
-        };
-        
-        requestAnimationFrame(benchmarkFrame);
-    }
-    
-    // Test method to verify enclosure switching functionality
-    testEnclosureSwitching() {
-        console.log('=== Testing Enclosure Switching ===');
-        
-        // Test switching to PVC model
-        const pvcEnclosureData = {
-            id: 'test-dubia-pvc',
-            name: 'Test Dubia PVC',
-            enclosureType: 'pvc',
-            model: { length: 36, width: 18, height: 18 }
-        };
-        
-        console.log('Switching to PVC model...');
-        this.updateEnclosureDimensions(36, 18, 18, pvcEnclosureData);
-        
-        setTimeout(() => {
-            console.log('PVC model switch complete');
-            this.testPVCModelOptimizations();
-        }, 100);
-    }
-    
-    // Method to check for memory leaks
-    checkMemoryUsage() {
-        const info = this.renderer.info;
-        console.log('=== Memory Usage ===');
-        console.log('Geometries:', info.memory.geometries);
-        console.log('Textures:', info.memory.textures);
-        console.log('Render calls:', info.render.calls);
-        console.log('Triangles:', info.render.triangles);
-        console.log('Points:', info.render.points);
-        console.log('Lines:', info.render.lines);
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera);
     }
 }
 
@@ -1556,46 +1354,4 @@ window.addEventListener('load', () => {
             window.enclosureBuilder.zoomCamera(1.2);
         }
     };
-    
-    // OPTIMIZATION TESTING: Global test functions
-    window.testPVCOptimizations = () => {
-        if (window.enclosureBuilder) {
-            window.enclosureBuilder.testPVCModelOptimizations();
-        } else {
-            console.log('EnclosureBuilder not initialized');
-        }
-    };
-    
-    window.testEnclosureSwitching = () => {
-        if (window.enclosureBuilder) {
-            window.enclosureBuilder.testEnclosureSwitching();
-        } else {
-            console.log('EnclosureBuilder not initialized');
-        }
-    };
-    
-    window.runPerformanceBenchmark = () => {
-        if (window.enclosureBuilder) {
-            window.enclosureBuilder.runPerformanceBenchmark();
-        } else {
-            console.log('EnclosureBuilder not initialized');
-        }
-    };
-    
-    window.checkMemoryUsage = () => {
-        if (window.enclosureBuilder) {
-            window.enclosureBuilder.checkMemoryUsage();
-        } else {
-            console.log('EnclosureBuilder not initialized');
-        }
-    };
-    
-    // OPTIMIZATION: Auto-test on page load (optional, can be disabled)
-    console.log('\n=== PVC Model Optimization Testing Available ===');
-    console.log('Run these commands in console to test:');
-    console.log('- testPVCOptimizations() - Full optimization test suite');
-    console.log('- testEnclosureSwitching() - Test switching to PVC model');
-    console.log('- runPerformanceBenchmark() - Performance benchmark');
-    console.log('- checkMemoryUsage() - Check memory usage');
-    console.log('===================================================\n');
 }); 
