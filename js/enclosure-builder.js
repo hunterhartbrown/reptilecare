@@ -608,15 +608,15 @@ class EnclosureBuilder {
         // Use black material for handles (same as PVC components)
         const blackHandleMaterial = pvcMaterial;
 
-        // Left door handle - positioned on right edge of left door, vertical
+        // Left door handle - positioned on left edge of left door, vertical
         const leftHandle = new THREE.Mesh(handleGeometry, blackHandleMaterial);
-        leftHandle.position.set(-adjustedDoorWidth/4, upperDoorCenterY, width/2 + 0.008);
+        leftHandle.position.set(-doorWidth + adjustedDoorWidth/4, upperDoorCenterY, width/2 + 0.008);
         leftHandle.name = 'pvc-left-handle';
         enclosure.add(leftHandle);
 
-        // Right door handle - positioned on left edge of right door, vertical
+        // Right door handle - positioned on right edge of right door, vertical
         const rightHandle = new THREE.Mesh(handleGeometry, blackHandleMaterial);
-        rightHandle.position.set(adjustedDoorWidth/4, upperDoorCenterY, width/2 + 0.008);
+        rightHandle.position.set(doorWidth - adjustedDoorWidth/4, upperDoorCenterY, width/2 + 0.008);
         rightHandle.name = 'pvc-right-handle';
         enclosure.add(rightHandle);
 
