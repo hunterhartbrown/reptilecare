@@ -513,33 +513,50 @@ class EnclosureBuilder {
         const blackBarCenterY = topOfInterior - topClearance - adjustedUpperDoorHeight - blackBarHeight/2;
         
         // Add clearance between black bar and lower panel to prevent clipping
-        const barToGlassClearance = 0.008; // Gap between black bar and lower glass
+        const barToGlassClearance = 0.012; // Increased gap between black bar and lower glass (was 0.008)
         
         // Calculate bottom trim position and add clearance
         const bottomFrameHeight = 0.03; // Height of bottom trim piece
         const bottomTrimTopY = -height/2 + frameThickness + bottomFrameHeight;
-        const trimToGlassClearance = 0.008; // Gap between bottom trim and lower glass
+        const trimToGlassClearance = 0.012; // Increased gap between bottom trim and lower glass (was 0.008)
+        
+        // Add extra safety margins to prevent frame clipping during rotation
+        const extraTopSafety = 0.006; // Additional clearance from top frame
+        const extraBottomSafety = 0.006; // Additional clearance from bottom frame
+        
+        // Calculate safe bounds within the aluminum frame with extra margins
+        const safeTopBound = topOfInterior - topClearance - extraTopSafety;
+        const safeBottomBound = bottomOfInterior + bottomClearance + extraBottomSafety;
         
         // Lower panel position: positioned between black bar and bottom trim with proper clearances
-        const availableSpaceForLowerPanel = blackBarCenterY - blackBarHeight/2 - barToGlassClearance - (bottomTrimTopY + trimToGlassClearance);
-        const lowerPanelCenterY = bottomTrimTopY + trimToGlassClearance + availableSpaceForLowerPanel/2;
+        const requestedTopY = blackBarCenterY - blackBarHeight/2 - barToGlassClearance;
+        const requestedBottomY = bottomTrimTopY + trimToGlassClearance;
+        
+        // Ensure we stay within safe frame bounds
+        const actualTopY = Math.min(requestedTopY, safeTopBound);
+        const actualBottomY = Math.max(requestedBottomY, safeBottomBound);
+        
+        const availableSpaceForLowerPanel = actualTopY - actualBottomY;
+        const lowerPanelCenterY = actualBottomY + availableSpaceForLowerPanel/2;
 
         // Debug logging for glass positioning validation
-        console.log('PVC Glass Positioning Debug (with clearances):');
+        console.log('PVC Glass Positioning Debug (with enhanced safety clearances):');
         console.log(`  Interior bounds: ${bottomOfInterior.toFixed(3)} to ${topOfInterior.toFixed(3)}`);
-        console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)} (increased for lower panel)`);
-        console.log(`  Bar-to-glass clearance: ${barToGlassClearance.toFixed(3)} (new gap from black bar)`);
-        console.log(`  Trim-to-glass clearance: ${trimToGlassClearance.toFixed(3)} (new gap from bottom trim)`);
+        console.log(`  Safe bounds (with extra margins): ${safeBottomBound.toFixed(3)} to ${safeTopBound.toFixed(3)}`);
+        console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)}`);
+        console.log(`  Bar-to-glass clearance: ${barToGlassClearance.toFixed(3)} (increased from 0.008)`);
+        console.log(`  Trim-to-glass clearance: ${trimToGlassClearance.toFixed(3)} (increased from 0.008)`);
+        console.log(`  Extra safety margins: top ${extraTopSafety.toFixed(3)}, bottom ${extraBottomSafety.toFixed(3)}`);
         console.log(`  Bottom trim top Y: ${bottomTrimTopY.toFixed(3)}`);
+        console.log(`  Requested bounds: ${requestedBottomY.toFixed(3)} to ${requestedTopY.toFixed(3)}`);
+        console.log(`  Actual bounds used: ${actualBottomY.toFixed(3)} to ${actualTopY.toFixed(3)}`);
         console.log(`  Available space for lower panel: ${availableSpaceForLowerPanel.toFixed(3)}`);
         console.log(`  Adjusted upper door height: ${adjustedUpperDoorHeight.toFixed(3)} (was ${upperDoorHeight.toFixed(3)}) - 75% of space`);
         console.log(`  Adjusted lower panel height: ${adjustedLowerGlassHeight.toFixed(3)} - 20% of space (reduced from 30%)`);
         console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - adjustedUpperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + adjustedUpperDoorHeight/2).toFixed(3)})`);
         console.log(`  Black bar center Y: ${blackBarCenterY.toFixed(3)} (bounds: ${(blackBarCenterY - blackBarHeight/2).toFixed(3)} to ${(blackBarCenterY + blackBarHeight/2).toFixed(3)})`);
         console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + adjustedLowerGlassHeight/2).toFixed(3)})`);
-        console.log(`  Top gap: ${(topOfInterior - (upperDoorCenterY + adjustedUpperDoorHeight/2)).toFixed(3)} units`);
-        console.log(`  Black bar gap: ${(blackBarCenterY - blackBarHeight/2 - (lowerPanelCenterY + adjustedLowerGlassHeight/2)).toFixed(3)} units`);
-        console.log(`  Bottom trim gap: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2 - bottomTrimTopY).toFixed(3)} units`);
+        console.log(`  Frame clearance check - Top: ${(safeTopBound - (lowerPanelCenterY + adjustedLowerGlassHeight/2)).toFixed(3)}, Bottom: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2 - safeBottomBound).toFixed(3)}`);
 
         // Black horizontal bar (divider)
         const blackBar = new THREE.Mesh(

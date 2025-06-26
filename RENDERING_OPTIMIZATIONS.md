@@ -139,8 +139,10 @@ createReptizooTopMesh(topMeshGroup, length, width, height) {
   - ✅ **Added**: Bottom black frame/trim piece underneath lower glass panel
   - ✅ **Fixed**: **Glass panel clipping issues** - proper positioning within frame bounds
     - Added 8mm top clearance and 10mm bottom clearance gaps
-    - Added 8mm clearance between black divider bar and lower glass panel
-    - Added 8mm clearance between bottom trim and lower glass panel
+    - Added 12mm clearance between black divider bar and lower glass panel (increased)
+    - Added 12mm clearance between bottom trim and lower glass panel (increased)
+    - Added 6mm extra safety margins from aluminum frame boundaries
+    - Intelligent bounds checking to ensure glass stays within safe frame limits
     - Prevents z-fighting and clipping during camera rotation
     - Maintains realistic door-to-frame spacing
     - Reduced lower panel height from 30% to 20% of available space (2/3rds smaller)
