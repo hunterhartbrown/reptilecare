@@ -515,14 +515,23 @@ class EnclosureBuilder {
         // Add clearance between black bar and lower panel to prevent clipping
         const barToGlassClearance = 0.008; // Gap between black bar and lower glass
         
-        // Lower panel position: positioned below black bar with proper clearance
-        const lowerPanelCenterY = blackBarCenterY - blackBarHeight/2 - barToGlassClearance - adjustedLowerGlassHeight/2;
+        // Calculate bottom trim position and add clearance
+        const bottomFrameHeight = 0.03; // Height of bottom trim piece
+        const bottomTrimTopY = -height/2 + frameThickness + bottomFrameHeight;
+        const trimToGlassClearance = 0.008; // Gap between bottom trim and lower glass
+        
+        // Lower panel position: positioned between black bar and bottom trim with proper clearances
+        const availableSpaceForLowerPanel = blackBarCenterY - blackBarHeight/2 - barToGlassClearance - (bottomTrimTopY + trimToGlassClearance);
+        const lowerPanelCenterY = bottomTrimTopY + trimToGlassClearance + availableSpaceForLowerPanel/2;
 
         // Debug logging for glass positioning validation
         console.log('PVC Glass Positioning Debug (with clearances):');
         console.log(`  Interior bounds: ${bottomOfInterior.toFixed(3)} to ${topOfInterior.toFixed(3)}`);
         console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)} (increased for lower panel)`);
         console.log(`  Bar-to-glass clearance: ${barToGlassClearance.toFixed(3)} (new gap from black bar)`);
+        console.log(`  Trim-to-glass clearance: ${trimToGlassClearance.toFixed(3)} (new gap from bottom trim)`);
+        console.log(`  Bottom trim top Y: ${bottomTrimTopY.toFixed(3)}`);
+        console.log(`  Available space for lower panel: ${availableSpaceForLowerPanel.toFixed(3)}`);
         console.log(`  Adjusted upper door height: ${adjustedUpperDoorHeight.toFixed(3)} (was ${upperDoorHeight.toFixed(3)}) - 75% of space`);
         console.log(`  Adjusted lower panel height: ${adjustedLowerGlassHeight.toFixed(3)} - 20% of space (reduced from 30%)`);
         console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - adjustedUpperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + adjustedUpperDoorHeight/2).toFixed(3)})`);
@@ -530,7 +539,7 @@ class EnclosureBuilder {
         console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + adjustedLowerGlassHeight/2).toFixed(3)})`);
         console.log(`  Top gap: ${(topOfInterior - (upperDoorCenterY + adjustedUpperDoorHeight/2)).toFixed(3)} units`);
         console.log(`  Black bar gap: ${(blackBarCenterY - blackBarHeight/2 - (lowerPanelCenterY + adjustedLowerGlassHeight/2)).toFixed(3)} units`);
-        console.log(`  Bottom gap: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2 - bottomOfInterior).toFixed(3)} units`);
+        console.log(`  Bottom trim gap: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2 - bottomTrimTopY).toFixed(3)} units`);
 
         // Black horizontal bar (divider)
         const blackBar = new THREE.Mesh(
@@ -611,7 +620,6 @@ class EnclosureBuilder {
         enclosure.add(bottomTrack);
 
         // STEP 6: Bottom black frame/trim (underneath lower glass, aligned with legs)
-        const bottomFrameHeight = 0.03; // Height of bottom trim piece
         const bottomFrame = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, bottomFrameHeight, panelThickness),
             pvcMaterial // Use same material as other black components
