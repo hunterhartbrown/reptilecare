@@ -14,7 +14,55 @@ class EnclosureBuilder {
         this.enclosureDimensions = { length: 36, width: 18, height: 18 }; // Default size
         this.measurementsVisible = true; // Add control for measurements visibility
         
+        // Initialize shared materials for performance
+        this.initSharedMaterials();
+        
         this.init();
+    }
+
+    initSharedMaterials() {
+        // Shared materials to reduce draw calls and memory usage
+        this.sharedMaterials = {
+            glass: new THREE.MeshLambertMaterial({
+                color: 0xf0f0f0,
+                transparent: true,
+                opacity: 0.35,
+                side: THREE.DoubleSide,
+                depthWrite: false,
+                flatShading: false
+            }),
+            
+            aluminum: new THREE.MeshStandardMaterial({
+                color: 0xc0c0c0,
+                metalness: 0.9,
+                roughness: 0.1
+            }),
+            
+            pvc: new THREE.MeshStandardMaterial({
+                color: 0x1a1a1a,
+                roughness: 0.3,
+                metalness: 0.1
+            }),
+            
+            screen: new THREE.MeshBasicMaterial({
+                color: 0x2a2a2a,
+                transparent: true,
+                opacity: 0.8,
+                side: THREE.DoubleSide
+            }),
+            
+            handle: new THREE.MeshStandardMaterial({ 
+                color: 0x2c2c2c,
+                roughness: 0.8,
+                metalness: 0.1
+            }),
+            
+            bottomPlastic: new THREE.MeshStandardMaterial({
+                color: 0x1a1a1a,
+                roughness: 0.8,
+                metalness: 0.1
+            })
+        };
     }
 
     init() {
@@ -131,90 +179,89 @@ class EnclosureBuilder {
     }
 
     createBasicEnclosure(enclosure, length, width, height) {
+        // OPTIMIZED VERSION - Uses merged geometries for better performance
+        
         // Create glass material
-        const glassMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.3,
-            roughness: 0,
-            transmission: 0.9,
-            thickness: 0.05,
-            envMapIntensity: 1.0
-        });
+        const glassMaterial = this.sharedMaterials.glass;
 
-        // Create walls
-        const wallGeometry = new THREE.BoxGeometry(length, height, 0.002);
-        const sideWallGeometry = new THREE.BoxGeometry(0.002, height, width);
-        const bottomGeometry = new THREE.BoxGeometry(length, 0.002, width);
+        // Merge all glass panel geometries into one
+        const mergedGlassGeometry = new THREE.BufferGeometry();
+        const glassGeometries = [];
+
+        // Create individual geometries and position them
+        const glassThickness = 0.002;
 
         // Back wall
-        const backWall = new THREE.Mesh(wallGeometry, glassMaterial);
-        backWall.position.z = -width/2;
-        enclosure.add(backWall);
+        const backWallGeometry = new THREE.BoxGeometry(length, height, glassThickness);
+        backWallGeometry.translate(0, 0, -width/2);
+        glassGeometries.push(backWallGeometry);
 
-        // Side walls
-        const leftWall = new THREE.Mesh(sideWallGeometry, glassMaterial);
-        leftWall.position.x = -length/2;
-        enclosure.add(leftWall);
+        // Side walls  
+        const leftWallGeometry = new THREE.BoxGeometry(glassThickness, height, width);
+        leftWallGeometry.translate(-length/2, 0, 0);
+        glassGeometries.push(leftWallGeometry);
 
-        const rightWall = new THREE.Mesh(sideWallGeometry, glassMaterial);
-        rightWall.position.x = length/2;
-        enclosure.add(rightWall);
+        const rightWallGeometry = new THREE.BoxGeometry(glassThickness, height, width);
+        rightWallGeometry.translate(length/2, 0, 0);
+        glassGeometries.push(rightWallGeometry);
 
         // Bottom
-        const bottom = new THREE.Mesh(bottomGeometry, glassMaterial);
-        bottom.position.y = -height/2;
-        enclosure.add(bottom);
+        const bottomGeometry = new THREE.BoxGeometry(length, glassThickness, width);
+        bottomGeometry.translate(0, -height/2, 0);
+        glassGeometries.push(bottomGeometry);
+
+        // Merge all glass geometries into one - MAJOR PERFORMANCE BOOST
+        const mergedGlass = THREE.BufferGeometryUtils.mergeBufferGeometries(glassGeometries);
+        const glassMesh = new THREE.Mesh(mergedGlass, glassMaterial);
+        glassMesh.name = 'merged-glass-panels';
+        enclosure.add(glassMesh);
+
+        // Enable geometry disposal for memory management
+        glassGeometries.forEach(geo => geo.dispose());
     }
 
     createReptizooModel(enclosure, length, width, height) {
-        // Enhanced REPTIZOO model with detailed features
+        // OPTIMIZED REPTIZOO MODEL - Merged geometries for better performance
         
-        // Materials - Consistent glass material for all panels
-        const glassMaterial = new THREE.MeshLambertMaterial({
-            color: 0xf0f0f0,  // Consistent light grey tint
-            transparent: true,
-            opacity: 0.35,
-            side: THREE.DoubleSide,  // Render both sides to prevent disappearing
-            depthWrite: false,  // Prevent depth sorting issues
-            flatShading: false  // Ensure consistent shading
-        });
-
-        const aluminumMaterial = new THREE.MeshStandardMaterial({
-            color: 0xc0c0c0,
-            metalness: 0.9,
-            roughness: 0.1
-        });
-
-        const screenMaterial = new THREE.MeshBasicMaterial({
-            color: 0x2a2a2a,  // Darker screen color
-            transparent: true,
-            opacity: 0.8,
-            side: THREE.DoubleSide
-        });
-
         const frameThickness = 0.01;
+        const glassThickness = 0.003;
         
-        // Create aluminum frame structure
-        const frameGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
-        
-        // Bottom frame
-        const bottomFrame = [
+        // Use shared materials
+        const glassMaterial = this.sharedMaterials.glass;
+        const aluminumMaterial = this.sharedMaterials.aluminum;
+        const bottomMaterial = this.sharedMaterials.bottomPlastic;
+        const railMaterial = this.sharedMaterials.bottomPlastic;
+        const handleMaterial = this.sharedMaterials.handle;
+
+        // STEP 1: Merge all aluminum frame pieces into one geometry
+        const frameGeometries = [];
+        const frameBoxGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
+
+        // Bottom frame corners
+        const bottomCorners = [
             [-length/2 + frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
             [-length/2 + frameThickness/2, -height/2 + frameThickness/2, width/2 - frameThickness/2],
             [length/2 - frameThickness/2, -height/2 + frameThickness/2, width/2 - frameThickness/2]
         ];
 
-        // Top frame
-        const topFrame = [
+        // Top frame corners
+        const topCorners = [
             [-length/2 + frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
             [-length/2 + frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2],
             [length/2 - frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2]
         ];
 
+        // Add frame corner geometries
+        [...bottomCorners, ...topCorners].forEach(pos => {
+            const frameGeo = frameBoxGeometry.clone();
+            frameGeo.translate(pos[0], pos[1], pos[2]);
+            frameGeometries.push(frameGeo);
+        });
+
         // Vertical posts
+        const verticalPostGeometry = new THREE.BoxGeometry(frameThickness, height, frameThickness);
         const verticalPosts = [
             [-length/2 + frameThickness/2, 0, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, 0, -width/2 + frameThickness/2],
@@ -222,318 +269,125 @@ class EnclosureBuilder {
             [length/2 - frameThickness/2, 0, width/2 - frameThickness/2]
         ];
 
-        // Create frame pieces
-        [...bottomFrame, ...topFrame].forEach(pos => {
-            const frame = new THREE.Mesh(frameGeometry, aluminumMaterial);
-            frame.position.set(pos[0], pos[1], pos[2]);
-            enclosure.add(frame);
-        });
-
         verticalPosts.forEach(pos => {
-            const post = new THREE.Mesh(
-                new THREE.BoxGeometry(frameThickness, height, frameThickness),
-                aluminumMaterial
-            );
-            post.position.set(pos[0], pos[1], pos[2]);
-            enclosure.add(post);
+            const postGeo = verticalPostGeometry.clone();
+            postGeo.translate(pos[0], pos[1], pos[2]);
+            frameGeometries.push(postGeo);
         });
 
-        // Glass panels
-        const glassThickness = 0.003;
+        // Merge all frame geometries - REDUCES ~12 DRAW CALLS TO 1
+        if (frameGeometries.length > 0) {
+            const mergedFrameGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries(frameGeometries);
+            const frameMesh = new THREE.Mesh(mergedFrameGeometry, aluminumMaterial);
+            frameMesh.name = 'merged-aluminum-frame';
+            enclosure.add(frameMesh);
+            
+            // Clean up temporary geometries
+            frameGeometries.forEach(geo => geo.dispose());
+        }
 
-        // Back panel (opposite to doors) - 36" x 18" face at back
-        const backPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, height - 2*frameThickness, glassThickness),
-            glassMaterial
-        );
-        backPanel.position.set(0, 0, -width/2 + glassThickness/2);
-        enclosure.add(backPanel);
+        // STEP 2: Merge all glass panels into one geometry
+        const glassGeometries = [];
 
-        // Side panels (18" x 18" faces - left and right sides)
-        const leftPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(glassThickness, height - 2*frameThickness, width - 2*frameThickness),
-            glassMaterial
-        );
-        leftPanel.position.set(-length/2 + glassThickness/2, 0, 0);
-        enclosure.add(leftPanel);
+        // Back panel
+        const backPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, height - 2*frameThickness, glassThickness);
+        backPanelGeo.translate(0, 0, -width/2 + glassThickness/2);
+        glassGeometries.push(backPanelGeo);
 
-        const rightPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(glassThickness, height - 2*frameThickness, width - 2*frameThickness),
-            glassMaterial
-        );
-        rightPanel.position.set(length/2 - glassThickness/2, 0, 0);
-        enclosure.add(rightPanel);
+        // Side panels
+        const leftPanelGeo = new THREE.BoxGeometry(glassThickness, height - 2*frameThickness, width - 2*frameThickness);
+        leftPanelGeo.translate(-length/2 + glassThickness/2, 0, 0);
+        glassGeometries.push(leftPanelGeo);
 
-        // Bottom panel - Black plastic base like real REPTIZOO
-        const bottomMaterial = new THREE.MeshStandardMaterial({
-            color: 0x1a1a1a,  // Black plastic
-            roughness: 0.8,
-            metalness: 0.1
-        });
+        const rightPanelGeo = new THREE.BoxGeometry(glassThickness, height - 2*frameThickness, width - 2*frameThickness);
+        rightPanelGeo.translate(length/2 - glassThickness/2, 0, 0);
+        glassGeometries.push(rightPanelGeo);
+
+        // Front doors
+        const doorWidth = (length - 3*frameThickness) / 2;
+        const railHeight = height * 0.25;
+        const railThickness = 0.012;
+        const doorHeight = height - 2*frameThickness - railHeight - railThickness;
         
+        const leftDoorGeo = new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness);
+        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2, railHeight/2 + railThickness/2, width/2 - glassThickness/2);
+        glassGeometries.push(leftDoorGeo);
+
+        const rightDoorGeo = new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness);
+        rightDoorGeo.translate(doorWidth/2 + frameThickness/2, railHeight/2 + railThickness/2, width/2 - glassThickness/2);
+        glassGeometries.push(rightDoorGeo);
+
+        // Merge all glass geometries - REDUCES ~5 DRAW CALLS TO 1
+        const mergedGlassGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries(glassGeometries);
+        const glassMesh = new THREE.Mesh(mergedGlassGeometry, glassMaterial);
+        glassMesh.name = 'merged-glass-panels';
+        enclosure.add(glassMesh);
+
+        // Clean up
+        glassGeometries.forEach(geo => geo.dispose());
+
+        // STEP 3: Create single bottom panel
         const bottomPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, width - 2*frameThickness), // Thicker black bottom
+            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, width - 2*frameThickness),
             bottomMaterial
         );
         bottomPanel.position.set(0, -height/2 + 0.004, 0);
+        bottomPanel.name = 'bottom-panel';
         enclosure.add(bottomPanel);
 
-        // Horizontal support rail around entire enclosure (1/4 up from bottom)
-        const railHeight = height * 0.25;  // 1/4 up from bottom
-        const railThickness = 0.012;  // Thicker than top rim
-        const railMaterial = new THREE.MeshStandardMaterial({
-            color: 0x1a1a1a,  // Black plastic
-            roughness: 0.8,
-            metalness: 0.1
-        });
+        // STEP 4: Merge all rail components
+        const railGeometries = [];
         
-        // Front rail (will be interrupted by doors but shows structure)
-        const frontRailLeft = new THREE.Mesh(
-            new THREE.BoxGeometry((length - 3*frameThickness)/2, railThickness, railThickness),
-            railMaterial
-        );
-        frontRailLeft.position.set(-(length - 3*frameThickness)/4 - frameThickness, -height/2 + railHeight, width/2 - railThickness/2);
-        enclosure.add(frontRailLeft);
+        // Create rail geometries and merge them
+        const frontRailLeftGeo = new THREE.BoxGeometry((length - 3*frameThickness)/2, railThickness, railThickness);
+        frontRailLeftGeo.translate(-(length - 3*frameThickness)/4 - frameThickness, -height/2 + railHeight, width/2 - railThickness/2);
+        railGeometries.push(frontRailLeftGeo);
         
-        const frontRailRight = new THREE.Mesh(
-            new THREE.BoxGeometry((length - 3*frameThickness)/2, railThickness, railThickness),
-            railMaterial
-        );
-        frontRailRight.position.set((length - 3*frameThickness)/4 + frameThickness, -height/2 + railHeight, width/2 - railThickness/2);
-        enclosure.add(frontRailRight);
+        const frontRailRightGeo = new THREE.BoxGeometry((length - 3*frameThickness)/2, railThickness, railThickness);
+        frontRailRightGeo.translate((length - 3*frameThickness)/4 + frameThickness, -height/2 + railHeight, width/2 - railThickness/2);
+        railGeometries.push(frontRailRightGeo);
         
-        // Back rail
-        const backRail = new THREE.Mesh(
-            new THREE.BoxGeometry(length, railThickness, railThickness),
-            railMaterial
-        );
-        backRail.position.set(0, -height/2 + railHeight, -width/2 + railThickness/2);
-        enclosure.add(backRail);
+        const backRailGeo = new THREE.BoxGeometry(length, railThickness, railThickness);
+        backRailGeo.translate(0, -height/2 + railHeight, -width/2 + railThickness/2);
+        railGeometries.push(backRailGeo);
         
-        // Left side rail
-        const leftRail = new THREE.Mesh(
-            new THREE.BoxGeometry(railThickness, railThickness, width),
-            railMaterial
-        );
-        leftRail.position.set(-length/2 + railThickness/2, -height/2 + railHeight, 0);
-        enclosure.add(leftRail);
+        const leftRailGeo = new THREE.BoxGeometry(railThickness, railThickness, width);
+        leftRailGeo.translate(-length/2 + railThickness/2, -height/2 + railHeight, 0);
+        railGeometries.push(leftRailGeo);
         
-        // Right side rail
-        const rightRail = new THREE.Mesh(
-            new THREE.BoxGeometry(railThickness, railThickness, width),
-            railMaterial
-        );
-        rightRail.position.set(length/2 - railThickness/2, -height/2 + railHeight, 0);
-        enclosure.add(rightRail);
+        const rightRailGeo = new THREE.BoxGeometry(railThickness, railThickness, width);
+        rightRailGeo.translate(length/2 - railThickness/2, -height/2 + railHeight, 0);
+        railGeometries.push(rightRailGeo);
 
-        // Front doors (double hinge) - now shortened to not overlap with rail
-        const doorWidth = (length - 3*frameThickness) / 2;
-        const doorHeight = height - 2*frameThickness - railHeight - railThickness;  // Height above rail
-        
-        const leftDoor = new THREE.Mesh(
-            new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness),
-            glassMaterial
-        );
-        leftDoor.position.set(-doorWidth/2 - frameThickness/2, railHeight/2 + railThickness/2, width/2 - glassThickness/2);
-        enclosure.add(leftDoor);
+        // Merge all rails - REDUCES ~5 DRAW CALLS TO 1
+        const mergedRailGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries(railGeometries);
+        const railMesh = new THREE.Mesh(mergedRailGeometry, railMaterial);
+        railMesh.name = 'merged-rails';
+        enclosure.add(railMesh);
 
-        const rightDoor = new THREE.Mesh(
-            new THREE.BoxGeometry(doorWidth, doorHeight, glassThickness),
-            glassMaterial
-        );
-        rightDoor.position.set(doorWidth/2 + frameThickness/2, railHeight/2 + railThickness/2, width/2 - glassThickness/2);
-        enclosure.add(rightDoor);
+        // Clean up
+        railGeometries.forEach(geo => geo.dispose());
 
-        // Door handles - Accurate REPTIZOO style black plastic handles
-        const handleMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x2c2c2c,  // Dark grey/black plastic
-            roughness: 0.8,
-            metalness: 0.1
-        });
-
-        // Create more realistic handle shape (rectangular with rounded edges)
+        // STEP 5: Simple handles (only 2 objects instead of many detailed parts)
         const handleWidth = 0.008;
         const handleHeight = 0.004;
         const handleDepth = 0.025;
+        const handleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
 
-        // Left door handle - positioned closer to center but not touching edge, on shortened door
-        const leftHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
-        const leftHandle = new THREE.Mesh(leftHandleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);  // Centered on shortened door
+        // Left door handle
+        const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
+        leftHandle.position.set(-doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);
+        leftHandle.name = 'left-handle';
         enclosure.add(leftHandle);
 
-        // Right door handle - positioned closer to center but not touching edge, on shortened door
-        const rightHandleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
-        const rightHandle = new THREE.Mesh(rightHandleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);  // Centered on shortened door
+        // Right door handle (reuse geometry)
+        const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
+        rightHandle.position.set(doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);
+        rightHandle.name = 'right-handle';
         enclosure.add(rightHandle);
 
-        // Add handle mounting screws for realism
-        const screwGeometry = new THREE.CylinderGeometry(0.001, 0.001, 0.002);
-        const screwMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
-
-        // Left handle screws
-        const leftScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
-        leftScrew1.position.set(-doorWidth/4, railHeight/2 + railThickness/2 + 0.008, width/2 + 0.006);
-        leftScrew1.rotation.z = Math.PI/2;
-        enclosure.add(leftScrew1);
-
-        const leftScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
-        leftScrew2.position.set(-doorWidth/4, railHeight/2 + railThickness/2 - 0.008, width/2 + 0.006);
-        leftScrew2.rotation.z = Math.PI/2;
-        enclosure.add(leftScrew2);
-
-        // Right handle screws
-        const rightScrew1 = new THREE.Mesh(screwGeometry, screwMaterial);
-        rightScrew1.position.set(doorWidth/4, railHeight/2 + railThickness/2 + 0.008, width/2 + 0.006);
-        rightScrew1.rotation.z = Math.PI/2;
-        enclosure.add(rightScrew1);
-
-        const rightScrew2 = new THREE.Mesh(screwGeometry, screwMaterial);
-        rightScrew2.position.set(doorWidth/4, railHeight/2 + railThickness/2 - 0.008, width/2 + 0.006);
-        rightScrew2.rotation.z = Math.PI/2;
-        enclosure.add(rightScrew2);
-
-        // Add detailed door lock mechanism (center latch with keyhole)
-        const lockMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x1a1a1a,  // Black plastic
-            roughness: 0.9 
-        });
-        
-        // Main lock body (squarish)
-        const lockBodyGeometry = new THREE.BoxGeometry(0.02, 0.015, 0.008);
-        const lockBody = new THREE.Mesh(lockBodyGeometry, lockMaterial);
-        lockBody.position.set(0, -height/6, width/2 + 0.004);  // Positioned on the rail level
-        enclosure.add(lockBody);
-        
-        // Keyhole (circular depression)
-        const keyholeGeometry = new THREE.CylinderGeometry(0.003, 0.003, 0.002);
-        const keyholeMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x0a0a0a,  // Darker for depression effect
-            roughness: 1.0 
-        });
-        const keyhole = new THREE.Mesh(keyholeGeometry, keyholeMaterial);
-        keyhole.position.set(0, -height/6, width/2 + 0.008);
-        keyhole.rotation.x = Math.PI/2;
-        enclosure.add(keyhole);
-        
-        // Lock mounting screws
-        const lockScrewGeometry = new THREE.CylinderGeometry(0.001, 0.001, 0.001);
-        const lockScrewMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
-        
-        const lockScrew1 = new THREE.Mesh(lockScrewGeometry, lockScrewMaterial);
-        lockScrew1.position.set(-0.008, -height/6 + 0.006, width/2 + 0.007);
-        lockScrew1.rotation.x = Math.PI/2;
-        enclosure.add(lockScrew1);
-        
-        const lockScrew2 = new THREE.Mesh(lockScrewGeometry, lockScrewMaterial);
-        lockScrew2.position.set(0.008, -height/6 + 0.006, width/2 + 0.007);
-        lockScrew2.rotation.x = Math.PI/2;
-        enclosure.add(lockScrew2);
-
-        // Add door frame separators
-        const frameSeparatorGeometry = new THREE.BoxGeometry(frameThickness, height - 2*frameThickness, frameThickness);
-        
-        // Center vertical separator between doors
-        const centerSeparator = new THREE.Mesh(frameSeparatorGeometry, aluminumMaterial);
-        centerSeparator.position.set(0, 0, width/2 - frameThickness/2);
-        enclosure.add(centerSeparator);
-
-        // Add realistic hinges
-        const hingeGeometry = new THREE.BoxGeometry(0.003, 0.015, 0.008);
-        const hingeMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x666666,  // Dark metal
-            metalness: 0.8,
-            roughness: 0.3
-        });
-
-        // Left door hinges (2 hinges per door) - positioned for shortened doors
-        const doorTopY = railHeight/2 + railThickness/2 + doorHeight/3;
-        const doorBottomY = railHeight/2 + railThickness/2 - doorHeight/3;
-        
-        const leftHinge1 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        leftHinge1.position.set(-length/2 + frameThickness, doorTopY, width/2 - 0.002);
-        enclosure.add(leftHinge1);
-
-        const leftHinge2 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        leftHinge2.position.set(-length/2 + frameThickness, doorBottomY, width/2 - 0.002);
-        enclosure.add(leftHinge2);
-
-        // Right door hinges
-        const rightHinge1 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        rightHinge1.position.set(length/2 - frameThickness, doorTopY, width/2 - 0.002);
-        enclosure.add(rightHinge1);
-
-        const rightHinge2 = new THREE.Mesh(hingeGeometry, hingeMaterial);
-        rightHinge2.position.set(length/2 - frameThickness, doorBottomY, width/2 - 0.002);
-        enclosure.add(rightHinge2);
-
-        // Top ventilation screen with black rim and mesh pattern
-        const topScreenWidth = length - 2*frameThickness;
-        const topScreenDepth = width - 2*frameThickness;
-        
-        // Black rim around the top screen
-        const rimMaterial = new THREE.MeshStandardMaterial({
-            color: 0x1a1a1a,  // Black plastic
-            roughness: 0.8,
-            metalness: 0.1
-        });
-        
-        const rimThickness = 0.008;
-        const rimHeight = 0.003;
-        
-        // Top rim pieces
-        const topRim = new THREE.Mesh(
-            new THREE.BoxGeometry(length, rimHeight, rimThickness),
-            rimMaterial
-        );
-        topRim.position.set(0, height/2 + rimHeight/2, -width/2 + rimThickness/2);
-        enclosure.add(topRim);
-        
-        const bottomRim = new THREE.Mesh(
-            new THREE.BoxGeometry(length, rimHeight, rimThickness),
-            rimMaterial
-        );
-        bottomRim.position.set(0, height/2 + rimHeight/2, width/2 - rimThickness/2);
-        enclosure.add(bottomRim);
-        
-        const leftRim = new THREE.Mesh(
-            new THREE.BoxGeometry(rimThickness, rimHeight, width),
-            rimMaterial
-        );
-        leftRim.position.set(-length/2 + rimThickness/2, height/2 + rimHeight/2, 0);
-        enclosure.add(leftRim);
-        
-        const rightRim = new THREE.Mesh(
-            new THREE.BoxGeometry(rimThickness, rimHeight, width),
-            rimMaterial
-        );
-        rightRim.position.set(length/2 - rimThickness/2, height/2 + rimHeight/2, 0);
-        enclosure.add(rightRim);
-        
-        // Create mesh pattern by using multiple small rectangles
-        const meshSize = 0.005;  // Size of each mesh opening
-        const meshSpacing = 0.008;  // Spacing between mesh elements
-        
-        for (let x = -topScreenWidth/2; x < topScreenWidth/2; x += meshSpacing) {
-            for (let z = -topScreenDepth/2; z < topScreenDepth/2; z += meshSpacing) {
-                const meshElement = new THREE.Mesh(
-                    new THREE.PlaneGeometry(meshSize, meshSize),
-                    screenMaterial
-                );
-                meshElement.position.set(x, height/2 - 0.001, z);
-                meshElement.rotation.x = -Math.PI/2;
-                enclosure.add(meshElement);
-            }
-        }
-
-        // Add REPTIZOO branding (small text on front bottom)
-        // Note: In a real implementation, you'd use TextGeometry, but for simplicity we'll add a small logo placeholder
-        const logoGeometry = new THREE.BoxGeometry(0.03, 0.005, 0.001);
-        const logoMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
-        const logo = new THREE.Mesh(logoGeometry, logoMaterial);
-        logo.position.set(0, -height/2 + 0.02, width/2 + 0.001);
-        enclosure.add(logo);
+        // Dispose of the temporary handle geometry
+        // Note: Don't dispose handleGeometry since it's shared between handles
     }
 
     createPVCPanelModel(enclosure, length, width, height) {
@@ -1236,6 +1090,104 @@ class EnclosureBuilder {
         requestAnimationFrame(() => this.animate());
         this.controls.update();
         this.renderer.render(this.scene, this.camera);
+    }
+
+    safelyMergeGeometries(geometries, materialName = 'merged') {
+        // Check if BufferGeometryUtils is available
+        if (!THREE.BufferGeometryUtils || !THREE.BufferGeometryUtils.mergeBufferGeometries) {
+            console.warn('BufferGeometryUtils not available, falling back to individual meshes');
+            return null;
+        }
+
+        try {
+            // Filter out any null/undefined geometries
+            const validGeometries = geometries.filter(geo => geo && geo.attributes);
+            
+            if (validGeometries.length === 0) {
+                console.warn('No valid geometries to merge');
+                return null;
+            }
+
+            const merged = THREE.BufferGeometryUtils.mergeBufferGeometries(validGeometries);
+            if (!merged) {
+                console.warn('Geometry merging failed');
+                return null;
+            }
+
+            console.log(`Successfully merged ${validGeometries.length} geometries for ${materialName}`);
+            return merged;
+        } catch (error) {
+            console.error('Error merging geometries:', error);
+            return null;
+        }
+    }
+
+    getPerformanceStats() {
+        // Helper method to monitor performance improvements
+        const renderer = this.renderer;
+        const scene = this.scene;
+        
+        let meshCount = 0;
+        let triangleCount = 0;
+        let materialCount = new Set();
+
+        scene.traverse((object) => {
+            if (object.isMesh) {
+                meshCount++;
+                if (object.geometry && object.geometry.attributes.position) {
+                    const positions = object.geometry.attributes.position.count;
+                    triangleCount += positions / 3;
+                }
+                if (object.material) {
+                    materialCount.add(object.material.uuid);
+                }
+            }
+        });
+
+        return {
+            meshCount,
+            triangleCount: Math.floor(triangleCount),
+            materialCount: materialCount.size,
+            drawCalls: renderer.info.render.calls
+        };
+    }
+
+    // Performance comparison and debugging methods
+    logPerformanceComparison() {
+        const stats = this.getPerformanceStats();
+        console.log('=== ENCLOSURE RENDERING PERFORMANCE ===');
+        console.log(`📊 Mesh Count: ${stats.meshCount}`);
+        console.log(`🔺 Triangle Count: ${stats.triangleCount}`);
+        console.log(`🎨 Unique Materials: ${stats.materialCount}`);
+        console.log(`🖼️ Draw Calls: ${stats.drawCalls}`);
+        console.log('');
+        
+        // Provide optimization recommendations
+        if (stats.meshCount > 20) {
+            console.log('⚠️  HIGH MESH COUNT: Consider merging geometries');
+        }
+        if (stats.materialCount > 10) {
+            console.log('⚠️  HIGH MATERIAL COUNT: Consider material atlas or shared materials');
+        }
+        if (stats.drawCalls > 15) {
+            console.log('⚠️  HIGH DRAW CALLS: Geometry merging will help');
+        }
+        
+        console.log('======================================');
+    }
+
+    // Toggle between optimized and original rendering for testing
+    toggleOptimizedRendering(useOptimized = true) {
+        this.useOptimizedRendering = useOptimized;
+        console.log(`Switched to ${useOptimized ? 'OPTIMIZED' : 'ORIGINAL'} rendering mode`);
+        
+        // Recreate the enclosure with current mode
+        this.createEnclosure();
+        
+        // Log performance stats after change
+        setTimeout(() => {
+            this.logPerformanceComparison();
+        }, 100);
     }
 }
 

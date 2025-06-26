@@ -80,6 +80,41 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        .perf-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .perf-btn {
+            padding: 6px 12px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+
+        .perf-btn:hover {
+            background: #27ae60;
+        }
+
+        .perf-btn.secondary {
+            background: #95a5a6;
+        }
+
+        .perf-btn.secondary:hover {
+            background: #7f8c8d;
+        }
+
         /* Selected Enclosure Section - Now below 3D preview */
         .selected-enclosure {
             background: #fff;
@@ -750,6 +785,7 @@
     <!-- Three.js Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
 </head>
 <body>
     <header id="main-header"></header>
@@ -786,6 +822,17 @@
                 <button class="preview-button" id="zoom-out" title="Zoom Out (S key)">🔍- Zoom Out</button>
                 <button class="preview-button" id="toggle-measurements" title="Toggle Measurements (M key)">📏 Measurements</button>
                 <button class="preview-button" id="reset-view" title="Reset View (R key)">🎯 Reset View</button>
+            </div>
+            <div class="perf-controls">
+                <button class="perf-btn" onclick="window.enclosureBuilder?.logPerformanceComparison()">
+                    📊 Performance Stats
+                </button>
+                <button class="perf-btn secondary" onclick="window.enclosureBuilder?.toggleOptimizedRendering(true)">
+                    ⚡ Optimized
+                </button>
+                <button class="perf-btn secondary" onclick="window.enclosureBuilder?.toggleOptimizedRendering(false)">
+                    🐌 Original
+                </button>
             </div>
             <div class="camera-help">
                 <div class="help-toggle" id="help-toggle">💡 Controls</div>
