@@ -127,12 +127,33 @@
             
             log("⏳ Waiting for model registry to load...");
             
+            // Test registry URL directly first
+            try {
+                log("🔗 Testing registry URL: models/model_registry.json");
+                const testResponse = await fetch('models/model_registry.json');
+                log(`📡 Registry fetch response: ${testResponse.status} ${testResponse.statusText}`);
+                if (testResponse.ok) {
+                    const testData = await testResponse.json();
+                    log(`📋 Registry accessible! Found ${Object.keys(testData.models).length} models`);
+                } else {
+                    log(`❌ Registry fetch failed: ${testResponse.status}`);
+                }
+            } catch (fetchError) {
+                log(`❌ Registry fetch error: ${fetchError.message}`);
+            }
+            
+            // Wait for ModelLoader to complete
+            let attempts = 0;
             await new Promise(resolve => {
                 const check = () => {
+                    attempts++;
                     if (modelLoader.registry) {
                         resolve();
+                    } else if (attempts > 30) {
+                        log("❌ Registry loading timeout after 30 attempts");
+                        resolve();
                     } else {
-                        log("⏳ Still waiting for registry...");
+                        log(`⏳ Still waiting for registry... (attempt ${attempts})`);
                         setTimeout(check, 1000);
                     }
                 };
