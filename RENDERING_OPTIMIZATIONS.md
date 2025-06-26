@@ -124,17 +124,63 @@ createReptizooTopMesh(topMeshGroup, length, width, height) {
 - **Top mesh**: **Optional** - simplified rim + single screen panel
 - **Removed**: Detailed screws, complex hinges, individual mesh elements
 
-### **PVC Model**  
-- **Frame structure**: 8 corner pieces + 4 posts → 1 merged mesh
+### **PVC Model** ⚠️ **FIXED**
+- **Frame structure**: 8 corner pieces + 4 posts → 1 merged mesh (**excluding top frame**)
 - **PVC panels**: 4 separate objects → 1 merged mesh
-- **Door tracks**: Multiple rails → 1 merged mesh
-- **Top mesh**: **Optional** - aluminum frame + screen panel
-- **Simplified**: Handle design, lock mechanism
+- **Glass doors**: 3 separate objects → 1 merged mesh
+- **Top mesh**: **Optional & Fixed** - includes top frame, track, and optimized screen
+- **Fixed Issues**: 
+  - ❌ **Removed**: Individual screen mesh elements (were not being toggled properly)
+  - ❌ **Removed**: Top frame from main structure (was being incorrectly deleted)
+  - ❌ **Removed**: Glass top panel (shouldn't exist in PVC)
+  - ✅ **Added**: Proper top frame corners in optional top mesh
+  - ✅ **Added**: Top track for sliding doors in optional top mesh
+  - ✅ **Added**: Single optimized screen panel in optional top mesh
 
 ### **Basic Model**
 - **Glass walls**: 4 separate objects → 1 merged mesh
 - **Top mesh**: **Optional** - simple glass panel
 - **Shared materials**: Reuses existing material instances
+
+---
+
+## **🔧 PVC Model Fix Details**
+
+### **Problem:**
+The PVC enclosure had several issues that made the top mesh toggle not work properly:
+
+1. **Individual mesh elements**: Creating hundreds of small screen squares (performance killer)
+2. **Top frame included in main structure**: So toggling "top mesh" removed essential frame
+3. **Glass top**: PVC enclosures shouldn't have glass tops
+4. **No proper separation**: Top components mixed with main structure
+
+### **Solution:**
+```javascript
+// BEFORE: Individual mesh elements (BAD PERFORMANCE)
+for (let x = -screenWidth/2; x < screenWidth/2; x += meshSpacing) {
+    for (let z = -screenDepth/2; z < screenDepth/2; z += meshSpacing) {
+        const meshElement = new THREE.Mesh(
+            new THREE.PlaneGeometry(meshSize, meshSize),
+            screenMaterial
+        );
+        // Creates 100+ individual objects!
+    }
+}
+
+// AFTER: Single optimized screen panel
+const screenPanel = new THREE.Mesh(
+    new THREE.PlaneGeometry(screenWidth, screenDepth),
+    screenMaterial
+);
+// Creates 1 object with same visual result!
+```
+
+### **Top Mesh Components (Now Properly Separated):**
+- **Top frame corners** (excluded from main structure)
+- **Top horizontal frame rails** 
+- **Top track for sliding doors**
+- **Single optimized screen panel**
+- **Corner reinforcements**
 
 ---
 

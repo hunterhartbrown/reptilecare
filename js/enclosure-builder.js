@@ -392,30 +392,12 @@ class EnclosureBuilder {
     }
 
     createPVCPanelModel(enclosure, length, width, height) {
-        // Enhanced PVC Panel model matching the Dubia.com image
+        // OPTIMIZED PVC Panel model - Fixed top mesh handling
         
-        // Materials
-        const pvcMaterial = new THREE.MeshStandardMaterial({
-            color: 0x1a1a1a,  // Black PVC panels
-            roughness: 0.3,
-            metalness: 0.1
-        });
-
-        const aluminumMaterial = new THREE.MeshStandardMaterial({
-            color: 0xc0c0c0,
-            metalness: 0.9,
-            roughness: 0.1
-        });
-
-        const glassMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.3,
-            roughness: 0,
-            transmission: 0.9,
-            thickness: 0.05
-        });
-
+        // Use shared materials for performance
+        const pvcMaterial = this.sharedMaterials.pvc;
+        const aluminumMaterial = this.sharedMaterials.aluminum;
+        const glassMaterial = this.sharedMaterials.glass;
         const acrylicMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xf8f8f8,
             transparent: true,
@@ -423,21 +405,16 @@ class EnclosureBuilder {
             roughness: 0.1,
             transmission: 0.8
         });
-
-        const screenMaterial = new THREE.MeshBasicMaterial({
-            color: 0x2a2a2a,
-            transparent: true,
-            opacity: 0.8,
-            side: THREE.DoubleSide
-        });
+        const handleMaterial = this.sharedMaterials.handle;
 
         const frameThickness = 0.015;  // Thicker aluminum frame
         const panelThickness = 0.008;   // PVC panel thickness
 
-        // Create aluminum frame structure
-        const frameGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
+        // STEP 1: Create main structure frame (excluding top frame - it's optional)
+        const frameGeometries = [];
+        const frameBoxGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
         
-        // Bottom frame corners
+        // Bottom frame corners ONLY
         const bottomCorners = [
             [-length/2 + frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, -height/2 + frameThickness/2, -width/2 + frameThickness/2],
@@ -445,22 +422,15 @@ class EnclosureBuilder {
             [length/2 - frameThickness/2, -height/2 + frameThickness/2, width/2 - frameThickness/2]
         ];
 
-        // Top frame corners
-        const topCorners = [
-            [-length/2 + frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
-            [length/2 - frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
-            [-length/2 + frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2],
-            [length/2 - frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2]
-        ];
-
-        // Create frame corner pieces
-        [...bottomCorners, ...topCorners].forEach(pos => {
-            const frame = new THREE.Mesh(frameGeometry, aluminumMaterial);
-            frame.position.set(pos[0], pos[1], pos[2]);
-            enclosure.add(frame);
+        // Add bottom frame corner geometries
+        bottomCorners.forEach(pos => {
+            const frameGeo = frameBoxGeometry.clone();
+            frameGeo.translate(pos[0], pos[1], pos[2]);
+            frameGeometries.push(frameGeo);
         });
 
         // Vertical frame posts
+        const verticalPostGeometry = new THREE.BoxGeometry(frameThickness, height, frameThickness);
         const verticalPosts = [
             [-length/2 + frameThickness/2, 0, -width/2 + frameThickness/2],
             [length/2 - frameThickness/2, 0, -width/2 + frameThickness/2],
@@ -469,77 +439,93 @@ class EnclosureBuilder {
         ];
 
         verticalPosts.forEach(pos => {
-            const post = new THREE.Mesh(
-                new THREE.BoxGeometry(frameThickness, height, frameThickness),
-                aluminumMaterial
-            );
-            post.position.set(pos[0], pos[1], pos[2]);
-            enclosure.add(post);
+            const postGeo = verticalPostGeometry.clone();
+            postGeo.translate(pos[0], pos[1], pos[2]);
+            frameGeometries.push(postGeo);
         });
 
-        // PVC side panels (left and right) - Black
-        const leftPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness),
-            pvcMaterial
-        );
-        leftPanel.position.set(-length/2 + panelThickness/2, 0, 0);
-        enclosure.add(leftPanel);
+        // Merge main frame geometries (excluding top)
+        if (frameGeometries.length > 0) {
+            const mergedFrameGeometry = this.safelyMergeGeometries(frameGeometries, 'pvc-main-frame');
+            if (mergedFrameGeometry) {
+                const frameMesh = new THREE.Mesh(mergedFrameGeometry, aluminumMaterial);
+                frameMesh.name = 'pvc-main-frame';
+                enclosure.add(frameMesh);
+                frameGeometries.forEach(geo => geo.dispose());
+            }
+        }
 
-        const rightPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness),
-            pvcMaterial
-        );
-        rightPanel.position.set(length/2 - panelThickness/2, 0, 0);
-        enclosure.add(rightPanel);
+        // STEP 2: Create PVC panels (merged)
+        const pvcGeometries = [];
 
-        // PVC back panel - Black
-        const backPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, height - 2*frameThickness, panelThickness),
-            pvcMaterial
-        );
-        backPanel.position.set(0, 0, -width/2 + panelThickness/2);
-        enclosure.add(backPanel);
+        // Side panels
+        const leftPanelGeo = new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness);
+        leftPanelGeo.translate(-length/2 + panelThickness/2, 0, 0);
+        pvcGeometries.push(leftPanelGeo);
 
-        // PVC bottom panel - Black (thicker)
-        const bottomPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, panelThickness*1.5, width - 2*frameThickness),
-            pvcMaterial
-        );
-        bottomPanel.position.set(0, -height/2 + panelThickness*0.75, 0);
-        enclosure.add(bottomPanel);
+        const rightPanelGeo = new THREE.BoxGeometry(panelThickness, height - 2*frameThickness, width - 2*frameThickness);
+        rightPanelGeo.translate(length/2 - panelThickness/2, 0, 0);
+        pvcGeometries.push(rightPanelGeo);
 
-        // Front section with glass sliding doors
-        // The image shows sliding doors in the upper portion, with a black bar in the middle, and a lower glass section
+        // Back panel
+        const backPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, height - 2*frameThickness, panelThickness);
+        backPanelGeo.translate(0, 0, -width/2 + panelThickness/2);
+        pvcGeometries.push(backPanelGeo);
 
-        // Calculate door heights based on the image: upper 60%, black bar 10%, lower 30%
+        // Bottom panel
+        const bottomPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, panelThickness*1.5, width - 2*frameThickness);
+        bottomPanelGeo.translate(0, -height/2 + panelThickness*0.75, 0);
+        pvcGeometries.push(bottomPanelGeo);
+
+        // Merge PVC panels
+        const mergedPVCGeometry = this.safelyMergeGeometries(pvcGeometries, 'pvc-panels');
+        if (mergedPVCGeometry) {
+            const pvcMesh = new THREE.Mesh(mergedPVCGeometry, pvcMaterial);
+            pvcMesh.name = 'pvc-panels';
+            enclosure.add(pvcMesh);
+            pvcGeometries.forEach(geo => geo.dispose());
+        }
+
+        // STEP 3: Front section with glass sliding doors
         const upperDoorHeight = (height - 2*frameThickness) * 0.6;
-        const blackBarHeight = 0.025;  // Black bar thickness
+        const blackBarHeight = 0.025;
         const lowerGlassHeight = (height - 2*frameThickness) * 0.3;
+        const doorWidth = (length - 3*frameThickness) / 2;
 
-        // Black horizontal bar (divider between upper and lower glass sections)
+        // Black horizontal bar
         const blackBar = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, blackBarHeight, panelThickness),
             pvcMaterial
         );
         blackBar.position.set(0, -upperDoorHeight/2 + blackBarHeight/2, width/2 - panelThickness/2);
+        blackBar.name = 'pvc-black-bar';
         enclosure.add(blackBar);
 
-        // Upper sliding glass doors (left and right)
-        const doorWidth = (length - 3*frameThickness) / 2;  // Account for center frame
-        
-        const leftDoor = new THREE.Mesh(
-            new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004),
-            glassMaterial
-        );
-        leftDoor.position.set(-doorWidth/2 - frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
-        enclosure.add(leftDoor);
+        // Merge glass components
+        const glassGeometries = [];
 
-        const rightDoor = new THREE.Mesh(
-            new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004),
-            glassMaterial
-        );
-        rightDoor.position.set(doorWidth/2 + frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
-        enclosure.add(rightDoor);
+        // Upper sliding glass doors
+        const leftDoorGeo = new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004);
+        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
+        glassGeometries.push(leftDoorGeo);
+
+        const rightDoorGeo = new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004);
+        rightDoorGeo.translate(doorWidth/2 + frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
+        glassGeometries.push(rightDoorGeo);
+
+        // Lower acrylic viewing panel
+        const lowerPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, lowerGlassHeight, 0.006);
+        lowerPanelGeo.translate(0, -upperDoorHeight/2 - blackBarHeight/2 - lowerGlassHeight/2, width/2 - 0.003);
+        glassGeometries.push(lowerPanelGeo);
+
+        // Merge glass components
+        const mergedGlassGeometry = this.safelyMergeGeometries(glassGeometries, 'pvc-glass');
+        if (mergedGlassGeometry) {
+            const glassMesh = new THREE.Mesh(mergedGlassGeometry, glassMaterial);
+            glassMesh.name = 'pvc-glass';
+            enclosure.add(glassMesh);
+            glassGeometries.forEach(geo => geo.dispose());
+        }
 
         // Center vertical frame between doors
         const centerFrame = new THREE.Mesh(
@@ -547,57 +533,33 @@ class EnclosureBuilder {
             aluminumMaterial
         );
         centerFrame.position.set(0, upperDoorHeight/2 - blackBarHeight/2, width/2 - frameThickness/2);
+        centerFrame.name = 'pvc-center-frame';
         enclosure.add(centerFrame);
 
-        // Lower acrylic viewing panel
-        const lowerPanel = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, lowerGlassHeight, 0.006),
-            acrylicMaterial
-        );
-        lowerPanel.position.set(0, -upperDoorHeight/2 - blackBarHeight/2 - lowerGlassHeight/2, width/2 - 0.003);
-        enclosure.add(lowerPanel);
-
-        // Door handles - Black plastic handles on sliding doors
-        const handleMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x2c2c2c,
-            roughness: 0.8,
-            metalness: 0.1
-        });
-
+        // STEP 4: Door handles (simplified)
         const handleWidth = 0.006;
         const handleHeight = 0.003;
         const handleDepth = 0.02;
+        const handleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
 
         // Left door handle
-        const leftHandle = new THREE.Mesh(
-            new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth),
-            handleMaterial
-        );
+        const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
         leftHandle.position.set(-doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        leftHandle.name = 'pvc-left-handle';
         enclosure.add(leftHandle);
 
-        // Right door handle
-        const rightHandle = new THREE.Mesh(
-            new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth),
-            handleMaterial
-        );
+        // Right door handle (reuse geometry)
+        const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
         rightHandle.position.set(doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        rightHandle.name = 'pvc-right-handle';
         enclosure.add(rightHandle);
 
-        // Door tracks (aluminum rails for sliding doors)
+        // STEP 5: Door tracks
         const trackMaterial = new THREE.MeshStandardMaterial({
             color: 0xa0a0a0,
             metalness: 0.7,
             roughness: 0.2
         });
-
-        // Top track
-        const topTrack = new THREE.Mesh(
-            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
-            trackMaterial
-        );
-        topTrack.position.set(0, height/2 - frameThickness - 0.004, width/2 - 0.006);
-        enclosure.add(topTrack);
 
         // Bottom track (at black bar level)
         const bottomTrack = new THREE.Mesh(
@@ -605,56 +567,19 @@ class EnclosureBuilder {
             trackMaterial
         );
         bottomTrack.position.set(0, -blackBarHeight/2 - 0.004, width/2 - 0.006);
+        bottomTrack.name = 'pvc-bottom-track';
         enclosure.add(bottomTrack);
 
-        // Screen top ventilation
-        const screenWidth = length - 2*frameThickness;
-        const screenDepth = width - 2*frameThickness;
-        
-        // Create mesh pattern for screen top
-        const meshSize = 0.004;
-        const meshSpacing = 0.006;
-        
-        for (let x = -screenWidth/2; x < screenWidth/2; x += meshSpacing) {
-            for (let z = -screenDepth/2; z < screenDepth/2; z += meshSpacing) {
-                const meshElement = new THREE.Mesh(
-                    new THREE.PlaneGeometry(meshSize, meshSize),
-                    screenMaterial
-                );
-                meshElement.position.set(x, height/2 - 0.001, z);
-                meshElement.rotation.x = -Math.PI/2;
-                enclosure.add(meshElement);
-            }
-        }
+        // NOTE: Top track is now part of optional top mesh, not created here
+        // NOTE: Screen mesh is now part of optional top mesh, not created here
+        // NOTE: Top frame corners are now part of optional top mesh, not created here
 
-        // Add corner reinforcements (typical of PVC construction)
-        const cornerMaterial = new THREE.MeshStandardMaterial({
-            color: 0x333333,
-            roughness: 0.4
-        });
-
-        const cornerSize = 0.012;
-        const corners = [
-            [-length/2 + cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
-            [length/2 - cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
-            [-length/2 + cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2],
-            [length/2 - cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2]
-        ];
-
-        corners.forEach(pos => {
-            const corner = new THREE.Mesh(
-                new THREE.BoxGeometry(cornerSize, cornerSize, cornerSize),
-                cornerMaterial
-            );
-            corner.position.set(pos[0], pos[1], pos[2]);
-            enclosure.add(corner);
-        });
-
-        // Add brand marking for PVC enclosure
+        // Add brand marking
         const brandGeometry = new THREE.BoxGeometry(0.025, 0.004, 0.001);
         const brandMaterial = new THREE.MeshBasicMaterial({ color: 0x444444 });
         const brand = new THREE.Mesh(brandGeometry, brandMaterial);
         brand.position.set(0, -height/2 + 0.015, width/2 + 0.001);
+        brand.name = 'pvc-brand';
         enclosure.add(brand);
     }
 
@@ -994,40 +919,71 @@ class EnclosureBuilder {
     }
 
     createPVCTopMesh(topMeshGroup, length, width, height) {
-        // PVC style screen top with aluminum frame
+        // FIXED PVC style top mesh - includes frame, track, and screen
         const aluminumMaterial = this.sharedMaterials.aluminum;
         const screenMaterial = this.sharedMaterials.screen;
         const frameThickness = 0.015;
 
-        // Aluminum frame around top
-        const frameGeometries = [];
+        // STEP 1: Top frame corners (that were excluded from main structure)
+        const topFrameGeometries = [];
+        const frameBoxGeometry = new THREE.BoxGeometry(frameThickness, frameThickness, frameThickness);
 
-        const frontFrameGeo = new THREE.BoxGeometry(length, frameThickness, frameThickness);
-        frontFrameGeo.translate(0, height/2 + frameThickness/2, width/2 - frameThickness/2);
-        frameGeometries.push(frontFrameGeo);
+        const topCorners = [
+            [-length/2 + frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
+            [length/2 - frameThickness/2, height/2 - frameThickness/2, -width/2 + frameThickness/2],
+            [-length/2 + frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2],
+            [length/2 - frameThickness/2, height/2 - frameThickness/2, width/2 - frameThickness/2]
+        ];
 
-        const backFrameGeo = new THREE.BoxGeometry(length, frameThickness, frameThickness);
-        backFrameGeo.translate(0, height/2 + frameThickness/2, -width/2 + frameThickness/2);
-        frameGeometries.push(backFrameGeo);
+        // Add top frame corner geometries
+        topCorners.forEach(pos => {
+            const frameGeo = frameBoxGeometry.clone();
+            frameGeo.translate(pos[0], pos[1], pos[2]);
+            topFrameGeometries.push(frameGeo);
+        });
 
-        const leftFrameGeo = new THREE.BoxGeometry(frameThickness, frameThickness, width - 2*frameThickness);
-        leftFrameGeo.translate(-length/2 + frameThickness/2, height/2 + frameThickness/2, 0);
-        frameGeometries.push(leftFrameGeo);
+        // Top horizontal frame rails
+        const frontRailGeo = new THREE.BoxGeometry(length, frameThickness, frameThickness);
+        frontRailGeo.translate(0, height/2 - frameThickness/2, width/2 - frameThickness/2);
+        topFrameGeometries.push(frontRailGeo);
 
-        const rightFrameGeo = new THREE.BoxGeometry(frameThickness, frameThickness, width - 2*frameThickness);
-        rightFrameGeo.translate(length/2 - frameThickness/2, height/2 + frameThickness/2, 0);
-        frameGeometries.push(rightFrameGeo);
+        const backRailGeo = new THREE.BoxGeometry(length, frameThickness, frameThickness);
+        backRailGeo.translate(0, height/2 - frameThickness/2, -width/2 + frameThickness/2);
+        topFrameGeometries.push(backRailGeo);
 
-        // Merge frame geometries
-        const mergedFrameGeometry = this.safelyMergeGeometries(frameGeometries, 'pvc-top-frame');
-        if (mergedFrameGeometry) {
-            const frameMesh = new THREE.Mesh(mergedFrameGeometry, aluminumMaterial);
-            frameMesh.name = 'pvc-top-frame';
-            topMeshGroup.add(frameMesh);
-            frameGeometries.forEach(geo => geo.dispose());
+        const leftRailGeo = new THREE.BoxGeometry(frameThickness, frameThickness, width - 2*frameThickness);
+        leftRailGeo.translate(-length/2 + frameThickness/2, height/2 - frameThickness/2, 0);
+        topFrameGeometries.push(leftRailGeo);
+
+        const rightRailGeo = new THREE.BoxGeometry(frameThickness, frameThickness, width - 2*frameThickness);
+        rightRailGeo.translate(length/2 - frameThickness/2, height/2 - frameThickness/2, 0);
+        topFrameGeometries.push(rightRailGeo);
+
+        // Merge all top frame geometries
+        const mergedTopFrameGeometry = this.safelyMergeGeometries(topFrameGeometries, 'pvc-top-frame');
+        if (mergedTopFrameGeometry) {
+            const topFrameMesh = new THREE.Mesh(mergedTopFrameGeometry, aluminumMaterial);
+            topFrameMesh.name = 'pvc-top-frame';
+            topMeshGroup.add(topFrameMesh);
+            topFrameGeometries.forEach(geo => geo.dispose());
         }
 
-        // Screen panel
+        // STEP 2: Top track (for sliding doors)
+        const trackMaterial = new THREE.MeshStandardMaterial({
+            color: 0xa0a0a0,
+            metalness: 0.7,
+            roughness: 0.2
+        });
+
+        const topTrack = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
+            trackMaterial
+        );
+        topTrack.position.set(0, height/2 - frameThickness - 0.004, width/2 - 0.006);
+        topTrack.name = 'pvc-top-track';
+        topMeshGroup.add(topTrack);
+
+        // STEP 3: Screen panel (OPTIMIZED - single panel instead of individual mesh elements)
         const screenWidth = length - 2*frameThickness;
         const screenDepth = width - 2*frameThickness;
 
@@ -1035,10 +991,42 @@ class EnclosureBuilder {
             new THREE.PlaneGeometry(screenWidth, screenDepth),
             screenMaterial
         );
-        screenPanel.position.set(0, height/2 + 0.005, 0);
+        screenPanel.position.set(0, height/2 - frameThickness/2, 0);
         screenPanel.rotation.x = -Math.PI/2;
         screenPanel.name = 'pvc-screen';
         topMeshGroup.add(screenPanel);
+
+        // STEP 4: Corner reinforcements (typical of PVC construction)
+        const cornerMaterial = new THREE.MeshStandardMaterial({
+            color: 0x333333,
+            roughness: 0.4
+        });
+
+        const cornerGeometries = [];
+        const cornerSize = 0.012;
+        const cornerBoxGeometry = new THREE.BoxGeometry(cornerSize, cornerSize, cornerSize);
+
+        const cornerPositions = [
+            [-length/2 + cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
+            [length/2 - cornerSize/2, height/2 - cornerSize/2, -width/2 + cornerSize/2],
+            [-length/2 + cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2],
+            [length/2 - cornerSize/2, height/2 - cornerSize/2, width/2 - cornerSize/2]
+        ];
+
+        cornerPositions.forEach(pos => {
+            const cornerGeo = cornerBoxGeometry.clone();
+            cornerGeo.translate(pos[0], pos[1], pos[2]);
+            cornerGeometries.push(cornerGeo);
+        });
+
+        // Merge corner reinforcements
+        const mergedCornerGeometry = this.safelyMergeGeometries(cornerGeometries, 'pvc-corners');
+        if (mergedCornerGeometry) {
+            const cornerMesh = new THREE.Mesh(mergedCornerGeometry, cornerMaterial);
+            cornerMesh.name = 'pvc-corners';
+            topMeshGroup.add(cornerMesh);
+            cornerGeometries.forEach(geo => geo.dispose());
+        }
     }
 
     updateEnclosureDimensions(length, width, height, enclosureData = null) {
