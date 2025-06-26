@@ -486,12 +486,12 @@ class EnclosureBuilder {
             pvcGeometries.forEach(geo => geo.dispose());
         }
 
-        // STEP 3: Front section with glass sliding doors - FIXED POSITIONING
+        // STEP 3: Front section with glass sliding doors - NO CENTER FRAME
         const availableInteriorHeight = height - 2*frameThickness; // Space inside the frame
         const upperDoorHeight = availableInteriorHeight * 0.6;
         const blackBarHeight = 0.025;
         const lowerGlassHeight = availableInteriorHeight * 0.3;
-        const doorWidth = (length - 3*frameThickness) / 2;
+        const doorWidth = (length - 2*frameThickness) / 2; // NO center frame, just 2 doors
 
         // Calculate proper Y positions to avoid clipping
         const topOfInterior = height/2 - frameThickness;
@@ -576,11 +576,11 @@ class EnclosureBuilder {
 
         // Upper sliding glass doors - OVERLAPPING DESIGN
         const leftDoorGeo = new THREE.BoxGeometry(adjustedDoorWidth, adjustedUpperDoorHeight, 0.004);
-        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2 + overlapAmount/2, upperDoorCenterY, width/2 - 0.002);
+        leftDoorGeo.translate(-doorWidth/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(leftDoorGeo);
 
         const rightDoorGeo = new THREE.BoxGeometry(adjustedDoorWidth, adjustedUpperDoorHeight, 0.004);
-        rightDoorGeo.translate(doorWidth/2 + frameThickness/2 - overlapAmount/2, upperDoorCenterY, width/2 - 0.002);
+        rightDoorGeo.translate(doorWidth/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(rightDoorGeo);
 
         // Lower acrylic viewing panel - POSITIONED WITHIN BOUNDS
@@ -597,24 +597,26 @@ class EnclosureBuilder {
             glassGeometries.forEach(geo => geo.dispose());
         }
 
-        // STEP 4: Door handles - BLACK, LONGER, PARALLEL TO SIDES
+        // NOTE: Center vertical frame REMOVED - doors now overlap naturally
+
+        // STEP 4: Door handles - BLACK, VERTICAL (rotated 90 degrees), ON DOOR EDGES
         const handleLength = 0.08; // Much longer handles (was 0.02)
-        const handleWidth = 0.008; // Slightly wider
-        const handleDepth = 0.004; // Thinner depth
-        const handleGeometry = new THREE.BoxGeometry(handleLength, handleWidth, handleDepth);
+        const handleWidth = 0.004; // Thinner width (was 0.008)
+        const handleDepth = 0.008; // Thicker depth for vertical orientation
+        const handleGeometry = new THREE.BoxGeometry(handleWidth, handleLength, handleDepth);
         
         // Use black material for handles (same as PVC components)
         const blackHandleMaterial = pvcMaterial;
 
-        // Left door handle - positioned parallel to sides, longer, black
+        // Left door handle - positioned on right edge of left door, vertical
         const leftHandle = new THREE.Mesh(handleGeometry, blackHandleMaterial);
-        leftHandle.position.set(-doorWidth/3, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.008);
+        leftHandle.position.set(-adjustedDoorWidth/4, upperDoorCenterY, width/2 + 0.008);
         leftHandle.name = 'pvc-left-handle';
         enclosure.add(leftHandle);
 
-        // Right door handle - positioned parallel to sides, longer, black
+        // Right door handle - positioned on left edge of right door, vertical
         const rightHandle = new THREE.Mesh(handleGeometry, blackHandleMaterial);
-        rightHandle.position.set(doorWidth/3, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.008);
+        rightHandle.position.set(adjustedDoorWidth/4, upperDoorCenterY, width/2 + 0.008);
         rightHandle.name = 'pvc-right-handle';
         enclosure.add(rightHandle);
 
