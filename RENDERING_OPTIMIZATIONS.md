@@ -199,29 +199,13 @@ const screenPanel = new THREE.Mesh(
 
 The enclosure builder now includes performance testing tools:
 
-### **Performance Stats Button** 📊
-- Shows current mesh count, triangle count, materials, and draw calls
-- Provides optimization recommendations
-- Available in browser console
-
 ### **Top Mesh Toggle** 📦
 - **"📦 Add Top" button** - Click to add/remove top mesh
 - **"T" keyboard shortcut** - Quick toggle
 - **Dynamic button text** - Shows current state
 
-### **Toggle Modes** ⚡🐌  
-- Switch between optimized and original rendering
-- Compare performance in real-time
-- See immediate impact of optimizations
-
 ### **Console Output**
 ```bash
-=== ENCLOSURE RENDERING PERFORMANCE ===
-📊 Mesh Count: 6 (no top) / 8 (with top)
-🔺 Triangle Count: 1,892
-🎨 Unique Materials: 6
-🖼️ Draw Calls: 5
-======================================
 Top mesh toggled: false (better performance!)
 ```
 
@@ -304,9 +288,6 @@ toggleTopMesh() {
 1. **Load the enclosure builder**
 2. **Enjoy clear interior view** by default (no top mesh)
 3. **Click "📦 Add Top"** or **press "T"** to add top mesh when needed
-4. **Click "📊 Performance Stats"** to see current metrics  
-5. **Try "⚡ Optimized"** vs **"🐌 Original"** modes
-6. **Check console** for detailed performance data
 
 ### **Keyboard Shortcuts:**
 - **T** - Toggle top mesh
