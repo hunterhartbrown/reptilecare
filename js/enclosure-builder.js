@@ -497,21 +497,33 @@ class EnclosureBuilder {
         const topOfInterior = height/2 - frameThickness;
         const bottomOfInterior = -height/2 + frameThickness;
         
-        // Upper doors position: start from top of interior, work down
-        const upperDoorCenterY = topOfInterior - upperDoorHeight/2;
+        // Add clearance gap to prevent z-fighting and clipping during rotation
+        const topClearance = 0.008; // Small gap from top frame
+        const bottomClearance = 0.004; // Small gap from bottom frame
         
-        // Black bar position: below upper doors
-        const blackBarCenterY = topOfInterior - upperDoorHeight - blackBarHeight/2;
+        // Adjust available space accounting for clearances
+        const adjustedAvailableHeight = availableInteriorHeight - topClearance - bottomClearance;
+        const adjustedUpperDoorHeight = adjustedAvailableHeight * 0.6;
+        const adjustedLowerGlassHeight = adjustedAvailableHeight * 0.3;
         
-        // Lower panel position: at bottom of interior
-        const lowerPanelCenterY = bottomOfInterior + lowerGlassHeight/2;
+        // Upper doors position: start from top of interior with clearance, work down
+        const upperDoorCenterY = topOfInterior - topClearance - adjustedUpperDoorHeight/2;
+        
+        // Black bar position: below upper doors with clearance
+        const blackBarCenterY = topOfInterior - topClearance - adjustedUpperDoorHeight - blackBarHeight/2;
+        
+        // Lower panel position: at bottom of interior with clearance
+        const lowerPanelCenterY = bottomOfInterior + bottomClearance + adjustedLowerGlassHeight/2;
 
         // Debug logging for glass positioning validation
-        console.log('PVC Glass Positioning Debug:');
+        console.log('PVC Glass Positioning Debug (with clearances):');
         console.log(`  Interior bounds: ${bottomOfInterior.toFixed(3)} to ${topOfInterior.toFixed(3)}`);
-        console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - upperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + upperDoorHeight/2).toFixed(3)})`);
-        console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - lowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + lowerGlassHeight/2).toFixed(3)})`);
+        console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)}`);
+        console.log(`  Adjusted upper door height: ${adjustedUpperDoorHeight.toFixed(3)} (was ${upperDoorHeight.toFixed(3)})`);
+        console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - adjustedUpperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + adjustedUpperDoorHeight/2).toFixed(3)})`);
+        console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + adjustedLowerGlassHeight/2).toFixed(3)})`);
         console.log(`  Black bar center Y: ${blackBarCenterY.toFixed(3)}`);
+        console.log(`  Top gap: ${(topOfInterior - (upperDoorCenterY + adjustedUpperDoorHeight/2)).toFixed(3)} units`);
 
         // Black horizontal bar (divider)
         const blackBar = new THREE.Mesh(
@@ -526,16 +538,16 @@ class EnclosureBuilder {
         const glassGeometries = [];
 
         // Upper sliding glass doors - POSITIONED WITHIN BOUNDS
-        const leftDoorGeo = new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004);
+        const leftDoorGeo = new THREE.BoxGeometry(doorWidth, adjustedUpperDoorHeight, 0.004);
         leftDoorGeo.translate(-doorWidth/2 - frameThickness/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(leftDoorGeo);
 
-        const rightDoorGeo = new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004);
+        const rightDoorGeo = new THREE.BoxGeometry(doorWidth, adjustedUpperDoorHeight, 0.004);
         rightDoorGeo.translate(doorWidth/2 + frameThickness/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(rightDoorGeo);
 
         // Lower acrylic viewing panel - POSITIONED WITHIN BOUNDS
-        const lowerPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, lowerGlassHeight, 0.006);
+        const lowerPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, adjustedLowerGlassHeight, 0.006);
         lowerPanelGeo.translate(0, lowerPanelCenterY, width/2 - 0.003);
         glassGeometries.push(lowerPanelGeo);
 
@@ -550,7 +562,7 @@ class EnclosureBuilder {
 
         // Center vertical frame between doors - FIXED POSITIONING
         const centerFrame = new THREE.Mesh(
-            new THREE.BoxGeometry(frameThickness, upperDoorHeight, frameThickness),
+            new THREE.BoxGeometry(frameThickness, adjustedUpperDoorHeight, frameThickness),
             aluminumMaterial
         );
         centerFrame.position.set(0, upperDoorCenterY, width/2 - frameThickness/2);
@@ -565,13 +577,13 @@ class EnclosureBuilder {
 
         // Left door handle - positioned on upper door
         const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/4, upperDoorCenterY + upperDoorHeight/4, width/2 + 0.006);
+        leftHandle.position.set(-doorWidth/4, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.006);
         leftHandle.name = 'pvc-left-handle';
         enclosure.add(leftHandle);
 
         // Right door handle (reuse geometry) - positioned on upper door  
         const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/4, upperDoorCenterY + upperDoorHeight/4, width/2 + 0.006);
+        rightHandle.position.set(doorWidth/4, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.006);
         rightHandle.name = 'pvc-right-handle';
         enclosure.add(rightHandle);
 
