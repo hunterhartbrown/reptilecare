@@ -136,6 +136,7 @@ createReptizooTopMesh(topMeshGroup, length, width, height) {
   - ✅ **Added**: Proper top frame corners in optional top mesh
   - ✅ **Added**: Top track for sliding doors in optional top mesh
   - ✅ **Added**: Single optimized screen panel in optional top mesh
+  - ✅ **Fixed**: **Glass panel clipping issues** - proper positioning within frame bounds
 
 ### **Basic Model**
 - **Glass walls**: 4 separate objects → 1 merged mesh

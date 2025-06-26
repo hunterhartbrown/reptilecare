@@ -486,36 +486,57 @@ class EnclosureBuilder {
             pvcGeometries.forEach(geo => geo.dispose());
         }
 
-        // STEP 3: Front section with glass sliding doors
-        const upperDoorHeight = (height - 2*frameThickness) * 0.6;
+        // STEP 3: Front section with glass sliding doors - FIXED POSITIONING
+        const availableInteriorHeight = height - 2*frameThickness; // Space inside the frame
+        const upperDoorHeight = availableInteriorHeight * 0.6;
         const blackBarHeight = 0.025;
-        const lowerGlassHeight = (height - 2*frameThickness) * 0.3;
+        const lowerGlassHeight = availableInteriorHeight * 0.3;
         const doorWidth = (length - 3*frameThickness) / 2;
 
-        // Black horizontal bar
+        // Calculate proper Y positions to avoid clipping
+        const topOfInterior = height/2 - frameThickness;
+        const bottomOfInterior = -height/2 + frameThickness;
+        
+        // Upper doors position: start from top of interior, work down
+        const upperDoorCenterY = topOfInterior - upperDoorHeight/2;
+        
+        // Black bar position: below upper doors
+        const blackBarCenterY = topOfInterior - upperDoorHeight - blackBarHeight/2;
+        
+        // Lower panel position: at bottom of interior
+        const lowerPanelCenterY = bottomOfInterior + lowerGlassHeight/2;
+
+        // Debug logging for glass positioning validation
+        console.log('PVC Glass Positioning Debug:');
+        console.log(`  Interior bounds: ${bottomOfInterior.toFixed(3)} to ${topOfInterior.toFixed(3)}`);
+        console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - upperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + upperDoorHeight/2).toFixed(3)})`);
+        console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - lowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + lowerGlassHeight/2).toFixed(3)})`);
+        console.log(`  Black bar center Y: ${blackBarCenterY.toFixed(3)}`);
+
+        // Black horizontal bar (divider)
         const blackBar = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, blackBarHeight, panelThickness),
             pvcMaterial
         );
-        blackBar.position.set(0, -upperDoorHeight/2 + blackBarHeight/2, width/2 - panelThickness/2);
+        blackBar.position.set(0, blackBarCenterY, width/2 - panelThickness/2);
         blackBar.name = 'pvc-black-bar';
         enclosure.add(blackBar);
 
-        // Merge glass components
+        // Merge glass components - FIXED POSITIONING
         const glassGeometries = [];
 
-        // Upper sliding glass doors
+        // Upper sliding glass doors - POSITIONED WITHIN BOUNDS
         const leftDoorGeo = new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004);
-        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
+        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(leftDoorGeo);
 
         const rightDoorGeo = new THREE.BoxGeometry(doorWidth, upperDoorHeight, 0.004);
-        rightDoorGeo.translate(doorWidth/2 + frameThickness/2, upperDoorHeight/2 - blackBarHeight/2, width/2 - 0.002);
+        rightDoorGeo.translate(doorWidth/2 + frameThickness/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(rightDoorGeo);
 
-        // Lower acrylic viewing panel
+        // Lower acrylic viewing panel - POSITIONED WITHIN BOUNDS
         const lowerPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, lowerGlassHeight, 0.006);
-        lowerPanelGeo.translate(0, -upperDoorHeight/2 - blackBarHeight/2 - lowerGlassHeight/2, width/2 - 0.003);
+        lowerPanelGeo.translate(0, lowerPanelCenterY, width/2 - 0.003);
         glassGeometries.push(lowerPanelGeo);
 
         // Merge glass components
@@ -527,46 +548,46 @@ class EnclosureBuilder {
             glassGeometries.forEach(geo => geo.dispose());
         }
 
-        // Center vertical frame between doors
+        // Center vertical frame between doors - FIXED POSITIONING
         const centerFrame = new THREE.Mesh(
             new THREE.BoxGeometry(frameThickness, upperDoorHeight, frameThickness),
             aluminumMaterial
         );
-        centerFrame.position.set(0, upperDoorHeight/2 - blackBarHeight/2, width/2 - frameThickness/2);
+        centerFrame.position.set(0, upperDoorCenterY, width/2 - frameThickness/2);
         centerFrame.name = 'pvc-center-frame';
         enclosure.add(centerFrame);
 
-        // STEP 4: Door handles (simplified)
+        // STEP 4: Door handles (simplified) - FIXED POSITIONING
         const handleWidth = 0.006;
         const handleHeight = 0.003;
         const handleDepth = 0.02;
         const handleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
 
-        // Left door handle
+        // Left door handle - positioned on upper door
         const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        leftHandle.position.set(-doorWidth/4, upperDoorCenterY + upperDoorHeight/4, width/2 + 0.006);
         leftHandle.name = 'pvc-left-handle';
         enclosure.add(leftHandle);
 
-        // Right door handle (reuse geometry)
+        // Right door handle (reuse geometry) - positioned on upper door  
         const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/4, upperDoorHeight/4, width/2 + 0.006);
+        rightHandle.position.set(doorWidth/4, upperDoorCenterY + upperDoorHeight/4, width/2 + 0.006);
         rightHandle.name = 'pvc-right-handle';
         enclosure.add(rightHandle);
 
-        // STEP 5: Door tracks
+        // STEP 5: Door tracks - FIXED POSITIONING
         const trackMaterial = new THREE.MeshStandardMaterial({
             color: 0xa0a0a0,
             metalness: 0.7,
             roughness: 0.2
         });
 
-        // Bottom track (at black bar level)
+        // Bottom track (at black bar level) - FIXED POSITIONING
         const bottomTrack = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
             trackMaterial
         );
-        bottomTrack.position.set(0, -blackBarHeight/2 - 0.004, width/2 - 0.006);
+        bottomTrack.position.set(0, blackBarCenterY - blackBarHeight/2 - 0.004, width/2 - 0.006);
         bottomTrack.name = 'pvc-bottom-track';
         enclosure.add(bottomTrack);
 
@@ -968,18 +989,24 @@ class EnclosureBuilder {
             topFrameGeometries.forEach(geo => geo.dispose());
         }
 
-        // STEP 2: Top track (for sliding doors)
+        // STEP 2: Top track (for sliding doors) - FIXED POSITIONING
         const trackMaterial = new THREE.MeshStandardMaterial({
             color: 0xa0a0a0,
             metalness: 0.7,
             roughness: 0.2
         });
 
+        // Calculate proper position for top track - should align with upper doors
+        const topOfInterior = height/2 - frameThickness;
+        const availableInteriorHeight = height - 2*frameThickness;
+        const upperDoorHeight = availableInteriorHeight * 0.6;
+        const topTrackY = topOfInterior - 0.004; // Just below the top frame
+
         const topTrack = new THREE.Mesh(
             new THREE.BoxGeometry(length - 2*frameThickness, 0.008, 0.012),
             trackMaterial
         );
-        topTrack.position.set(0, height/2 - frameThickness - 0.004, width/2 - 0.006);
+        topTrack.position.set(0, topTrackY, width/2 - 0.006);
         topTrack.name = 'pvc-top-track';
         topMeshGroup.add(topTrack);
 
