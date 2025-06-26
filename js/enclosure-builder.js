@@ -197,7 +197,7 @@ class EnclosureBuilder {
         backWallGeometry.translate(0, 0, -width/2);
         glassGeometries.push(backWallGeometry);
 
-        // Side walls  
+        // Side walls
         const leftWallGeometry = new THREE.BoxGeometry(glassThickness, height, width);
         leftWallGeometry.translate(-length/2, 0, 0);
         glassGeometries.push(leftWallGeometry);
@@ -223,7 +223,7 @@ class EnclosureBuilder {
 
     createReptizooModel(enclosure, length, width, height) {
         // OPTIMIZED REPTIZOO MODEL - Merged geometries for better performance
-        
+
         const frameThickness = 0.01;
         const glassThickness = 0.003;
         
@@ -472,9 +472,9 @@ class EnclosureBuilder {
         backPanelGeo.translate(0, 0, -width/2 + panelThickness/2);
         pvcGeometries.push(backPanelGeo);
 
-        // Bottom panel
+        // Bottom panel - FIXED POSITIONING to eliminate gap with walls
         const bottomPanelGeo = new THREE.BoxGeometry(length - 2*frameThickness, panelThickness*1.5, width - 2*frameThickness);
-        bottomPanelGeo.translate(0, -height/2 + panelThickness*0.75, 0);
+        bottomPanelGeo.translate(0, -height/2 + frameThickness + panelThickness*0.75, 0);
         pvcGeometries.push(bottomPanelGeo);
 
         // Merge PVC panels
