@@ -13,6 +13,7 @@ class EnclosureBuilder {
         this.selectedItem = null;
         this.enclosureDimensions = { length: 36, width: 18, height: 18 }; // Default size
         this.measurementsVisible = true; // Add control for measurements visibility
+        this.topMeshVisible = false; // DEFAULT: No top mesh for better visibility and performance
         
         // Initialize shared materials for performance
         this.initSharedMaterials();
@@ -877,7 +878,167 @@ class EnclosureBuilder {
         if (measurements) {
             measurements.visible = this.measurementsVisible;
         }
-        return this.measurementsVisible;
+        console.log('Measurements toggled:', this.measurementsVisible);
+    }
+
+    toggleTopMesh() {
+        this.topMeshVisible = !this.topMeshVisible;
+        
+        // Remove existing top mesh if any
+        const existingTopMesh = this.scene.getObjectByName('top-mesh');
+        if (existingTopMesh) {
+            this.scene.remove(existingTopMesh);
+        }
+        
+        // Add top mesh if enabled
+        if (this.topMeshVisible) {
+            this.createTopMesh();
+        }
+        
+        console.log('Top mesh toggled:', this.topMeshVisible);
+        
+        // Update button text if available
+        const topMeshButton = document.getElementById('toggle-top-mesh');
+        if (topMeshButton) {
+            topMeshButton.innerHTML = this.topMeshVisible ? '🚫 Remove Top' : '📦 Add Top';
+        }
+    }
+
+    createTopMesh() {
+        // Convert dimensions to meters
+        const length = this.enclosureDimensions.length * 0.0254;
+        const width = this.enclosureDimensions.width * 0.0254;
+        const height = this.enclosureDimensions.height * 0.0254;
+
+        // Check the enclosure type to match the style
+        const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
+        const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
+
+        const topMeshGroup = new THREE.Group();
+        topMeshGroup.name = 'top-mesh';
+
+        if (isReptizoo) {
+            this.createReptizooTopMesh(topMeshGroup, length, width, height);
+        } else if (isPVC) {
+            this.createPVCTopMesh(topMeshGroup, length, width, height);
+        } else {
+            this.createBasicTopMesh(topMeshGroup, length, width, height);
+        }
+
+        this.scene.add(topMeshGroup);
+    }
+
+    createBasicTopMesh(topMeshGroup, length, width, height) {
+        // Simple glass top for basic enclosures
+        const glassMaterial = this.sharedMaterials.glass;
+        const glassThickness = 0.002;
+
+        const topPanel = new THREE.Mesh(
+            new THREE.BoxGeometry(length, glassThickness, width),
+            glassMaterial
+        );
+        topPanel.position.set(0, height/2, 0);
+        topPanel.name = 'basic-top';
+        topMeshGroup.add(topPanel);
+    }
+
+    createReptizooTopMesh(topMeshGroup, length, width, height) {
+        // REPTIZOO style screen top with black rim (OPTIMIZED)
+        const frameThickness = 0.01;
+        const rimMaterial = this.sharedMaterials.bottomPlastic;
+        const screenMaterial = this.sharedMaterials.screen;
+
+        // Create rim frame (merged geometry for performance)
+        const rimGeometries = [];
+        const rimThickness = 0.008;
+        const rimHeight = 0.003;
+
+        // Top rim pieces
+        const topRimGeo = new THREE.BoxGeometry(length, rimHeight, rimThickness);
+        topRimGeo.translate(0, height/2 + rimHeight/2, -width/2 + rimThickness/2);
+        rimGeometries.push(topRimGeo);
+
+        const bottomRimGeo = new THREE.BoxGeometry(length, rimHeight, rimThickness);
+        bottomRimGeo.translate(0, height/2 + rimHeight/2, width/2 - rimThickness/2);
+        rimGeometries.push(bottomRimGeo);
+
+        const leftRimGeo = new THREE.BoxGeometry(rimThickness, rimHeight, width);
+        leftRimGeo.translate(-length/2 + rimThickness/2, height/2 + rimHeight/2, 0);
+        rimGeometries.push(leftRimGeo);
+
+        const rightRimGeo = new THREE.BoxGeometry(rimThickness, rimHeight, width);
+        rightRimGeo.translate(length/2 - rimThickness/2, height/2 + rimHeight/2, 0);
+        rimGeometries.push(rightRimGeo);
+
+        // Merge rim geometries for better performance
+        const mergedRimGeometry = this.safelyMergeGeometries(rimGeometries, 'reptizoo-top-rim');
+        if (mergedRimGeometry) {
+            const rimMesh = new THREE.Mesh(mergedRimGeometry, rimMaterial);
+            rimMesh.name = 'reptizoo-top-rim';
+            topMeshGroup.add(rimMesh);
+            rimGeometries.forEach(geo => geo.dispose());
+        }
+
+        // Simple screen panel instead of individual mesh elements (PERFORMANCE OPTIMIZED)
+        const screenWidth = length - 2*frameThickness;
+        const screenDepth = width - 2*frameThickness;
+
+        const screenPanel = new THREE.Mesh(
+            new THREE.PlaneGeometry(screenWidth, screenDepth),
+            screenMaterial
+        );
+        screenPanel.position.set(0, height/2 + 0.001, 0);
+        screenPanel.rotation.x = -Math.PI/2;
+        screenPanel.name = 'reptizoo-screen';
+        topMeshGroup.add(screenPanel);
+    }
+
+    createPVCTopMesh(topMeshGroup, length, width, height) {
+        // PVC style screen top with aluminum frame
+        const aluminumMaterial = this.sharedMaterials.aluminum;
+        const screenMaterial = this.sharedMaterials.screen;
+        const frameThickness = 0.015;
+
+        // Aluminum frame around top
+        const frameGeometries = [];
+
+        const frontFrameGeo = new THREE.BoxGeometry(length, frameThickness, frameThickness);
+        frontFrameGeo.translate(0, height/2 + frameThickness/2, width/2 - frameThickness/2);
+        frameGeometries.push(frontFrameGeo);
+
+        const backFrameGeo = new THREE.BoxGeometry(length, frameThickness, frameThickness);
+        backFrameGeo.translate(0, height/2 + frameThickness/2, -width/2 + frameThickness/2);
+        frameGeometries.push(backFrameGeo);
+
+        const leftFrameGeo = new THREE.BoxGeometry(frameThickness, frameThickness, width - 2*frameThickness);
+        leftFrameGeo.translate(-length/2 + frameThickness/2, height/2 + frameThickness/2, 0);
+        frameGeometries.push(leftFrameGeo);
+
+        const rightFrameGeo = new THREE.BoxGeometry(frameThickness, frameThickness, width - 2*frameThickness);
+        rightFrameGeo.translate(length/2 - frameThickness/2, height/2 + frameThickness/2, 0);
+        frameGeometries.push(rightFrameGeo);
+
+        // Merge frame geometries
+        const mergedFrameGeometry = this.safelyMergeGeometries(frameGeometries, 'pvc-top-frame');
+        if (mergedFrameGeometry) {
+            const frameMesh = new THREE.Mesh(mergedFrameGeometry, aluminumMaterial);
+            frameMesh.name = 'pvc-top-frame';
+            topMeshGroup.add(frameMesh);
+            frameGeometries.forEach(geo => geo.dispose());
+        }
+
+        // Screen panel
+        const screenWidth = length - 2*frameThickness;
+        const screenDepth = width - 2*frameThickness;
+
+        const screenPanel = new THREE.Mesh(
+            new THREE.PlaneGeometry(screenWidth, screenDepth),
+            screenMaterial
+        );
+        screenPanel.position.set(0, height/2 + 0.005, 0);
+        screenPanel.rotation.x = -Math.PI/2;
+        screenPanel.name = 'pvc-screen';
+        topMeshGroup.add(screenPanel);
     }
 
     updateEnclosureDimensions(length, width, height, enclosureData = null) {
@@ -1277,6 +1438,11 @@ window.addEventListener('load', () => {
                 const isVisible = builder.toggleMeasurements();
                 const button = document.getElementById('toggle-measurements');
                 button.textContent = isVisible ? '📏 Hide Measurements' : '📏 Show Measurements';
+                break;
+            case 't':
+                e.preventDefault();
+                console.log('T key pressed - Toggle Top Mesh');
+                builder.toggleTopMesh();
                 break;
         }
     });
