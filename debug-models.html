@@ -124,15 +124,27 @@
             
             // Model loader
             modelLoader = new ModelLoader();
+            
+            log("⏳ Waiting for model registry to load...");
+            
             await new Promise(resolve => {
                 const check = () => {
-                    if (modelLoader.registry) resolve();
-                    else setTimeout(check, 100);
+                    if (modelLoader.registry) {
+                        resolve();
+                    } else {
+                        log("⏳ Still waiting for registry...");
+                        setTimeout(check, 1000);
+                    }
                 };
                 check();
             });
             
-            log("✅ Ready! Registry loaded with models: " + Object.keys(modelLoader.registry.models).join(', '));
+            if (modelLoader.registry && modelLoader.registry.models) {
+                log("✅ Ready! Registry loaded with models: " + Object.keys(modelLoader.registry.models).join(', '));
+            } else {
+                log("❌ Registry loaded but no models found!");
+                log("Registry content: " + JSON.stringify(modelLoader.registry));
+            }
             
             animate();
         }
