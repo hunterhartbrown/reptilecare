@@ -499,7 +499,7 @@ class EnclosureBuilder {
         
         // Add clearance gap to prevent z-fighting and clipping during rotation
         const topClearance = 0.008; // Small gap from top frame
-        const bottomClearance = 0.004; // Small gap from bottom frame
+        const bottomClearance = 0.010; // Increased gap from bottom frame (was 0.004, now 0.010)
         
         // Adjust available space accounting for clearances
         const adjustedAvailableHeight = availableInteriorHeight - topClearance - bottomClearance;
@@ -518,13 +518,14 @@ class EnclosureBuilder {
         // Debug logging for glass positioning validation
         console.log('PVC Glass Positioning Debug (with clearances):');
         console.log(`  Interior bounds: ${bottomOfInterior.toFixed(3)} to ${topOfInterior.toFixed(3)}`);
-        console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)}`);
+        console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)} (increased for lower panel)`);
         console.log(`  Adjusted upper door height: ${adjustedUpperDoorHeight.toFixed(3)} (was ${upperDoorHeight.toFixed(3)}) - 75% of space`);
         console.log(`  Adjusted lower panel height: ${adjustedLowerGlassHeight.toFixed(3)} - 20% of space (reduced from 30%)`);
         console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - adjustedUpperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + adjustedUpperDoorHeight/2).toFixed(3)})`);
         console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + adjustedLowerGlassHeight/2).toFixed(3)})`);
         console.log(`  Black bar center Y: ${blackBarCenterY.toFixed(3)}`);
         console.log(`  Top gap: ${(topOfInterior - (upperDoorCenterY + adjustedUpperDoorHeight/2)).toFixed(3)} units`);
+        console.log(`  Bottom gap: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2 - bottomOfInterior).toFixed(3)} units`);
 
         // Black horizontal bar (divider)
         const blackBar = new THREE.Mesh(
