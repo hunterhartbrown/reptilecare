@@ -10,8 +10,8 @@
       ],
       "type": "reptizoo",
       "file": "reptizoo_36x18x18.glb",
-      "vertices": 136,
-      "faces": 204
+      "vertices": 404,
+      "faces": 664
     },
     "reptizoo_24x18x36": {
       "name": "reptizoo_24x18x36",
@@ -23,8 +23,8 @@
       ],
       "type": "reptizoo",
       "file": "reptizoo_24x18x36.glb",
-      "vertices": 136,
-      "faces": 204
+      "vertices": 404,
+      "faces": 664
     },
     "reptizoo_40gal_36x16x18": {
       "name": "reptizoo_40gal_36x16x18",
@@ -36,8 +36,8 @@
       ],
       "type": "reptizoo",
       "file": "reptizoo_40gal_36x16x18.glb",
-      "vertices": 136,
-      "faces": 204
+      "vertices": 404,
+      "faces": 664
     },
     "pvc_36x18x18": {
       "name": "pvc_36x18x18",
@@ -92,6 +92,6 @@
       "faces": 48
     }
   },
-  "generated_at": "1750900120.9154067",
+  "generated_at": "1750901692.487687",
   "description": "Pre-generated 3D enclosure models for web loading"
 }

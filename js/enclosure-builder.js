@@ -156,13 +156,15 @@ class EnclosureBuilder {
 
     async tryLoadOptimizedModel() {
         if (!this.modelLoader || !this.modelLoader.registry) {
+            console.log('⚠️  No model loader or registry available');
             return null;
         }
 
         // Try to find a matching pre-generated model
         const modelName = this.findMatchingModelName();
         if (!modelName) {
-            console.log('⚠️  No matching pre-generated model found');
+            console.log('⚠️  No matching pre-generated model found for dimensions:', this.enclosureDimensions);
+            console.log('📋 Available models:', Object.keys(this.modelLoader.registry.models));
             return null;
         }
 
@@ -170,6 +172,8 @@ class EnclosureBuilder {
             console.log(`🎯 Loading optimized model: ${modelName}`);
             const model = await this.modelLoader.loadModel(modelName);
             model.name = 'enclosure';
+            
+            console.log('✅ Successfully loaded optimized model with', model.children.length, 'children');
             
             // Update camera position based on model bounds
             this.updateCameraForOptimizedModel(model);

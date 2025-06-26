@@ -88,15 +88,21 @@ class ModelLoader {
                     const model = gltf.scene;
                     model.userData = modelInfo;
                     
-                    // Optimize for performance
+                    console.log(`🔍 GLB Model Debug for ${modelInfo.name}:`);
+                    console.log('  - Scene children:', model.children.length);
+                    
+                    // Optimize for performance while preserving materials
                     model.traverse((child) => {
                         if (child.isMesh) {
                             child.frustumCulled = true;
+                            console.log(`  - Mesh found: ${child.name || 'unnamed'}, material:`, child.material?.type || 'none');
+                            
                             if (child.material) {
                                 child.material.needsUpdate = false;
                                 // Enhance transparency handling
                                 if (child.material.transparent) {
                                     child.renderOrder = 1;
+                                    console.log(`    - Transparent material detected`);
                                 }
                             }
                         }
@@ -168,13 +174,13 @@ class ModelLoader {
     }
     
     createMaterialForType(type) {
+        // Don't override materials for GLB models - they come with their own materials
+        // This method is only used for JSON/simple models
         const materials = {
             'reptizoo': new THREE.MeshLambertMaterial({
-                color: 0xf0f0f0,
-                transparent: true,
-                opacity: 0.35,
-                side: THREE.DoubleSide,
-                alphaTest: 0.1
+                color: 0x262626,  // Dark frame color like real REPTIZOO
+                transparent: false,
+                side: THREE.DoubleSide
             }),
             'pvc': new THREE.MeshLambertMaterial({
                 color: 0xe6e6d9,
