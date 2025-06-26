@@ -567,16 +567,20 @@ class EnclosureBuilder {
         blackBar.name = 'pvc-black-bar';
         enclosure.add(blackBar);
 
-        // Merge glass components - FIXED POSITIONING
+        // Merge glass components - OVERLAPPING DOORS (no center frame)
         const glassGeometries = [];
+        
+        // Calculate overlapping door positions - doors nearly touch in middle
+        const overlapAmount = 0.002; // Small overlap for realistic sliding doors
+        const adjustedDoorWidth = doorWidth + overlapAmount; // Slightly wider doors
 
-        // Upper sliding glass doors - POSITIONED WITHIN BOUNDS
-        const leftDoorGeo = new THREE.BoxGeometry(doorWidth, adjustedUpperDoorHeight, 0.004);
-        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2, upperDoorCenterY, width/2 - 0.002);
+        // Upper sliding glass doors - OVERLAPPING DESIGN
+        const leftDoorGeo = new THREE.BoxGeometry(adjustedDoorWidth, adjustedUpperDoorHeight, 0.004);
+        leftDoorGeo.translate(-doorWidth/2 - frameThickness/2 + overlapAmount/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(leftDoorGeo);
 
-        const rightDoorGeo = new THREE.BoxGeometry(doorWidth, adjustedUpperDoorHeight, 0.004);
-        rightDoorGeo.translate(doorWidth/2 + frameThickness/2, upperDoorCenterY, width/2 - 0.002);
+        const rightDoorGeo = new THREE.BoxGeometry(adjustedDoorWidth, adjustedUpperDoorHeight, 0.004);
+        rightDoorGeo.translate(doorWidth/2 + frameThickness/2 - overlapAmount/2, upperDoorCenterY, width/2 - 0.002);
         glassGeometries.push(rightDoorGeo);
 
         // Lower acrylic viewing panel - POSITIONED WITHIN BOUNDS
@@ -593,30 +597,24 @@ class EnclosureBuilder {
             glassGeometries.forEach(geo => geo.dispose());
         }
 
-        // Center vertical frame between doors - FIXED POSITIONING
-        const centerFrame = new THREE.Mesh(
-            new THREE.BoxGeometry(frameThickness, adjustedUpperDoorHeight, frameThickness),
-            aluminumMaterial
-        );
-        centerFrame.position.set(0, upperDoorCenterY, width/2 - frameThickness/2);
-        centerFrame.name = 'pvc-center-frame';
-        enclosure.add(centerFrame);
+        // STEP 4: Door handles - BLACK, LONGER, PARALLEL TO SIDES
+        const handleLength = 0.08; // Much longer handles (was 0.02)
+        const handleWidth = 0.008; // Slightly wider
+        const handleDepth = 0.004; // Thinner depth
+        const handleGeometry = new THREE.BoxGeometry(handleLength, handleWidth, handleDepth);
+        
+        // Use black material for handles (same as PVC components)
+        const blackHandleMaterial = pvcMaterial;
 
-        // STEP 4: Door handles (simplified) - FIXED POSITIONING
-        const handleWidth = 0.006;
-        const handleHeight = 0.003;
-        const handleDepth = 0.02;
-        const handleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
-
-        // Left door handle - positioned on upper door
-        const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/4, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.006);
+        // Left door handle - positioned parallel to sides, longer, black
+        const leftHandle = new THREE.Mesh(handleGeometry, blackHandleMaterial);
+        leftHandle.position.set(-doorWidth/3, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.008);
         leftHandle.name = 'pvc-left-handle';
         enclosure.add(leftHandle);
 
-        // Right door handle (reuse geometry) - positioned on upper door  
-        const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/4, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.006);
+        // Right door handle - positioned parallel to sides, longer, black
+        const rightHandle = new THREE.Mesh(handleGeometry, blackHandleMaterial);
+        rightHandle.position.set(doorWidth/3, upperDoorCenterY + adjustedUpperDoorHeight/4, width/2 + 0.008);
         rightHandle.name = 'pvc-right-handle';
         enclosure.add(rightHandle);
 
@@ -645,6 +643,20 @@ class EnclosureBuilder {
         bottomFrame.position.set(0, -height/2 + frameThickness + bottomFrameHeight/2, width/2 - panelThickness/2);
         bottomFrame.name = 'pvc-bottom-frame';
         enclosure.add(bottomFrame);
+
+        // STEP 7: Wire management bump on right side wall (top right, outside)
+        const wireManagementBump = new THREE.Mesh(
+            new THREE.BoxGeometry(0.015, 0.025, 0.04), // Depth, height, width (oriented for side wall)
+            pvcMaterial
+        );
+        // Position on outside of right side wall, top right corner when facing front
+        wireManagementBump.position.set(
+            length/2 - frameThickness - 0.0075, // On outside of right side wall
+            height/2 - 0.06, // Near top
+            0.05 // Forward from center, near front
+        );
+        wireManagementBump.name = 'pvc-wire-management';
+        enclosure.add(wireManagementBump);
 
         // NOTE: Top track is now part of optional top mesh, not created here
         // NOTE: Screen mesh is now part of optional top mesh, not created here
