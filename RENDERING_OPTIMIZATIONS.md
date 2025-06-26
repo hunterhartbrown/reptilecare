@@ -140,6 +140,8 @@ createReptizooTopMesh(topMeshGroup, length, width, height) {
     - Added 8mm top clearance and 4mm bottom clearance gaps
     - Prevents z-fighting and clipping during camera rotation
     - Maintains realistic door-to-frame spacing
+    - Reduced lower panel height from 30% to 20% of available space (2/3rds smaller)
+    - Increased upper door height from 60% to 75% for better proportions
 
 ### **Basic Model**
 - **Glass walls**: 4 separate objects → 1 merged mesh

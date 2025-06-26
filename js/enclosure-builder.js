@@ -503,8 +503,8 @@ class EnclosureBuilder {
         
         // Adjust available space accounting for clearances
         const adjustedAvailableHeight = availableInteriorHeight - topClearance - bottomClearance;
-        const adjustedUpperDoorHeight = adjustedAvailableHeight * 0.6;
-        const adjustedLowerGlassHeight = adjustedAvailableHeight * 0.3;
+        const adjustedUpperDoorHeight = adjustedAvailableHeight * 0.75; // Increased from 0.6 to 0.75
+        const adjustedLowerGlassHeight = adjustedAvailableHeight * 0.20; // Reduced from 0.3 to 0.20 (2/3rds smaller)
         
         // Upper doors position: start from top of interior with clearance, work down
         const upperDoorCenterY = topOfInterior - topClearance - adjustedUpperDoorHeight/2;
@@ -519,7 +519,8 @@ class EnclosureBuilder {
         console.log('PVC Glass Positioning Debug (with clearances):');
         console.log(`  Interior bounds: ${bottomOfInterior.toFixed(3)} to ${topOfInterior.toFixed(3)}`);
         console.log(`  Top clearance: ${topClearance.toFixed(3)}, Bottom clearance: ${bottomClearance.toFixed(3)}`);
-        console.log(`  Adjusted upper door height: ${adjustedUpperDoorHeight.toFixed(3)} (was ${upperDoorHeight.toFixed(3)})`);
+        console.log(`  Adjusted upper door height: ${adjustedUpperDoorHeight.toFixed(3)} (was ${upperDoorHeight.toFixed(3)}) - 75% of space`);
+        console.log(`  Adjusted lower panel height: ${adjustedLowerGlassHeight.toFixed(3)} - 20% of space (reduced from 30%)`);
         console.log(`  Upper door center Y: ${upperDoorCenterY.toFixed(3)} (bounds: ${(upperDoorCenterY - adjustedUpperDoorHeight/2).toFixed(3)} to ${(upperDoorCenterY + adjustedUpperDoorHeight/2).toFixed(3)})`);
         console.log(`  Lower panel center Y: ${lowerPanelCenterY.toFixed(3)} (bounds: ${(lowerPanelCenterY - adjustedLowerGlassHeight/2).toFixed(3)} to ${(lowerPanelCenterY + adjustedLowerGlassHeight/2).toFixed(3)})`);
         console.log(`  Black bar center Y: ${blackBarCenterY.toFixed(3)}`);
