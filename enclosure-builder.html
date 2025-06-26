@@ -750,6 +750,10 @@
     <!-- Three.js Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <!-- Optimized 3D Model System -->
+    <script src="js/model-loader.js"></script>
 </head>
 <body>
     <header id="main-header"></header>
@@ -1246,15 +1250,18 @@
                 priceElement.insertAdjacentHTML('beforeend', purchaseLink);
             }
 
-            // Update 3D model
+            // Update 3D model (async)
             if (window.enclosureBuilder) {
                 window.enclosureBuilder.updateEnclosureDimensions(
                     enclosure.model.length,
                     enclosure.model.width,
                     enclosure.model.height,
                     enclosure
-                );
-                console.log('Updated 3D model dimensions:', enclosure.model);
+                ).then(() => {
+                    console.log('✅ Updated 3D model dimensions:', enclosure.model);
+                }).catch(error => {
+                    console.error('❌ Error updating 3D model:', error);
+                });
             }
 
             // Update summary
@@ -1314,6 +1321,45 @@
 
     <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
     <script src="js/mobile-menu.js"></script>
+    
+    <!-- Initialize optimized 3D system -->
+    <script>
+        // Initialize the optimized enclosure builder system
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                console.log('🔄 Initializing optimized enclosure system...');
+                
+                // Create model loader
+                window.modelLoader = new ModelLoader();
+                
+                // Wait for registry to load
+                await new Promise(resolve => {
+                    const checkRegistry = () => {
+                        if (window.modelLoader.registry) {
+                            resolve();
+                        } else {
+                            setTimeout(checkRegistry, 100);
+                        }
+                    };
+                    checkRegistry();
+                });
+                
+                console.log('✅ Optimized enclosure system ready!');
+                
+                // Enhance existing enclosure builder with pre-generated models
+                if (window.enclosureBuilder) {
+                    window.enclosureBuilder.modelLoader = window.modelLoader;
+                    window.enclosureBuilder.useOptimizedModels = true;
+                }
+                
+            } catch (error) {
+                console.error('❌ Failed to initialize optimized system:', error);
+                console.log('📦 Falling back to original system...');
+            }
+        });
+    </script>
+    
+    <!-- Original enclosure builder (with optimizations) -->
     <script src="js/enclosure-builder.js"></script>
 </body>
 </html> 

@@ -1,0 +1,97 @@
+{
+  "models": {
+    "reptizoo_36x18x18": {
+      "name": "reptizoo_36x18x18",
+      "description": "REPTIZOO 36x18x18 Glass Terrarium",
+      "dimensions": [
+        36,
+        18,
+        18
+      ],
+      "type": "reptizoo",
+      "file": "reptizoo_36x18x18.glb",
+      "vertices": 136,
+      "faces": 204
+    },
+    "reptizoo_24x18x36": {
+      "name": "reptizoo_24x18x36",
+      "description": "REPTIZOO 24x18x36 Tall Glass Terrarium",
+      "dimensions": [
+        24,
+        18,
+        36
+      ],
+      "type": "reptizoo",
+      "file": "reptizoo_24x18x36.glb",
+      "vertices": 136,
+      "faces": 204
+    },
+    "reptizoo_40gal_36x16x18": {
+      "name": "reptizoo_40gal_36x16x18",
+      "description": "REPTIZOO 40 Gallon Breeder",
+      "dimensions": [
+        36,
+        16,
+        18
+      ],
+      "type": "reptizoo",
+      "file": "reptizoo_40gal_36x16x18.glb",
+      "vertices": 136,
+      "faces": 204
+    },
+    "pvc_36x18x18": {
+      "name": "pvc_36x18x18",
+      "description": "PVC Panel Enclosure 36x18x18",
+      "dimensions": [
+        36,
+        18,
+        18
+      ],
+      "type": "pvc",
+      "file": "pvc_36x18x18.glb",
+      "vertices": 40,
+      "faces": 60
+    },
+    "pvc_48x24x24": {
+      "name": "pvc_48x24x24",
+      "description": "PVC Panel Enclosure 48x24x24",
+      "dimensions": [
+        48,
+        24,
+        24
+      ],
+      "type": "pvc",
+      "file": "pvc_48x24x24.glb",
+      "vertices": 40,
+      "faces": 60
+    },
+    "basic_40gal_breeder": {
+      "name": "basic_40gal_breeder",
+      "description": "40 Gallon Breeder Tank",
+      "dimensions": [
+        36,
+        18,
+        16
+      ],
+      "type": "basic",
+      "file": "basic_40gal_breeder.glb",
+      "vertices": 32,
+      "faces": 48
+    },
+    "basic_75gal": {
+      "name": "basic_75gal",
+      "description": "75 Gallon Long Tank",
+      "dimensions": [
+        48,
+        18,
+        21
+      ],
+      "type": "basic",
+      "file": "basic_75gal.glb",
+      "vertices": 32,
+      "faces": 48
+    }
+  },
+  "generated_at": "1750900120.9154067",
+  "description": "Pre-generated 3D enclosure models for web loading"
+}

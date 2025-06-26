@@ -83,7 +83,9 @@ class EnclosureBuilder {
         console.log('Min/Max distance:', this.controls.minDistance, this.controls.maxDistance);
     }
 
-    createEnclosure() {
+    async createEnclosure() {
+        console.log('🏗️  Creating enclosure...');
+        
         // Remove existing enclosure if any
         const existingEnclosure = this.scene.getObjectByName('enclosure');
         if (existingEnclosure) {
@@ -96,6 +98,28 @@ class EnclosureBuilder {
             this.scene.remove(existingMeasurements);
         }
 
+        // Try to use optimized pre-generated models first
+        if (this.useOptimizedModels && this.modelLoader) {
+            const optimizedModel = await this.tryLoadOptimizedModel();
+            if (optimizedModel) {
+                console.log('✅ Using optimized pre-generated model');
+                this.scene.add(optimizedModel);
+                
+                // Add measurements if enabled
+                if (this.measurementsVisible) {
+                    const length = this.enclosureDimensions.length * 0.0254;
+                    const width = this.enclosureDimensions.width * 0.0254;
+                    const height = this.enclosureDimensions.height * 0.0254;
+                    this.createMeasurements(length, width, height);
+                }
+                
+                return;
+            }
+        }
+
+        // Fallback to procedural generation
+        console.log('📦 Using procedural model generation');
+        
         // Create enclosure group
         const enclosure = new THREE.Group();
         enclosure.name = 'enclosure';
@@ -128,6 +152,84 @@ class EnclosureBuilder {
 
         // Update camera position - optimize for the model type
         this.updateCameraPosition(length, width, height, isReptizoo, isPVC);
+    }
+
+    async tryLoadOptimizedModel() {
+        if (!this.modelLoader || !this.modelLoader.registry) {
+            return null;
+        }
+
+        // Try to find a matching pre-generated model
+        const modelName = this.findMatchingModelName();
+        if (!modelName) {
+            console.log('⚠️  No matching pre-generated model found');
+            return null;
+        }
+
+        try {
+            console.log(`🎯 Loading optimized model: ${modelName}`);
+            const model = await this.modelLoader.loadModel(modelName);
+            model.name = 'enclosure';
+            
+            // Update camera position based on model bounds
+            this.updateCameraForOptimizedModel(model);
+            
+            return model;
+            
+        } catch (error) {
+            console.error('❌ Failed to load optimized model:', error);
+            return null;
+        }
+    }
+
+    findMatchingModelName() {
+        if (!this.modelLoader?.registry?.models) return null;
+        
+        const { length, width, height } = this.enclosureDimensions;
+        const availableModels = this.modelLoader.registry.models;
+        
+        // Check for exact dimension matches
+        for (const [modelName, modelInfo] of Object.entries(availableModels)) {
+            const [modelL, modelW, modelH] = modelInfo.dimensions;
+            
+            if (modelL === length && modelW === width && modelH === height) {
+                // Also check if the type matches if we have enclosure type info
+                if (this.currentEnclosureData) {
+                    const isReptizoo = this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
+                    const isPVC = this.currentEnclosureData.enclosureType === 'pvc';
+                    
+                    if (isReptizoo && modelInfo.type === 'reptizoo') return modelName;
+                    if (isPVC && modelInfo.type === 'pvc') return modelName;
+                    if (!isReptizoo && !isPVC && modelInfo.type === 'basic') return modelName;
+                }
+                
+                // Default to first match if no type preference
+                return modelName;
+            }
+        }
+        
+        // No exact match found
+        return null;
+    }
+
+    updateCameraForOptimizedModel(model) {
+        // Calculate bounding box
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        
+        // Update camera position
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const distance = maxDim * 2.5;
+        
+        this.camera.position.set(distance, distance * 0.6, distance);
+        this.camera.lookAt(center);
+        
+        // Update controls target
+        if (this.controls) {
+            this.controls.target.copy(center);
+            this.controls.update();
+        }
     }
 
     createBasicEnclosure(enclosure, length, width, height) {
@@ -1026,11 +1128,11 @@ class EnclosureBuilder {
         return this.measurementsVisible;
     }
 
-    updateEnclosureDimensions(length, width, height, enclosureData = null) {
+    async updateEnclosureDimensions(length, width, height, enclosureData = null) {
         console.log('Updating enclosure dimensions:', { length, width, height });
         this.enclosureDimensions = { length, width, height };
         this.currentEnclosureData = enclosureData;
-        this.createEnclosure();
+        await this.createEnclosure();
         console.log('Measurements should now show:', `${length}" x ${width}" x ${height}"`);
     }
 
