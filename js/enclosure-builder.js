@@ -610,6 +610,17 @@ class EnclosureBuilder {
         bottomTrack.name = 'pvc-bottom-track';
         enclosure.add(bottomTrack);
 
+        // STEP 6: Bottom black frame/trim (underneath lower glass, aligned with legs)
+        const bottomFrameHeight = 0.03; // Height of bottom trim piece
+        const bottomFrame = new THREE.Mesh(
+            new THREE.BoxGeometry(length - 2*frameThickness, bottomFrameHeight, panelThickness),
+            pvcMaterial // Use same material as other black components
+        );
+        // Position at bottom of enclosure, just above the bottom aluminum frame
+        bottomFrame.position.set(0, -height/2 + frameThickness + bottomFrameHeight/2, width/2 - panelThickness/2);
+        bottomFrame.name = 'pvc-bottom-frame';
+        enclosure.add(bottomFrame);
+
         // NOTE: Top track is now part of optional top mesh, not created here
         // NOTE: Screen mesh is now part of optional top mesh, not created here
         // NOTE: Top frame corners are now part of optional top mesh, not created here

@@ -136,6 +136,7 @@ createReptizooTopMesh(topMeshGroup, length, width, height) {
   - ✅ **Added**: Proper top frame corners in optional top mesh
   - ✅ **Added**: Top track for sliding doors in optional top mesh
   - ✅ **Added**: Single optimized screen panel in optional top mesh
+  - ✅ **Added**: Bottom black frame/trim piece underneath lower glass panel
   - ✅ **Fixed**: **Glass panel clipping issues** - proper positioning within frame bounds
     - Added 8mm top clearance and 10mm bottom clearance gaps
     - Added 8mm clearance between black divider bar and lower glass panel
