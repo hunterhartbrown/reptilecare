@@ -38,36 +38,43 @@
         }
 
         .about-section {
-            margin-bottom: 50px;
+            background: linear-gradient(135deg, #0f0f0f 0%, #333 100%);
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         .section-title {
             font-size: 2.2rem;
             font-weight: 700;
-            color: #0f0f0f;
+            color: #ffffff;
             margin: 0 0 25px 0;
             padding-bottom: 10px;
-            border-bottom: 3px solid #0f0f0f;
+            border-bottom: 3px solid #ffffff;
         }
 
         .about-text {
             font-size: 1.1rem;
-            color: #444;
+            color: #ffffff;
             margin-bottom: 20px;
-            text-align: justify;
+            text-align: center;
+            line-height: 1.6;
         }
 
         .highlight-box {
-            background-color: #f8f9fa;
-            border-left: 5px solid #0f0f0f;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 5px solid #ffffff;
             padding: 25px;
             margin: 30px 0;
             border-radius: 8px;
+            backdrop-filter: blur(10px);
         }
 
         .highlight-text {
             font-size: 1.15rem;
-            color: #0f0f0f;
+            color: #ffffff;
             font-weight: 600;
             margin: 0;
             line-height: 1.6;
@@ -81,18 +88,19 @@
         }
 
         .feature-card {
-            background: #ffffff;
-            border: 2px solid #f0f0f0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             padding: 30px;
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-color: #0f0f0f;
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+            border-color: #ffffff;
         }
 
         .feature-icon {
@@ -104,13 +112,13 @@
         .feature-title {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #0f0f0f;
+            color: #ffffff;
             margin: 0 0 15px 0;
         }
 
         .feature-description {
             font-size: 1rem;
-            color: #666;
+            color: #ffffff;
             line-height: 1.6;
         }
 
@@ -149,13 +157,17 @@
                 font-size: 1.1rem;
             }
 
+            .about-section {
+                padding: 30px 20px;
+            }
+
             .section-title {
                 font-size: 1.8rem;
             }
 
             .about-text {
                 font-size: 1rem;
-                text-align: left;
+                text-align: center;
             }
 
             .features-grid {
@@ -185,6 +197,10 @@
                 font-size: 1.8rem;
             }
 
+            .about-section {
+                padding: 25px 15px;
+            }
+
             .section-title {
                 font-size: 1.5rem;
             }
@@ -206,6 +222,7 @@
         </div>
 
         <section class="about-section">
+            <h2 class="section-title">Who We Are</h2>
             <p class="about-text">
                 We are a team of passionate reptile hobbyists with over three years of hands-on experience caring for these amazing creatures. What began as a humble hobby has grown into a mission-driven project fueled by our love for reptiles. Every day, we channel that passion into learning, sharing, and helping others provide the best care for their scaly companions.
             </p>
