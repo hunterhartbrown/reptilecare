@@ -859,6 +859,28 @@
     </div>
 
     <script>
+        // Amazon Affiliate Configuration
+        const AMAZON_AFFILIATE_TAG = 'reptilecare09-20';
+        
+        // Utility function to generate Amazon affiliate links with enhanced tracking
+        function generateAmazonAffiliateLink(productUrl, linkId = '454fa634ebf8d246c9461011b8714fc6') {
+            if (!productUrl.includes('amazon.com')) {
+                return productUrl;
+            }
+            
+            // Enhanced affiliate parameters for better tracking and analytics
+            const separator = productUrl.includes('?') ? '&' : '?';
+            const enhancedParams = [
+                'linkCode=ll1',
+                `tag=${AMAZON_AFFILIATE_TAG}`,
+                `linkId=${linkId}`,
+                'language=en_US',
+                'ref_=as_li_ss_tl'
+            ].join('&');
+            
+            return `${productUrl}${separator}${enhancedParams}`;
+        }
+
         // Reptile-specific data
         const reptileData = {
             'leopard-gecko': {
@@ -899,7 +921,7 @@
                         price: 192.47,
                         image: 'images/enclosures/reptizoo 50 gallon glass.png',
                         model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
                         isPremium: true
                     },
                     {
@@ -953,7 +975,7 @@
                         price: 192.47,
                         image: 'images/enclosures/reptizoo 50 gallon glass.png',
                         model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
                         isPremium: true
                     },
                     {
@@ -1007,7 +1029,7 @@
                         price: 192.47,
                         image: 'images/enclosures/reptizoo 50 gallon glass.png',
                         model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
                         isPremium: true
                     }
                 ]
@@ -1048,7 +1070,7 @@
                         price: 192.47,
                         image: 'images/enclosures/reptizoo 50 gallon glass.png',
                         model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
                         isPremium: true
                     },
                     {
@@ -1313,6 +1335,15 @@
             document.getElementById('total-price').textContent = `Total: $${enclosure.price.toFixed(2)}`;
         }
     </script>
+
+    <!-- Amazon Affiliate Disclosure -->
+    <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #0f0f0f;">
+        <p style="margin: 0; font-size: 0.9rem; color: #666; text-align: center;">
+            <strong>Affiliate Disclosure:</strong> As an Amazon Associate, ReptileCare earns from qualifying purchases. 
+            This means we may receive a small commission when you purchase products through our Amazon links at no additional cost to you. 
+            This helps support our mission of providing quality reptile care information.
+        </p>
+    </div>
 
     <div id="main-footer"></div>
 
