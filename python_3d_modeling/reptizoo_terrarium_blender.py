@@ -9,11 +9,19 @@ Requirements:
 Features:
 - Accurate 36"x18"x18" dimensions
 - Glass panels with realistic materials
-- Double hinge front doors
+- Double hinge front doors (properly closed)
+- Central door lock mechanism with realistic materials
+- Central frame support structure
 - Screen ventilation (top and sides)
 - Aluminum frame structure
 - Procedural textures and materials
 - Animation capabilities for opening doors
+
+Recent Improvements:
+- Fixed door positioning to eliminate gap between doors
+- Added realistic central lock mechanism with black metal materials
+- Corrected hinge positioning for proper door operation
+- Added central vertical frame element for structural accuracy
 """
 
 import bpy
@@ -178,6 +186,12 @@ class ReptizooTerrariumBuilder:
                 post.location = (x, y, 0)
                 frame_parts.append(post)
         
+        # Add central vertical frame element for door support
+        center_post = self.create_frame_profile(self.HEIGHT - 2*self.FRAME_THICKNESS)
+        center_post.rotation_euler = (math.pi/2, 0, 0)
+        center_post.location = (0, self.WIDTH/2 - self.FRAME_THICKNESS/2, 0)
+        frame_parts.append(center_post)
+        
         return frame_parts
         
     def build_glass_panels(self):
@@ -209,21 +223,80 @@ class ReptizooTerrariumBuilder:
         return panels
         
     def build_front_doors(self):
-        """Build hinged front doors"""
+        """Build hinged front doors with proper closure"""
         doors = []
-        door_width = self.LENGTH / 2 - self.FRAME_THICKNESS
+        door_width = (self.LENGTH - self.FRAME_THICKNESS) / 2  # Account for center frame
         
-        # Left door
+        # Left door - positioned to close flush against center
         left_door = self.create_glass_panel(door_width, self.HEIGHT - 2*self.FRAME_THICKNESS, "Left_Door")
-        left_door.location = (-door_width/2 - self.FRAME_THICKNESS/2, self.WIDTH/2 - self.GLASS_THICKNESS/2, 0)
+        left_door.location = (-door_width/2, self.WIDTH/2 - self.GLASS_THICKNESS/2, 0)
         doors.append(left_door)
         
-        # Right door  
+        # Right door - positioned to close flush against center
         right_door = self.create_glass_panel(door_width, self.HEIGHT - 2*self.FRAME_THICKNESS, "Right_Door")
-        right_door.location = (door_width/2 + self.FRAME_THICKNESS/2, self.WIDTH/2 - self.GLASS_THICKNESS/2, 0)
+        right_door.location = (door_width/2, self.WIDTH/2 - self.GLASS_THICKNESS/2, 0)
         doors.append(right_door)
         
         return doors
+        
+    def create_door_lock_mechanism(self):
+        """Create the central door lock mechanism"""
+        # Create the main lock body (cylindrical)
+        bpy.ops.mesh.primitive_cylinder_add()
+        lock_body = bpy.context.active_object
+        lock_body.name = "Door_Lock_Body"
+        
+        # Scale to appropriate size (about 1 inch diameter)
+        lock_diameter = 1.0 * self.INCH_TO_METER
+        lock_depth = 0.3 * self.INCH_TO_METER
+        lock_body.scale = (lock_diameter/2, lock_diameter/2, lock_depth/2)
+        
+        # Position at center of front doors
+        lock_body.location = (0, self.WIDTH/2 + 0.001, 0)
+        lock_body.rotation_euler = (math.pi/2, 0, 0)  # Rotate to face outward
+        
+        # Create lock material (black metal)
+        lock_mat = bpy.data.materials.new(name="Door_Lock")
+        lock_mat.use_nodes = True
+        lock_mat.node_tree.nodes.clear()
+        
+        bsdf_lock = lock_mat.node_tree.nodes.new(type='ShaderNodeBsdfPrincipled')
+        bsdf_lock.inputs['Base Color'].default_value = (0.1, 0.1, 0.1, 1.0)  # Dark gray/black
+        bsdf_lock.inputs['Metallic'].default_value = 0.8
+        bsdf_lock.inputs['Roughness'].default_value = 0.3
+        
+        output_lock = lock_mat.node_tree.nodes.new(type='ShaderNodeOutputMaterial')
+        lock_mat.node_tree.links.new(bsdf_lock.outputs['BSDF'], output_lock.inputs['Surface'])
+        
+        lock_body.data.materials.append(lock_mat)
+        
+        # Create lock handle/key cylinder
+        bpy.ops.mesh.primitive_cylinder_add()
+        lock_handle = bpy.context.active_object
+        lock_handle.name = "Door_Lock_Handle"
+        
+        # Smaller inner cylinder for the key mechanism
+        handle_diameter = 0.3 * self.INCH_TO_METER
+        lock_handle.scale = (handle_diameter/2, handle_diameter/2, lock_depth/3)
+        lock_handle.location = (0, self.WIDTH/2 + 0.002, 0)
+        lock_handle.rotation_euler = (math.pi/2, 0, 0)
+        
+        # Even darker material for the inner mechanism
+        handle_mat = bpy.data.materials.new(name="Lock_Handle")
+        handle_mat.use_nodes = True
+        handle_mat.node_tree.nodes.clear()
+        
+        bsdf_handle = handle_mat.node_tree.nodes.new(type='ShaderNodeBsdfPrincipled')
+        bsdf_handle.inputs['Base Color'].default_value = (0.05, 0.05, 0.05, 1.0)  # Very dark
+        bsdf_handle.inputs['Metallic'].default_value = 0.9
+        bsdf_handle.inputs['Roughness'].default_value = 0.2
+        
+        output_handle = handle_mat.node_tree.nodes.new(type='ShaderNodeOutputMaterial')
+        handle_mat.node_tree.links.new(bsdf_handle.outputs['BSDF'], output_handle.inputs['Surface'])
+        
+        lock_handle.data.materials.append(handle_mat)
+        
+        return [lock_body, lock_handle]
         
     def build_ventilation_screens(self):
         """Build ventilation screens"""
@@ -256,27 +329,29 @@ class ReptizooTerrariumBuilder:
         
     def setup_door_hinges(self, doors):
         """Setup hinge constraints for door animation"""
+        door_width = (self.LENGTH - self.FRAME_THICKNESS) / 2
+        
         for i, door in enumerate(doors):
             # Create empty object as hinge pivot
             bpy.ops.object.empty_add(type='PLAIN_AXES')
             hinge = bpy.context.active_object
             hinge.name = f"Door_Hinge_{i+1}"
             
-            # Position hinge at door edge
-            if i == 0:  # Left door
-                hinge.location = (-self.LENGTH/2 + self.FRAME_THICKNESS, self.WIDTH/2, 0)
-            else:  # Right door
-                hinge.location = (self.LENGTH/2 - self.FRAME_THICKNESS, self.WIDTH/2, 0)
+            # Position hinge at the outer edge of each door
+            if i == 0:  # Left door - hinge on left side
+                hinge.location = (-door_width, self.WIDTH/2, 0)
+            else:  # Right door - hinge on right side
+                hinge.location = (door_width, self.WIDTH/2, 0)
             
             # Parent door to hinge
             door.parent = hinge
             door.parent_type = 'OBJECT'
             
-            # Adjust door location relative to hinge
+            # Adjust door location relative to hinge (doors close toward center)
             if i == 0:  # Left door
-                door.location = (door.dimensions.x/2, 0, 0)
+                door.location = (door_width/2, 0, 0)
             else:  # Right door  
-                door.location = (-door.dimensions.x/2, 0, 0)
+                door.location = (-door_width/2, 0, 0)
                 
     def create_door_animation(self):
         """Create animation for opening/closing doors"""
@@ -398,6 +473,9 @@ class ReptizooTerrariumBuilder:
         print("Building front doors...")
         doors = self.build_front_doors()
         
+        print("Creating door lock mechanism...")
+        lock_parts = self.create_door_lock_mechanism()
+        
         print("Building ventilation screens...")
         screens = self.build_ventilation_screens()
         
@@ -417,7 +495,7 @@ class ReptizooTerrariumBuilder:
         self.setup_render_settings()
         
         # Group all objects
-        all_objects = frame_parts + glass_panels + doors + screens
+        all_objects = frame_parts + glass_panels + doors + lock_parts + screens
         for obj in all_objects:
             obj.select_set(True)
         bpy.ops.object.join()
