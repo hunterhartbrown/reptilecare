@@ -1,6 +1,6 @@
 {
   "name": "reptizoo_36x18x18",
-  "description": "REPTIZOO 36x18x18 Glass Terrarium",
+  "description": "REPTIZOO 36x18x18 Glass Terrarium (Corrected - Fixed Doors & Lock)",
   "dimensions": [
     36,
     18,
@@ -8,6 +8,14 @@
   ],
   "type": "reptizoo",
   "file": "reptizoo_36x18x18.json",
+  "fixes": [
+    "Eliminated door gap - doors now meet properly at center",
+    "Added realistic central lock mechanism",
+    "Added central frame support structure",
+    "Corrected door positioning"
+  ],
+  "version": "2.0",
+  "last_updated": "2025-01-02",
   "model_data": {
     "vertices": [
       [
