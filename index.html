@@ -1,123 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReptileCare</title>
-    <link rel="stylesheet" href="styles.css">
+  <!-- Page: Home (Index)
+       Purpose: Landing page with hero slider and entry points to key sections.
+       Dev notes: Slider data comes from data/reptile_care_data.json. Header/footer loaded via js/scripts.js. -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ReptileCare</title>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-    <header id="main-header"></header>
+  <header id="main-header"></header>
 
-    <section>
-        <div class="content-slider">
-            <!-- Dynamic content will be loaded here by the script below -->
-            <div class="dots-container"></div>
-        </div>
+  <main id="main-content">
+    <section class="hero">
+      <div class="content-slider" aria-label="Featured reptiles">
+        <div class="dots-container" aria-hidden="true"></div>
+      </div>
     </section>
 
-    <div id="main-footer"></div>    
+    <section class="section light">
+      <div class="container text-center">
+        <h2 class="mt-0">Explore Care Guides</h2>
+        <p class="mt-16">Learn species-specific husbandry, habitats, heating, and enrichment.</p>
+        <p class="mt-16"><a class="btn btn-solid" href="all-care-guides.html">Browse Guides</a></p>
+      </div>
+    </section>
+  </main>
 
-  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
-  <script src="js/mobile-menu.js"></script>
+  <div id="main-footer"></div>
 
-  <!-- Page-specific JavaScript for slides -->
-  <script>
-    // loadJson stays the same…
-    function loadJson(fileName, callback) {
-      var xobj = new XMLHttpRequest();
-      xobj.overrideMimeType("application/json");
-      xobj.open('GET', fileName, true);
-      xobj.onreadystatechange = function () {
-        if (xobj.readyState === 4 && xobj.status === 200) {
-          callback(JSON.parse(xobj.responseText));
-        }
-      };
-      xobj.send(null);
-    }
-
-    var slideIndex = 0,
-        autoTimer;
-
-    function init() {
-      loadJson('/data/reptile_care_data.json', function(data) {
-        var container   = document.querySelector('.content-slider'),
-            dotsWrapper = container.querySelector('.dots-container');
-
-        // 1) Build slides & dots
-        data.forEach(function(item, idx) {
-          // — build slide —
-          var slide = document.createElement('div');
-          slide.className = 'slide';
-          slide.style.display = idx === 0 ? 'flex' : 'none';
-
-          var imgDiv = document.createElement('div');
-          imgDiv.className = 'slide-image';
-          var img = document.createElement('img');
-          img.src = item['Picture Link'];
-          img.alt = item['Common Name'];
-          if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
-            img.classList.add('problematic-image');
-          }
-          imgDiv.appendChild(img);
-
-          var textDiv = document.createElement('div');
-          textDiv.className = 'overlay-text';
-          textDiv.innerHTML = 
-            `<h3 class="common-name">${item['Common Name']}</h3>` +
-            `<h4 class="species-name">${item['Species']}</h4>`;
-
-          slide.appendChild(imgDiv);
-          slide.appendChild(textDiv);
-          // insert slide before dotsContainer so dots stay at bottom
-          container.insertBefore(slide, dotsWrapper);
-
-          // — build dot —
-          var dot = document.createElement('span');
-          dot.className = 'dot' + (idx === 0 ? ' active' : '');
-          dot.dataset.slide = idx;
-          dot.addEventListener('click', function() {
-            showSlide(parseInt(this.dataset.slide, 10));
-          });
-          dotsWrapper.appendChild(dot);
-        });
-
-        // 2) start auto-rotation
-        rotateSlides();
-      });
-    }
-
-    function showSlide(n) {
-      var slides = document.getElementsByClassName('slide'),
-          dots   = document.getElementsByClassName('dot');
-
-      // hide all slides & clear active from all dots
-      for (var i = 0; i < slides.length; i++) {
-        slides[i].style.display = 'none';
-        dots[i].classList.remove('active');
-      }
-
-      // show the selected one
-      slides[n].style.display = 'flex';
-      dots[n].classList.add('active');
-
-      // reset slideIndex so auto continues from here
-      slideIndex = n;
-    }
-
-    function rotateSlides() {
-      var slides = document.getElementsByClassName('slide'),
-          total  = slides.length;
-
-      clearTimeout(autoTimer);
-      slideIndex = (slideIndex + 1) % total;
-      showSlide(slideIndex);
-
-      // queue next
-      autoTimer = setTimeout(rotateSlides, 6000);
-    }
-
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
+  <script src="js/scripts.js"></script>
 </body>
 </html>

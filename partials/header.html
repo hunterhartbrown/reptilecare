@@ -1,0 +1,65 @@
+<!--
+  Partial: Header
+  Purpose: Site-wide header with brand, primary navigation, search, and auth actions.
+  Dev notes:
+  - Navigation items link to root-level pages; the loader adjusts paths for subdirectories.
+  - To add a new top-level page, add a new <li> with an <a> below.
+  - Search inputs are initialized by js/scripts.js (autocomplete + navigation).
+-->
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="site-header" role="banner">
+  <div class="container nav-bar" aria-label="Primary">
+    <a class="brand" href="index.html">
+      <img src="images/reptilecarelogo.png" alt="ReptileCare logo" />
+      <span>ReptileCare</span>
+    </a>
+
+    <nav class="primary-nav" role="navigation" aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="all-care-guides.html">Care Guides</a></li>
+        <li><a href="enclosure-builder.html">Enclosure Designer</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-actions">
+      <form class="search" role="search" aria-label="Site search" action="#" method="get" autocomplete="off">
+        <label for="site-search" class="visually-hidden">Search</label>
+        <input id="site-search" type="text" name="q" placeholder="Search guides, reptiles..." aria-haspopup="listbox" aria-expanded="false" aria-controls="search-suggestions" />
+        <button type="submit" aria-label="Submit search">🔎</button>
+      </form>
+      <button class="btn btn-outline desktop-only" type="button">Log In</button>
+      <button class="btn btn-solid desktop-only" type="button">Sign Up</button>
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-drawer" aria-label="Open menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-drawer" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <div class="drawer-inner container">
+      <form class="search" role="search" aria-label="Site search (mobile)" action="#" method="get" autocomplete="off">
+        <label for="site-search-mobile" class="visually-hidden">Search</label>
+        <input id="site-search-mobile" type="text" name="q" placeholder="Search guides, reptiles..." aria-haspopup="listbox" aria-expanded="false" />
+        <button type="submit" aria-label="Submit search">🔎</button>
+      </form>
+      <ul class="drawer-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="all-care-guides.html">Care Guides</a></li>
+        <li><a href="enclosure-builder.html">Enclosure Designer</a></li>
+        <li><a href="about.html">About</a></li>
+        <li class="mt-16">
+          <button class="btn btn-outline" type="button">Log In</button>
+          <button class="btn btn-solid" type="button">Sign Up</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+

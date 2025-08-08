@@ -1,0 +1,253 @@
+/*
+  ReptileCare Design System (v1)
+  Purpose: Global stylesheet for reptilecare.net with a nature-inspired, accessible, responsive UI.
+  Notes for developers:
+  - This file centralizes all typography, layout, navigation, components, and utility styles.
+  - Add new components under the Components section and keep media queries grouped at the end.
+  - To add a new page, prefer reusing existing utilities and components.
+*/
+
+/* ==========================
+   CSS Reset & Base Settings
+   ========================== */
+/* Modern CSS reset (selective) */
+*, *::before, *::after { box-sizing: border-box; }
+html:focus-within { scroll-behavior: smooth; }
+html, body { height: 100%; }
+body { margin: 0; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+img, picture { max-width: 100%; display: block; }
+button, input, select, textarea { font: inherit; }
+/* Keep focus outlines visible for accessibility */
+:focus { outline: 2px solid #174d3a; outline-offset: 2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+/* ==========================
+   Theme Tokens
+   ========================== */
+:root {
+  /* Nature palette */
+  --green-900: #0e2e25;
+  --green-800: #144033;
+  --green-700: #174d3a; /* primary */
+  --green-600: #1f614a;
+  --green-500: #27785d;
+  --earth-700: #5e4637;
+  --earth-600: #7a5b46;
+  --sand-300: #e5dfd3;
+  --sand-200: #efeae0; /* background tint */
+  --sand-100: #f7f4ee; /* cards background */
+  --ink-900: #0d1311;
+  --ink-700: #1e2725;
+  --ink-600: #2b3432;
+  --muted-500: #6c7673;
+  --muted-400: #8b9491;
+  --white: #ffffff;
+
+  /* Effects */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 14px rgba(0,0,0,.08);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,.12);
+
+  /* Layout */
+  --container-max: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Typography */
+  --font-sans: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+}
+
+/* ==========================
+   Typography & Body
+   ========================== */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--ink-900);
+  background: var(--sand-200);
+  padding-top: 72px; /* space for fixed header */
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+.skip-link { position: absolute; left: -999px; top: -999px; background: var(--green-700); color: var(--white); padding: 8px 12px; border-radius: var(--radius-sm); }
+.skip-link:focus { left: 12px; top: 12px; z-index: 9999; }
+
+/* ==========================
+   Header & Navigation
+   ========================== */
+header.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.site-header .nav-bar {
+  height: 72px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand img { height: 44px; width: auto; }
+.brand span { font-weight: 700; color: var(--green-800); font-size: 1.05rem; letter-spacing: .3px; }
+
+nav.primary-nav { display: flex; justify-content: center; }
+.nav-list { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0; }
+.nav-list a { color: var(--ink-900); text-decoration: none; font-weight: 600; padding: 8px 10px; border-radius: 8px; }
+.nav-list a:hover, .nav-list a:focus { background: var(--sand-200); }
+
+.site-actions { display: flex; align-items: center; gap: 10px; }
+.btn { appearance: none; border: 0; cursor: pointer; border-radius: 8px; padding: 8px 12px; font-weight: 700; }
+.btn-outline { background: transparent; color: var(--green-700); border: 1.5px solid var(--green-700); }
+.btn-outline:hover, .btn-outline:focus { background: var(--green-700); color: var(--white); }
+.btn-solid { background: var(--green-700); color: var(--white); border: 1.5px solid var(--green-700); }
+.btn-solid:hover, .btn-solid:focus { background: var(--green-800); border-color: var(--green-800); }
+
+/* Search */
+.search { position: relative; }
+.search input[type="text"] { width: 240px; padding: 8px 36px 8px 12px; border: 1px solid #d7d7d7; border-radius: 999px; background: var(--sand-100); }
+.search button { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: 0; color: var(--muted-500); padding: 6px; border-radius: 999px; }
+.search button:hover { color: var(--green-700); }
+
+/* Mobile menu */
+.menu-toggle { display: none; border: 0; background: transparent; padding: 8px; border-radius: 8px; }
+.menu-toggle .bar { width: 22px; height: 2px; background: var(--ink-900); display: block; margin: 4px 0; transition: transform .25s, opacity .25s; }
+.menu-toggle[aria-expanded="true"] .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-drawer { display: none; position: absolute; left: 0; right: 0; top: 72px; background: var(--white); border-bottom: 1px solid #eee; box-shadow: var(--shadow-md); }
+.mobile-drawer.open { display: block; }
+.mobile-drawer .drawer-inner { padding: 16px 20px; }
+.mobile-drawer .drawer-nav { list-style: none; padding: 0; margin: 12px 0 0 0; }
+.mobile-drawer .drawer-nav a { display: block; padding: 12px 4px; color: var(--ink-900); text-decoration: none; font-weight: 600; border-radius: 8px; }
+.mobile-drawer .drawer-nav a:hover, .mobile-drawer .drawer-nav a:focus { background: var(--sand-200); }
+
+/* Search suggestions dropdown */
+.search-suggestions { position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: var(--white); border: 1px solid #e5e5e5; border-top: 0; border-radius: 0 0 12px 12px; box-shadow: var(--shadow-md); display: none; max-height: 380px; overflow: auto; z-index: 1000; }
+.search-suggestion-item { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #f1f1f1; cursor: pointer; }
+.search-suggestion-item:hover { background: var(--sand-100); }
+
+/* ==========================
+   Hero / Slider
+   ========================== */
+.hero { background: var(--ink-900); color: var(--white); }
+.content-slider { position: relative; width: 100%; height: calc(100vh - 72px); overflow: hidden; }
+.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; padding: 24px; gap: 24px; transition: opacity .6s ease, transform .6s ease; opacity: 0; transform: scale(.98); }
+.slide.active { opacity: 1; transform: scale(1); }
+.slide-image { height: 100%; background: var(--ink-900); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg); overflow: hidden; }
+.slide-image img { width: 100%; height: 100%; object-fit: contain; }
+.overlay-text { padding: 12px; }
+.overlay-text .common-name { font-size: clamp(24px, 4vw, 44px); line-height: 1.15; margin: 0 0 6px 0; font-weight: 700; }
+.overlay-text .species-name { font-size: clamp(16px, 2.5vw, 24px); margin: 0; opacity: .9; font-style: italic; font-weight: 300; }
+
+.dots-container { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); display: flex; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 999px; background: #bdbdbd; cursor: pointer; }
+.dot.active { background: var(--white); box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
+
+/* ==========================
+   Cards & Reusable Components
+   ========================== */
+.card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid #eee; }
+.card.pad { padding: 16px; }
+
+.section {
+  padding: 56px 0;
+}
+
+.section.dark { background: var(--ink-900); color: var(--white); }
+.section.light { background: var(--sand-200); }
+
+/* Care Guides Grid */
+.care-guides { background: var(--white); }
+.care-guides .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.care-card { background: var(--white); border-radius: var(--radius-md); border: 1px solid #eaeaea; box-shadow: var(--shadow-sm); text-decoration: none; color: inherit; display: flex; flex-direction: column; padding: 12px; transition: transform .2s, box-shadow .2s; }
+.care-card:hover, .care-card:focus { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.care-card .thumb { width: 100%; height: 110px; display: grid; place-items: center; background: var(--sand-100); border-radius: 8px; overflow: hidden; }
+.care-card .thumb img { width: 100%; height: 100%; object-fit: contain; }
+.care-card .title { font-weight: 700; text-align: center; margin: 10px 0 8px; min-height: 40px; }
+.availability { display: grid; gap: 6px; justify-items: center; }
+.availability .bar { display: flex; gap: 3px; }
+.availability .seg { width: 12px; height: 9px; border-radius: 3px; background: #e0e0e0; }
+.availability .seg.active { background: #2ebf69; }
+.care-card .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+
+/* Footer */
+footer.site-footer { background: var(--white); border-top: 1px solid #eee; }
+footer.site-footer .container { padding: 18px 20px; }
+footer.site-footer p { margin: 0; color: var(--muted-500); font-size: .95rem; }
+
+/* ==========================
+   Utilities
+   ========================== */
+.mt-0 { margin-top: 0; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }
+.text-center { text-align: center; }
+.hidden { display: none !important; }
+
+/* ==========================
+   Care Guide Content Pages
+   (used by species pages)
+   ========================== */
+.care-guide-content { padding: 100px 20px 32px; max-width: 900px; margin: 0 auto; background: var(--ink-900); color: var(--white); }
+.care-guide-content h1 { text-align: center; font-size: clamp(28px, 5vw, 40px); margin: 0 0 10px 0; }
+.care-guide-content img { border-radius: 12px; margin: 0 auto 20px; width: 100%; max-width: 560px; }
+.care-guide-content p { font-size: 18px; line-height: 1.7; margin: 12px 0; }
+.button-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 18px 0; }
+.section-button { width: 180px; min-height: 86px; display: grid; place-items: center; gap: 6px; padding: 12px 8px; background: #f2f2f2; color: var(--ink-900); border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
+.section-button:hover, .section-button:focus { background: #e8e8e8; }
+.section-button .button-icon { width: 24px; height: 24px; }
+.content-area { margin-bottom: 20px; text-align: left; }
+.section-content { display: none; }
+
+/* ==========================
+   Enclosure Builder (selected portions for layout)
+   ========================== */
+.builder-container { padding: 100px 20px 40px; max-width: 1400px; margin: 0 auto; }
+.canvas-container { position: relative; margin-bottom: 30px; background: var(--white); padding: 20px; border-radius: 12px; box-shadow: var(--shadow-md); overflow: hidden; }
+#enclosure-canvas { width: 100%; height: 600px; background: #f8f8f8; border-radius: 8px; display: block; }
+.canvas-controls { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; background: rgba(255, 255, 255, .96); padding: 10px; border-radius: 10px; box-shadow: var(--shadow-md); }
+.preview-button { padding: 10px 14px; border: 0; border-radius: 8px; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: #fff; cursor: pointer; }
+.preview-button:hover { filter: brightness(1.05); }
+
+/* ==========================
+   Responsive
+   ========================== */
+@media (max-width: 1024px) {
+  body { padding-top: 64px; }
+  .site-header .nav-bar { grid-template-columns: auto auto auto; }
+  nav.primary-nav, .site-actions .desktop-only { display: none; }
+  .menu-toggle { display: inline-block; }
+  .content-slider { height: auto; min-height: calc(100vh - 64px); }
+  .slide { position: relative; grid-template-columns: 1fr; height: auto; }
+}
+
+@media (max-width: 768px) {
+  .care-guides .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .care-guides .grid { grid-template-columns: 1fr; }
+  .search input[type="text"] { width: 180px; }
+}
+
+
