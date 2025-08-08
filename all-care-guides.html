@@ -1,25 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Page: All Care Guides
-         Purpose: Displays grid of available reptile care guides with availability indicators.
-         Dev notes: Card UI/styles come from css/styles.css. Data loaded from data/availability.json. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Care Guides - ReptileCare</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        header {
+            background-color: #ffffff;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        header img.logo {
+            height: 65px;
+            transform-origin: bottom right;
+        }
+        nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li {
+            display: inline-block;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #222;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-links a:hover,
+        .nav-links a:focus {
+            background: #0f0f0f;
+            color: #fff;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .auth-buttons .login,
+        .auth-buttons .signup {
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid #0f0f0f;
+            padding: 6px 16px;
+            background: #fff;
+            color: #0f0f0f;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s, border 0.18s;
+        }
+        .auth-buttons .signup {
+            background: #0f0f0f;
+            color: #fff;
+            border: 1px solid #0f0f0f;
+        }
+        .auth-buttons .signup:hover, .auth-buttons .signup:focus {
+            background: #444;
+            color: #fff;
+            border: 1px solid #0f0f0f;
+        }
+        .auth-buttons .login:hover, .auth-buttons .login:focus {
+            background: #0f0f0f;
+            color: #fff;
+            border: 1px solid #222;
+        }
+        /* --- Care Guide Styles --- */
+        .care-guides {
+            padding: 120px 8px 12px;
+            background-color: #0f0f0f;
+            color: #fff;
+            min-height: 100vh;
+        }
+        .care-guides-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            font-family: 'Open Sans', Arial, sans-serif;
+        }
+        .care-guides-desc {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin: 0 0 24px 0;
+            font-family: 'Open Sans', Arial, sans-serif;
+        }
+        .care-guide-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px 14px;
+        }
+        .care-guide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 210px;
+            min-width: 180px;
+            max-width: 250px;
+            /* min-height: 320px;  REMOVE THIS LINE */
+            padding: 10px 12px 10px 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1.5px 3px rgba(0,0,0,0.03);
+            text-decoration: none;
+            transition: box-shadow 0.2s, transform 0.18s;
+            position: relative;
+        }
+        .care-guide:focus,
+        .care-guide:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.17), 0 3px 8px rgba(0,0,0,0.08);
+            transform: translateY(-3px) scale(1.03);
+            outline: none;
+        }
+        .care-guide-img-frame {
+            width: 100%;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4f4f4;
+            border-radius: 7px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .care-guide-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .care-guide-label {
+            font-size: 1.07rem;
+            font-weight: 700;
+            color: #222;
+            margin: 0 0 7px 0;
+            height: 44px; /* Fixed height to accommodate up to 2 lines */
+            max-width: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', Arial, sans-serif;
+            text-align: center;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.15;
+            overflow: hidden;
+        }
+        .availability-row {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        .availability-bar {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 5px;
+            margin-top: 0;
+            justify-content: center;
+        }
+        .availability-value {
+            font-size: 0.99rem;
+            color: #444;
+            font-family: 'Open Sans', Arial, sans-serif;
+            text-align: center;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        .care-guide-btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;    /* Add more space above buttons */
+            margin-bottom: 0;    /* Remove all space below buttons */
+            width: 100%;
+            justify-content: center;
+        }
+        .care-guide-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 6px 4px 6px 4px;
+            width: 120px;
+            min-width: 0;
+            height: auto;
+            border-radius: 6px;
+            border: 1.3px solid #0f0f0f;
+            background: #fff;
+            color: #0f0f0f;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.18s, color 0.18s, border 0.18s;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 0;
+        }
+        .care-guide-btn:hover, .care-guide-btn:focus {
+            background: #0f0f0f;
+            color: #fff;
+            border: 1.3px solid #222;
+            outline: none;
+        }
+        .care-guide-btn.secondary {
+            background: #0f0f0f;
+            color: #fff;
+            border: 1.3px solid #0f0f0f;
+        }
+        .care-guide-btn.secondary:hover, .care-guide-btn.secondary:focus {
+            background: #444;
+            color: #fff;
+            border: 1.3px solid #0f0f0f;
+        }
+        @media (max-width: 900px) {
+            .care-guide-container {
+                gap: 15px 5px;
+            }
+            .care-guide {
+                width: 43vw;
+                min-width: 110px;
+                max-width: 230px;
+                /* min-height: 175px; REMOVE THIS TOO IF PRESENT */
+            }
+        }
+        @media (max-width: 600px) {
+            .care-guides {
+                padding: 84px 2px 8px 2px;
+            }
+            .care-guide-container {
+                gap: 10px 0;
+            }
+            .care-guide {
+                width: 92vw;
+                min-width: 90px;
+                max-width: 98vw;
+                padding: 8px 2px 8px 2px;
+                /* min-height: 175px; REMOVE THIS TOO IF PRESENT */
+            }
+            .care-guides-title { font-size: 1.25rem; }
+            .care-guides-desc { font-size: 0.98rem; }
+            .care-guide-img-frame { 
+                height: 0;
+                padding-bottom: 42.86%; /* This maintains the same 2.33:1 aspect ratio as desktop (90px/210px) */
+                position: relative;
+            }
+            .care-guide-img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .availability-segment { width: 9px; height: 6px; }
+            .care-guide-label { min-height: 20px; font-size: 0.99rem; }
+            .care-guide-btn {
+                width: 42vw;
+                min-width: 45px;
+                font-size: 0.96rem;
+                padding: 5px 0 5px 0;
+            }
+            .care-guide-btn-row {
+                margin-top: 8px;
+            }
+        }
+        .availability-segment {
+            width: 13px;
+            height: 10px;
+            border-radius: 2.5px;
+            background: #e0e0e0;
+            transition: background 0.3s;
+        }
+        .availability-segment.active {
+            background: #37b24d;
+        }
+        footer {
+            background-color: #fff;
+            color: #0f0f0f;
+            padding: 20px;
+            text-align: left;
+            border-top: 1px solid #ddd;
+            margin-left: 20px;
+            position: relative;
+            font-family: 'Open Sans', Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <header id="main-header"></header>
-    <section class="section dark care-guides">
-        <div class="container">
-            <h1 class="mt-0 text-center">All Care Guides</h1>
-            <p class="text-center">Here you can find all the care guides for various reptiles.</p>
-            <div class="grid" id="care-guides-list"></div>
-        </div>
+    <section class="care-guides">
+        <h1 class="care-guides-title">All Care Guides</h1>
+        <p class="care-guides-desc">Here you can find all the care guides for various reptiles.</p>
+        <div class="care-guide-container" id="care-guides-list"></div>
     </section>
     <div id="main-footer"></div>
-    <script src="js/scripts.js"></script>
+    <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+    <script src="js/mobile-menu.js"></script>
     <!-- JSON to Cards Script -->
     <script>
         // 1. Availability thresholds
@@ -41,22 +349,22 @@
         const animalInfo = {
           "Leopard Gecko": {
             img: "images/leo trans bg.png",
-            url: "leopard-gecko.html",
+            url: "/leopard-gecko.html",
             enclosureId: "leopard-gecko"
           },
           "Bearded Dragon": {
             img: "images/bearded drag trans bg.png",
-            url: "bearded-dragon.html",
+            url: "/bearded-dragon.html",
             enclosureId: "bearded-dragon"
           },
           "Crested Gecko": {
             img: "images/crested gecko trans bg.png",
-            url: "crested-gecko.html",
+            url: "/crested-gecko.html",
             enclosureId: "crested-gecko"
           },
           "Eastern Collared Lizard": {
             img: "images/collared lizard trans bg.png",
-            url: "eastern-collared-lizard.html",
+            url: "/eastern-collared-lizard.html",
             enclosureId: "eastern-collared-lizard"
           }
         };
@@ -66,29 +374,35 @@
           let availText = '';
           if (typeof listings === 'number' && !isNaN(listings)) {
             const availability = getAvailability(listings);
-            for (let i = 0; i < 5; ++i) {
-              bar += `<span class="seg${i < availability.segments ? ' active' : ''}"></span>`;
-            }
+            for (let i = 0; i < 5; ++i)
+              bar += `<span class="availability-segment${i < availability.segments ? ' active' : ''}"></span>`;
             availText = `${listings} - ${availability.label}`;
           } else {
-            for (let i = 0; i < 5; ++i) bar += `<span class="seg"></span>`;
-            availText = 'No Data';
+            // No data: show all inactive segments and "No Data"
+            for (let i = 0; i < 5; ++i)
+              bar += `<span class="availability-segment"></span>`;
+            availText = "No Data";
           }
+          // Card HTML with a class on the label for dynamic sizing
           return `
-            <div class="care-card" data-animal="${animal}">
-              <div class="thumb">
-                <img src="${info.img}" alt="${animal}" loading="lazy" onerror="this.onerror=null;this.src='images/no-image.png';" />
-              </div>
-              <div class="title js-animal-label">${animal}</div>
-              <div class="availability">
-                <div class="bar">${bar}</div>
-                <div class="muted">${availText}</div>
-              </div>
-              <div class="btn-row">
-                <a class="btn btn-outline" href="${info.url}">Guide</a>
-                <a class="btn btn-solid" href="enclosure-builder.html?reptile=${info.enclosureId}">Enclosure</a>
-              </div>
+          <div class="care-guide" data-animal="${animal}">
+            <div class="care-guide-img-frame">
+              <img src="${info.img}" alt="${animal}" class="care-guide-img" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
+            <span class="care-guide-label js-animal-label">${animal}</span>
+            <div class="availability-row">
+              <div class="availability-bar">${bar}</div>
+              <span class="availability-value">${availText}</span>
+            </div>
+            <div class="care-guide-btn-row">
+              <a href="${info.url}" class="care-guide-btn secondary">
+                View Care Guide
+              </a>
+              <a href="/enclosure-builder.html?reptile=${info.enclosureId}" class="care-guide-btn">
+                Design an Enclosure
+              </a>
+            </div>
+          </div>
           `;
         }
         // Fetch JSON and build cards
