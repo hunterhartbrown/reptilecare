@@ -6,14 +6,7 @@
     <title>ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body
-  data-rc-hero="false"
-  data-rc-species="false"
-  data-rc-how="false"
-  data-rc-mission="false"
-  data-rc-newsletter="false"
-  data-rc-midcta="false"
->
+<body>
     <header id="main-header"></header>
 
     <section>
@@ -24,67 +17,108 @@
     </section>
 
     <!-- rc: additive sections start -->
-    <section data-rc-new="hero" hidden>
-      <div class="rc-hero">
-        <div class="rc-hero__copy">
-          <h2>Clear, science-based reptile care.</h2>
-          <p>Get trustworthy, research-backed guidance for healthy habitats.</p>
-          <div class="rc-hero__cta">
-            <a href="/enclosure-builder" class="rc-btn rc-btn--primary" data-rc-event="rc_cta_enclosure_builder_click">Build My Enclosure</a>
-            <a href="/all-care-guides" class="rc-btn rc-btn--ghost">Browse Care Guides</a>
-          </div>
+    <section data-rc-new="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Clear, science-based reptile care.</h1>
+                <p>Build the perfect habitat for your reptile with our expert-guided enclosure builder and comprehensive care guides.</p>
+                <div class="hero-ctas">
+                    <a href="/enclosure-builder" class="cta-primary" data-rc-event="rc_cta_enclosure_builder_click">Build Your Enclosure</a>
+                    <a href="/all-care-guides" class="cta-secondary">Browse Care Guides</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/bearded drag trans bg.png" alt="Bearded dragon in natural habitat setup" width="400" height="300" loading="lazy">
+            </div>
         </div>
-        <div class="rc-hero__media">
-          <img src="/images/hero-reptile-habitat.jpg" alt="Reptile habitat with proper lighting" width="600" height="400" loading="lazy">
+    </section>
+
+    <section data-rc-new="species-shortcuts">
+        <div class="species-container">
+            <h2>Popular Species</h2>
+            <div class="species-grid">
+                <a href="/enclosure-builder?reptile=leopard-gecko" class="species-tile">
+                    <div class="species-image-container">
+                        <img src="images/leo trans bg.png" alt="Leopard Gecko" width="200" height="150" loading="lazy">
+                    </div>
+                    <h3>Leopard Gecko</h3>
+                </a>
+                <a href="/enclosure-builder?reptile=bearded-dragon" class="species-tile">
+                    <div class="species-image-container">
+                        <img src="images/bearded drag trans bg.png" alt="Bearded Dragon" width="200" height="150" loading="lazy">
+                    </div>
+                    <h3>Bearded Dragon</h3>
+                </a>
+                <a href="/enclosure-builder?reptile=crested-gecko" class="species-tile">
+                    <div class="species-image-container">
+                        <img src="images/crested gecko trans bg.png" alt="Crested Gecko" width="200" height="150" loading="lazy">
+                    </div>
+                    <h3>Crested Gecko</h3>
+                </a>
+                <a href="/enclosure-builder?reptile=eastern-collared-lizard" class="species-tile">
+                    <div class="species-image-container">
+                        <img src="images/collared lizard trans bg.png" alt="Eastern Collared Lizard" width="200" height="150" loading="lazy">
+                    </div>
+                    <h3>Eastern Collared Lizard</h3>
+                </a>
+            </div>
         </div>
-      </div>
     </section>
 
-    <section data-rc-new="species-shortcuts" hidden>
-      <h2 class="rc-h2">Popular Species</h2>
-      <ul class="rc-tiles">
-        <li><a href="/enclosure-builder?reptile=leopard-gecko"><img src="/images/leo trans bg.png" alt="Leopard Gecko" width="200" height="128" loading="lazy"><span>Leopard Gecko</span></a></li>
-        <li><a href="/enclosure-builder?reptile=bearded-dragon"><img src="/images/bearded drag trans bg.png" alt="Bearded Dragon" width="200" height="128" loading="lazy"><span>Bearded Dragon</span></a></li>
-        <li><a href="/enclosure-builder?reptile=crested-gecko"><img src="/images/crested gecko trans bg.png" alt="Crested Gecko" width="200" height="128" loading="lazy"><span>Crested Gecko</span></a></li>
-        <li><a href="/enclosure-builder?reptile=eastern-collared-lizard"><img src="/images/collared lizard trans bg.png" alt="Eastern Collared Lizard" width="200" height="128" loading="lazy"><span>Eastern Collared Lizard</span></a></li>
-      </ul>
-    </section>
-
-    <section data-rc-new="how-it-works" hidden>
-      <h2 class="rc-h2">How It Works</h2>
-      <ol class="rc-steps">
-        <li><strong>Pick your species</strong><br>Select your reptile from our database.</li>
-        <li><strong>Auto-size habitat</strong><br>Get enclosure, heating, and UVB recommendations.</li>
-        <li><strong>Add décor & export</strong><br>Customize and export a parts list.</li>
-      </ol>
-      <p class="rc-disclosure">* This site contains affiliate links. We may earn a commission when you purchase through our recommendations.</p>
-    </section>
-
-    <section data-rc-new="mission-micro" hidden>
-      <p class="rc-mission">
-        We believe every reptile deserves a habitat that supports natural behaviors and long-term health.
-        Our science-based approach helps you build environments where reptiles thrive.
-        <a href="/about">Learn more</a>
-      </p>
-    </section>
-
-    <section data-rc-new="midpage-enclosure-cta" hidden>
-      <div class="rc-cta">
-        <div>
-          <h3>Ready to build the perfect habitat?</h3>
-          <p>Start with the Enclosure Designer.</p>
+    <section data-rc-new="mid-page-cta">
+        <div class="mid-cta-container">
+            <div class="mid-cta-content">
+                <h2>Ready to build the perfect habitat?</h2>
+                <a href="/enclosure-builder" class="cta-primary">Start Building</a>
+            </div>
         </div>
-        <a href="/enclosure-builder" class="rc-btn rc-btn--invert">Start Building</a>
-      </div>
     </section>
 
-    <section data-rc-new="newsletter" hidden>
-      <form class="rc-news" novalidate>
-        <label for="rc-email" class="rc-visually-hidden">Email</label>
-        <input id="rc-email" type="email" placeholder="Enter your email" required>
-        <button type="submit" class="rc-btn rc-btn--primary">Subscribe</button>
-        <p class="rc-news__msg" aria-live="polite"></p>
-      </form>
+    <section data-rc-new="how-it-works">
+        <div class="how-it-works-container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Pick Your Species</h3>
+                    <p>Select your reptile from our comprehensive database of care requirements.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Auto-Size Habitat</h3>
+                    <p>Get automatic recommendations for enclosure size, heating, and UVB lighting.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Add Décor & Export</h3>
+                    <p>Customize with plants, hides, and substrate, then export your shopping list.</p>
+                </div>
+            </div>
+            <p class="affiliate-disclosure">
+                We may earn a commission from qualifying purchases made through our recommended product links.
+            </p>
+        </div>
+    </section>
+
+    <section data-rc-new="mission-micro">
+        <div class="mission-container">
+            <h2>Our Mission</h2>
+            <p>We provide evidence-based reptile care information to help you create the healthiest environment for your scaly friends. Our team combines scientific research with practical experience to deliver reliable, actionable advice.</p>
+            <a href="/about" class="learn-more-link">Learn more about our approach</a>
+        </div>
+    </section>
+
+    <section data-rc-new="newsletter">
+        <div class="newsletter-container">
+            <h2>Stay Updated</h2>
+            <p>Get the latest care tips and habitat building guides delivered to your inbox.</p>
+            <form class="newsletter-form" id="newsletter-form">
+                <label for="newsletter-email" class="sr-only">Email address</label>
+                <input type="email" id="newsletter-email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            <div id="newsletter-message" class="newsletter-message" style="display: none;"></div>
+        </div>
     </section>
     <!-- rc: additive sections end -->
 
@@ -192,68 +226,60 @@
     document.addEventListener('DOMContentLoaded', init);
   </script>
 
-  <!-- RC Additive Sections JavaScript -->
+  <!-- Additive JavaScript for new sections -->
   <script>
-  (function(){
-    const body = document.body;
-
-    // Read flags from body data-attrs
-    const flags = {
-      hero: body.getAttribute('data-rc-hero') === 'true',
-      species: body.getAttribute('data-rc-species') === 'true',
-      how: body.getAttribute('data-rc-how') === 'true',
-      mission: body.getAttribute('data-rc-mission') === 'true',
-      news: body.getAttribute('data-rc-newsletter') === 'true',
-      midcta: body.getAttribute('data-rc-midcta') === 'true'
-    };
-
-    // Optional: preview override via ?rcFlags=hero,species,how,mission,news,midcta
-    try {
-      const url = new URL(window.location.href);
-      const raw = url.searchParams.get('rcFlags');
-      if (raw) {
-        raw.split(',').map(s => s.trim()).forEach(key => {
-          if (key) flags[key] = true;
+    // Analytics for hero CTA click
+    document.addEventListener('DOMContentLoaded', function() {
+      const heroCTA = document.querySelector('[data-rc-event="rc_cta_enclosure_builder_click"]');
+      if (heroCTA) {
+        heroCTA.addEventListener('click', function(e) {
+          // Dispatch custom event for analytics
+          const event = new CustomEvent('rc_cta_enclosure_builder_click', {
+            detail: {
+              element: e.target,
+              href: e.target.href,
+              timestamp: new Date().toISOString()
+            }
+          });
+          document.dispatchEvent(event);
         });
       }
-    } catch(e){}
 
-    // Helper to reveal a section if its flag is true
-    function toggleSection(name, on) {
-      const el = document.querySelector('[data-rc-new="'+name+'"]');
-      if (!el) return;
-      if (on) el.hidden = false;
-    }
-
-    toggleSection('hero', flags.hero);
-    toggleSection('species-shortcuts', flags.species);
-    toggleSection('how-it-works', flags.how);
-    toggleSection('mission-micro', flags.mission);
-    toggleSection('newsletter', flags.news);
-    toggleSection('midpage-enclosure-cta', flags.midcta);
-
-    // Analytics hook for hero CTA (non-destructive)
-    document.addEventListener('click', function(e){
-      const a = e.target.closest('[data-rc-event="rc_cta_enclosure_builder_click"]');
-      if (!a) return;
-      // Dispatch a custom event the existing analytics can listen for if desired
-      const ev = new CustomEvent('rc_cta_enclosure_builder_click', { bubbles: true });
-      a.dispatchEvent(ev);
+      // Newsletter form handling
+      const newsletterForm = document.getElementById('newsletter-form');
+      const newsletterMessage = document.getElementById('newsletter-message');
+      
+      if (newsletterForm && newsletterMessage) {
+        newsletterForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const email = document.getElementById('newsletter-email').value;
+          
+          // Client-side validation
+          if (!email || !email.includes('@')) {
+            showNewsletterMessage('Please enter a valid email address.', 'error');
+            return;
+          }
+          
+          // Simulate subscription (no network request)
+          setTimeout(function() {
+            showNewsletterMessage('Thank you for subscribing! We\'ll keep you updated on reptile care tips.', 'success');
+            newsletterForm.reset();
+          }, 500);
+        });
+      }
+      
+      function showNewsletterMessage(message, type) {
+        newsletterMessage.textContent = message;
+        newsletterMessage.className = 'newsletter-message ' + type;
+        newsletterMessage.style.display = 'block';
+        
+        // Hide message after 5 seconds
+        setTimeout(function() {
+          newsletterMessage.style.display = 'none';
+        }, 5000);
+      }
     });
-
-    // Newsletter mock (no network)
-    const form = document.querySelector('[data-rc-new="newsletter"] .rc-news');
-    if (form) {
-      const input = form.querySelector('input[type="email"]');
-      const msg = form.querySelector('.rc-news__msg');
-      form.addEventListener('submit', function(ev){
-        ev.preventDefault();
-        if (!input.value) { msg.textContent = 'Please enter a valid email.'; return; }
-        msg.textContent = 'Thanks for subscribing! 🎉';
-        input.value = '';
-      });
-    }
-  })();
   </script>
 </body>
 </html>
