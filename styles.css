@@ -9,6 +9,7 @@ body {
     background-color: #ffffff;
     /* Responsive padding will be handled by media queries */
     padding-top: 80px; /* Default for desktop */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 header {
@@ -130,7 +131,7 @@ section {
     align-items: center;
     position: relative;
     width: 100%;
-    height: calc(100vh - 80px); /* Adjust height dynamically based on viewport */
+    height: calc(50vh - 40px); /* Reduced to half viewport height */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
 }
@@ -273,7 +274,7 @@ section {
     }
     
     .slide {
-        height: calc(100vh - 80px);
+        height: calc(50vh - 40px);
     }
 }
 
@@ -288,7 +289,7 @@ section {
     }
     
     .slide {
-        height: calc(100vh - 80px);
+        height: calc(50vh - 40px);
     }
 }
 
@@ -305,7 +306,7 @@ section {
     .slide {
         flex-direction: column;
         height: auto;
-        min-height: calc(100vh - 80px);
+        min-height: calc(50vh - 40px);
     }
     
     .slide-image {
@@ -360,7 +361,7 @@ section {
     }
     
     .slide {
-        min-height: calc(100vh - 70px);
+        min-height: calc(50vh - 35px);
     }
     
     .slide-image {
@@ -380,7 +381,7 @@ section {
     }
     
     .slide {
-        min-height: calc(100vh - 60px);
+        min-height: calc(50vh - 30px);
     }
     
     .slide-image {
@@ -508,6 +509,9 @@ section {
 [data-rc-new="hero"] {
     background-color: #ffffff;
     padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .hero-container {
@@ -588,6 +592,9 @@ section {
 [data-rc-new="species-shortcuts"] {
     background-color: #f8f8f8;
     padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .species-container {
@@ -652,6 +659,9 @@ section {
 [data-rc-new="mid-page-cta"] {
     background-color: #0f0f0f;
     padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .mid-cta-container {
@@ -674,6 +684,9 @@ section {
 [data-rc-new="how-it-works"] {
     background-color: #ffffff;
     padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .how-it-works-container {
@@ -740,6 +753,9 @@ section {
 [data-rc-new="mission-micro"] {
     background-color: #f8f8f8;
     padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .mission-container {
@@ -778,6 +794,9 @@ section {
 [data-rc-new="newsletter"] {
     background-color: #ffffff;
     padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .newsletter-container {
