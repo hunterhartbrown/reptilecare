@@ -6,7 +6,14 @@
     <title>ReptileCare</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body
+  data-rc-hero="false"
+  data-rc-species="false"
+  data-rc-how="false"
+  data-rc-mission="false"
+  data-rc-newsletter="false"
+  data-rc-midcta="false"
+>
     <header id="main-header"></header>
 
     <section>
@@ -15,6 +22,71 @@
             <div class="dots-container"></div>
         </div>
     </section>
+
+    <!-- rc: additive sections start -->
+    <section data-rc-new="hero" hidden>
+      <div class="rc-hero">
+        <div class="rc-hero__copy">
+          <h2>Clear, science-based reptile care.</h2>
+          <p>Get trustworthy, research-backed guidance for healthy habitats.</p>
+          <div class="rc-hero__cta">
+            <a href="/enclosure-builder" class="rc-btn rc-btn--primary" data-rc-event="rc_cta_enclosure_builder_click">Build My Enclosure</a>
+            <a href="/all-care-guides" class="rc-btn rc-btn--ghost">Browse Care Guides</a>
+          </div>
+        </div>
+        <div class="rc-hero__media">
+          <img src="/images/hero-reptile-habitat.jpg" alt="Reptile habitat with proper lighting" width="600" height="400" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section data-rc-new="species-shortcuts" hidden>
+      <h2 class="rc-h2">Popular Species</h2>
+      <ul class="rc-tiles">
+        <li><a href="/enclosure-builder?reptile=leopard-gecko"><img src="/images/leo trans bg.png" alt="Leopard Gecko" width="200" height="128" loading="lazy"><span>Leopard Gecko</span></a></li>
+        <li><a href="/enclosure-builder?reptile=bearded-dragon"><img src="/images/bearded drag trans bg.png" alt="Bearded Dragon" width="200" height="128" loading="lazy"><span>Bearded Dragon</span></a></li>
+        <li><a href="/enclosure-builder?reptile=crested-gecko"><img src="/images/crested gecko trans bg.png" alt="Crested Gecko" width="200" height="128" loading="lazy"><span>Crested Gecko</span></a></li>
+        <li><a href="/enclosure-builder?reptile=eastern-collared-lizard"><img src="/images/collared lizard trans bg.png" alt="Eastern Collared Lizard" width="200" height="128" loading="lazy"><span>Eastern Collared Lizard</span></a></li>
+      </ul>
+    </section>
+
+    <section data-rc-new="how-it-works" hidden>
+      <h2 class="rc-h2">How It Works</h2>
+      <ol class="rc-steps">
+        <li><strong>Pick your species</strong><br>Select your reptile from our database.</li>
+        <li><strong>Auto-size habitat</strong><br>Get enclosure, heating, and UVB recommendations.</li>
+        <li><strong>Add décor & export</strong><br>Customize and export a parts list.</li>
+      </ol>
+      <p class="rc-disclosure">* This site contains affiliate links. We may earn a commission when you purchase through our recommendations.</p>
+    </section>
+
+    <section data-rc-new="mission-micro" hidden>
+      <p class="rc-mission">
+        We believe every reptile deserves a habitat that supports natural behaviors and long-term health.
+        Our science-based approach helps you build environments where reptiles thrive.
+        <a href="/about">Learn more</a>
+      </p>
+    </section>
+
+    <section data-rc-new="midpage-enclosure-cta" hidden>
+      <div class="rc-cta">
+        <div>
+          <h3>Ready to build the perfect habitat?</h3>
+          <p>Start with the Enclosure Designer.</p>
+        </div>
+        <a href="/enclosure-builder" class="rc-btn rc-btn--invert">Start Building</a>
+      </div>
+    </section>
+
+    <section data-rc-new="newsletter" hidden>
+      <form class="rc-news" novalidate>
+        <label for="rc-email" class="rc-visually-hidden">Email</label>
+        <input id="rc-email" type="email" placeholder="Enter your email" required>
+        <button type="submit" class="rc-btn rc-btn--primary">Subscribe</button>
+        <p class="rc-news__msg" aria-live="polite"></p>
+      </form>
+    </section>
+    <!-- rc: additive sections end -->
 
     <div id="main-footer"></div>    
 
@@ -118,6 +190,70 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
+  </script>
+
+  <!-- RC Additive Sections JavaScript -->
+  <script>
+  (function(){
+    const body = document.body;
+
+    // Read flags from body data-attrs
+    const flags = {
+      hero: body.getAttribute('data-rc-hero') === 'true',
+      species: body.getAttribute('data-rc-species') === 'true',
+      how: body.getAttribute('data-rc-how') === 'true',
+      mission: body.getAttribute('data-rc-mission') === 'true',
+      news: body.getAttribute('data-rc-newsletter') === 'true',
+      midcta: body.getAttribute('data-rc-midcta') === 'true'
+    };
+
+    // Optional: preview override via ?rcFlags=hero,species,how,mission,news,midcta
+    try {
+      const url = new URL(window.location.href);
+      const raw = url.searchParams.get('rcFlags');
+      if (raw) {
+        raw.split(',').map(s => s.trim()).forEach(key => {
+          if (key) flags[key] = true;
+        });
+      }
+    } catch(e){}
+
+    // Helper to reveal a section if its flag is true
+    function toggleSection(name, on) {
+      const el = document.querySelector('[data-rc-new="'+name+'"]');
+      if (!el) return;
+      if (on) el.hidden = false;
+    }
+
+    toggleSection('hero', flags.hero);
+    toggleSection('species-shortcuts', flags.species);
+    toggleSection('how-it-works', flags.how);
+    toggleSection('mission-micro', flags.mission);
+    toggleSection('newsletter', flags.news);
+    toggleSection('midpage-enclosure-cta', flags.midcta);
+
+    // Analytics hook for hero CTA (non-destructive)
+    document.addEventListener('click', function(e){
+      const a = e.target.closest('[data-rc-event="rc_cta_enclosure_builder_click"]');
+      if (!a) return;
+      // Dispatch a custom event the existing analytics can listen for if desired
+      const ev = new CustomEvent('rc_cta_enclosure_builder_click', { bubbles: true });
+      a.dispatchEvent(ev);
+    });
+
+    // Newsletter mock (no network)
+    const form = document.querySelector('[data-rc-new="newsletter"] .rc-news');
+    if (form) {
+      const input = form.querySelector('input[type="email"]');
+      const msg = form.querySelector('.rc-news__msg');
+      form.addEventListener('submit', function(ev){
+        ev.preventDefault();
+        if (!input.value) { msg.textContent = 'Please enter a valid email.'; return; }
+        msg.textContent = 'Thanks for subscribing! 🎉';
+        input.value = '';
+      });
+    }
+  })();
   </script>
 </body>
 </html>

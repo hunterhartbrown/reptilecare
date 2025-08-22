@@ -501,3 +501,347 @@ section {
         font-size: 3vw;
     }
 }
+
+/* ────────────── RC ADDITIVE SECTIONS ────────────── */
+[data-rc-new] { 
+    margin: 2.5rem 0; 
+    padding: 0 20px;
+}
+
+.rc-h2 { 
+    font-size: 1.75rem; 
+    margin: 0 0 1rem; 
+    text-align: center;
+    color: #0f0f0f;
+    font-weight: 700;
+}
+
+.rc-hero { 
+    display: grid; 
+    gap: 1.5rem; 
+    grid-template-columns: 1fr; 
+    align-items: center; 
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.rc-hero__copy h2 {
+    font-size: 2.5rem;
+    margin: 0 0 1rem;
+    color: #0f0f0f;
+    font-weight: 700;
+}
+
+.rc-hero__copy p {
+    font-size: 1.1rem;
+    margin: 0 0 1.5rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+.rc-hero__cta { 
+    display: flex; 
+    gap: .75rem; 
+    flex-wrap: wrap; 
+}
+
+.rc-btn { 
+    display: inline-block; 
+    padding: .75rem 1.25rem; 
+    border-radius: .5rem; 
+    text-decoration: none; 
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.rc-btn--primary { 
+    background: #0f0f0f; 
+    color: #fff; 
+}
+
+.rc-btn--primary:hover {
+    background: #333;
+}
+
+.rc-btn--ghost { 
+    border: 2px solid #0f0f0f; 
+    color: #0f0f0f; 
+    background: transparent; 
+}
+
+.rc-btn--ghost:hover {
+    background: #0f0f0f;
+    color: #fff;
+}
+
+.rc-btn--invert { 
+    background: #fff; 
+    color: #0f0f0f; 
+    border: 2px solid #fff;
+}
+
+.rc-btn--invert:hover {
+    background: transparent;
+    color: #fff;
+}
+
+.rc-hero__media img { 
+    width: 100%; 
+    height: auto; 
+    border-radius: .5rem; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.rc-tiles { 
+    list-style: none; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: .75rem; 
+    padding: 0; 
+    margin: 0; 
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.rc-tiles a { 
+    display: block; 
+    background: #fff; 
+    border-radius: .5rem; 
+    box-shadow: 0 2px 8px rgba(0,0,0,.08); 
+    text-align: center; 
+    padding: 1rem .5rem; 
+    text-decoration: none;
+    color: #0f0f0f;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rc-tiles a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+}
+
+.rc-tiles img { 
+    display: block; 
+    width: 100%; 
+    height: 128px;
+    object-fit: contain;
+    border-radius: .25rem; 
+    margin-bottom: 0.5rem;
+}
+
+.rc-tiles span {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.rc-steps { 
+    list-style: decimal inside; 
+    padding: 0; 
+    margin: .5rem 0 0; 
+    max-width: 800px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.rc-steps li {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.rc-steps li:last-child {
+    margin-bottom: 0;
+}
+
+.rc-disclosure { 
+    color: #666; 
+    font-size: .85rem; 
+    margin-top: .75rem; 
+    text-align: center;
+    font-style: italic;
+}
+
+.rc-mission { 
+    background: #0f0f0f; 
+    color: #fff; 
+    padding: 1.5rem; 
+    border-radius: .5rem; 
+    text-align: center; 
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.rc-mission a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.rc-mission a:hover {
+    opacity: 0.8;
+}
+
+.rc-cta { 
+    background: #0f0f0f; 
+    color: #fff; 
+    padding: 1.5rem; 
+    border-radius: .5rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 1rem; 
+    flex-wrap: wrap; 
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.rc-cta h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.rc-cta p {
+    margin: 0;
+    color: #ccc;
+}
+
+.rc-news { 
+    display: flex; 
+    gap: .5rem; 
+    flex-wrap: wrap; 
+    align-items: center; 
+    justify-content: center;
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.rc-news input { 
+    padding: .65rem .75rem; 
+    border: 1px solid #ccc; 
+    border-radius: .5rem; 
+    min-width: 240px; 
+    font-size: 1rem;
+}
+
+.rc-news input:focus {
+    outline: none;
+    border-color: #0f0f0f;
+}
+
+.rc-news__msg { 
+    margin-left: .5rem; 
+    font-size: .9rem; 
+    color: #666;
+    font-weight: 600;
+}
+
+.rc-visually-hidden { 
+    position: absolute; 
+    width: 1px; 
+    height: 1px; 
+    margin: -1px; 
+    padding: 0; 
+    overflow: hidden; 
+    clip: rect(0 0 0 0); 
+    border: 0; 
+}
+
+/* RC Responsive Design */
+@media (min-width: 960px) {
+    .rc-hero { 
+        grid-template-columns: 1.2fr .8fr; 
+        text-align: left;
+    }
+    
+    .rc-tiles { 
+        grid-template-columns: repeat(4, minmax(0, 1fr)); 
+    }
+}
+
+@media (max-width: 768px) {
+    [data-rc-new] {
+        margin: 1.5rem 0;
+        padding: 0 15px;
+    }
+    
+    .rc-hero {
+        padding: 1.5rem;
+    }
+    
+    .rc-hero__copy h2 {
+        font-size: 2rem;
+    }
+    
+    .rc-h2 {
+        font-size: 1.5rem;
+    }
+    
+    .rc-tiles {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .rc-tiles a {
+        padding: 0.75rem 0.25rem;
+    }
+    
+    .rc-steps {
+        padding: 1rem;
+    }
+    
+    .rc-mission, .rc-cta, .rc-news {
+        padding: 1rem;
+    }
+    
+    .rc-cta {
+        text-align: center;
+    }
+    
+    .rc-news {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .rc-news input {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-rc-new] {
+        margin: 1rem 0;
+        padding: 0 10px;
+    }
+    
+    .rc-hero__copy h2 {
+        font-size: 1.75rem;
+    }
+    
+    .rc-tiles {
+        grid-template-columns: 1fr;
+    }
+    
+    .rc-hero__cta {
+        flex-direction: column;
+    }
+    
+    .rc-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
