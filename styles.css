@@ -1294,6 +1294,7 @@ section {
     align-items: center;
     outline: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 .rc-mobile-filter-toggle:hover,
@@ -1391,6 +1392,13 @@ section {
         overflow-x: hidden;
     }
     
+    .care-guides {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
     /* Show mobile filter toggle, hide desktop sidebar */
     .rc-mobile-filter-toggle {
         display: flex !important;
@@ -1444,18 +1452,18 @@ section {
     }
     
     .rc-mobile-filter-toggle {
-        margin: 0 1rem 12px 1rem;
+        margin: 0 0 12px 0;
         padding: 10px 14px;
         font-size: 0.95rem;
-        width: calc(100% - 2rem);
+        width: 100%;
         box-sizing: border-box;
     }
     
     [data-rc-cg="wrap"] {
-        margin: 0 0.5rem;
+        margin: 0;
         padding: 0.75rem;
         border-radius: 6px;
-        width: calc(100% - 1rem);
+        width: 100%;
         box-sizing: border-box;
     }
     
@@ -1500,18 +1508,18 @@ section {
     }
     
     .rc-mobile-filter-toggle {
-        margin: 0 0.5rem 10px 0.5rem;
+        margin: 0 0 10px 0;
         padding: 8px 12px;
         font-size: 0.9rem;
-        width: calc(100% - 1rem);
+        width: 100%;
         box-sizing: border-box;
     }
     
     [data-rc-cg="wrap"] {
-        margin: 0 0.25rem;
+        margin: 0;
         padding: 0.5rem;
         border-radius: 4px;
-        width: calc(100% - 0.5rem);
+        width: 100%;
         box-sizing: border-box;
     }
     
@@ -1548,6 +1556,10 @@ section {
     padding: 1.25rem;
     border-radius: 0.75rem;
     margin-top: 0;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 [data-rc-cg="intro"] {
@@ -1595,6 +1607,9 @@ section {
     gap: 20px 16px;
     padding: 20px;
     background: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* Rarity system removed - restored to original availability display */
