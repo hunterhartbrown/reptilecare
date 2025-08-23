@@ -395,6 +395,24 @@
             margin-top: 0 !important;
             border-radius: 0 !important;
             padding: 2rem 1.25rem !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+        
+        /* Ensure main container doesn't cause overflow on mobile */
+        @media (max-width: 1023.98px) {
+            [data-rc-cg="wrap"] {
+                padding: 1rem 0.5rem !important;
+                margin: 0 !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            [data-rc-cg="wrap"] {
+                padding: 0.5rem 0.25rem !important;
+            }
         }
         
         /* Update grid background to white */
@@ -450,6 +468,42 @@
             overflow: hidden !important;
         }
         
+        /* CRITICAL: Override external CSS that's causing mobile issues */
+        @media (max-width: 1023.98px) {
+            [data-rc-cg="grid"] .care-guide-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+                padding: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            [data-rc-cg="grid"] .care-guide-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+                padding: 8px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            [data-rc-cg="grid"] .care-guide-container {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+                gap: 8px !important;
+                padding: 6px !important;
+            }
+        }
+        
+        @media (max-width: 399px) {
+            [data-rc-cg="grid"] .care-guide-container {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+                padding: 4px !important;
+            }
+        }
+        
         /* Ensure all text elements in the main content area use proper colors */
         [data-rc-cg="wrap"] * {
             color: #0f0f0f; /* Ensure dark text on light backgrounds */
@@ -460,6 +514,37 @@
             background: #fff !important;
             color: #0f0f0f !important;
             border: 1px solid #ddd !important;
+        }
+        
+        /* CRITICAL: Fix card sizing on mobile to prevent overlap */
+        @media (max-width: 1023.98px) {
+            .care-guide {
+                width: 100% !important;
+                max-width: none !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+                margin: 0 !important;
+                flex: none !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .care-guide {
+                padding: 6px 4px !important;
+                margin: 0 !important;
+            }
+            .care-guide-img-frame {
+                height: 60px !important;
+            }
+            .care-guide-label {
+                font-size: 0.85rem !important;
+                height: 30px !important;
+                line-height: 1.2 !important;
+            }
+            .care-guide-btn {
+                font-size: 0.75rem !important;
+                padding: 3px 2px !important;
+            }
         }
         
         .care-guide-label {
