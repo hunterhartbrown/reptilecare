@@ -323,14 +323,84 @@
     <section class="care-guides">
         <h1 class="care-guides-title">All Care Guides</h1>
         <p class="care-guides-desc">Here you can find all the care guides for various reptiles.</p>
-        <div class="care-guide-container" id="care-guides-list"></div>
+        
+        <!-- rc: care-guides additive start -->
+        <!-- Difficulty Tabs -->
+        <div data-rc-cg="tabs" class="rc-difficulty-tabs">
+            <button type="button" class="rc-tab rc-tab--active" data-difficulty="all" aria-pressed="true">All</button>
+            <button type="button" class="rc-tab" data-difficulty="beginner" aria-pressed="false">Beginner</button>
+            <button type="button" class="rc-tab" data-difficulty="intermediate" aria-pressed="false">Intermediate</button>
+            <button type="button" class="rc-tab" data-difficulty="advanced" aria-pressed="false">Advanced</button>
+        </div>
+
+        <!-- Filters Panel -->
+        <div data-rc-cg="filters" class="rc-filters-panel">
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Habitat:</label>
+                <div class="rc-filter-options">
+                    <button type="button" class="rc-filter-chip" data-filter="habitat" data-value="arid">Arid</button>
+                    <button type="button" class="rc-filter-chip" data-filter="habitat" data-value="tropical">Tropical</button>
+                    <button type="button" class="rc-filter-chip" data-filter="habitat" data-value="temperate">Temperate</button>
+                </div>
+            </div>
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Lifespan:</label>
+                <div class="rc-filter-options">
+                    <button type="button" class="rc-filter-chip" data-filter="lifespan" data-value="short">5-10 years</button>
+                    <button type="button" class="rc-filter-chip" data-filter="lifespan" data-value="medium">10-15 years</button>
+                    <button type="button" class="rc-filter-chip" data-filter="lifespan" data-value="long">15+ years</button>
+                </div>
+            </div>
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Temperament:</label>
+                <div class="rc-filter-options">
+                    <button type="button" class="rc-filter-chip" data-filter="temperament" data-value="docile">Docile</button>
+                    <button type="button" class="rc-filter-chip" data-filter="temperament" data-value="moderate">Moderate</button>
+                    <button type="button" class="rc-filter-chip" data-filter="temperament" data-value="defensive">Defensive</button>
+                </div>
+            </div>
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Size:</label>
+                <div class="rc-filter-options">
+                    <button type="button" class="rc-filter-chip" data-filter="size" data-value="small">Small (< 8")</button>
+                    <button type="button" class="rc-filter-chip" data-filter="size" data-value="medium">Medium (8-18")</button>
+                    <button type="button" class="rc-filter-chip" data-filter="size" data-value="large">Large (18"+ )</button>
+                </div>
+            </div>
+            <button type="button" class="rc-clear-filters" id="rc-clear-filters">Clear All Filters</button>
+        </div>
+        <!-- rc: care-guides additive end -->
+        
+        <div class="care-guide-container" id="care-guides-list" data-rc-cg="grid"></div>
+        
+        <!-- rc: care-guides additive start -->
+        <!-- Pagination Controls -->
+        <div data-rc-cg="pagination" class="rc-pagination" id="rc-pagination" style="display: none;">
+            <button type="button" class="rc-page-btn rc-page-prev" id="rc-prev-btn" aria-label="Previous page">
+                ‹ Prev
+            </button>
+            <div class="rc-page-numbers" id="rc-page-numbers"></div>
+            <button type="button" class="rc-page-btn rc-page-next" id="rc-next-btn" aria-label="Next page">
+                Next ›
+            </button>
+        </div>
+        <!-- rc: care-guides additive end -->
     </section>
     <div id="main-footer"></div>
     <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
     <script src="js/mobile-menu.js"></script>
-    <!-- JSON to Cards Script -->
+    <!-- Enhanced Care Guides Script -->
     <script>
-        // 1. Availability thresholds
+        // ===== CONFIGURATION =====
+        const PAGE_SIZE = 24;
+        
+        // Availability thresholds and tinting
+        const AVAILABILITY_THRESHOLDS = {
+          high: 200,    // >= 200 = neutral/standard
+          medium: 50,   // 50-199 = warning tint  
+          low: 0        // < 50 = stronger tint
+        };
+        
         const thresholds = [
           { min: 1000, label: "Very Common", segments: 5 },
           { min: 200,  label: "Common",      segments: 4 },
@@ -339,60 +409,120 @@
           { min: 5,    label: "Very Rare",   segments: 1 },
           { min: 0,    label: "Exceedingly Rare", segments: 0 }
         ];
+
+        // Species data mapping (additive inline mapping for filtering)
+        const speciesData = {
+          "Leopard Gecko": {
+            img: "images/leo trans bg.png",
+            url: "/leopard-gecko.html",
+            enclosureId: "leopard-gecko",
+            difficulty: "beginner",
+            habitat: "arid",
+            lifespan: "medium", // 10-15 years
+            temperament: "docile",
+            size: "small"
+          },
+          "Bearded Dragon": {
+            img: "images/bearded drag trans bg.png", 
+            url: "/bearded-dragon.html",
+            enclosureId: "bearded-dragon",
+            difficulty: "beginner",
+            habitat: "arid",
+            lifespan: "medium", // 10-15 years
+            temperament: "docile",
+            size: "large"
+          },
+          "Crested Gecko": {
+            img: "images/crested gecko trans bg.png",
+            url: "/crested-gecko.html", 
+            enclosureId: "crested-gecko",
+            difficulty: "beginner",
+            habitat: "tropical",
+            lifespan: "medium", // 10-15 years
+            temperament: "moderate",
+            size: "small"
+          },
+          "Eastern Collared Lizard": {
+            img: "images/collared lizard trans bg.png",
+            url: "/eastern-collared-lizard.html",
+            enclosureId: "eastern-collared-lizard", 
+            difficulty: "advanced",
+            habitat: "arid",
+            lifespan: "short", // 5-10 years
+            temperament: "defensive",
+            size: "medium"
+          }
+        };
+
+        // Cross-link test species (4 representative ones)
+        const crossLinkSpecies = ["Leopard Gecko", "Bearded Dragon", "Crested Gecko", "Eastern Collared Lizard"];
+
+        // ===== STATE MANAGEMENT =====
+        let allAnimals = [];
+        let filteredAnimals = [];
+        let currentPage = 1;
+        let activeFilters = {
+          difficulty: "all",
+          habitat: [],
+          lifespan: [],
+          temperament: [], 
+          size: []
+        };
+
+        // ===== UTILITY FUNCTIONS =====
         function getAvailability(listings) {
           for (let t of thresholds) {
             if (listings >= t.min) return t;
           }
           return thresholds[thresholds.length - 1];
         }
-        // Map animal name to image + care guide url
-        const animalInfo = {
-          "Leopard Gecko": {
-            img: "images/leo trans bg.png",
-            url: "/leopard-gecko.html",
-            enclosureId: "leopard-gecko"
-          },
-          "Bearded Dragon": {
-            img: "images/bearded drag trans bg.png",
-            url: "/bearded-dragon.html",
-            enclosureId: "bearded-dragon"
-          },
-          "Crested Gecko": {
-            img: "images/crested gecko trans bg.png",
-            url: "/crested-gecko.html",
-            enclosureId: "crested-gecko"
-          },
-          "Eastern Collared Lizard": {
-            img: "images/collared lizard trans bg.png",
-            url: "/eastern-collared-lizard.html",
-            enclosureId: "eastern-collared-lizard"
-          }
-        };
-        // Build care guide card HTML
+
+        function getAvailabilityTint(listings) {
+          if (typeof listings !== 'number' || isNaN(listings)) return 'rc-badge--high';
+          if (listings >= AVAILABILITY_THRESHOLDS.high) return 'rc-badge--high';
+          if (listings >= AVAILABILITY_THRESHOLDS.medium) return 'rc-badge--med';
+          return 'rc-badge--low';
+        }
+
+        // ===== CARD BUILDING =====
         function buildCareGuideCard(animal, listings, info) {
           let bar = '';
           let availText = '';
+          let tintClass = '';
+          
           if (typeof listings === 'number' && !isNaN(listings)) {
             const availability = getAvailability(listings);
+            tintClass = getAvailabilityTint(listings);
             for (let i = 0; i < 5; ++i)
               bar += `<span class="availability-segment${i < availability.segments ? ' active' : ''}"></span>`;
             availText = `${listings} - ${availability.label}`;
           } else {
-            // No data: show all inactive segments and "No Data"
+            tintClass = 'rc-badge--high';
             for (let i = 0; i < 5; ++i)
               bar += `<span class="availability-segment"></span>`;
             availText = "No Data";
           }
-          // Card HTML with a class on the label for dynamic sizing
+
+          // Cross-link test addition
+          const crossLinkHTML = crossLinkSpecies.includes(animal) 
+            ? `<a href="/enclosure-builder.html?reptile=${info.enclosureId}" class="rc-cross-link">Start enclosure plan →</a>` 
+            : '';
+
           return `
-          <div class="care-guide" data-animal="${animal}">
+          <div class="care-guide" 
+               data-animal="${animal}"
+               data-rc-difficulty="${info.difficulty}"
+               data-rc-habitat="${info.habitat}"
+               data-rc-lifespan="${info.lifespan}"
+               data-rc-temperament="${info.temperament}"
+               data-rc-size="${info.size}">
             <div class="care-guide-img-frame">
-              <img src="${info.img}" alt="${animal}" class="care-guide-img" onerror="this.onerror=null;this.src='images/no-image.png';">
+              <img src="${info.img}" alt="${animal}" class="care-guide-img" loading="lazy" width="210" height="90" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
-            <span class="care-guide-label js-animal-label">${animal}</span>
+            <h3 class="care-guide-label js-animal-label">${animal}</h3>
             <div class="availability-row">
               <div class="availability-bar">${bar}</div>
-              <span class="availability-value">${availText}</span>
+              <span class="availability-value ${tintClass}">${availText}</span>
             </div>
             <div class="care-guide-btn-row">
               <a href="${info.url}" class="care-guide-btn secondary">
@@ -402,29 +532,178 @@
                 Design an Enclosure
               </a>
             </div>
+            ${crossLinkHTML}
           </div>
           `;
         }
-        // Fetch JSON and build cards
-        fetch('data/availability.json')
-          .then(response => response.json())
-          .then(animals => {
-            // Create a lookup map from the JSON
-            const dataMap = {};
-            animals.forEach(row => {
-              dataMap[row['Animal Name']] = row['MorphMarket # of Listings'];
-            });
-            // Now always render ALL animals in animalInfo
-            const container = document.getElementById('care-guides-list');
-            let html = '';
-            Object.entries(animalInfo).forEach(([animal, info]) => {
-              const listings = dataMap.hasOwnProperty(animal) ? dataMap[animal] : null;
-              html += buildCareGuideCard(animal, listings, info);
-            });
-            container.innerHTML = html;
-            // Now dynamically size the animal names for uniformity
-            uniformizeLabelFontSize();
+
+        // ===== FILTERING & SORTING =====
+        function filterAnimals() {
+          filteredAnimals = allAnimals.filter(animal => {
+            const data = speciesData[animal.name];
+            
+            // Check difficulty
+            if (activeFilters.difficulty !== "all" && data.difficulty !== activeFilters.difficulty) {
+              return false;
+            }
+            
+            // Check multi-select filters
+            const filterChecks = ['habitat', 'lifespan', 'temperament', 'size'];
+            for (let filterType of filterChecks) {
+              if (activeFilters[filterType].length > 0 && 
+                  !activeFilters[filterType].includes(data[filterType])) {
+                return false;
+              }
+            }
+            
+            return true;
           });
+          
+          // Sort alphabetically by common name
+          filteredAnimals.sort((a, b) => a.name.localeCompare(b.name));
+          
+          currentPage = 1;
+          renderPage();
+        }
+
+        // ===== PAGINATION =====
+        function getTotalPages() {
+          return Math.ceil(filteredAnimals.length / PAGE_SIZE);
+        }
+
+        function renderPage() {
+          const container = document.getElementById('care-guides-list');
+          const startIdx = (currentPage - 1) * PAGE_SIZE;
+          const endIdx = startIdx + PAGE_SIZE;
+          const pageAnimals = filteredAnimals.slice(startIdx, endIdx);
+          
+          let html = '';
+          pageAnimals.forEach(animal => {
+            html += buildCareGuideCard(animal.name, animal.listings, speciesData[animal.name]);
+          });
+          
+          container.innerHTML = html;
+          uniformizeLabelFontSize();
+          renderPagination();
+          
+          // Scroll to grid top when paginating
+          if (currentPage > 1) {
+            document.querySelector('[data-rc-cg="grid"]').scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+
+        function renderPagination() {
+          const totalPages = getTotalPages();
+          const paginationEl = document.getElementById('rc-pagination');
+          const prevBtn = document.getElementById('rc-prev-btn');
+          const nextBtn = document.getElementById('rc-next-btn');
+          const numbersEl = document.getElementById('rc-page-numbers');
+          
+          if (totalPages <= 1) {
+            paginationEl.style.display = 'none';
+            return;
+          }
+          
+          paginationEl.style.display = 'flex';
+          
+          // Previous/Next buttons
+          prevBtn.disabled = currentPage === 1;
+          nextBtn.disabled = currentPage === totalPages;
+          
+          // Page numbers
+          let numbersHTML = '';
+          for (let i = 1; i <= totalPages; i++) {
+            const isActive = i === currentPage ? ' rc-page-active' : '';
+            numbersHTML += `<button type="button" class="rc-page-num${isActive}" data-page="${i}">${i}</button>`;
+          }
+          numbersEl.innerHTML = numbersHTML;
+        }
+
+        // ===== EVENT HANDLERS =====
+        function setupEventListeners() {
+          // Difficulty tabs
+          document.querySelectorAll('[data-difficulty]').forEach(tab => {
+            tab.addEventListener('click', function() {
+              // Update tab states
+              document.querySelectorAll('[data-difficulty]').forEach(t => {
+                t.classList.remove('rc-tab--active');
+                t.setAttribute('aria-pressed', 'false');
+              });
+              this.classList.add('rc-tab--active');
+              this.setAttribute('aria-pressed', 'true');
+              
+              activeFilters.difficulty = this.dataset.difficulty;
+              filterAnimals();
+            });
+          });
+
+          // Filter chips
+          document.querySelectorAll('.rc-filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+              const filterType = this.dataset.filter;
+              const value = this.dataset.value;
+              
+              this.classList.toggle('rc-filter-chip--active');
+              
+              if (this.classList.contains('rc-filter-chip--active')) {
+                if (!activeFilters[filterType].includes(value)) {
+                  activeFilters[filterType].push(value);
+                }
+              } else {
+                activeFilters[filterType] = activeFilters[filterType].filter(v => v !== value);
+              }
+              
+              filterAnimals();
+            });
+          });
+
+          // Clear filters
+          document.getElementById('rc-clear-filters').addEventListener('click', function() {
+            activeFilters = {
+              difficulty: "all",
+              habitat: [],
+              lifespan: [],
+              temperament: [],
+              size: []
+            };
+            
+            // Reset UI
+            document.querySelectorAll('[data-difficulty]').forEach(tab => {
+              tab.classList.remove('rc-tab--active');
+              tab.setAttribute('aria-pressed', 'false');
+            });
+            document.querySelector('[data-difficulty="all"]').classList.add('rc-tab--active');
+            document.querySelector('[data-difficulty="all"]').setAttribute('aria-pressed', 'true');
+            
+            document.querySelectorAll('.rc-filter-chip').forEach(chip => {
+              chip.classList.remove('rc-filter-chip--active');
+            });
+            
+            filterAnimals();
+          });
+
+          // Pagination
+          document.addEventListener('click', function(e) {
+            if (e.target.matches('#rc-prev-btn')) {
+              if (currentPage > 1) {
+                currentPage--;
+                renderPage();
+              }
+            }
+            
+            if (e.target.matches('#rc-next-btn')) {
+              if (currentPage < getTotalPages()) {
+                currentPage++;
+                renderPage();
+              }
+            }
+            
+            if (e.target.matches('.rc-page-num')) {
+              currentPage = parseInt(e.target.dataset.page);
+              renderPage();
+            }
+          });
+        }
 
         // Function to adjust label font size for uniform row heights
         function uniformizeLabelFontSize() {
@@ -454,6 +733,45 @@
               });
             }
           }
+        }
+
+        // ===== INITIALIZATION =====
+        function init() {
+          fetch('data/availability.json')
+            .then(response => response.json())
+            .then(animals => {
+              // Create a lookup map from the JSON
+              const dataMap = {};
+              animals.forEach(row => {
+                dataMap[row['Animal Name']] = row['MorphMarket # of Listings'];
+              });
+              
+              // Build allAnimals array
+              allAnimals = Object.keys(speciesData).map(name => ({
+                name: name,
+                listings: dataMap.hasOwnProperty(name) ? dataMap[name] : null
+              }));
+              
+              setupEventListeners();
+              filterAnimals(); // Initial render
+            })
+            .catch(error => {
+              console.error('Error loading availability data:', error);
+              // Fallback: render without availability data
+              allAnimals = Object.keys(speciesData).map(name => ({
+                name: name,
+                listings: null
+              }));
+              setupEventListeners();
+              filterAnimals();
+            });
+        }
+
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
         }
     </script>
 </body>
