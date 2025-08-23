@@ -1435,7 +1435,7 @@ section {
     /* Improved mobile spacing and layout */
     [data-rc-cg="intro"] {
         padding: 1rem 0.75rem;
-        margin: 0.75rem 0 0.5rem;
+        margin: 0.75rem 0 0.75rem;
         background: transparent !important;
         width: 100%;
         box-sizing: border-box;
@@ -1492,7 +1492,7 @@ section {
     /* Extra small mobile optimizations */
     [data-rc-cg="intro"] {
         padding: 0.75rem 0.5rem;
-        margin: 0.5rem 0 0.25rem;
+        margin: 0.5rem 0 0.5rem;
         background: transparent !important;
         width: 100%;
         box-sizing: border-box;
@@ -1563,7 +1563,7 @@ section {
 }
 
 [data-rc-cg="intro"] {
-    margin: 1rem 0 0.5rem;
+    margin: 1rem 0 1rem;
     text-align: center;
     padding: 1rem 1rem;
 }
@@ -1621,7 +1621,7 @@ section {
     }
     
     [data-rc-cg="intro"] {
-        margin: 1.5rem 0 1rem;
+        margin: 1.5rem 0 1.5rem;
         padding: 1.25rem 1.5rem;
     }
 }
@@ -1632,7 +1632,7 @@ section {
     }
     
     [data-rc-cg="intro"] {
-        margin: 2rem 0 1rem;
+        margin: 2rem 0 2rem;
         padding: 1.5rem 2rem;
     }
 }
