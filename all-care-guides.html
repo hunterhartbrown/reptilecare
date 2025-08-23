@@ -150,13 +150,13 @@
         }
         .care-guide-img-frame {
             width: 100%;
-            height: 90px;
+            height: 110px; /* Increased from 90px to take up more vertical space */
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f4f4f4;
             border-radius: 7px;
-            margin-bottom: 8px;
+            margin-bottom: 6px; /* Reduced from 8px */
             overflow: hidden;
         }
         .care-guide-img {
@@ -188,7 +188,7 @@
         
         /* Bearded Dragon - typically head positioned centrally */
         .care-guide-img[src*="bearded drag trans bg"] {
-            object-position: 50% 35%; /* Center horizontally, eyes toward upper portion */
+            object-position: 50% 25%; /* Center horizontally, moved eyes higher up */
         }
         
         /* Crested Gecko - typically climbing/side pose */
@@ -209,8 +209,8 @@
             font-size: 1.07rem;
             font-weight: 700;
             color: #222;
-            margin: 0 0 7px 0;
-            height: 44px; /* Fixed height to accommodate up to 2 lines */
+            margin: 0 0 5px 0; /* Reduced from 7px */
+            height: 40px; /* Reduced from 44px to save space */
             max-width: 95%;
             display: flex;
             align-items: center;
@@ -233,7 +233,7 @@
         .availability-bar {
             display: flex;
             gap: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 3px; /* Reduced from 5px */
             margin-top: 0;
             justify-content: center;
         }
@@ -248,7 +248,7 @@
         .care-guide-btn-row {
             display: flex;
             gap: 8px;
-            margin-top: 12px;    /* Add more space above buttons */
+            margin-top: 8px;    /* Reduced from 12px to save space */
             margin-bottom: 0;    /* Remove all space below buttons */
             width: 100%;
             justify-content: center;
@@ -361,7 +361,7 @@
             .care-guides-title { font-size: 1.8rem; }
             .care-guides-desc { font-size: 1rem; }
             .care-guide-img-frame { 
-                height: 70px;
+                height: 85px; /* Increased proportionally from 70px */
             }
             .care-guide-label { font-size: 0.95rem; height: 40px; }
             .care-guide-btn {
@@ -574,7 +574,7 @@
                 object-position: 35% 28% !important; /* Slight adjustment for tablet size */
             }
             .care-guide-img[src*="bearded drag trans bg"] {
-                object-position: 50% 33% !important;
+                object-position: 50% 23% !important;
             }
             .care-guide-img[src*="crested gecko trans bg"] {
                 object-position: 40% 23% !important;
@@ -590,7 +590,7 @@
                 margin: 0 !important;
             }
             .care-guide-img-frame {
-                height: 60px !important;
+                height: 75px !important; /* Increased proportionally from 60px */
             }
             .care-guide-label {
                 font-size: 0.85rem !important;
@@ -607,7 +607,7 @@
                 object-position: 35% 25% !important; /* Slightly higher focus for smaller frame */
             }
             .care-guide-img[src*="bearded drag trans bg"] {
-                object-position: 50% 30% !important;
+                object-position: 50% 20% !important;
             }
             .care-guide-img[src*="crested gecko trans bg"] {
                 object-position: 40% 20% !important;
