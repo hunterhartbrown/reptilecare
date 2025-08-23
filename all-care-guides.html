@@ -324,8 +324,17 @@
         <h1 class="care-guides-title">All Care Guides</h1>
         <p class="care-guides-desc">Here you can find all the care guides for various reptiles.</p>
         
+        <!-- rc: care-guides welcoming intro start -->
+        <section data-rc-cg="intro">
+            <h2>Explore clear, science-based care guides</h2>
+            <p>Browse simple, trustworthy info for popular reptiles. Start a habitat plan when you're ready.</p>
+        </section>
+        <!-- rc: care-guides welcoming intro end -->
+        
         <!-- rc: care-guides additive start -->
-        <!-- Two-Column Layout -->
+        <!-- rc: care-guides wrap start -->
+        <div data-rc-cg="wrap">
+            <!-- Two-Column Layout -->
         <div data-rc-cg="layout" class="rc-layout">
             <!-- Sticky Left Sidebar -->
             <aside data-rc-cg="sidebar" class="rc-sidebar" role="complementary" aria-label="Care guide filters">
@@ -393,7 +402,9 @@
 
             <!-- Main Content Area -->
             <div data-rc-cg="grid-wrap" class="rc-grid-wrap">
-                <div class="care-guide-container" id="care-guides-list" data-rc-cg="grid"></div>
+                <div data-rc-cg="grid">
+                    <div class="care-guide-container" id="care-guides-list"></div>
+                </div>
                 
                 <!-- Pagination Controls -->
                 <div data-rc-cg="pagination" class="rc-pagination" id="rc-pagination" style="display: none;">
@@ -406,6 +417,8 @@
                     </button>
                 </div>
             </div>
+        </div>
+        <!-- rc: care-guides wrap end -->
         </div>
         <!-- rc: care-guides additive end -->
     </section>
@@ -554,8 +567,15 @@
             availText = "No Data";
           }
 
+          // Extract rarity level from availability text for the new rarity bar
+          const rarityLevel = availText.includes('Very Common') ? 'very-common' :
+                             availText.includes('Common') ? 'common' :
+                             availText.includes('Uncommon') ? 'uncommon' :
+                             availText.includes('Very Rare') ? 'very-rare' :
+                             availText.includes('Rare') ? 'rare' : '';
+
           return `
-          <div class="care-guide" 
+          <div class="care-guide rc-card" 
                data-animal="${animal}"
                data-rc-difficulty="${info.difficulty}"
                data-rc-habitat="${info.habitat}"
@@ -569,6 +589,10 @@
             <div class="availability-row">
               <div class="availability-bar">${bar}</div>
               <span class="availability-value ${tintClass}">${availText}</span>
+              <div class="rc-rarity ${rarityLevel ? 'rc-rarity--' + rarityLevel : ''}" aria-label="Rarity: ${availText}">
+                <span class="rc-rarity__bar" aria-hidden="true"></span>
+                <span class="rc-rarity__label">${availText}</span>
+              </div>
             </div>
             <div class="care-guide-btn-row">
               <a href="${info.url}" class="care-guide-btn secondary">
@@ -837,6 +861,55 @@
         } else {
           init();
         }
+    </script>
+    
+    <!-- Welcoming Visual Enhancement Script -->
+    <script>
+    (function(){
+      // Find all cards that contain a rarity text; enhance with proper accessibility and fallback handling
+      const cards = document.querySelectorAll('[data-rc-cg="grid"] .rc-card, .care-guide');
+
+      function normalizeLevel(txt){
+        const t = (txt || '').toLowerCase().trim();
+        if (t.includes('very') && t.includes('common')) return 'very-common';
+        if (t.includes('very') && t.includes('rare')) return 'very-rare';
+        if (t.includes('exceedingly') && t.includes('rare')) return 'very-rare';
+        if (t.includes('common')) return 'common';
+        if (t.includes('uncommon')) return 'uncommon';
+        if (t.includes('rare')) return 'rare';
+        return '';
+      }
+
+      cards.forEach(card => {
+        // Try to locate an existing rarity label element
+        const rarityWrapper = card.querySelector('.rc-rarity');
+        if (!rarityWrapper) return;
+
+        const labelNode = rarityWrapper.querySelector('.rc-rarity__label');
+        if (!labelNode) return;
+
+        const rawText = labelNode.textContent || '';
+        const level = normalizeLevel(rawText);
+
+        // Ensure proper accessibility
+        if (level) {
+          rarityWrapper.classList.remove('rc-rarity--very-rare','rc-rarity--rare','rc-rarity--uncommon','rc-rarity--common','rc-rarity--very-common');
+          rarityWrapper.classList.add('rc-rarity--' + level);
+          
+          // Enhance aria-label for better accessibility
+          rarityWrapper.setAttribute('aria-label', `Rarity: ${rawText}`);
+        }
+
+        // Ensure the label text color is neutral
+        labelNode.classList.add('rc-rarity__label');
+        
+        // Ensure bar has proper attributes
+        const bar = rarityWrapper.querySelector('.rc-rarity__bar');
+        if (bar) {
+          bar.setAttribute('aria-hidden', 'true');
+        }
+      });
+    })();
     </script>
 </body>
 </html>
