@@ -328,6 +328,23 @@
         </section>
         <!-- rc: care-guides welcoming intro end -->
         
+        <!-- Mobile Filter Toggle -->
+        <button type="button" data-rc-cg="mobile-filter-toggle" class="rc-mobile-filter-toggle" aria-label="Open filters">
+            <span>Filters</span>
+            <span class="rc-filter-count" id="mobile-filter-count"></span>
+        </button>
+
+        <!-- Mobile Filter Drawer -->
+        <div data-rc-cg="mobile-filter-drawer" class="rc-mobile-filter-drawer" hidden aria-hidden="true">
+            <div class="rc-mobile-filter-header">
+                <h2>Filter Care Guides</h2>
+                <button type="button" data-rc-cg="mobile-filter-close" class="rc-mobile-filter-close" aria-label="Close filters">×</button>
+            </div>
+            <div class="rc-mobile-filter-content">
+                <!-- Mobile filter content will mirror desktop filters -->
+            </div>
+        </div>
+        
         <!-- rc: care-guides additive start -->
         <!-- rc: care-guides wrap start -->
         <div data-rc-cg="wrap">
@@ -501,7 +518,117 @@
           size: []
         };
 
-        // Mobile drawer functionality removed per user request
+        // Mobile filter state
+        let mobileFilterOpen = false;
+
+        // ===== MOBILE FILTER MANAGEMENT =====
+        function setupMobileFilters() {
+          const toggleBtn = document.querySelector('[data-rc-cg="mobile-filter-toggle"]');
+          const drawer = document.querySelector('[data-rc-cg="mobile-filter-drawer"]');
+          const closeBtn = document.querySelector('[data-rc-cg="mobile-filter-close"]');
+          const content = document.querySelector('.rc-mobile-filter-content');
+
+          if (!toggleBtn || !drawer || !closeBtn || !content) return;
+
+          // Populate mobile drawer with desktop filter content
+          function populateDrawer() {
+            const desktopContent = document.querySelector('.rc-sidebar-content');
+            if (desktopContent) {
+              // Clone filter sections only
+              const filterSections = desktopContent.querySelectorAll('.rc-filter-section, .rc-clear-all-btn');
+              content.innerHTML = '';
+              filterSections.forEach(section => {
+                content.appendChild(section.cloneNode(true));
+              });
+              syncFilterStates();
+            }
+          }
+
+          function openDrawer() {
+            mobileFilterOpen = true;
+            drawer.hidden = false;
+            drawer.setAttribute('aria-hidden', 'false');
+            populateDrawer();
+            document.body.style.overflow = 'hidden';
+            closeBtn.focus();
+          }
+
+          function closeDrawer() {
+            mobileFilterOpen = false;
+            drawer.hidden = true;
+            drawer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            toggleBtn.focus();
+          }
+
+          toggleBtn.addEventListener('click', openDrawer);
+          closeBtn.addEventListener('click', closeDrawer);
+
+          // Close on backdrop click
+          drawer.addEventListener('click', function(e) {
+            if (e.target === drawer) {
+              closeDrawer();
+            }
+          });
+
+          // Close on escape key
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileFilterOpen) {
+              closeDrawer();
+            }
+          });
+
+          // Mobile filter interactions
+          content.addEventListener('click', function(e) {
+            if (e.target.matches('.rc-chip[data-filter-type]')) {
+              handleFilterClick(e.target);
+              // Also update desktop filters
+              syncFiltersBetweenMobileAndDesktop(e.target);
+            }
+            if (e.target.matches('.rc-clear-all-btn')) {
+              clearAllFilters();
+            }
+          });
+        }
+
+        function syncFiltersBetweenMobileAndDesktop(mobileChip) {
+          const filterType = mobileChip.dataset.filterType;
+          const filterValue = mobileChip.dataset.filterValue;
+          const isActive = mobileChip.classList.contains('rc-chip--active');
+
+          // Update corresponding desktop filter
+          const desktopChip = document.querySelector(`[data-rc-cg="sidebar"] .rc-chip[data-filter-type="${filterType}"][data-filter-value="${filterValue}"]`);
+          if (desktopChip) {
+            desktopChip.classList.toggle('rc-chip--active', isActive);
+            desktopChip.setAttribute('aria-pressed', isActive);
+          }
+        }
+
+        function syncFilterStates() {
+          // Sync both desktop and mobile filter states
+          document.querySelectorAll('.rc-chip[data-filter-type]').forEach(chip => {
+            const filterType = chip.dataset.filterType;
+            const filterValue = chip.dataset.filterValue;
+            
+            if (filterType === 'difficulty') {
+              const isActive = activeFilters.difficulty === filterValue;
+              chip.classList.toggle('rc-chip--active', isActive);
+              chip.setAttribute('aria-pressed', isActive);
+            } else {
+              const isActive = activeFilters[filterType].includes(filterValue);
+              chip.classList.toggle('rc-chip--active', isActive);
+              chip.setAttribute('aria-pressed', isActive);
+            }
+          });
+        }
+
+        function updateMobileFilterCount() {
+          const count = getActiveFilterCount();
+          const countEl = document.getElementById('mobile-filter-count');
+          if (countEl) {
+            countEl.textContent = count > 0 ? count : '';
+          }
+        }
 
         // ===== STICKY POSITIONING =====
         function updateStickyOffset() {
@@ -621,6 +748,7 @@
           
           currentPage = 1;
           updateResultCount();
+          updateMobileFilterCount();
           renderPage();
         }
 
@@ -682,6 +810,7 @@
             }
           });
           
+          updateMobileFilterCount();
           filterAnimals();
         }
 
@@ -810,6 +939,9 @@
         function init() {
           // Set up sticky positioning
           updateStickyOffset();
+          
+          // Set up mobile filters
+          setupMobileFilters();
           
           fetch('data/availability.json')
             .then(response => response.json())
