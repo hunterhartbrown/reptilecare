@@ -18,7 +18,7 @@
     const DATA_THEME_ATTR = 'data-theme';
 
     // State
-    let currentTheme = THEMES.SYSTEM;
+    let currentTheme = THEMES.LIGHT; // Default to light theme
     let systemPrefersDark = false;
     let mediaQuery = null;
     let isDropdownOpen = false;
@@ -123,23 +123,43 @@
      * Set up dropdown functionality
      */
     function setupDropdown() {
-        // Find dropdown elements
+        // Find dropdown elements (desktop and mobile)
         settingsButton = document.getElementById('settings-button');
         settingsMenu = document.getElementById('settings-menu');
         radioButtons = document.querySelectorAll('input[name="theme"]');
 
-        if (!settingsButton || !settingsMenu || radioButtons.length === 0) {
+        // Also check for mobile elements
+        const mobileSettingsButton = document.getElementById('mobile-settings-button');
+        const mobileSettingsMenu = document.getElementById('mobile-settings-menu');
+        const mobileRadioButtons = document.querySelectorAll('input[name="mobile-theme"]');
+
+        if ((!settingsButton || !settingsMenu || radioButtons.length === 0) && 
+            (!mobileSettingsButton || !mobileSettingsMenu || mobileRadioButtons.length === 0)) {
             console.warn('Theme dropdown elements not found');
             return;
         }
 
-        // Set up button click handler
-        settingsButton.addEventListener('click', toggleDropdown);
-        
-        // Set up radio button handlers
-        radioButtons.forEach(radio => {
-            radio.addEventListener('change', handleThemeChange);
-        });
+        // Set up desktop dropdown
+        if (settingsButton && settingsMenu) {
+            settingsButton.addEventListener('click', toggleDropdown);
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', handleThemeChange);
+            });
+        }
+
+        // Set up mobile dropdown  
+        if (mobileSettingsButton && mobileSettingsMenu) {
+            mobileSettingsButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Mobile dropdown is always visible, just focus first radio
+                const firstRadio = mobileSettingsMenu.querySelector('input[type="radio"]');
+                if (firstRadio) firstRadio.focus();
+            });
+            mobileRadioButtons.forEach(radio => {
+                radio.addEventListener('change', handleThemeChange);
+            });
+        }
 
         // Set up outside click handler
         document.addEventListener('click', handleOutsideClick);
@@ -147,7 +167,7 @@
         // Set up escape key handler
         document.addEventListener('keydown', handleKeydown);
 
-        // Set initial radio button state
+        // Set initial radio button state for both desktop and mobile
         updateRadioButtons();
     }
 
@@ -215,7 +235,15 @@
      * Update radio button states to match current theme
      */
     function updateRadioButtons() {
-        radioButtons.forEach(radio => {
+        // Update desktop radio buttons
+        const desktopRadios = document.querySelectorAll('input[name="theme"]');
+        desktopRadios.forEach(radio => {
+            radio.checked = (radio.value === currentTheme);
+        });
+
+        // Update mobile radio buttons
+        const mobileRadios = document.querySelectorAll('input[name="mobile-theme"]');
+        mobileRadios.forEach(radio => {
             radio.checked = (radio.value === currentTheme);
         });
     }

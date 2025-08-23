@@ -5,25 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leopard Gecko Care Guide</title>
 
+  <!-- FOUC Prevention - Theme Bootstrap -->
+  <script>
+  (function() {
+      try {
+          const theme = localStorage.getItem('theme');
+          
+          if (theme === 'light') {
+              document.documentElement.setAttribute('data-theme', 'light');
+          } else if (theme === 'dark') {
+              document.documentElement.setAttribute('data-theme', 'dark');
+          } else if (!theme) {
+              // Default to light theme if no preference is set
+              document.documentElement.setAttribute('data-theme', 'light');
+          }
+          // For system theme, let CSS media queries handle it
+      } catch (e) {
+          // Silent fail - default to light theme
+          document.documentElement.setAttribute('data-theme', 'light');
+      }
+  })();
+  </script>
+
   <!-- Link to your main stylesheet for .logo, .login, .signup, etc. -->
   <link rel="stylesheet" href="styles.css">
 
   <style>
     body {
-      background-color: #ffffff;
+      background-color: var(--bg);
+      color: var(--text);
       margin: 0;
       padding: 0;
     }
     
     header {
-      background-color: #ffffff;
+      background-color: var(--bg);
       width: 100%;
       height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 4px var(--shadow);
       position: fixed;
       top: 0;
       z-index: 1000;
@@ -33,8 +56,8 @@
       padding: 100px 20px 20px;
       max-width: 800px;
       margin: 0 auto;
-      background-color: #f8f8f8;
-      color: #0f0f0f;
+      background-color: var(--bg-elev);
+      color: var(--text);
     }
 
     .care-guide-content h1 {
@@ -43,6 +66,7 @@
       font-weight: bold;
       margin-top: 0;
       margin-bottom: 10px;
+      color: var(--text);
     }
 
     .care-guide-content img {
@@ -61,13 +85,13 @@
     }
 
     .care-guide-content a {
-      color: #0f0f0f;
+      color: var(--link);
       font-weight: bold;
       text-decoration: underline;
     }
 
     .care-guide-content a:hover {
-      color: #333;
+      color: var(--link-hover);
     }
 
     .button-row {
@@ -270,8 +294,23 @@
   </section>
 
   <div id="main-footer"></div>
+  
+  <!-- Include header with navigation and theme controls -->
+  <script>
+    // Load header content
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.body.insertAdjacentHTML('afterbegin', data);
+      })
+      .catch(error => console.warn('Could not load header:', error));
+  </script>
+  
   <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
   <script src="js/mobile-menu.js"></script>
+  
+  <!-- Theme management script -->
+  <script src="js/theme.js"></script>
   <script>
     // Simple accordion toggle
     function toggleSection(sectionId) {

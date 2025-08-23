@@ -38,7 +38,7 @@ cat > js/theme.js << 'EOF'
     const DATA_THEME_ATTR = 'data-theme';
 
     // State
-    let currentTheme = THEMES.SYSTEM;
+    let currentTheme = THEMES.LIGHT; // Default to light theme
     let systemPrefersDark = false;
     let mediaQuery = null;
     let isDropdownOpen = false;
@@ -383,16 +383,19 @@ EOF
 (function() {
     try {
         const theme = localStorage.getItem('theme');
-        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         
         if (theme === 'light') {
             document.documentElement.setAttribute('data-theme', 'light');
         } else if (theme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
+        } else if (!theme) {
+            // Default to light theme if no preference is set
+            document.documentElement.setAttribute('data-theme', 'light');
         }
-        // For system theme or no theme, let CSS media queries handle it
+        // For system theme, let CSS media queries handle it
     } catch (e) {
-        // Silent fail - CSS defaults will apply
+        // Silent fail - default to light theme
+        document.documentElement.setAttribute('data-theme', 'light');
     }
 })();
 </script>

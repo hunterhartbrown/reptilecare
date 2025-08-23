@@ -64,9 +64,13 @@
     --dot-active: #0f0f0f;
 }
 
-/* System dark theme fallback */
+/* System dark theme fallback - only applies when user explicitly chooses system AND system prefers dark */
+:root:not([data-theme]) {
+    color-scheme: light;
+}
+
 @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme]) {
         /* Background colors */
         --bg: #1a1a1a;
         --bg-elev: #2d2d2d;
