@@ -1312,9 +1312,9 @@ section {
 }
 
 [data-rc-cg="intro"] {
-    margin: 2rem 0 1rem;
+    margin: 1rem 0 0.5rem;
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
 }
 
 [data-rc-cg="intro"] h1 {
@@ -1358,55 +1358,7 @@ section {
     background: transparent;
 }
 
-/* Rarity component: bar-only color; text stays neutral */
-.rc-rarity {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.4rem;
-}
-
-.rc-rarity__bar {
-    display: inline-block;
-    width: 64px;
-    height: 8px;
-    border-radius: 9999px;
-    background: #ddd;
-    flex: 0 0 64px;
-}
-
-.rc-rarity__label {
-    color: #4a5568;
-    font-size: 0.9rem;
-    font-weight: 500;
-    /* Stays neutral; no color overrides */
-}
-
-/* Rarity levels (apply to .rc-rarity container; affect only the bar) */
-.rc-rarity.rc-rarity--very-rare .rc-rarity__bar {
-    background: #8a2be2;
-}
-
-.rc-rarity.rc-rarity--rare .rc-rarity__bar {
-    background: #d97706;
-}
-
-.rc-rarity.rc-rarity--uncommon .rc-rarity__bar {
-    background: #22c55e;
-}
-
-.rc-rarity.rc-rarity--common .rc-rarity__bar {
-    background: #3b82f6;
-}
-
-.rc-rarity.rc-rarity--very-common .rc-rarity__bar {
-    background: #06b6d4;
-}
-
-/* Hide the old availability text since we now have the new rarity component */
-[data-rc-cg="grid"] .availability-value {
-    display: none;
-}
+/* Rarity system removed - restored to original availability display */
 
 /* Responsive tweaks */
 @media (min-width: 768px) {
@@ -1415,8 +1367,8 @@ section {
     }
     
     [data-rc-cg="intro"] {
-        margin: 2.5rem 0 1.5rem;
-        padding: 2.5rem 1.5rem;
+        margin: 1.5rem 0 1rem;
+        padding: 1.25rem 1.5rem;
     }
 }
 
@@ -1426,7 +1378,7 @@ section {
     }
     
     [data-rc-cg="intro"] {
-        margin: 3rem 0 2rem;
-        padding: 3rem 2rem;
+        margin: 2rem 0 1rem;
+        padding: 1.5rem 2rem;
     }
 }
