@@ -114,20 +114,24 @@
             color: #ffffff; /* Ensure description is white on dark background */
         }
         .care-guide-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px 14px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 10px;
+            box-sizing: border-box;
         }
         .care-guide {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            width: 210px;
-            min-width: 180px;
-            max-width: 250px;
-            /* min-height: 320px;  REMOVE THIS LINE */
+            width: 100%;
+            max-width: 280px; /* Prevent cards from getting too wide */
+            min-width: 200px; /* Ensure minimum readable size */
             padding: 10px 12px 10px 12px;
             background: #fff;
             border: 1px solid #ddd;
@@ -136,6 +140,7 @@
             text-decoration: none;
             transition: box-shadow 0.2s, transform 0.18s;
             position: relative;
+            box-sizing: border-box;
         }
         .care-guide:focus,
         .care-guide:hover {
@@ -247,56 +252,117 @@
             color: #fff;
             border: 1.3px solid #0f0f0f;
         }
-        @media (max-width: 900px) {
+        /* Comprehensive responsive design for all screen sizes */
+        
+        /* Extra large screens - 6 columns max */
+        @media (min-width: 1600px) {
             .care-guide-container {
-                gap: 15px 5px;
-            }
-            .care-guide {
-                width: 43vw;
-                min-width: 110px;
-                max-width: 230px;
-                /* min-height: 175px; REMOVE THIS TOO IF PRESENT */
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                max-width: 1600px;
+                gap: 24px;
+                padding: 0 20px;
             }
         }
-        @media (max-width: 600px) {
-            .care-guides {
-                padding: 84px 2px 8px 2px;
-            }
+        
+        /* Large screens - 4-5 columns */
+        @media (max-width: 1599px) and (min-width: 1200px) {
             .care-guide-container {
-                gap: 10px 0;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                max-width: 1400px;
+                gap: 20px;
+                padding: 0 15px;
+            }
+        }
+        
+        /* Medium large screens - 3-4 columns */
+        @media (max-width: 1199px) and (min-width: 900px) {
+            .care-guide-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 18px;
+                padding: 0 12px;
             }
             .care-guide {
-                width: 92vw;
-                min-width: 90px;
-                max-width: 98vw;
-                padding: 8px 2px 8px 2px;
-                /* min-height: 175px; REMOVE THIS TOO IF PRESENT */
+                max-width: 300px;
+                min-width: 180px;
             }
-            .care-guides-title { font-size: 1.25rem; }
-            .care-guides-desc { font-size: 0.98rem; }
+        }
+        
+        /* Tablet screens - 2-3 columns */
+        @media (max-width: 899px) and (min-width: 600px) {
+            .care-guide-container {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+                padding: 0 10px;
+            }
+            .care-guide {
+                max-width: 280px;
+                min-width: 160px;
+                padding: 8px 10px;
+            }
+            .care-guides-title { font-size: 2rem; }
+            .care-guides-desc { font-size: 1.1rem; }
+        }
+        
+        /* Small tablet/large mobile - 2 columns */
+        @media (max-width: 599px) and (min-width: 400px) {
+            .care-guides {
+                padding: 100px 4px 12px;
+            }
+            .care-guide-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 0 8px;
+            }
+            .care-guide {
+                max-width: none;
+                min-width: 140px;
+                padding: 8px 6px;
+            }
+            .care-guides-title { font-size: 1.8rem; }
+            .care-guides-desc { font-size: 1rem; }
             .care-guide-img-frame { 
-                height: 0;
-                padding-bottom: 42.86%; /* This maintains the same 2.33:1 aspect ratio as desktop (90px/210px) */
-                position: relative;
+                height: 70px;
             }
-            .care-guide-img {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-            .availability-segment { width: 9px; height: 6px; }
-            .care-guide-label { min-height: 20px; font-size: 0.99rem; }
+            .care-guide-label { font-size: 0.95rem; height: 40px; }
             .care-guide-btn {
-                width: 42vw;
-                min-width: 45px;
-                font-size: 0.96rem;
-                padding: 5px 0 5px 0;
+                font-size: 0.85rem;
+                padding: 4px 2px;
+            }
+            .availability-segment { width: 8px; height: 5px; }
+        }
+        
+        /* Small mobile - 1 column */
+        @media (max-width: 399px) {
+            .care-guides {
+                padding: 90px 2px 12px;
+            }
+            .care-guide-container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 0 4px;
+            }
+            .care-guide {
+                max-width: none;
+                min-width: 0;
+                width: 100%;
+                padding: 6px 4px;
+            }
+            .care-guides-title { font-size: 1.5rem; }
+            .care-guides-desc { font-size: 0.9rem; }
+            .care-guide-img-frame { 
+                height: 60px;
+            }
+            .care-guide-label { font-size: 0.9rem; height: 35px; }
+            .care-guide-btn {
+                font-size: 0.8rem;
+                padding: 4px 2px;
+                width: 45%;
             }
             .care-guide-btn-row {
-                margin-top: 8px;
+                margin-top: 6px;
+                gap: 4px;
             }
+            .availability-segment { width: 6px; height: 4px; }
         }
         .availability-segment {
             width: 13px;
@@ -349,6 +415,39 @@
             background: #ffffff !important;
             border: 2px solid #ddd !important;
             color: #0f0f0f !important;
+        }
+        
+        /* Additional responsive overrides for extreme sizes */
+        @media (max-width: 320px) {
+            .care-guide-container {
+                padding: 0 2px !important;
+                gap: 8px !important;
+            }
+            .care-guide {
+                padding: 4px 2px !important;
+                min-width: 0 !important;
+                width: calc(100vw - 8px) !important;
+                max-width: calc(100vw - 8px) !important;
+            }
+            .care-guides {
+                padding: 85px 1px 12px !important;
+            }
+        }
+        
+        @media (min-width: 2000px) {
+            .care-guide-container {
+                max-width: 1800px !important;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+                gap: 30px !important;
+            }
+        }
+        
+        /* Ensure grid layout overrides external styles */
+        [data-rc-cg="grid"] .care-guide-container {
+            display: grid !important;
+            background: #ffffff !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
         }
         
         /* Ensure all text elements in the main content area use proper colors */
