@@ -325,71 +325,111 @@
         <p class="care-guides-desc">Here you can find all the care guides for various reptiles.</p>
         
         <!-- rc: care-guides additive start -->
-        <!-- Difficulty Tabs -->
-        <div data-rc-cg="tabs" class="rc-difficulty-tabs">
-            <button type="button" class="rc-tab rc-tab--active" data-difficulty="all" aria-pressed="true">All</button>
-            <button type="button" class="rc-tab" data-difficulty="beginner" aria-pressed="false">Beginner</button>
-            <button type="button" class="rc-tab" data-difficulty="intermediate" aria-pressed="false">Intermediate</button>
-            <button type="button" class="rc-tab" data-difficulty="advanced" aria-pressed="false">Advanced</button>
+        <!-- Mobile Filters Toggle Button -->
+        <button type="button" data-rc-cg="filters-toggle" class="rc-filters-toggle" aria-label="Open filters">
+            <span class="rc-filters-toggle-text">Filters</span>
+            <span class="rc-filters-toggle-count" id="rc-active-filter-count"></span>
+        </button>
+
+        <!-- Mobile Filters Drawer -->
+        <div data-rc-cg="sidebar-panel" class="rc-sidebar-panel" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Filters">
+            <div class="rc-sidebar-panel-header">
+                <h2 class="rc-sidebar-panel-title">Filters</h2>
+                <button type="button" data-rc-cg="panel-close" class="rc-panel-close" aria-label="Close filters">×</button>
+            </div>
+            <div class="rc-sidebar-panel-content">
+                <!-- Mobile filters content will be populated by JS -->
+            </div>
         </div>
 
-        <!-- Filters Panel -->
-        <div data-rc-cg="filters" class="rc-filters-panel">
-            <div class="rc-filter-group">
-                <label class="rc-filter-label">Habitat:</label>
-                <div class="rc-filter-options">
-                    <button type="button" class="rc-filter-chip" data-filter="habitat" data-value="arid">Arid</button>
-                    <button type="button" class="rc-filter-chip" data-filter="habitat" data-value="tropical">Tropical</button>
-                    <button type="button" class="rc-filter-chip" data-filter="habitat" data-value="temperate">Temperate</button>
+        <!-- Two-Column Layout -->
+        <div data-rc-cg="layout" class="rc-layout">
+            <!-- Sticky Left Sidebar -->
+            <aside data-rc-cg="sidebar" class="rc-sidebar" role="complementary" aria-label="Care guide filters">
+                <div class="rc-sidebar-content">
+                    <h2 class="rc-sidebar-title">Filters</h2>
+                    
+                    <!-- Result Count -->
+                    <div class="rc-result-count" aria-live="polite" id="rc-result-count">Loading...</div>
+                    
+                    <!-- Difficulty Filter -->
+                    <div class="rc-filter-section">
+                        <h3 class="rc-filter-section-title">Difficulty</h3>
+                        <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip rc-chip--active" data-filter-type="difficulty" data-filter-value="all" aria-pressed="true">All</button>
+                            <button type="button" class="rc-chip" data-filter-type="difficulty" data-filter-value="beginner" aria-pressed="false">Beginner</button>
+                            <button type="button" class="rc-chip" data-filter-type="difficulty" data-filter-value="intermediate" aria-pressed="false">Intermediate</button>
+                            <button type="button" class="rc-chip" data-filter-type="difficulty" data-filter-value="advanced" aria-pressed="false">Advanced</button>
+                        </div>
+                    </div>
+
+                    <!-- Habitat Filter -->
+                    <div class="rc-filter-section">
+                        <h3 class="rc-filter-section-title">Habitat</h3>
+                        <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="arid" aria-pressed="false">Arid</button>
+                            <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="tropical" aria-pressed="false">Tropical</button>
+                            <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="temperate" aria-pressed="false">Temperate</button>
+                        </div>
+                    </div>
+
+                    <!-- Lifespan Filter -->
+                    <div class="rc-filter-section">
+                        <h3 class="rc-filter-section-title">Lifespan</h3>
+                        <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="short" aria-pressed="false">5-10 years</button>
+                            <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="medium" aria-pressed="false">10-15 years</button>
+                            <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="long" aria-pressed="false">15+ years</button>
+                        </div>
+                    </div>
+
+                    <!-- Temperament Filter -->
+                    <div class="rc-filter-section">
+                        <h3 class="rc-filter-section-title">Temperament</h3>
+                        <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="docile" aria-pressed="false">Docile</button>
+                            <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="moderate" aria-pressed="false">Moderate</button>
+                            <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="defensive" aria-pressed="false">Defensive</button>
+                        </div>
+                    </div>
+
+                    <!-- Size Filter -->
+                    <div class="rc-filter-section">
+                        <h3 class="rc-filter-section-title">Size</h3>
+                        <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="small" aria-pressed="false">Small (&lt; 8")</button>
+                            <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="medium" aria-pressed="false">Medium (8-18")</button>
+                            <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="large" aria-pressed="false">Large (18"+)</button>
+                        </div>
+                    </div>
+
+                    <!-- Clear All Button -->
+                    <button type="button" class="rc-clear-all-btn" id="rc-clear-all-filters">Clear All Filters</button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div data-rc-cg="grid-wrap" class="rc-grid-wrap">
+                <div class="care-guide-container" id="care-guides-list" data-rc-cg="grid"></div>
+                
+                <!-- Pagination Controls -->
+                <div data-rc-cg="pagination" class="rc-pagination" id="rc-pagination" style="display: none;">
+                    <button type="button" class="rc-page-btn rc-page-prev" id="rc-prev-btn" aria-label="Previous page">
+                        ‹ Prev
+                    </button>
+                    <div class="rc-page-numbers" id="rc-page-numbers"></div>
+                    <button type="button" class="rc-page-btn rc-page-next" id="rc-next-btn" aria-label="Next page">
+                        Next ›
+                    </button>
                 </div>
             </div>
-            <div class="rc-filter-group">
-                <label class="rc-filter-label">Lifespan:</label>
-                <div class="rc-filter-options">
-                    <button type="button" class="rc-filter-chip" data-filter="lifespan" data-value="short">5-10 years</button>
-                    <button type="button" class="rc-filter-chip" data-filter="lifespan" data-value="medium">10-15 years</button>
-                    <button type="button" class="rc-filter-chip" data-filter="lifespan" data-value="long">15+ years</button>
-                </div>
-            </div>
-            <div class="rc-filter-group">
-                <label class="rc-filter-label">Temperament:</label>
-                <div class="rc-filter-options">
-                    <button type="button" class="rc-filter-chip" data-filter="temperament" data-value="docile">Docile</button>
-                    <button type="button" class="rc-filter-chip" data-filter="temperament" data-value="moderate">Moderate</button>
-                    <button type="button" class="rc-filter-chip" data-filter="temperament" data-value="defensive">Defensive</button>
-                </div>
-            </div>
-            <div class="rc-filter-group">
-                <label class="rc-filter-label">Size:</label>
-                <div class="rc-filter-options">
-                    <button type="button" class="rc-filter-chip" data-filter="size" data-value="small">Small (< 8")</button>
-                    <button type="button" class="rc-filter-chip" data-filter="size" data-value="medium">Medium (8-18")</button>
-                    <button type="button" class="rc-filter-chip" data-filter="size" data-value="large">Large (18"+ )</button>
-                </div>
-            </div>
-            <button type="button" class="rc-clear-filters" id="rc-clear-filters">Clear All Filters</button>
-        </div>
-        <!-- rc: care-guides additive end -->
-        
-        <div class="care-guide-container" id="care-guides-list" data-rc-cg="grid"></div>
-        
-        <!-- rc: care-guides additive start -->
-        <!-- Pagination Controls -->
-        <div data-rc-cg="pagination" class="rc-pagination" id="rc-pagination" style="display: none;">
-            <button type="button" class="rc-page-btn rc-page-prev" id="rc-prev-btn" aria-label="Previous page">
-                ‹ Prev
-            </button>
-            <div class="rc-page-numbers" id="rc-page-numbers"></div>
-            <button type="button" class="rc-page-btn rc-page-next" id="rc-next-btn" aria-label="Next page">
-                Next ›
-            </button>
         </div>
         <!-- rc: care-guides additive end -->
     </section>
     <div id="main-footer"></div>
     <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
     <script src="js/mobile-menu.js"></script>
-    <!-- Enhanced Care Guides Script -->
+    <!-- Enhanced Care Guides with Sidebar Script -->
     <script>
         // ===== CONFIGURATION =====
         const PAGE_SIZE = 24;
@@ -469,6 +509,19 @@
           size: []
         };
 
+        // Mobile drawer state
+        let mobileDrawerOpen = false;
+        let focusableElements = [];
+        let firstFocusableElement = null;
+        let lastFocusableElement = null;
+
+        // ===== STICKY POSITIONING =====
+        function updateStickyOffset() {
+          const header = document.querySelector('header') || document.querySelector('#main-header');
+          const offset = header ? (header.getBoundingClientRect().height + 16) : 16;
+          document.documentElement.style.setProperty('--rc-sticky-top', `${offset}px`);
+        }
+
         // ===== UTILITY FUNCTIONS =====
         function getAvailability(listings) {
           for (let t of thresholds) {
@@ -482,6 +535,32 @@
           if (listings >= AVAILABILITY_THRESHOLDS.high) return 'rc-badge--high';
           if (listings >= AVAILABILITY_THRESHOLDS.medium) return 'rc-badge--med';
           return 'rc-badge--low';
+        }
+
+        function getActiveFilterCount() {
+          let count = 0;
+          if (activeFilters.difficulty !== "all") count++;
+          count += activeFilters.habitat.length;
+          count += activeFilters.lifespan.length;
+          count += activeFilters.temperament.length;
+          count += activeFilters.size.length;
+          return count;
+        }
+
+        function updateFilterCount() {
+          const count = getActiveFilterCount();
+          const countEl = document.getElementById('rc-active-filter-count');
+          if (countEl) {
+            countEl.textContent = count > 0 ? count : '';
+          }
+        }
+
+        function updateResultCount() {
+          const count = filteredAnimals.length;
+          const countEl = document.getElementById('rc-result-count');
+          if (countEl) {
+            countEl.textContent = `${count} result${count !== 1 ? 's' : ''}`;
+          }
         }
 
         // ===== CARD BUILDING =====
@@ -537,6 +616,122 @@
           `;
         }
 
+        // ===== MOBILE DRAWER MANAGEMENT =====
+        function populateMobileDrawer() {
+          const mobileContent = document.querySelector('.rc-sidebar-panel-content');
+          const desktopContent = document.querySelector('.rc-sidebar-content');
+          if (mobileContent && desktopContent) {
+            // Clone the filter sections to mobile drawer
+            const filterSections = desktopContent.querySelectorAll('.rc-filter-section, .rc-clear-all-btn');
+            mobileContent.innerHTML = '';
+            filterSections.forEach(section => {
+              mobileContent.appendChild(section.cloneNode(true));
+            });
+          }
+        }
+
+        function setupMobileDrawer() {
+          const toggleBtn = document.querySelector('[data-rc-cg="filters-toggle"]');
+          const drawer = document.querySelector('[data-rc-cg="sidebar-panel"]');
+          const closeBtn = document.querySelector('[data-rc-cg="panel-close"]');
+
+          if (!toggleBtn || !drawer || !closeBtn) return;
+
+          function openDrawer() {
+            mobileDrawerOpen = true;
+            drawer.hidden = false;
+            drawer.setAttribute('aria-hidden', 'false');
+            
+            // Populate drawer with current filter state
+            populateMobileDrawer();
+            syncFilterStates();
+            setupMobileEventListeners();
+            
+            // Set up focus trap
+            focusableElements = drawer.querySelectorAll(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            firstFocusableElement = focusableElements[0];
+            lastFocusableElement = focusableElements[focusableElements.length - 1];
+            
+            if (firstFocusableElement) {
+              firstFocusableElement.focus();
+            }
+          }
+
+          function closeDrawer() {
+            mobileDrawerOpen = false;
+            drawer.hidden = true;
+            drawer.setAttribute('aria-hidden', 'true');
+            toggleBtn.focus();
+          }
+
+          function handleKeydown(e) {
+            if (!mobileDrawerOpen) return;
+
+            if (e.key === 'Escape') {
+              closeDrawer();
+              return;
+            }
+
+            if (e.key === 'Tab') {
+              if (e.shiftKey) {
+                if (document.activeElement === firstFocusableElement) {
+                  e.preventDefault();
+                  lastFocusableElement.focus();
+                }
+              } else {
+                if (document.activeElement === lastFocusableElement) {
+                  e.preventDefault();
+                  firstFocusableElement.focus();
+                }
+              }
+            }
+          }
+
+          toggleBtn.addEventListener('click', openDrawer);
+          closeBtn.addEventListener('click', closeDrawer);
+          
+          // Close on backdrop click
+          drawer.addEventListener('click', function(e) {
+            if (e.target === drawer) {
+              closeDrawer();
+            }
+          });
+
+          document.addEventListener('keydown', handleKeydown);
+        }
+
+        function syncFilterStates() {
+          // Sync desktop and mobile filter states
+          document.querySelectorAll('.rc-chip').forEach(chip => {
+            const filterType = chip.dataset.filterType;
+            const filterValue = chip.dataset.filterValue;
+            
+            if (filterType === 'difficulty') {
+              const isActive = activeFilters.difficulty === filterValue;
+              chip.classList.toggle('rc-chip--active', isActive);
+              chip.setAttribute('aria-pressed', isActive);
+            } else {
+              const isActive = activeFilters[filterType].includes(filterValue);
+              chip.classList.toggle('rc-chip--active', isActive);
+              chip.setAttribute('aria-pressed', isActive);
+            }
+          });
+        }
+
+        function setupMobileEventListeners() {
+          // Mobile filter event listeners
+          document.querySelector('.rc-sidebar-panel-content').addEventListener('click', function(e) {
+            if (e.target.matches('.rc-chip[data-filter-type]')) {
+              handleFilterClick(e.target);
+            }
+            if (e.target.matches('.rc-clear-all-btn')) {
+              clearAllFilters();
+            }
+          });
+        }
+
         // ===== FILTERING & SORTING =====
         function filterAnimals() {
           filteredAnimals = allAnimals.filter(animal => {
@@ -563,7 +758,64 @@
           filteredAnimals.sort((a, b) => a.name.localeCompare(b.name));
           
           currentPage = 1;
+          updateResultCount();
+          updateFilterCount();
           renderPage();
+        }
+
+        function handleFilterClick(chip) {
+          const filterType = chip.dataset.filterType;
+          const filterValue = chip.dataset.filterValue;
+          
+          if (filterType === 'difficulty') {
+            // Handle difficulty (single select)
+            activeFilters.difficulty = filterValue;
+            
+            // Update all difficulty chips
+            document.querySelectorAll('.rc-chip[data-filter-type="difficulty"]').forEach(c => {
+              const isActive = c.dataset.filterValue === filterValue;
+              c.classList.toggle('rc-chip--active', isActive);
+              c.setAttribute('aria-pressed', isActive);
+            });
+          } else {
+            // Handle multi-select filters
+            const isActive = activeFilters[filterType].includes(filterValue);
+            
+            if (isActive) {
+              // Remove filter
+              activeFilters[filterType] = activeFilters[filterType].filter(v => v !== filterValue);
+              chip.classList.remove('rc-chip--active');
+              chip.setAttribute('aria-pressed', 'false');
+            } else {
+              // Add filter
+              activeFilters[filterType].push(filterValue);
+              chip.classList.add('rc-chip--active');
+              chip.setAttribute('aria-pressed', 'true');
+            }
+            
+            // Sync same filter in other location (desktop/mobile)
+            document.querySelectorAll(`.rc-chip[data-filter-type="${filterType}"][data-filter-value="${filterValue}"]`).forEach(c => {
+              if (c !== chip) {
+                c.classList.toggle('rc-chip--active', !isActive);
+                c.setAttribute('aria-pressed', !isActive);
+              }
+            });
+          }
+          
+          filterAnimals();
+        }
+
+        function clearAllFilters() {
+          activeFilters = {
+            difficulty: "all",
+            habitat: [],
+            lifespan: [],
+            temperament: [],
+            size: []
+          };
+          
+          syncFilterStates();
+          filterAnimals();
         }
 
         // ===== PAGINATION =====
@@ -621,65 +873,14 @@
 
         // ===== EVENT HANDLERS =====
         function setupEventListeners() {
-          // Difficulty tabs
-          document.querySelectorAll('[data-difficulty]').forEach(tab => {
-            tab.addEventListener('click', function() {
-              // Update tab states
-              document.querySelectorAll('[data-difficulty]').forEach(t => {
-                t.classList.remove('rc-tab--active');
-                t.setAttribute('aria-pressed', 'false');
-              });
-              this.classList.add('rc-tab--active');
-              this.setAttribute('aria-pressed', 'true');
-              
-              activeFilters.difficulty = this.dataset.difficulty;
-              filterAnimals();
-            });
-          });
-
-          // Filter chips
-          document.querySelectorAll('.rc-filter-chip').forEach(chip => {
-            chip.addEventListener('click', function() {
-              const filterType = this.dataset.filter;
-              const value = this.dataset.value;
-              
-              this.classList.toggle('rc-filter-chip--active');
-              
-              if (this.classList.contains('rc-filter-chip--active')) {
-                if (!activeFilters[filterType].includes(value)) {
-                  activeFilters[filterType].push(value);
-                }
-              } else {
-                activeFilters[filterType] = activeFilters[filterType].filter(v => v !== value);
-              }
-              
-              filterAnimals();
-            });
-          });
-
-          // Clear filters
-          document.getElementById('rc-clear-filters').addEventListener('click', function() {
-            activeFilters = {
-              difficulty: "all",
-              habitat: [],
-              lifespan: [],
-              temperament: [],
-              size: []
-            };
-            
-            // Reset UI
-            document.querySelectorAll('[data-difficulty]').forEach(tab => {
-              tab.classList.remove('rc-tab--active');
-              tab.setAttribute('aria-pressed', 'false');
-            });
-            document.querySelector('[data-difficulty="all"]').classList.add('rc-tab--active');
-            document.querySelector('[data-difficulty="all"]').setAttribute('aria-pressed', 'true');
-            
-            document.querySelectorAll('.rc-filter-chip').forEach(chip => {
-              chip.classList.remove('rc-filter-chip--active');
-            });
-            
-            filterAnimals();
+          // Desktop sidebar filter chips
+          document.querySelector('[data-rc-cg="sidebar"]').addEventListener('click', function(e) {
+            if (e.target.matches('.rc-chip[data-filter-type]')) {
+              handleFilterClick(e.target);
+            }
+            if (e.target.matches('.rc-clear-all-btn')) {
+              clearAllFilters();
+            }
           });
 
           // Pagination
@@ -703,6 +904,9 @@
               renderPage();
             }
           });
+
+          // Window resize handler for sticky offset
+          window.addEventListener('resize', updateStickyOffset);
         }
 
         // Function to adjust label font size for uniform row heights
@@ -737,6 +941,12 @@
 
         // ===== INITIALIZATION =====
         function init() {
+          // Set up sticky positioning
+          updateStickyOffset();
+          
+          // Set up mobile drawer
+          setupMobileDrawer();
+          
           fetch('data/availability.json')
             .then(response => response.json())
             .then(animals => {
