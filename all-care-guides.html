@@ -494,8 +494,7 @@
           }
         };
 
-        // Cross-link test species (4 representative ones)
-        const crossLinkSpecies = ["Leopard Gecko", "Bearded Dragon", "Crested Gecko", "Eastern Collared Lizard"];
+        // Cross-link test removed per user request
 
         // ===== STATE MANAGEMENT =====
         let allAnimals = [];
@@ -582,11 +581,6 @@
             availText = "No Data";
           }
 
-          // Cross-link test addition
-          const crossLinkHTML = crossLinkSpecies.includes(animal) 
-            ? `<a href="/enclosure-builder.html?reptile=${info.enclosureId}" class="rc-cross-link">Start enclosure plan →</a>` 
-            : '';
-
           return `
           <div class="care-guide" 
                data-animal="${animal}"
@@ -611,7 +605,6 @@
                 Design an Enclosure
               </a>
             </div>
-            ${crossLinkHTML}
           </div>
           `;
         }
