@@ -374,6 +374,20 @@
             color: #0f0f0f !important;
         }
         
+        /* Fix active filter chip text color */
+        .rc-chip--active {
+            background: #0f0f0f !important;
+            border-color: #0f0f0f !important;
+            color: #ffffff !important; /* White text on dark background for active filters */
+        }
+        
+        .rc-chip--active:hover,
+        .rc-chip--active:focus {
+            background: #333 !important;
+            border-color: #333 !important;
+            color: #ffffff !important; /* Maintain white text on hover/focus */
+        }
+        
         footer {
             background-color: #fff;
             color: #0f0f0f;
