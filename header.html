@@ -501,61 +501,6 @@
     
     <!-- Desktop Auth Buttons -->
     <div class="auth-buttons" id="desktop-auth">
-        <!-- BEGIN Settings Insert -->
-        <div class="settings-dropdown">
-            <button 
-                class="settings-button" 
-                id="settings-button"
-                type="button"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                aria-label="Theme settings"
-            >
-                ⚙️
-            </button>
-            <div 
-                class="settings-menu" 
-                id="settings-menu"
-                role="menu"
-                aria-hidden="true"
-                aria-labelledby="settings-button"
-            >
-                <fieldset class="settings-fieldset">
-                    <legend class="settings-legend">Appearance</legend>
-                    <div class="settings-option">
-                        <input 
-                            type="radio" 
-                            id="theme-light" 
-                            name="theme" 
-                            value="light"
-                            role="menuitemradio"
-                        >
-                        <label for="theme-light">Light</label>
-                    </div>
-                    <div class="settings-option">
-                        <input 
-                            type="radio" 
-                            id="theme-dark" 
-                            name="theme" 
-                            value="dark"
-                            role="menuitemradio"
-                        >
-                        <label for="theme-dark">Dark</label>
-                    </div>
-                    <div class="settings-option">
-                        <input 
-                            type="radio" 
-                            id="theme-system" 
-                            name="theme" 
-                            value="system"
-                            role="menuitemradio"
-                        >
-                        <label for="theme-system">System</label>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
-        <!-- END Settings Insert -->
         <button class="login">Log In</button>
         <button class="signup">Sign Up</button>
     </div>
@@ -595,67 +540,8 @@
         
         <!-- Auth Buttons at Bottom -->
         <div class="mobile-auth">
-            <!-- Mobile Settings -->
-            <div class="settings-dropdown">
-                <button 
-                    class="settings-button" 
-                    id="mobile-settings-button"
-                    type="button"
-                    aria-haspopup="menu"
-                    aria-expanded="false"
-                    aria-label="Theme settings"
-                    style="width: 100%; margin-bottom: 12px;"
-                >
-                    ⚙️
-                </button>
-                <div 
-                    class="settings-menu" 
-                    id="mobile-settings-menu"
-                    role="menu"
-                    aria-hidden="true"
-                    aria-labelledby="mobile-settings-button"
-                    style="position: relative; top: 0; right: 0; margin-bottom: 12px; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: 1px solid var(--border);"
-                >
-                    <fieldset class="settings-fieldset">
-                        <legend class="settings-legend">Appearance</legend>
-                        <div class="settings-option">
-                            <input 
-                                type="radio" 
-                                id="mobile-theme-light" 
-                                name="mobile-theme" 
-                                value="light"
-                                role="menuitemradio"
-                            >
-                            <label for="mobile-theme-light">Light</label>
-                        </div>
-                        <div class="settings-option">
-                            <input 
-                                type="radio" 
-                                id="mobile-theme-dark" 
-                                name="mobile-theme" 
-                                value="dark"
-                                role="menuitemradio"
-                            >
-                            <label for="mobile-theme-dark">Dark</label>
-                        </div>
-                        <div class="settings-option">
-                            <input 
-                                type="radio" 
-                                id="mobile-theme-system" 
-                                name="mobile-theme" 
-                                value="system"
-                                role="menuitemradio"
-                            >
-                            <label for="mobile-theme-system">System</label>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
             <button class="login">Log In</button>
             <button class="signup">Sign Up</button>
         </div>
     </div>
 </header>
-
-<!-- Theme management script -->
-<script src="js/theme.js"></script>
