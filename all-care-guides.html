@@ -323,14 +323,83 @@
     <section class="care-guides">
         <h1 class="care-guides-title">All Care Guides</h1>
         <p class="care-guides-desc">Here you can find all the care guides for various reptiles.</p>
-        <div class="care-guide-container" id="care-guides-list"></div>
+        
+        <!-- rc: care-guides additive start -->
+        <!-- Difficulty tabs/chips -->
+        <div data-rc-cg="tabs" class="rc-tabs-container">
+            <button class="rc-tab-btn active" data-difficulty="all" role="button" aria-pressed="true">All</button>
+            <button class="rc-tab-btn" data-difficulty="beginner" role="button" aria-pressed="false">Beginner</button>
+            <button class="rc-tab-btn" data-difficulty="intermediate" role="button" aria-pressed="false">Intermediate</button>
+            <button class="rc-tab-btn" data-difficulty="advanced" role="button" aria-pressed="false">Advanced</button>
+        </div>
+        
+        <!-- Filters panel -->
+        <div data-rc-cg="filters" class="rc-filters-container">
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Habitat:</label>
+                <div class="rc-filter-pills">
+                    <button class="rc-filter-pill" data-filter="habitat" data-value="arid">Arid</button>
+                    <button class="rc-filter-pill" data-filter="habitat" data-value="tropical">Tropical</button>
+                    <button class="rc-filter-pill" data-filter="habitat" data-value="temperate">Temperate</button>
+                </div>
+            </div>
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Lifespan:</label>
+                <div class="rc-filter-pills">
+                    <button class="rc-filter-pill" data-filter="lifespan" data-value="short">5-10 years</button>
+                    <button class="rc-filter-pill" data-filter="lifespan" data-value="medium">10-20 years</button>
+                    <button class="rc-filter-pill" data-filter="lifespan" data-value="long">20+ years</button>
+                </div>
+            </div>
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Temperament:</label>
+                <div class="rc-filter-pills">
+                    <button class="rc-filter-pill" data-filter="temperament" data-value="docile">Docile</button>
+                    <button class="rc-filter-pill" data-filter="temperament" data-value="moderate">Moderate</button>
+                    <button class="rc-filter-pill" data-filter="temperament" data-value="defensive">Defensive</button>
+                </div>
+            </div>
+            <div class="rc-filter-group">
+                <label class="rc-filter-label">Size:</label>
+                <div class="rc-filter-pills">
+                    <button class="rc-filter-pill" data-filter="size" data-value="small">Small (&lt;8")</button>
+                    <button class="rc-filter-pill" data-filter="size" data-value="medium">Medium (8-18")</button>
+                    <button class="rc-filter-pill" data-filter="size" data-value="large">Large (18"+)</button>
+                </div>
+            </div>
+        </div>
+        <!-- rc: care-guides additive end -->
+        
+        <div class="care-guide-container" id="care-guides-list" data-rc-cg="grid"></div>
+        
+        <!-- rc: care-guides additive start -->
+        <!-- Pagination controls -->
+        <div data-rc-cg="pagination" class="rc-pagination-container">
+            <button class="rc-pagination-btn rc-pagination-prev" aria-label="Previous page">← Prev</button>
+            <div class="rc-pagination-numbers"></div>
+            <button class="rc-pagination-btn rc-pagination-next" aria-label="Next page">Next →</button>
+        </div>
+        <!-- rc: care-guides additive end -->
     </section>
     <div id="main-footer"></div>
     <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
     <script src="js/mobile-menu.js"></script>
-    <!-- JSON to Cards Script -->
+    <!-- Care Guides Enhancement Script -->
     <script>
-        // 1. Availability thresholds
+        // ════════════════════════════════════════════════════════════════════════════════
+        // CONFIGURATION
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        // Page size for pagination (configurable)
+        const PAGE_SIZE = 24;
+        
+        // Availability thresholds for status badges
+        const AVAILABILITY_THRESHOLDS = {
+          high: 200,    // >= 200 listings = high availability
+          medium: 50    // >= 50 and < 200 = medium, < 50 = low
+        };
+        
+        // Availability system (existing)
         const thresholds = [
           { min: 1000, label: "Very Common", segments: 5 },
           { min: 200,  label: "Common",      segments: 4 },
@@ -339,55 +408,132 @@
           { min: 5,    label: "Very Rare",   segments: 1 },
           { min: 0,    label: "Exceedingly Rare", segments: 0 }
         ];
+        
         function getAvailability(listings) {
           for (let t of thresholds) {
             if (listings >= t.min) return t;
           }
           return thresholds[thresholds.length - 1];
         }
-        // Map animal name to image + care guide url
+        
+        // Species data mapping (existing + enhanced with metadata)
         const animalInfo = {
           "Leopard Gecko": {
             img: "images/leo trans bg.png",
             url: "/leopard-gecko.html",
-            enclosureId: "leopard-gecko"
+            enclosureId: "leopard-gecko",
+            difficulty: "beginner",
+            habitat: "arid",
+            lifespan: "medium",
+            temperament: "docile",
+            size: "small"
           },
           "Bearded Dragon": {
             img: "images/bearded drag trans bg.png",
             url: "/bearded-dragon.html",
-            enclosureId: "bearded-dragon"
+            enclosureId: "bearded-dragon",
+            difficulty: "beginner",
+            habitat: "arid",
+            lifespan: "medium",
+            temperament: "docile",
+            size: "medium"
           },
           "Crested Gecko": {
             img: "images/crested gecko trans bg.png",
             url: "/crested-gecko.html",
-            enclosureId: "crested-gecko"
+            enclosureId: "crested-gecko",
+            difficulty: "beginner",
+            habitat: "tropical",
+            lifespan: "medium",
+            temperament: "moderate",
+            size: "small"
           },
           "Eastern Collared Lizard": {
             img: "images/collared lizard trans bg.png",
             url: "/eastern-collared-lizard.html",
-            enclosureId: "eastern-collared-lizard"
+            enclosureId: "eastern-collared-lizard",
+            difficulty: "intermediate",
+            habitat: "arid",
+            lifespan: "medium",
+            temperament: "defensive",
+            size: "small"
           }
         };
-        // Build care guide card HTML
-        function buildCareGuideCard(animal, listings, info) {
+        
+        // Test species for cross-link functionality (exactly 4)
+        const CROSS_LINK_TEST_SPECIES = [
+          "Leopard Gecko",
+          "Bearded Dragon", 
+          "Crested Gecko",
+          "Eastern Collared Lizard"
+        ];
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // STATE MANAGEMENT
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        let appState = {
+          animals: [],
+          filteredAnimals: [],
+          currentPage: 1,
+          totalPages: 1,
+          activeDifficulty: 'all',
+          activeFilters: {
+            habitat: [],
+            lifespan: [],
+            temperament: [],
+            size: []
+          },
+          searchTerm: ''
+        };
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // UTILITY FUNCTIONS
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        function getAvailabilityBadgeClass(listings) {
+          if (typeof listings !== 'number' || isNaN(listings)) return '';
+          if (listings >= AVAILABILITY_THRESHOLDS.high) return 'rc-badge--high';
+          if (listings >= AVAILABILITY_THRESHOLDS.medium) return 'rc-badge--medium';
+          return 'rc-badge--low';
+        }
+        
+        function addDataAttributes(cardElement, animal, metadata) {
+          // Add data attributes for filtering/sorting
+          cardElement.setAttribute('data-rc-difficulty', metadata.difficulty || 'beginner');
+          cardElement.setAttribute('data-rc-habitat', metadata.habitat || 'arid');
+          cardElement.setAttribute('data-rc-lifespan', metadata.lifespan || 'medium');
+          cardElement.setAttribute('data-rc-temperament', metadata.temperament || 'docile');
+          cardElement.setAttribute('data-rc-size', metadata.size || 'small');
+          cardElement.setAttribute('data-rc-animal-name', animal.toLowerCase());
+        }
+        
+        function buildCareGuideCard(animal, listings, info, includesCrossLink = false) {
           let bar = '';
           let availText = '';
+          let badgeClass = '';
+          
           if (typeof listings === 'number' && !isNaN(listings)) {
             const availability = getAvailability(listings);
             for (let i = 0; i < 5; ++i)
               bar += `<span class="availability-segment${i < availability.segments ? ' active' : ''}"></span>`;
             availText = `${listings} - ${availability.label}`;
+            badgeClass = getAvailabilityBadgeClass(listings);
           } else {
             // No data: show all inactive segments and "No Data"
             for (let i = 0; i < 5; ++i)
               bar += `<span class="availability-segment"></span>`;
             availText = "No Data";
           }
-          // Card HTML with a class on the label for dynamic sizing
+          
+          // Cross-link for test species
+          const crossLinkHtml = includesCrossLink ? 
+            `<a href="/enclosure-builder.html?reptile=${info.enclosureId}" class="rc-cross-link">Start enclosure plan →</a>` : '';
+          
           return `
-          <div class="care-guide" data-animal="${animal}">
+          <div class="care-guide ${badgeClass}" data-animal="${animal}">
             <div class="care-guide-img-frame">
-              <img src="${info.img}" alt="${animal}" class="care-guide-img" onerror="this.onerror=null;this.src='images/no-image.png';">
+              <img src="${info.img}" alt="${animal}" class="care-guide-img" loading="lazy" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
             <span class="care-guide-label js-animal-label">${animal}</span>
             <div class="availability-row">
@@ -402,47 +548,148 @@
                 Design an Enclosure
               </a>
             </div>
+            ${crossLinkHtml}
           </div>
           `;
         }
-        // Fetch JSON and build cards
-        fetch('data/availability.json')
-          .then(response => response.json())
-          .then(animals => {
-            // Create a lookup map from the JSON
-            const dataMap = {};
-            animals.forEach(row => {
-              dataMap[row['Animal Name']] = row['MorphMarket # of Listings'];
-            });
-            // Now always render ALL animals in animalInfo
-            const container = document.getElementById('care-guides-list');
-            let html = '';
-            Object.entries(animalInfo).forEach(([animal, info]) => {
-              const listings = dataMap.hasOwnProperty(animal) ? dataMap[animal] : null;
-              html += buildCareGuideCard(animal, listings, info);
-            });
-            container.innerHTML = html;
-            // Now dynamically size the animal names for uniformity
-            uniformizeLabelFontSize();
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // FILTERING & SORTING
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        function applyFilters() {
+          let filtered = [...appState.animals];
+          
+          // Apply difficulty filter
+          if (appState.activeDifficulty !== 'all') {
+            filtered = filtered.filter(animal => animal.difficulty === appState.activeDifficulty);
+          }
+          
+          // Apply multi-select filters
+          Object.entries(appState.activeFilters).forEach(([filterType, selectedValues]) => {
+            if (selectedValues.length > 0) {
+              filtered = filtered.filter(animal => 
+                selectedValues.includes(animal[filterType])
+              );
+            }
           });
-
-        // Function to adjust label font size for uniform row heights
+          
+          // Apply search filter
+          if (appState.searchTerm) {
+            const term = appState.searchTerm.toLowerCase();
+            filtered = filtered.filter(animal => 
+              animal.name.toLowerCase().includes(term)
+            );
+          }
+          
+          // Sort alphabetically by name within difficulty groups
+          filtered.sort((a, b) => a.name.localeCompare(b.name));
+          
+          appState.filteredAnimals = filtered;
+          appState.totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+          appState.currentPage = 1; // Reset to first page when filters change
+        }
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // PAGINATION
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        function getCurrentPageAnimals() {
+          const startIndex = (appState.currentPage - 1) * PAGE_SIZE;
+          const endIndex = startIndex + PAGE_SIZE;
+          return appState.filteredAnimals.slice(startIndex, endIndex);
+        }
+        
+        function updatePaginationControls() {
+          const container = document.querySelector('[data-rc-cg="pagination"]');
+          const prevBtn = container.querySelector('.rc-pagination-prev');
+          const nextBtn = container.querySelector('.rc-pagination-next');
+          const numbersContainer = container.querySelector('.rc-pagination-numbers');
+          
+          // Update prev/next buttons
+          prevBtn.disabled = appState.currentPage === 1;
+          nextBtn.disabled = appState.currentPage === appState.totalPages || appState.totalPages === 0;
+          
+          // Update page numbers
+          numbersContainer.innerHTML = '';
+          
+          if (appState.totalPages <= 1) return;
+          
+          // Calculate which page numbers to show
+          const maxVisible = 5;
+          let startPage = Math.max(1, appState.currentPage - Math.floor(maxVisible / 2));
+          let endPage = Math.min(appState.totalPages, startPage + maxVisible - 1);
+          
+          // Adjust start if we're near the end
+          if (endPage - startPage < maxVisible - 1) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+          }
+          
+          for (let i = startPage; i <= endPage; i++) {
+            const btn = document.createElement('button');
+            btn.className = `rc-pagination-number ${i === appState.currentPage ? 'active' : ''}`;
+            btn.textContent = i;
+            btn.setAttribute('aria-label', `Go to page ${i}`);
+            btn.addEventListener('click', () => goToPage(i));
+            numbersContainer.appendChild(btn);
+          }
+        }
+        
+        function goToPage(page) {
+          if (page < 1 || page > appState.totalPages) return;
+          appState.currentPage = page;
+          renderCards();
+          updatePaginationControls();
+          
+          // Scroll to top of grid
+          document.querySelector('[data-rc-cg="grid"]').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // RENDERING
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        function renderCards() {
+          const container = document.getElementById('care-guides-list');
+          const currentAnimals = getCurrentPageAnimals();
+          
+          let html = '';
+          currentAnimals.forEach(animal => {
+            const includesCrossLink = CROSS_LINK_TEST_SPECIES.includes(animal.name);
+            html += buildCareGuideCard(animal.name, animal.listings, animal.info, includesCrossLink);
+          });
+          
+          container.innerHTML = html;
+          
+          // Add data attributes to cards
+          const cards = container.querySelectorAll('.care-guide');
+          cards.forEach((card, index) => {
+            const animal = currentAnimals[index];
+            addDataAttributes(card, animal.name, animal.info);
+          });
+          
+          // Apply uniform label font sizing
+          uniformizeLabelFontSize();
+        }
+        
         function uniformizeLabelFontSize() {
           const labels = document.querySelectorAll('.js-animal-label');
-          let fontSize = 1.07; // Starting font size in rem
-          const minFontSize = 0.78; // Minimum font size in rem
-          const step = 0.02; // Smaller step for more precise adjustment
+          let fontSize = 1.07;
+          const minFontSize = 0.78;
+          const step = 0.02;
 
           labels.forEach(label => {
             label.style.fontSize = fontSize + 'rem';
           });
 
-          // Keep reducing font size until no label overflows
           let hasOverflow = true;
           while (hasOverflow && fontSize > minFontSize) {
             hasOverflow = false;
             labels.forEach(label => {
-              if (label.scrollHeight > 44) { // 44px is our fixed height
+              if (label.scrollHeight > 44) {
                 hasOverflow = true;
               }
             });
@@ -455,6 +702,137 @@
             }
           }
         }
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // EVENT HANDLERS
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        function initializeEventListeners() {
+          // Difficulty tabs
+          document.querySelectorAll('.rc-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+              // Update active state
+              document.querySelectorAll('.rc-tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+              });
+              this.classList.add('active');
+              this.setAttribute('aria-pressed', 'true');
+              
+              // Update state and re-filter
+              appState.activeDifficulty = this.dataset.difficulty;
+              applyFilters();
+              renderCards();
+              updatePaginationControls();
+            });
+          });
+          
+          // Filter pills
+          document.querySelectorAll('.rc-filter-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+              const filterType = this.dataset.filter;
+              const value = this.dataset.value;
+              
+              // Toggle pill state
+              this.classList.toggle('active');
+              
+              // Update active filters
+              if (this.classList.contains('active')) {
+                if (!appState.activeFilters[filterType].includes(value)) {
+                  appState.activeFilters[filterType].push(value);
+                }
+              } else {
+                appState.activeFilters[filterType] = appState.activeFilters[filterType].filter(v => v !== value);
+              }
+              
+              applyFilters();
+              renderCards();
+              updatePaginationControls();
+            });
+          });
+          
+          // Pagination controls
+          document.querySelector('.rc-pagination-prev').addEventListener('click', () => {
+            goToPage(appState.currentPage - 1);
+          });
+          
+          document.querySelector('.rc-pagination-next').addEventListener('click', () => {
+            goToPage(appState.currentPage + 1);
+          });
+          
+          // Search integration (if search input exists)
+          const searchInput = document.querySelector('.search-input');
+          if (searchInput) {
+            searchInput.addEventListener('input', function() {
+              appState.searchTerm = this.value;
+              applyFilters();
+              renderCards();
+              updatePaginationControls();
+            });
+          }
+          
+          // Keyboard accessibility
+          document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('rc-tab-btn') || 
+                e.target.classList.contains('rc-filter-pill') ||
+                e.target.classList.contains('rc-pagination-number') ||
+                e.target.classList.contains('rc-pagination-btn')) {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.target.click();
+              }
+            }
+          });
+        }
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        function initializeApp() {
+          fetch('data/availability.json')
+            .then(response => response.json())
+            .then(animals => {
+              // Create lookup map from JSON
+              const dataMap = {};
+              animals.forEach(row => {
+                dataMap[row['Animal Name']] = row['MorphMarket # of Listings'];
+              });
+              
+              // Build animals array with enhanced metadata
+              appState.animals = Object.entries(animalInfo).map(([name, info]) => ({
+                name: name,
+                listings: dataMap.hasOwnProperty(name) ? dataMap[name] : null,
+                info: info,
+                difficulty: info.difficulty || 'beginner',
+                habitat: info.habitat || 'arid',
+                lifespan: info.lifespan || 'medium', 
+                temperament: info.temperament || 'docile',
+                size: info.size || 'small'
+              }));
+              
+              // Apply initial filters and render
+              applyFilters();
+              renderCards();
+              updatePaginationControls();
+              
+              // Initialize event listeners
+              initializeEventListeners();
+              
+              console.log('Care Guides Enhancement: Initialized successfully');
+            })
+            .catch(error => {
+              console.error('Care Guides Enhancement: Failed to load data', error);
+            });
+        }
+        
+        // Start the app when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+          initializeApp();
+        }
+        
     </script>
 </body>
 </html>

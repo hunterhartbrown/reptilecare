@@ -971,3 +971,313 @@ section {
         font-size: 1.5rem;
     }
 }
+
+/* ────────────── CARE GUIDES ENHANCEMENT STYLES ────────────── */
+
+/* Difficulty Tabs */
+[data-rc-cg="tabs"] {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 24px 0;
+    flex-wrap: wrap;
+}
+
+.rc-tab-btn {
+    padding: 10px 20px;
+    border: 2px solid #333;
+    background: transparent;
+    color: #fff;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.rc-tab-btn:hover, .rc-tab-btn:focus {
+    background: #333;
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.rc-tab-btn.active {
+    background: #fff;
+    color: #0f0f0f;
+    border-color: #fff;
+}
+
+.rc-tab-btn.active:hover {
+    background: #f0f0f0;
+    border-color: #f0f0f0;
+}
+
+/* Filters Panel */
+[data-rc-cg="filters"] {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0 0 32px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rc-filter-group {
+    margin-bottom: 16px;
+}
+
+.rc-filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.rc-filter-label {
+    display: block;
+    color: #fff;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.rc-filter-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.rc-filter-pill {
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #ccc;
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.rc-filter-pill:hover, .rc-filter-pill:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.rc-filter-pill.active {
+    background: #fff;
+    color: #0f0f0f;
+    border-color: #fff;
+}
+
+.rc-filter-pill.active:hover {
+    background: #f0f0f0;
+    border-color: #f0f0f0;
+}
+
+/* Card refinements - reduce black space */
+[data-rc-cg="grid"] {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+/* Availability status badges */
+.rc-badge--high .availability-value {
+    color: #37b24d;
+    font-weight: 600;
+}
+
+.rc-badge--medium .availability-value {
+    color: #fab005;
+    font-weight: 600;
+}
+
+.rc-badge--low .availability-value {
+    color: #fa5252;
+    font-weight: 600;
+}
+
+/* Cross-link test styles */
+.rc-cross-link {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #666;
+    text-decoration: none;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 500;
+    text-align: center;
+    transition: color 0.2s ease;
+}
+
+.rc-cross-link:hover, .rc-cross-link:focus {
+    color: #0f0f0f;
+    text-decoration: underline;
+}
+
+/* Pagination */
+[data-rc-cg="pagination"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.rc-pagination-btn {
+    padding: 10px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.rc-pagination-btn:hover:not(:disabled), .rc-pagination-btn:focus:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.rc-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.rc-pagination-numbers {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.rc-pagination-number {
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    outline: none;
+    min-width: 40px;
+    text-align: center;
+}
+
+.rc-pagination-number:hover, .rc-pagination-number:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.rc-pagination-number.active {
+    background: #fff;
+    color: #0f0f0f;
+    border-color: #fff;
+}
+
+.rc-pagination-number.active:hover {
+    background: #f0f0f0;
+    border-color: #f0f0f0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    [data-rc-cg="filters"] {
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+    
+    .rc-filter-group {
+        margin-bottom: 12px;
+    }
+    
+    .rc-filter-pills {
+        gap: 6px;
+    }
+    
+    .rc-filter-pill {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .rc-tab-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    [data-rc-cg="grid"] {
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+    
+    [data-rc-cg="pagination"] {
+        margin-top: 32px;
+        gap: 8px;
+    }
+    
+    .rc-pagination-btn,
+    .rc-pagination-number {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-width: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-rc-cg="tabs"] {
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+    
+    .rc-tab-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    [data-rc-cg="filters"] {
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+    
+    .rc-filter-pills {
+        gap: 4px;
+    }
+    
+    .rc-filter-pill {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+    
+    [data-rc-cg="grid"] {
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+    
+    [data-rc-cg="pagination"] {
+        margin-top: 24px;
+        gap: 4px;
+    }
+    
+    .rc-pagination-btn,
+    .rc-pagination-number {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        min-width: 32px;
+    }
+}
