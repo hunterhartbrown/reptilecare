@@ -93,8 +93,8 @@
         /* --- Care Guide Styles --- */
         .care-guides {
             padding: 120px 8px 12px;
-            background-color: #ffffff;
-            color: #0f0f0f;
+            background-color: #0f0f0f; /* Changed to match home page dark background */
+            color: #ffffff; /* Changed text color for dark background */
             min-height: 100vh;
         }
         .care-guides-title {
@@ -103,6 +103,7 @@
             font-weight: 700;
             margin: 0 0 8px 0;
             font-family: 'Open Sans', Arial, sans-serif;
+            color: #ffffff; /* Ensure title is white on dark background */
         }
         .care-guides-desc {
             text-align: center;
@@ -110,6 +111,7 @@
             font-weight: 400;
             margin: 0 0 24px 0;
             font-family: 'Open Sans', Arial, sans-serif;
+            color: #ffffff; /* Ensure description is white on dark background */
         }
         .care-guide-container {
             display: flex;
@@ -306,6 +308,72 @@
         .availability-segment.active {
             background: #37b24d;
         }
+        /* Override intro section styles for dark theme */
+        [data-rc-cg="intro"] {
+            background-color: transparent !important; /* Make intro section transparent on dark background */
+            color: #ffffff !important;
+            border-radius: 0 !important;
+            margin: 0.5rem 0 1.5rem !important;
+            padding: 1rem !important;
+        }
+        [data-rc-cg="intro"] h1 {
+            color: #ffffff !important;
+        }
+        [data-rc-cg="intro"] p {
+            color: #cccccc !important; /* Slightly dimmed white for description */
+        }
+        
+        /* Override wrap section to use off-white background like home page */
+        [data-rc-cg="wrap"] {
+            background: #f8f8f8 !important; /* Off-white background like home page species section */
+            margin-top: 0 !important;
+            border-radius: 0 !important;
+            padding: 2rem 1.25rem !important;
+        }
+        
+        /* Update grid background to white */
+        [data-rc-cg="grid"] .care-guide-container {
+            background: #ffffff !important; /* White background for cards container */
+            border-radius: 8px !important;
+        }
+        
+        /* Ensure sidebar matches the design */
+        [data-rc-cg="sidebar"] {
+            background: #ffffff !important; /* White background for sidebar */
+            border: 1px solid #e5e5e5 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Ensure mobile filter elements are styled properly */
+        .rc-mobile-filter-toggle {
+            background: #ffffff !important;
+            border: 2px solid #ddd !important;
+            color: #0f0f0f !important;
+        }
+        
+        /* Ensure all text elements in the main content area use proper colors */
+        [data-rc-cg="wrap"] * {
+            color: #0f0f0f; /* Ensure dark text on light backgrounds */
+        }
+        
+        /* Specifically ensure care guide cards maintain proper styling */
+        .care-guide {
+            background: #fff !important;
+            color: #0f0f0f !important;
+            border: 1px solid #ddd !important;
+        }
+        
+        .care-guide-label {
+            color: #222 !important;
+        }
+        
+        /* Ensure filter elements maintain proper contrast */
+        .rc-sidebar-title, 
+        .rc-filter-section-title,
+        .rc-result-count {
+            color: #0f0f0f !important;
+        }
+        
         footer {
             background-color: #fff;
             color: #0f0f0f;
