@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About ReptileCare - Your Trusted Reptile Care Resource</title>
+    <title>About ReptileCare — Research-Driven Care Guides</title>
+    <meta name="description" content="ReptileCare publishes research-driven reptile care guides and tools. Clear standards, ethical husbandry, and a roadmap for community-reviewed submissions.">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about/about.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ReptileCare",
+      "url": "https://reptilecare.net",
+      "logo": "https://reptilecare.net/images/reptilecarelogo.png"
+    }
+    </script>
     <style>
         /* About page specific styles */
         .about-container {
@@ -215,15 +226,15 @@
 <body>
     <header id="main-header"></header>
 
-    <!-- Warm hero matching home page theme -->
-    <section data-rc-new="hero">
+    <!-- Hero (reuse homepage styles) -->
+    <section data-rc-new="hero" aria-labelledby="about-hero-heading">
         <div class="hero-container">
             <div class="hero-content">
-                <h1>About ReptileCare</h1>
-                <p>We’re a small, friendly team building a welcoming home for reptile keepers. Our goal is simple: make clear, science-based care feel approachable and encouraging—no gatekeeping, just practical help from people who care.</p>
+                <h1 id="about-hero-heading">Research‑driven reptile care.</h1>
+                <p>ReptileCare helps you keep reptiles well with clear, evidence‑based guides and practical tools.</p>
                 <div class="hero-ctas">
-                    <a href="/all-care-guides" class="cta-secondary">Browse Care Guides</a>
-                    <a href="/enclosure-builder" class="cta-primary">Build an Enclosure</a>
+                    <a href="/all-care-guides" class="cta-primary">Browse Care Guides</a>
+                    <a href="/enclosure-builder" class="cta-secondary">Build an Enclosure</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -233,92 +244,48 @@
     </section>
 
     <main class="about-container">
-        <div class="about-header">
-            <h1 class="about-title">Your trusted, friendly care companion</h1>
-            <p class="about-subtitle">Clear information, warm guidance, and tools that make great habitats feel achievable.</p>
-        </div>
 
-        <section class="about-section">
-            <h2 class="section-title">Who we are</h2>
-            <p class="about-text">
-                ReptileCare began as a scrappy passion project and grew into a home for keepers of all kinds. We’re hobbyists, researchers, and makers who believe that good care should feel welcoming, not overwhelming.
-            </p>
-            <p class="about-text">
-                Every article, checklist, and recommendation comes from careful research and real-world experience. We read the studies, test the setups, and share what actually helps animals thrive.
-            </p>
+        <section class="about-section" aria-labelledby="about-purpose">
+            <h2 class="section-title" id="about-purpose">About ReptileCare</h2>
+            <p class="about-text">We publish reptile husbandry guidance that puts research first. We synthesize peer‑reviewed studies, field reports, standards from herpetology groups, and credible keeper data.</p>
+            <ul class="about-list" aria-label="How we produce content">
+                <li>Evidence synthesis. We compare sources and note strength of evidence.</li>
+                <li>Citation hygiene. Every claim traces to a source you can check.</li>
+                <li>Clarity and readability. Short sections. Plain language. Actionable steps.</li>
+            </ul>
         </section>
 
-        <section class="about-section">
-            <h2 class="section-title">Our mission</h2>
-            <p class="about-text">
-                We make reptile care <strong>clear, kind, and practical</strong>. That means guidance you can trust, written in plain language—paired with tools that help you turn knowledge into a healthy, beautiful habitat.
-            </p>
-            <div class="highlight-box">
-                <p class="highlight-text">Evidence‑based guidance, shaped by hands‑on experience—so you can care with confidence.</p>
-            </div>
-            <p class="about-text">
-                Whether you’re starting your first tank or dialing in advanced lighting, we meet you where you are and celebrate progress. Every step forward matters.
-            </p>
+        <section class="about-section" aria-labelledby="ethics-standards">
+            <h2 class="section-title" id="ethics-standards">Ethics & Welfare Standards</h2>
+            <p class="about-text">We advocate captive‑bred animals, sustainable practices, and housing that exceeds bare minimums. UVB and heat are sized to species needs. Enclosures prioritize space, clean gradients, and enrichment that encourages natural behavior.</p>
         </section>
 
-        <section class="about-section">
-            <h2 class="section-title">Everyone is welcome</h2>
-            <p class="about-text">
-                Tiny geckos, giant pythons, first‑time keepers, seasoned herpers—there’s room for you here. Ask questions, explore, and share. We’re a community that learns together.
-            </p>
+        <section class="about-section" aria-labelledby="knowledge-building">
+            <h2 class="section-title" id="knowledge-building">How We Build Knowledge</h2>
+            <p class="about-text">We plan to review community‑submitted care guides and include approved work in our library. Submissions will require sources and editorial review. This is a roadmap item; there is no submission form yet. <!-- TODO: Add "submit a guide" entry point when feature ships. --></p>
         </section>
 
-        <section class="about-section">
-            <h2 class="section-title">What you’ll find on ReptileCare</h2>
-            <p class="about-text">
-                The site is organized into a few friendly places to help you find exactly what you need:
-            </p>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">📚</span>
-                    <h3 class="feature-title">Care Guides</h3>
-                    <p class="feature-description">
-                        Comprehensive, step-by-step guides for caring for a wide range of reptiles. Find detailed information on housing, diet, lighting, heating, and health for various species – all in one place. These guides break down the essentials of reptile husbandry into clear, actionable advice.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🦎</span>
-                    <h3 class="feature-title">Species Profiles</h3>
-                    <p class="feature-description">
-                        In-depth profiles that shine a spotlight on individual reptile species. Each profile highlights an animal's unique traits, natural habitat, behavior, and specific needs. Understanding where your pet comes from helps you appreciate its behaviors and cater to its instincts.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🔧</span>
-                    <h3 class="feature-title">Enclosure Design Tool</h3>
-                    <p class="feature-description">
-                        A one-of-a-kind interactive Enclosure Builder that lets you plan and visualize the perfect habitat for your reptile. Choose the right enclosure size, add lighting and heating elements, pick substrate and decorations, and experiment with different setups safely on-screen.
-                    </p>
-                </div>
-            </div>
-
-            <p class="about-text">We’re always learning and improving. When new research or better practices emerge, we update our guides and tools so you can keep caring with confidence.</p>
+        <section class="about-section" aria-labelledby="faq">
+            <h2 class="section-title" id="faq">FAQ</h2>
+            <details class="about-faq-item">
+                <summary>Where do your recommendations come from?</summary>
+                <p class="about-text">We synthesize peer‑reviewed research, field studies, and credible husbandry standards. When evidence is mixed, we note it clearly.</p>
+            </details>
+            <details class="about-faq-item">
+                <summary>Will you accept user guides?</summary>
+                <p class="about-text">Yes, in the future. We will review submissions for sourcing, clarity, and welfare standards before publishing.</p>
+            </details>
+            <details class="about-faq-item">
+                <summary>Do you take sponsorships?</summary>
+                <p class="about-text">We keep recommendations independent and source‑driven. Products are chosen for fit with welfare standards.</p>
+            </details>
+            <details class="about-faq-item">
+                <summary>How much keeper experience do you have?</summary>
+                <p class="about-text">Our focus is research synthesis over anecdotes. Personal keeper time is a small part of our process.</p>
+            </details>
         </section>
 
-        <!-- Dark band CTA matching home theme -->
-        <section data-rc-new="mid-page-cta">
-            <div class="mid-cta-container">
-                <div class="mid-cta-content">
-                    <h2>We’re here for every keeper—every step of the way.</h2>
-                    <a href="/all-care-guides" class="cta-primary">Explore Care Guides</a>
-                </div>
-            </div>
-        </section>
-
-        <div class="closing-section">
-            <h2 class="closing-title">Our passion for reptiles</h2>
-            <p class="closing-text">We know the joy of a gecko taking food from your hand, or a snake exploring a freshly tuned habitat. That joy is why we’re here—to help you create moments like that, again and again.</p>
-            <br>
-            <p class="closing-text"><strong>Thanks for being part of ReptileCare.</strong> With curiosity and compassion, we can help every reptile thrive.</p>
-        </div>
+        <!-- Remove non-hero CTAs per scope; keep content focused and informational -->
     </main>
 
     <div id="main-footer"></div>

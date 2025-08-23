@@ -1,0 +1,50 @@
+/* Page-scoped styles for About, prefixed with about- */
+
+.about-container {
+    max-width: 1000px;
+}
+
+.about-list {
+    text-align: left;
+    margin: 20px auto 0;
+    padding-left: 1.2rem;
+    max-width: 70ch;
+    color: #0f0f0f;
+}
+
+.about-list li {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.about-faq-item {
+    text-align: left;
+    background: rgba(0,0,0,0.04);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+}
+
+.about-faq-item summary {
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+}
+
+.about-faq-item[open] {
+    background: rgba(0,0,0,0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+    .about-list {
+        color: #eaeaea;
+    }
+    .about-faq-item {
+        background: rgba(255,255,255,0.06);
+    }
+    .about-faq-item[open] {
+        background: rgba(255,255,255,0.1);
+    }
+}
+
+
