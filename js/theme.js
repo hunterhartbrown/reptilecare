@@ -1,6 +1,7 @@
 /**
  * Theme Management System for ReptileCare.net
- * Handles light/dark/system theme preferences with FOUC prevention
+ * Handles light/dark/system theme switching with localStorage persistence
+ * and accessible dropdown controls
  */
 
 (function() {
@@ -13,139 +14,151 @@
         SYSTEM: 'system'
     };
 
-    const STORAGE_KEY = 'reptilecare-theme';
-    
-    // DOM elements (will be populated after DOM loads)
-    let elements = {
-        button: null,
-        dropdown: null,
-        radios: null
-    };
+    const STORAGE_KEY = 'theme';
+    const DATA_THEME_ATTR = 'data-theme';
 
-    // System preference tracking
-    let systemMediaQuery = null;
+    // State
     let currentTheme = THEMES.SYSTEM;
+    let systemPrefersDark = false;
+    let mediaQuery = null;
+    let isDropdownOpen = false;
+
+    // DOM elements (will be populated on init)
+    let settingsButton = null;
+    let settingsMenu = null;
+    let radioButtons = [];
 
     /**
-     * Initialize theme system
+     * Initialize the theme system
      */
     function init() {
-        // Set up system preference listener
-        if (window.matchMedia) {
-            systemMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            systemMediaQuery.addEventListener('change', handleSystemChange);
-        }
-
+        // Set up system preference detection
+        setupSystemPreferenceDetection();
+        
         // Load saved theme preference
-        loadTheme();
+        loadThemePreference();
         
         // Apply initial theme
         applyTheme();
         
-        // Set up UI when DOM is ready
+        // Set up dropdown functionality when DOM is ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setupUI);
+            document.addEventListener('DOMContentLoaded', setupDropdown);
         } else {
-            setupUI();
+            setupDropdown();
         }
     }
 
     /**
-     * Load theme from localStorage or default to system
+     * Set up system color scheme preference detection
      */
-    function loadTheme() {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved && Object.values(THEMES).includes(saved)) {
-                currentTheme = saved;
-            } else {
-                currentTheme = THEMES.SYSTEM;
-            }
-        } catch (e) {
-            console.warn('Failed to load theme preference:', e);
-            currentTheme = THEMES.SYSTEM;
+    function setupSystemPreferenceDetection() {
+        if (window.matchMedia) {
+            mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            systemPrefersDark = mediaQuery.matches;
+            
+            // Listen for changes in system preference
+            mediaQuery.addEventListener('change', handleSystemPreferenceChange);
         }
     }
 
     /**
-     * Save theme to localStorage
+     * Handle changes in system color scheme preference
      */
-    function saveTheme(theme) {
-        try {
-            localStorage.setItem(STORAGE_KEY, theme);
-        } catch (e) {
-            console.warn('Failed to save theme preference:', e);
-        }
-    }
-
-    /**
-     * Apply theme to document
-     */
-    function applyTheme() {
-        const root = document.documentElement;
+    function handleSystemPreferenceChange(e) {
+        systemPrefersDark = e.matches;
         
+        // Only update if currently using system theme
         if (currentTheme === THEMES.SYSTEM) {
-            // Remove explicit theme, let CSS prefers-color-scheme take over
-            root.removeAttribute('data-theme');
-        } else {
-            // Set explicit theme
-            root.setAttribute('data-theme', currentTheme);
-        }
-    }
-
-    /**
-     * Handle system preference change
-     */
-    function handleSystemChange() {
-        if (currentTheme === THEMES.SYSTEM) {
-            // Re-apply system theme to trigger any CSS updates
             applyTheme();
         }
     }
 
     /**
-     * Set up UI elements and event handlers
+     * Load theme preference from localStorage
      */
-    function setupUI() {
-        // Find theme settings elements
-        elements.button = document.querySelector('.theme-settings-btn');
-        elements.dropdown = document.querySelector('.theme-dropdown');
-        elements.radios = document.querySelectorAll('.theme-option input[type="radio"]');
-
-        if (!elements.button || !elements.dropdown || !elements.radios.length) {
-            console.warn('Theme UI elements not found');
-            return;
+    function loadThemePreference() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved && Object.values(THEMES).includes(saved)) {
+                currentTheme = saved;
+            }
+        } catch (error) {
+            console.warn('Failed to load theme preference:', error);
         }
-
-        // Set initial radio state
-        updateRadioSelection();
-
-        // Button click handler
-        elements.button.addEventListener('click', toggleDropdown);
-
-        // Radio change handlers
-        elements.radios.forEach(radio => {
-            radio.addEventListener('change', handleThemeChange);
-        });
-
-        // Close dropdown on outside click
-        document.addEventListener('click', handleOutsideClick);
-
-        // Keyboard handlers
-        document.addEventListener('keydown', handleKeydown);
-        elements.dropdown.addEventListener('keydown', handleDropdownKeydown);
     }
 
     /**
-     * Toggle dropdown visibility
+     * Save theme preference to localStorage
+     */
+    function saveThemePreference() {
+        try {
+            localStorage.setItem(STORAGE_KEY, currentTheme);
+        } catch (error) {
+            console.warn('Failed to save theme preference:', error);
+        }
+    }
+
+    /**
+     * Apply the current theme to the document
+     */
+    function applyTheme() {
+        const root = document.documentElement;
+        
+        switch (currentTheme) {
+            case THEMES.LIGHT:
+                root.setAttribute(DATA_THEME_ATTR, THEMES.LIGHT);
+                break;
+            case THEMES.DARK:
+                root.setAttribute(DATA_THEME_ATTR, THEMES.DARK);
+                break;
+            case THEMES.SYSTEM:
+                // Remove data-theme to let CSS media queries handle it
+                root.removeAttribute(DATA_THEME_ATTR);
+                break;
+        }
+    }
+
+    /**
+     * Set up dropdown functionality
+     */
+    function setupDropdown() {
+        // Find dropdown elements
+        settingsButton = document.getElementById('settings-button');
+        settingsMenu = document.getElementById('settings-menu');
+        radioButtons = document.querySelectorAll('input[name="theme"]');
+
+        if (!settingsButton || !settingsMenu || radioButtons.length === 0) {
+            console.warn('Theme dropdown elements not found');
+            return;
+        }
+
+        // Set up button click handler
+        settingsButton.addEventListener('click', toggleDropdown);
+        
+        // Set up radio button handlers
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', handleThemeChange);
+        });
+
+        // Set up outside click handler
+        document.addEventListener('click', handleOutsideClick);
+        
+        // Set up escape key handler
+        document.addEventListener('keydown', handleKeydown);
+
+        // Set initial radio button state
+        updateRadioButtons();
+    }
+
+    /**
+     * Toggle dropdown open/closed state
      */
     function toggleDropdown(event) {
         event.preventDefault();
         event.stopPropagation();
-
-        const isOpen = elements.dropdown.classList.contains('show');
         
-        if (isOpen) {
+        if (isDropdownOpen) {
             closeDropdown();
         } else {
             openDropdown();
@@ -153,26 +166,30 @@
     }
 
     /**
-     * Open dropdown
+     * Open the dropdown menu
      */
     function openDropdown() {
-        elements.dropdown.classList.add('show');
-        elements.button.setAttribute('aria-expanded', 'true');
-
-        // Focus first radio button
-        const firstRadio = elements.radios[0];
+        isDropdownOpen = true;
+        settingsButton.setAttribute('aria-expanded', 'true');
+        settingsMenu.setAttribute('aria-hidden', 'false');
+        
+        // Focus first radio button for keyboard accessibility
+        const firstRadio = settingsMenu.querySelector('input[type="radio"]');
         if (firstRadio) {
             firstRadio.focus();
         }
     }
 
     /**
-     * Close dropdown
+     * Close the dropdown menu
      */
     function closeDropdown() {
-        elements.dropdown.classList.remove('show');
-        elements.button.setAttribute('aria-expanded', 'false');
-        elements.button.focus();
+        isDropdownOpen = false;
+        settingsButton.setAttribute('aria-expanded', 'false');
+        settingsMenu.setAttribute('aria-hidden', 'true');
+        
+        // Return focus to button
+        settingsButton.focus();
     }
 
     /**
@@ -183,8 +200,9 @@
         
         if (Object.values(THEMES).includes(newTheme)) {
             currentTheme = newTheme;
-            saveTheme(newTheme);
+            saveThemePreference();
             applyTheme();
+            updateRadioButtons();
             
             // Close dropdown after selection
             setTimeout(() => {
@@ -194,149 +212,77 @@
     }
 
     /**
-     * Update radio button selection
+     * Update radio button states to match current theme
      */
-    function updateRadioSelection() {
-        elements.radios.forEach(radio => {
-            radio.checked = radio.value === currentTheme;
+    function updateRadioButtons() {
+        radioButtons.forEach(radio => {
+            radio.checked = (radio.value === currentTheme);
         });
     }
 
     /**
-     * Handle clicks outside dropdown
+     * Handle clicks outside the dropdown
      */
     function handleOutsideClick(event) {
-        if (!elements.dropdown.classList.contains('show')) {
-            return;
-        }
-
-        const isClickInside = elements.dropdown.contains(event.target) || 
-                             elements.button.contains(event.target);
+        if (!isDropdownOpen) return;
         
-        if (!isClickInside) {
+        const dropdown = settingsButton.closest('.settings-dropdown');
+        if (dropdown && !dropdown.contains(event.target)) {
             closeDropdown();
         }
     }
 
     /**
-     * Handle global keyboard events
+     * Handle keyboard navigation
      */
     function handleKeydown(event) {
-        // Escape key closes dropdown
-        if (event.key === 'Escape' && elements.dropdown.classList.contains('show')) {
-            event.preventDefault();
-            closeDropdown();
-        }
-    }
-
-    /**
-     * Handle keyboard navigation within dropdown
-     */
-    function handleDropdownKeydown(event) {
-        if (!elements.dropdown.classList.contains('show')) {
-            return;
-        }
-
-        const radioArray = Array.from(elements.radios);
-        const currentIndex = radioArray.findIndex(radio => radio === document.activeElement);
-
+        if (!isDropdownOpen) return;
+        
         switch (event.key) {
-            case 'ArrowDown':
-            case 'ArrowRight':
+            case 'Escape':
                 event.preventDefault();
-                const nextIndex = (currentIndex + 1) % radioArray.length;
-                radioArray[nextIndex].focus();
+                closeDropdown();
                 break;
-
-            case 'ArrowUp':
-            case 'ArrowLeft':
-                event.preventDefault();
-                const prevIndex = currentIndex <= 0 ? radioArray.length - 1 : currentIndex - 1;
-                radioArray[prevIndex].focus();
-                break;
-
-            case 'Enter':
-            case ' ':
-                event.preventDefault();
-                if (document.activeElement && document.activeElement.type === 'radio') {
-                    document.activeElement.checked = true;
-                    document.activeElement.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                break;
-
             case 'Tab':
-                // Allow tab to move through radio buttons, but close on tab out
-                const isShiftTab = event.shiftKey;
-                const firstRadio = radioArray[0];
-                const lastRadio = radioArray[radioArray.length - 1];
+                // Allow normal tab behavior within dropdown
+                const focusableElements = settingsMenu.querySelectorAll(
+                    'input[type="radio"], button, [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
                 
-                if (isShiftTab && document.activeElement === firstRadio) {
+                if (event.shiftKey && event.target === firstElement) {
                     event.preventDefault();
-                    closeDropdown();
-                } else if (!isShiftTab && document.activeElement === lastRadio) {
+                    lastElement.focus();
+                } else if (!event.shiftKey && event.target === lastElement) {
                     event.preventDefault();
-                    closeDropdown();
+                    firstElement.focus();
                 }
                 break;
         }
     }
 
     /**
-     * Get current effective theme (resolves 'system' to actual theme)
+     * Public API for manual theme switching (for debugging/testing)
      */
-    function getEffectiveTheme() {
-        if (currentTheme === THEMES.SYSTEM) {
-            return systemMediaQuery && systemMediaQuery.matches ? THEMES.DARK : THEMES.LIGHT;
-        }
-        return currentTheme;
-    }
-
-    /**
-     * Public API
-     */
-    window.ReptileCareTheme = {
-        getCurrentTheme: () => currentTheme,
-        getEffectiveTheme: getEffectiveTheme,
-        setTheme: (theme) => {
+    window.themeManager = {
+        setTheme: function(theme) {
             if (Object.values(THEMES).includes(theme)) {
                 currentTheme = theme;
-                saveTheme(theme);
+                saveThemePreference();
                 applyTheme();
-                if (elements.radios) {
-                    updateRadioSelection();
-                }
+                updateRadioButtons();
             }
         },
-        THEMES: THEMES
+        getCurrentTheme: function() {
+            return currentTheme;
+        },
+        getSystemPreference: function() {
+            return systemPrefersDark ? THEMES.DARK : THEMES.LIGHT;
+        }
     };
 
     // Initialize when script loads
     init();
 
-})();
-
-/**
- * FOUC Prevention Script
- * This should be inlined in the <head> of each page before any stylesheets
- */
-window.ReptileCareThemeFOUC = (function() {
-    'use strict';
-    
-    // Get stored theme preference
-    let theme;
-    try {
-        theme = localStorage.getItem('reptilecare-theme');
-    } catch (e) {
-        theme = null;
-    }
-    
-    // Apply theme immediately if not 'system' or null
-    if (theme && theme !== 'system') {
-        document.documentElement.setAttribute('data-theme', theme);
-    }
-    // If theme is 'system' or null, let CSS prefers-color-scheme handle it
-    
-    return {
-        getStoredTheme: () => theme
-    };
 })();
