@@ -124,6 +124,12 @@
             padding: 0 10px;
             box-sizing: border-box;
         }
+        /* Prevent clipping on 1920px screens when sidebar + gap consume width */
+        @media (min-width: 1200px) {
+            .care-guide-container {
+                max-width: calc(100vw - 560px - 24px - 40px) !important; /* viewport - sidebar - grid gap - wrap padding */
+            }
+        }
         .care-guide {
             display: flex;
             flex-direction: column;
@@ -439,7 +445,7 @@
             width: 100% !important;
             max-width: 100% !important;
             box-sizing: border-box !important;
-            overflow-x: hidden !important;
+            overflow-x: visible !important;
         }
         
         /* Ensure main container doesn't cause overflow on mobile */
@@ -506,7 +512,7 @@
             display: grid !important;
             background: #ffffff !important;
             border-radius: 8px !important;
-            overflow: hidden !important;
+            overflow: visible !important; /* prevent card clipping at edges */
         }
         
         /* CRITICAL: Override external CSS that's causing mobile issues */
