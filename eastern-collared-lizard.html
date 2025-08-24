@@ -6,20 +6,170 @@
   <title>Eastern Collared Lizard Care Guide</title>
 
   <!-- Link to your main stylesheet for .logo, .login, .signup, etc. -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
 
   <style>
-    /* Page-specific overrides are no longer needed; styles live in styles.css */
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #ffffff;
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+
+    section.care-guide-content {
+      padding: 100px 20px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #f8f8f8;
+      color: #0f0f0f;
+    }
+
+    .care-guide-content h1 {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .care-guide-content img {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+
+    .care-guide-content p {
+      margin: 15px 0;
+      font-size: 18px;
+      line-height: 1.6;
+      text-indent: 2em;
+    }
+
+    .care-guide-content a {
+      color: #0f0f0f;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .care-guide-content a:hover {
+      color: #333;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .section-button {
+      flex: 0 0 170px;
+      width: 170px;
+      min-height: 80px;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 8px;
+      text-align: center;
+      white-space: normal;
+      word-break: break-word;
+      background-color: #ffffff;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-button:hover {
+      border-color: #0f0f0f;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile responsiveness for buttons */
+    @media (max-width: 480px) {
+      .button-row {
+        gap: 10px;
+        margin: 15px 0;
+      }
+      
+      .section-button {
+        flex: 1 1 calc(50% - 5px);
+        width: calc(50% - 5px);
+        min-width: 140px;
+        min-height: 70px;
+        padding: 10px 6px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .section-button {
+        flex: 1 1 100%;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      
+      .button-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    .section-button .button-icon {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+    }
+
+    .content-area {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .section-content {
+      display: none;
+    }
+
+    footer {
+      margin-left: 20px;
+      background-color: #fafafa;
+      color: #0f0f0f;
+      padding: 20px 0;
+      border-top: 1px solid #ddd;
+      text-align: left;
+    }
+    footer p {
+      margin: 0 0 0 20px;
+    }
   </style>
 </head>
 <body>
 
   <header id="main-header"></header>
 
-  <section class="rc-species-guide">
-    <div class="rc-species-container">
-    <h1 class="rc-species-title">Eastern Collared Lizard Care Guide</h1>
-    <img class="rc-species-hero" src="images/collared lizard trans bg.png" alt="Eastern Collared Lizard" />
+  <section class="care-guide-content">
+    <h1>Eastern Collared Lizard Care Guide</h1>
+    <img src="../images/collared lizard trans bg.png" alt="Eastern Collared Lizard" />
 
     <!-- Simplified summary paragraphs -->
     <p>
@@ -30,18 +180,18 @@
     </p>
 
     <!-- Row 1 Buttons -->
-    <div class="rc-species-buttons">
-      <button class="rc-species-btn" onclick="rcToggleSection('speciesInfo')">
-        <img src="images/species info icon.png" alt="Species Info Icon" class="rc-icon">
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('speciesInfo')">
+        <img src="../images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Info</span>
       </button>
-      <button class="rc-species-btn" onclick="rcToggleSection('habitatSize')">
-        <img src="images/habitat icon.png" alt="Habitat Icon" class="rc-icon">
+      <button class="section-button" onclick="toggleSection('habitatSize')">
+        <img src="../images/habitat icon.png" alt="Habitat Icon" class="button-icon">
         <span>Habitat Size</span>
       </button>
     </div>
-    <div class="rc-species-sections">
-      <div id="speciesInfo" class="rc-species-section">
+    <div class="content-area">
+      <div id="speciesInfo" class="section-content">
         <p>
           <strong><a href="https://en.wikipedia.org/wiki/Common_collared_lizard" target="_blank" rel="noopener">Eastern Collared Lizards (<em>Crotaphytus collaris</em>)</a></strong> are diurnal, medium-sized lizards found in the south-central U.S. and northern Mexico, known for vivid hues and dark collars. Adults reach 8–14″ (20–35 cm) and possess powerful jaws for prey capture (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
@@ -49,7 +199,7 @@
           In the wild they occupy rocky outcrops, desert scrub, and grasslands, basking on stones in full sun and using bipedal sprints (up to ~16 mph) to evade predators. Highly territorial and solitary, males may fight or cannibalize tankmates; best housed alone. Lifespan in captivity often exceeds 10 years.
         </p>
       </div>
-      <div id="habitatSize" class="rc-species-section">
+      <div id="habitatSize" class="section-content">
         <p>
           Provide a front-opening terrarium of at least <strong>36″ L × 18″ W × 18″ H</strong> (90 × 45 × 45 cm); larger (48″ × 24″ × 24″) is ideal for exercise. Use a secure mesh top for ventilation and escape prevention.
         </p>
@@ -60,18 +210,18 @@
     </div>
 
     <!-- Row 2 Buttons -->
-    <div class="rc-species-buttons">
-      <button class="rc-species-btn" onclick="rcToggleSection('heatingReqs')">
-        <img src="images/heating icon.png" alt="Heating Icon" class="rc-icon">
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('heatingReqs')">
+        <img src="../images/heating icon.png" alt="Heating Icon" class="button-icon">
         <span>Heating</span>
       </button>
-      <button class="rc-species-btn" onclick="rcToggleSection('humidityAirflow')">
-        <img src="images/humidity icon.png" alt="Humidity Icon" class="rc-icon">
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">
+        <img src="../images/humidity icon.png" alt="Humidity Icon" class="button-icon">
         <span>Humidity/Airflow</span>
       </button>
     </div>
-    <div class="rc-species-sections">
-      <div id="heatingReqs" class="rc-species-section">
+    <div class="content-area">
+      <div id="heatingReqs" class="section-content">
         <p>
           Create a gradient with a <strong>basking spot of 105–115 °F</strong> using a 50–75 W halogen flood lamp 8–12″ above a flat rock, and a <strong>cool zone of 75–85 °F</strong>. Night lows of 68–75 °F are acceptable (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
@@ -79,7 +229,7 @@
           Install a <strong><a href="https://en.wikipedia.org/wiki/Ultraviolet_b" target="_blank" rel="noopener">T5 HO 10.0 UVB</a></strong> tube 6–8″ above the basking area to achieve a UV index of 4–6. Supplement with a 6500 K daylight lamp on a 12 h on/12 h off timer (<a href="https://www.arcadia-reptile.com/" target="_blank" rel="noopener">Arcadia</a>).
         </p>
       </div>
-      <div id="humidityAirflow" class="rc-species-section">
+      <div id="humidityAirflow" class="section-content">
         <p>
           Maintain ambient humidity at <strong>30–50%</strong> with strong airflow via a mesh top or side vents to prevent respiratory issues.
         </p>
@@ -90,18 +240,18 @@
     </div>
 
     <!-- Row 3 Buttons -->
-    <div class="rc-species-buttons">
-      <button class="rc-species-btn" onclick="rcToggleSection('foodReqs')">
-        <img src="images/food icon.png" alt="Food Icon" class="rc-icon">
+    <div class="button-row">
+      <button class="section-button" onclick="toggleSection('foodReqs')">
+        <img src="../images/food icon.png" alt="Food Icon" class="button-icon">
         <span>Food</span>
       </button>
-      <button class="rc-species-btn" onclick="rcToggleSection('enrichment')">
-        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="rc-icon">
+      <button class="section-button" onclick="toggleSection('enrichment')">
+        <img src="../images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
         <span>Enrichment</span>
       </button>
     </div>
-    <div class="rc-species-sections">
-      <div id="foodReqs" class="rc-species-section">
+    <div class="content-area">
+      <div id="foodReqs" class="section-content">
         <p>
           Feed a variety of <a href="https://en.wikipedia.org/wiki/Gut-loading" target="_blank" rel="noopener">gut-loaded insects</a>—crickets, <a href="https://en.wikipedia.org/wiki/Dubia_roach" target="_blank" rel="noopener">Dubia roaches</a>, locusts, superworms—daily for juveniles; adults 3–4×/week. Release prey into the enclosure for hunting enrichment.
         </p>
@@ -112,7 +262,7 @@
           Provide fresh dechlorinated water in a shallow dish daily and mist decor each morning to encourage droplet drinking.
         </p>
       </div>
-      <div id="enrichment" class="rc-species-section">
+      <div id="enrichment" class="section-content">
         <p>
           Include secure rock piles and sturdy branches for climbing and perching. Provide hides on both warm and cool sides (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
@@ -121,13 +271,22 @@
         </p>
       </div>
     </div>
-    </div>
   </section>
 
   <div id="main-footer"></div>
 
-  <script src="js/species-guide.js"></script>
+  <script>
+    // Simple accordion toggle
+    function toggleSection(sectionId) {
+      const all = document.querySelectorAll('.section-content');
+      all.forEach(sec => {
+        if (sec.id !== sectionId) sec.style.display = 'none';
+      });
+      const el = document.getElementById(sectionId);
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+  </script>
   <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
-  <script src="js/mobile-menu.js"></script>
+  <script src="../js/mobile-menu.js"></script>
 </body>
 </html>
