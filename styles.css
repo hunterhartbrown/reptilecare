@@ -12,6 +12,11 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+/* Prevent horizontal overflow on the root as well (covers fixed/absolute elements) */
+html {
+    overflow-x: hidden;
+}
+
 header {
     background-color: #ffffff;
     width: 100%;
@@ -430,6 +435,20 @@ section {
         margin-left: 10px !important;
         font-size: 0.9rem;
         padding: 10px 0;
+    }
+}
+
+/* Ensure touch devices keep the mobile header layout even when zoomed
+   to avoid desktop nav causing horizontal overflow */
+@media (hover: none), (pointer: coarse) {
+    header nav,
+    header .site-search,
+    header .auth-buttons {
+        display: none !important;
+    }
+
+    header .mobile-menu-toggle {
+        display: flex !important;
     }
 }
 
