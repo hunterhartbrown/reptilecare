@@ -426,8 +426,9 @@
             background-color: transparent !important; /* Make intro section transparent on dark background */
             color: #ffffff !important;
             border-radius: 0 !important;
-            margin: 0.5rem 0 1.5rem !important;
-            padding: 1rem !important;
+            /* Equal top/bottom spacing for title + subtitle block */
+            margin: 1rem 0 1rem !important;
+            padding: 1rem 1rem !important;
         }
         [data-rc-cg="intro"] h1 {
             color: #ffffff !important;
@@ -471,15 +472,39 @@
         /* Ensure sidebar matches the design */
         [data-rc-cg="sidebar"] {
             background: #ffffff !important; /* White background for sidebar */
-            border: 1px solid #e5e5e5 !important;
+            border: 1.3px solid #0f0f0f !important; /* Match Design an Enclosure outline */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 8px !important;
         }
         
         /* Ensure mobile filter elements are styled properly */
         .rc-mobile-filter-toggle {
             background: #ffffff !important;
-            border: 2px solid #ddd !important;
+            border: 1.3px solid #0f0f0f !important; /* Match Design an Enclosure */
             color: #0f0f0f !important;
+            border-radius: 6px !important;
+            font-weight: 700 !important;
+        }
+
+        /* Mobile filter drawer panel outline to match button */
+        .rc-mobile-filter-header {
+            border: 1.3px solid #0f0f0f !important;
+            border-bottom: none !important;
+            border-radius: 8px 8px 0 0 !important;
+        }
+
+        .rc-mobile-filter-content {
+            border: 1.3px solid #0f0f0f !important;
+            border-top: none !important;
+            border-radius: 0 0 8px 8px !important;
+        }
+
+        /* Clear All matches outline style */
+        .rc-clear-all-btn {
+            border: 1.3px solid #0f0f0f !important;
+            color: #0f0f0f !important;
+            background: #fff !important;
+            font-weight: 700 !important;
         }
         
         /* Additional responsive overrides for extreme sizes */
