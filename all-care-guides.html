@@ -92,7 +92,8 @@
         }
         /* --- Care Guide Styles --- */
         .care-guides {
-            padding: 120px 8px 12px;
+            /* Balanced banner spacing */
+            padding: 40px 8px 40px;
             background-color: #0f0f0f; /* Changed to match home page dark background */
             color: #ffffff; /* Changed text color for dark background */
             min-height: 100vh;
@@ -352,7 +353,8 @@
         /* Small tablet/large mobile - 2 columns */
         @media (max-width: 599px) and (min-width: 400px) {
             .care-guides {
-                padding: 100px 4px 12px;
+                /* Maintain symmetry on small tablets/large phones */
+                padding: 36px 4px 36px;
             }
             .care-guide-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -380,7 +382,8 @@
         /* Small mobile - 1 column */
         @media (max-width: 399px) {
             .care-guides {
-                padding: 90px 2px 12px;
+                /* Maintain symmetry on small phones */
+                padding: 32px 2px 32px;
             }
             .care-guide-container {
                 grid-template-columns: 1fr;
@@ -509,6 +512,9 @@
         
         /* Additional responsive overrides for extreme sizes */
         @media (max-width: 320px) {
+            .care-guides {
+                padding: 28px 1px 28px !important;
+            }
             .care-guide-container {
                 padding: 0 2px !important;
                 gap: 8px !important;
