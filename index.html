@@ -155,13 +155,16 @@
           // — build slide —
           var slide = document.createElement('div');
           slide.className = 'slide';
+          slide.id = 'slide-' + (idx + 1);
           slide.style.display = idx === 0 ? 'flex' : 'none';
 
           var imgDiv = document.createElement('div');
           imgDiv.className = 'slide-image';
+          imgDiv.id = 'slide-' + (idx + 1) + '-image';
           var img = document.createElement('img');
           img.src = item['Picture Link'];
           img.alt = item['Common Name'];
+          img.id = 'slide-' + (idx + 1) + '-img';
           if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
             img.classList.add('problematic-image');
           }
@@ -169,6 +172,7 @@
 
           var textDiv = document.createElement('div');
           textDiv.className = 'overlay-text';
+          textDiv.id = 'slide-' + (idx + 1) + '-text';
           textDiv.innerHTML = 
             `<h3 class="common-name">${item['Common Name']}</h3>` +
             `<h4 class="species-name">${item['Species']}</h4>`;

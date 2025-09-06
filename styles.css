@@ -131,22 +131,23 @@ section {
 
 .slide {
     display: flex;
-    flex-direction: row; /* Arrange items in a row */
-    justify-content: space-between;
+    flex-direction: column; /* Ensure text is below image on all sizes */
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     width: 100%;
-    height: calc(50vh - 40px); /* Reduced to half viewport height */
+    height: auto; /* Let content define height */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
 }
 
 .slide-image {
-    flex: 1;
+    width: 100%;
+    height: 50vh; /* Consistent image area so text sits in same place */
+    min-height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
     position: relative;
     overflow: hidden;
     background-color: #0f0f0f; /* Match the background color */
@@ -169,7 +170,7 @@ section {
 }
 
 .overlay-text {
-    flex: 1;
+    width: 100%;
     padding: 20px;
     color: white;
     text-align: left; /* Align text to the left */
@@ -493,24 +494,22 @@ section {
     }
 }
 
-/* Landscape orientation on mobile */
+/* Landscape orientation on mobile - keep text below image */
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
     .slide {
-        flex-direction: row;
-        height: 100vh;
+        flex-direction: column;
+        height: auto;
     }
     
     .slide-image {
-        height: 100%;
-        width: 60%;
+        height: 60vh;
+        width: 100%;
     }
     
     .overlay-text {
-        width: 40%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        width: 100%;
+        height: auto;
+        display: block;
     }
     
     .overlay-text h3.common-name {
