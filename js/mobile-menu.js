@@ -246,10 +246,14 @@
 
     // Initialize when DOM is ready
     function initialize() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadHeaderWithMobileMenu);
-        } else {
+        function kickoff() {
             loadHeaderWithMobileMenu();
+            setupBeardedDragonImageCredits();
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', kickoff);
+        } else {
+            kickoff();
         }
     }
 
@@ -260,5 +264,69 @@
     window.initMobileMenu = initMobileMenu;
     window.loadHeaderWithMobileMenu = loadHeaderWithMobileMenu;
     window.loadFooter = loadFooter;
+    
+    // ================= Image Credits Injection =================
+    function setupBeardedDragonImageCredits() {
+        try {
+            var CREDIT_HTML = 'ID <a href="https://www.dreamstime.com/royalty-free-stock-photography-bearded-dragon-image12284547">12284547<\/a> | <a href="https://www.dreamstime.com/photos-images/lizard.html">Lizard<\/a> © <a href="https://www.dreamstime.com/mgkuijpers_info">Matthijs Kuijpers<\/a> | <a href="https://www.dreamstime.com/stock-photos">Dreamstime.com<\/a>';
+            var CREDIT_CLASS = 'rc-image-credit';
 
-})(); 
+            function isTargetBeardedDragon(imgEl) {
+                if (!imgEl || !(imgEl instanceof HTMLImageElement)) return false;
+                var attrSrc = imgEl.getAttribute('src') || '';
+                return attrSrc.indexOf('bearded drag trans bg.png') !== -1;
+            }
+
+            function ensureCreditFor(imgEl) {
+                if (!isTargetBeardedDragon(imgEl)) return;
+                if (imgEl.dataset && imgEl.dataset.rcCredited === 'true') return;
+                var next = imgEl.nextElementSibling;
+                if (next && next.classList && next.classList.contains(CREDIT_CLASS)) {
+                    if (imgEl.dataset) imgEl.dataset.rcCredited = 'true';
+                    return;
+                }
+                var credit = document.createElement('small');
+                credit.className = CREDIT_CLASS;
+                credit.style.display = 'block';
+                credit.style.fontSize = '10px';
+                credit.style.color = '#666';
+                credit.style.marginTop = '4px';
+                credit.innerHTML = CREDIT_HTML;
+                if (imgEl.parentNode) {
+                    imgEl.parentNode.insertBefore(credit, imgEl.nextSibling);
+                    if (imgEl.dataset) imgEl.dataset.rcCredited = 'true';
+                }
+            }
+
+            // Initial pass
+            var imgs = document.images || [];
+            for (var i = 0; i < imgs.length; i++) {
+                ensureCreditFor(imgs[i]);
+            }
+
+            // Observe future additions
+            var observer = new MutationObserver(function(mutations) {
+                for (var m = 0; m < mutations.length; m++) {
+                    var added = mutations[m].addedNodes || [];
+                    for (var j = 0; j < added.length; j++) {
+                        var node = added[j];
+                        if (!node || node.nodeType !== 1) continue;
+                        if (node.tagName === 'IMG') {
+                            ensureCreditFor(node);
+                        } else if (node.querySelectorAll) {
+                            var nestedImgs = node.querySelectorAll('img');
+                            for (var k = 0; k < nestedImgs.length; k++) {
+                                ensureCreditFor(nestedImgs[k]);
+                            }
+                        }
+                    }
+                }
+            });
+
+            observer.observe(document.documentElement || document.body, { childList: true, subtree: true });
+        } catch (e) {
+            console.error('Error setting up image credits:', e);
+        }
+    }
+
+})();
