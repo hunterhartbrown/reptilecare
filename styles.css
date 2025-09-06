@@ -131,26 +131,49 @@ section {
 
 .slide {
     display: flex;
-    flex-direction: column; /* Ensure text is below image on all sizes */
-    justify-content: flex-start;
+    flex-direction: row; /* Arrange items in a row */
+    justify-content: space-between;
     align-items: center;
     position: relative;
     width: 100%;
-    height: auto; /* Let content define height */
+    height: calc(50vh - 40px); /* Reduced to half viewport height */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
 }
 
 .slide-image {
-    width: 100%;
-    height: 50vh; /* Consistent image area so text sits in same place */
-    min-height: 300px;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
     position: relative;
     overflow: hidden;
     background-color: #0f0f0f; /* Match the background color */
+}
+
+/* Ensure consistent caption placement under images in slider */
+.slide-image-viewport {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-image-viewport img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.slide-caption {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    color: #666;
+    margin-top: 6px;
 }
 
 .slide-image img {
@@ -170,7 +193,7 @@ section {
 }
 
 .overlay-text {
-    width: 100%;
+    flex: 1;
     padding: 20px;
     color: white;
     text-align: left; /* Align text to the left */
@@ -494,22 +517,24 @@ section {
     }
 }
 
-/* Landscape orientation on mobile - keep text below image */
+/* Landscape orientation on mobile */
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
     .slide {
-        flex-direction: column;
-        height: auto;
+        flex-direction: row;
+        height: 100vh;
     }
     
     .slide-image {
-        height: 60vh;
-        width: 100%;
+        height: 100%;
+        width: 60%;
     }
     
     .overlay-text {
-        width: 100%;
-        height: auto;
-        display: block;
+        width: 40%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .overlay-text h3.common-name {

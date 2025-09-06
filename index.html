@@ -155,24 +155,31 @@
           // — build slide —
           var slide = document.createElement('div');
           slide.className = 'slide';
-          slide.id = 'slide-' + (idx + 1);
           slide.style.display = idx === 0 ? 'flex' : 'none';
 
           var imgDiv = document.createElement('div');
           imgDiv.className = 'slide-image';
-          imgDiv.id = 'slide-' + (idx + 1) + '-image';
+          var viewport = document.createElement('div');
+          viewport.className = 'slide-image-viewport';
           var img = document.createElement('img');
           img.src = item['Picture Link'];
           img.alt = item['Common Name'];
-          img.id = 'slide-' + (idx + 1) + '-img';
           if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
             img.classList.add('problematic-image');
           }
-          imgDiv.appendChild(img);
+          viewport.appendChild(img);
+          // Caption directly below image, consistent across slides
+          var caption = document.createElement('small');
+          caption.className = 'slide-caption rc-image-credit';
+          // Bearded dragon credit only; others keep empty but preserve space
+          if ((item['Picture Link'] || '').indexOf('bearded drag trans bg.png') !== -1) {
+            caption.innerHTML = 'ID <a href="https://www.dreamstime.com/royalty-free-stock-photography-bearded-dragon-image12284547">12284547</a> | <a href="https://www.dreamstime.com/photos-images/lizard.html">Lizard</a> © <a href="https://www.dreamstime.com/mgkuijpers_info">Matthijs Kuijpers</a> | <a href="https://www.dreamstime.com/stock-photos">Dreamstime.com</a>';
+          }
+          viewport.appendChild(caption);
+          imgDiv.appendChild(viewport);
 
           var textDiv = document.createElement('div');
           textDiv.className = 'overlay-text';
-          textDiv.id = 'slide-' + (idx + 1) + '-text';
           textDiv.innerHTML = 
             `<h3 class="common-name">${item['Common Name']}</h3>` +
             `<h4 class="species-name">${item['Species']}</h4>`;
