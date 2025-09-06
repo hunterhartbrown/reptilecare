@@ -680,6 +680,37 @@
             border-color: #333 !important;
             color: #ffffff !important; /* Maintain white text on hover/focus */
         }
+        /* Apply/Cancel actions */
+        .rc-filter-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .rc-apply-btn, .rc-cancel-btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s, border 0.18s;
+        }
+        .rc-apply-btn {
+            background: #0f0f0f;
+            color: #fff;
+            border: 1.3px solid #0f0f0f;
+        }
+        .rc-apply-btn:hover, .rc-apply-btn:focus {
+            background: #444;
+        }
+        .rc-cancel-btn {
+            background: #fff;
+            color: #0f0f0f;
+            border: 1.3px solid #0f0f0f;
+        }
+        .rc-cancel-btn:hover, .rc-cancel-btn:focus {
+            background: #f5f5f5;
+        }
         
         footer {
             background-color: #fff;
@@ -747,6 +778,7 @@
                     <div class="rc-filter-section">
                         <h3 class="rc-filter-section-title">Habitat</h3>
                         <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="all" aria-pressed="false">All</button>
                             <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="arid" aria-pressed="false">Arid</button>
                             <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="tropical" aria-pressed="false">Tropical</button>
                             <button type="button" class="rc-chip" data-filter-type="habitat" data-filter-value="temperate" aria-pressed="false">Temperate</button>
@@ -757,6 +789,7 @@
                     <div class="rc-filter-section">
                         <h3 class="rc-filter-section-title">Lifespan</h3>
                         <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="all" aria-pressed="false">All</button>
                             <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="short" aria-pressed="false">5-10 years</button>
                             <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="medium" aria-pressed="false">10-15 years</button>
                             <button type="button" class="rc-chip" data-filter-type="lifespan" data-filter-value="long" aria-pressed="false">15+ years</button>
@@ -767,6 +800,7 @@
                     <div class="rc-filter-section">
                         <h3 class="rc-filter-section-title">Temperament</h3>
                         <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="all" aria-pressed="false">All</button>
                             <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="docile" aria-pressed="false">Docile</button>
                             <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="moderate" aria-pressed="false">Moderate</button>
                             <button type="button" class="rc-chip" data-filter-type="temperament" data-filter-value="defensive" aria-pressed="false">Defensive</button>
@@ -777,6 +811,7 @@
                     <div class="rc-filter-section">
                         <h3 class="rc-filter-section-title">Size</h3>
                         <div class="rc-filter-chips">
+                            <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="all" aria-pressed="false">All</button>
                             <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="small" aria-pressed="false">Small (&lt; 8")</button>
                             <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="medium" aria-pressed="false">Medium (8-18")</button>
                             <button type="button" class="rc-chip" data-filter-type="size" data-filter-value="large" aria-pressed="false">Large (18"+)</button>
@@ -785,6 +820,12 @@
 
                     <!-- Clear All Button -->
                     <button type="button" class="rc-clear-all-btn" id="rc-clear-all-filters">Clear All Filters</button>
+
+                    <!-- Apply/Cancel Actions -->
+                    <div class="rc-filter-actions">
+                        <button type="button" class="rc-apply-btn" id="rc-apply-filters">Apply</button>
+                        <button type="button" class="rc-cancel-btn" id="rc-cancel-filters">Cancel</button>
+                    </div>
                 </div>
             </aside>
 
@@ -884,13 +925,15 @@
         let allAnimals = [];
         let filteredAnimals = [];
         let currentPage = 1;
+        // Applied vs pending filters (apply/cancel model)
         let activeFilters = {
-          difficulty: "all",
+          difficulty: [],
           habitat: [],
           lifespan: [],
           temperament: [], 
           size: []
         };
+        let pendingFilters = JSON.parse(JSON.stringify(activeFilters));
 
         // Mobile filter state
         let mobileFilterOpen = false;
@@ -909,7 +952,7 @@
             const desktopContent = document.querySelector('.rc-sidebar-content');
             if (desktopContent) {
               // Clone filter sections only
-              const filterSections = desktopContent.querySelectorAll('.rc-filter-section, .rc-clear-all-btn');
+              const filterSections = desktopContent.querySelectorAll('.rc-filter-section, .rc-clear-all-btn, .rc-filter-actions');
               content.innerHTML = '';
               filterSections.forEach(section => {
                 content.appendChild(section.cloneNode(true));
@@ -956,11 +999,19 @@
           content.addEventListener('click', function(e) {
             if (e.target.matches('.rc-chip[data-filter-type]')) {
               handleFilterClick(e.target);
-              // Also update desktop filters
-              syncFiltersBetweenMobileAndDesktop(e.target);
+              syncFilterStates();
             }
             if (e.target.matches('.rc-clear-all-btn')) {
               clearAllFilters();
+              syncFilterStates();
+            }
+            if (e.target.matches('.rc-apply-btn')) {
+              applyFilters();
+              closeDrawer();
+            }
+            if (e.target.matches('.rc-cancel-btn')) {
+              cancelPendingFilters();
+              closeDrawer();
             }
           });
         }
@@ -979,20 +1030,18 @@
         }
 
         function syncFilterStates() {
-          // Sync both desktop and mobile filter states
+          // Reflect PENDING state in UI (both desktop and mobile)
           document.querySelectorAll('.rc-chip[data-filter-type]').forEach(chip => {
             const filterType = chip.dataset.filterType;
             const filterValue = chip.dataset.filterValue;
-            
-            if (filterType === 'difficulty') {
-              const isActive = activeFilters.difficulty === filterValue;
-              chip.classList.toggle('rc-chip--active', isActive);
-              chip.setAttribute('aria-pressed', isActive);
+            let isActive = false;
+            if (filterValue === 'all') {
+              isActive = (pendingFilters[filterType] || []).length === 0;
             } else {
-              const isActive = activeFilters[filterType].includes(filterValue);
-              chip.classList.toggle('rc-chip--active', isActive);
-              chip.setAttribute('aria-pressed', isActive);
+              isActive = (pendingFilters[filterType] || []).includes(filterValue);
             }
+            chip.classList.toggle('rc-chip--active', isActive);
+            chip.setAttribute('aria-pressed', isActive);
           });
         }
 
@@ -1028,7 +1077,7 @@
 
         function getActiveFilterCount() {
           let count = 0;
-          if (activeFilters.difficulty !== "all") count++;
+          count += activeFilters.difficulty.length;
           count += activeFilters.habitat.length;
           count += activeFilters.lifespan.length;
           count += activeFilters.temperament.length;
@@ -1100,8 +1149,8 @@
           filteredAnimals = allAnimals.filter(animal => {
             const data = speciesData[animal.name];
             
-            // Check difficulty
-            if (activeFilters.difficulty !== "all" && data.difficulty !== activeFilters.difficulty) {
+            // Check difficulty (multi-select)
+            if (activeFilters.difficulty.length > 0 && !activeFilters.difficulty.includes(data.difficulty)) {
               return false;
             }
             
@@ -1129,63 +1178,45 @@
         function handleFilterClick(chip) {
           const filterType = chip.dataset.filterType;
           const filterValue = chip.dataset.filterValue;
+          if (!pendingFilters[filterType]) pendingFilters[filterType] = [];
           
-          if (filterType === 'difficulty') {
-            // Handle difficulty (single select)
-            activeFilters.difficulty = filterValue;
-            
-            // Update all difficulty chips
-            document.querySelectorAll('.rc-chip[data-filter-type="difficulty"]').forEach(c => {
-              const isActive = c.dataset.filterValue === filterValue;
-              c.classList.toggle('rc-chip--active', isActive);
-              c.setAttribute('aria-pressed', isActive);
-            });
+          if (filterValue === 'all') {
+            // Selecting "All" clears other selections
+            pendingFilters[filterType] = [];
           } else {
-            // Handle multi-select filters
-            const isActive = activeFilters[filterType].includes(filterValue);
-            
-            if (isActive) {
-              // Remove filter
-              activeFilters[filterType] = activeFilters[filterType].filter(v => v !== filterValue);
-              chip.classList.remove('rc-chip--active');
-              chip.setAttribute('aria-pressed', 'false');
+            // Toggle selection
+            const idx = pendingFilters[filterType].indexOf(filterValue);
+            if (idx > -1) {
+              pendingFilters[filterType].splice(idx, 1);
             } else {
-              // Add filter
-              activeFilters[filterType].push(filterValue);
-              chip.classList.add('rc-chip--active');
-              chip.setAttribute('aria-pressed', 'true');
+              pendingFilters[filterType].push(filterValue);
             }
           }
           
+          // Update chip UI to reflect pending state
+          syncFilterStates();
+        }
+
+        function applyFilters() {
+          activeFilters = JSON.parse(JSON.stringify(pendingFilters));
+          updateMobileFilterCount();
           filterAnimals();
         }
 
+        function cancelPendingFilters() {
+          pendingFilters = JSON.parse(JSON.stringify(activeFilters));
+          syncFilterStates();
+        }
+
         function clearAllFilters() {
-          activeFilters = {
-            difficulty: "all",
+          pendingFilters = {
+            difficulty: [],
             habitat: [],
             lifespan: [],
             temperament: [],
             size: []
           };
-          
-          // Reset all filter chips
-          document.querySelectorAll('.rc-chip').forEach(chip => {
-            const filterType = chip.dataset.filterType;
-            const filterValue = chip.dataset.filterValue;
-            
-            if (filterType === 'difficulty') {
-              const isActive = filterValue === 'all';
-              chip.classList.toggle('rc-chip--active', isActive);
-              chip.setAttribute('aria-pressed', isActive);
-            } else {
-              chip.classList.remove('rc-chip--active');
-              chip.setAttribute('aria-pressed', 'false');
-            }
-          });
-          
-          updateMobileFilterCount();
-          filterAnimals();
+          syncFilterStates();
         }
 
         // ===== PAGINATION =====
@@ -1243,13 +1274,19 @@
 
         // ===== EVENT HANDLERS =====
         function setupEventListeners() {
-          // Desktop sidebar filter chips
+          // Desktop sidebar filter interactions
           document.querySelector('[data-rc-cg="sidebar"]').addEventListener('click', function(e) {
             if (e.target.matches('.rc-chip[data-filter-type]')) {
               handleFilterClick(e.target);
             }
             if (e.target.matches('.rc-clear-all-btn')) {
               clearAllFilters();
+            }
+            if (e.target.matches('.rc-apply-btn')) {
+              applyFilters();
+            }
+            if (e.target.matches('.rc-cancel-btn')) {
+              cancelPendingFilters();
             }
           });
 
@@ -1333,6 +1370,8 @@
               }));
               
               setupEventListeners();
+              // Ensure chips reflect pending state before first render
+              syncFilterStates();
               filterAnimals(); // Initial render
             })
             .catch(error => {
@@ -1343,6 +1382,7 @@
                 listings: null
               }));
               setupEventListeners();
+              syncFilterStates();
               filterAnimals();
             });
         }
@@ -1357,3 +1397,4 @@
 
 </body>
 </html>
+
