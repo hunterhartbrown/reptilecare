@@ -7,6 +7,62 @@ Exports as GLB for web viewer
 import trimesh
 import numpy as np
 
+# ---------- Latch geometry (rounded clamp) ----------
+def _rounded_rectangle_2d(w, h, r, sections=16):
+    import math
+    import trimesh
+    r = min(r, min(w, h) * 0.49)
+    cx = [-w/2 + r,  w/2 - r,  w/2 - r, -w/2 + r]
+    cy = [-h/2 + r, -h/2 + r,  h/2 - r,  h/2 - r]
+    ang0 = [math.pi, math.pi*1.5, 0.0, math.pi*0.5]
+    pts = []
+    for i in range(4):
+        for j in range(sections+1):
+            a = ang0[i] + (j/sections)*math.pi/2.0
+            pts.append([cx[i] + r*math.cos(a), cy[i] + r*math.sin(a)])
+    return trimesh.path.polygons.polygon(pts)
+
+def make_latch(
+    glass_thickness=0.0045,
+    body_w=0.018, body_h=0.014, body_d=0.010,
+    corner_r=0.0025,
+    rail_width=0.012, rail_height=0.006, rail_clearance=0.0004, lip_thickness=0.0012,
+    screw_shank_dia=0.003, screw_head_dia=0.006, screw_head_depth=0.002,
+):
+    import trimesh, numpy as np
+    rr = _rounded_rectangle_2d(body_w, body_h, corner_r)
+    body = trimesh.creation.extrude_polygon(rr, height=body_d)
+    body.apply_translation([0, 0, body_d/2])
+    # slot
+    slot_depth = body_d - lip_thickness
+    slot = trimesh.creation.box(extents=[glass_thickness, body_h*0.9, slot_depth])
+    slot.apply_translation([0, 0, slot_depth/2])
+    # rail channel
+    ch_w = rail_width + rail_clearance*2
+    ch_h = rail_height + rail_clearance
+    ch_d = body_d - lip_thickness
+    channel = trimesh.creation.box(extents=[ch_w, ch_h, ch_d])
+    channel.apply_translation([0, -body_h/2 + ch_h/2, ch_d/2])
+    # screw hole
+    shank = trimesh.creation.cylinder(radius=screw_shank_dia/2, height=body_d*1.2, sections=24)
+    shank.apply_transform(trimesh.transformations.rotation_matrix(np.pi/2, [1,0,0]))
+    shank.apply_translation([0, 0, body_d/2])
+    head = trimesh.creation.cylinder(radius=screw_head_dia/2, height=screw_head_depth, sections=48)
+    head.apply_transform(trimesh.transformations.rotation_matrix(np.pi/2, [1,0,0]))
+    head.apply_translation([0, 0, body_d - screw_head_depth/2])
+    # booleans
+    latch = body.difference([slot, channel, shank, head])
+    latch.visual.face_colors = [20, 20, 20, 255]
+    return latch
+
+def add_latch_to_terrarium(frame_thickness, width, height, glass_thickness):
+    latch = make_latch(glass_thickness=glass_thickness)
+    body_h = 0.014
+    y_front_glass = width/2 - glass_thickness/2
+    z_center = -height/2 + frame_thickness + body_h/2
+    latch.apply_translation([0, y_front_glass + 0.001, z_center])
+    return latch
+
 def create_corrected_terrarium():
     """Create corrected terrarium using Trimesh library"""
     
@@ -135,35 +191,15 @@ def create_corrected_terrarium():
     panels.append(right_door)
     
     # ========================================
-    # CENTRAL LOCK MECHANISM
+    # CENTRAL LATCH (replaces cylindrical lock)
     # ========================================
-    
-    # Main lock body (cylindrical)
-    lock_diameter = 1.0 * INCH_TO_METER
-    lock_depth = 0.3 * INCH_TO_METER
-    
-    lock_body = trimesh.creation.cylinder(
-        radius=lock_diameter/2,
-        height=lock_depth,
-        sections=16
+    latch_mesh = add_latch_to_terrarium(
+        frame_thickness=frame_thickness,
+        width=width,
+        height=height,
+        glass_thickness=glass_thickness
     )
-    # Rotate to face outward and position at center of doors
-    lock_body.apply_transform(trimesh.transformations.rotation_matrix(np.pi/2, [1, 0, 0]))
-    lock_body.apply_translation([0, width/2 + lock_depth/2, 0])
-    lock_body.visual.face_colors = [25, 25, 25, 255]  # Dark gray/black
-    panels.append(lock_body)
-    
-    # Lock handle/key cylinder (smaller inner cylinder)
-    handle_diameter = 0.3 * INCH_TO_METER
-    lock_handle = trimesh.creation.cylinder(
-        radius=handle_diameter/2,
-        height=lock_depth/2,
-        sections=12
-    )
-    lock_handle.apply_transform(trimesh.transformations.rotation_matrix(np.pi/2, [1, 0, 0]))
-    lock_handle.apply_translation([0, width/2 + lock_depth*0.75, 0])
-    lock_handle.visual.face_colors = [12, 12, 12, 255]  # Very dark
-    panels.append(lock_handle)
+    panels.append(latch_mesh)
     
     # ========================================
     # VENTILATION SCREENS
