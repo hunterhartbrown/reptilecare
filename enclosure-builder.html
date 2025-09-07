@@ -10,47 +10,40 @@
             font-family: 'Open Sans', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* Changed to white for consistency */
+            background-color: #0f0f0f;
         }
 
         .builder-container {
-            padding: 100px 15px 40px;
-            max-width: 1200px; /* Reduced max width for better mobile experience */
+            padding: 100px 20px 40px;
+            max-width: 1400px;
             margin: 0 auto;
             overflow-x: hidden;
         }
 
         .builder-header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f8f8;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
+            margin-bottom: 40px;
         }
 
         .builder-header h1 {
-            font-size: 2.2rem;
-            color: #0f0f0f; /* Dark text on light background */
+            font-size: 2.5rem;
+            color: #fff;
             margin-bottom: 10px;
-            font-weight: 700;
         }
 
         .builder-header p {
             font-size: 1.1rem;
-            color: #666; /* Consistent with other pages */
-            margin: 0;
+            color: #ddd;
         }
 
-        /* 3D Preview Section - Responsive Design */
+        /* 3D Preview Section - Now at top */
         .canvas-container {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             background: #fff;
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e5e5;
             overflow: hidden;
             max-width: 100%;
             box-sizing: border-box;
@@ -58,14 +51,14 @@
 
         #enclosure-canvas {
             width: 100%;
-            height: 400px; /* Reduced from 600px for mobile */
+            height: 600px;
             max-width: 100%;
             background: #f8f8f8;
             border-radius: 8px;
             display: block;
             box-sizing: border-box;
             cursor: grab;
-            touch-action: pan-x pan-y; /* Allow panning for 3D controls */
+            touch-action: none; /* Prevent default touch behaviors */
         }
 
         #enclosure-canvas:active {
@@ -74,38 +67,34 @@
 
         .canvas-controls {
             position: absolute;
-            bottom: 15px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.95);
-            padding: 8px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            max-width: calc(100% - 30px);
-            justify-content: center;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
 
 
-        /* Selected Enclosure Section - Redesigned */
+        /* Selected Enclosure Section - Now below 3D preview */
         .selected-enclosure {
             background: #fff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .selected-enclosure h2 {
-            margin: 0 0 15px 0;
-            font-size: 1.3rem;
-            color: #0f0f0f;
-            font-weight: 700;
+            margin: 0 0 20px 0;
+            font-size: 1.4rem;
+            color: #222;
         }
 
         .selected-enclosure-content {
@@ -167,70 +156,67 @@
         /* Available Enclosures Section */
         .available-enclosures {
             background: #fff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .available-enclosures h2 {
-            margin: 0 0 15px 0;
-            font-size: 1.3rem;
-            color: #0f0f0f;
-            font-weight: 700;
+            margin: 0 0 20px 0;
+            font-size: 1.4rem;
+            color: #222;
         }
 
         .enclosure-selection {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
         }
 
         .enclosure-option {
             background: #fff;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 8px;
-            padding: 15px;
+            padding: 20px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             position: relative;
         }
 
         .enclosure-option:hover {
-            border-color: #0f0f0f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #2ecc71;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .enclosure-option.selected {
-            border-color: #0f0f0f;
-            background: #f8f8f8;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-color: #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
         }
 
         .enclosure-option.premium {
-            border-color: #0f0f0f;
-            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #fff 0%, #fef9e7 100%);
         }
 
         .enclosure-option.premium::before {
             content: '⭐ PREMIUM';
             position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #0f0f0f;
+            top: 10px;
+            right: 10px;
+            background: #f39c12;
             color: white;
-            padding: 3px 6px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
 
         .enclosure-option.premium:hover {
-            border-color: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-color: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.3);
         }
 
         .enclosure-option img {
@@ -255,9 +241,9 @@
         }
 
         .enclosure-option .price {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0f0f0f;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2ecc71;
             margin-top: 10px;
         }
 
@@ -320,38 +306,36 @@
         }
 
         .preview-button {
-            padding: 8px 12px;
-            border: 1px solid #0f0f0f;
-            border-radius: 6px;
-            background: #ffffff;
-            color: #0f0f0f;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #fff;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.8rem;
-            font-weight: 600;
-            font-family: 'Open Sans', Arial, sans-serif;
-            min-width: 70px;
-            text-align: center;
-            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-width: 100px;
         }
 
         .preview-button:hover {
-            background: #0f0f0f;
-            color: #ffffff;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .preview-button:active {
             transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
         #reset-view {
-            background: #0f0f0f;
-            color: #ffffff;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
 
         #reset-view:hover {
-            background: #333;
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
         }
 
         /* Camera Help Panel */
@@ -417,21 +401,18 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Items Panel - Redesigned */
+        /* Right Panel - Items Selection */
         .items-panel {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            height: fit-content;
         }
 
         .items-panel h2 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 15px;
             color: #0f0f0f;
-            font-weight: 700;
         }
 
         .items-categories {
@@ -441,29 +422,19 @@
         .category-button {
             display: block;
             width: 100%;
-            padding: 10px 15px;
+            padding: 10px;
             margin-bottom: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            background: #f8f8f8;
+            border: none;
+            border-radius: 4px;
+            background: #fff;
             color: #0f0f0f;
             text-align: left;
             cursor: pointer;
-            font-weight: 600;
-            font-family: 'Open Sans', Arial, sans-serif;
-            transition: all 0.2s ease;
+            transition: background 0.2s;
         }
 
         .category-button:hover {
-            background: #0f0f0f;
-            color: #fff;
-            border-color: #0f0f0f;
-        }
-
-        .category-button.active {
-            background: #0f0f0f;
-            color: #fff;
-            border-color: #0f0f0f;
+            background: #eee;
         }
 
         .items-list {
@@ -473,18 +444,11 @@
 
         .item-card {
             background: #fff;
-            padding: 12px;
+            padding: 10px;
             margin-bottom: 10px;
-            border-radius: 8px;
+            border-radius: 4px;
             border: 1px solid #ddd;
             cursor: move;
-            transition: all 0.2s ease;
-        }
-
-        .item-card:hover {
-            border-color: #0f0f0f;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transform: translateY(-1px);
         }
 
         .item-card img {
@@ -506,8 +470,8 @@
         }
 
         .price-tag {
-            color: #0f0f0f;
-            font-weight: 700;
+            color: #2ecc71;
+            font-weight: bold;
             margin-top: 5px;
         }
 
@@ -578,105 +542,30 @@
             background: #2980b9;
         }
 
-        /* Mobile-First Responsive Design */
-        @media (max-width: 768px) {
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .builder-grid {
+                grid-template-columns: 250px 1fr 250px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .builder-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-panel {
+                min-height: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
             .builder-container {
                 padding: 80px 10px 20px;
             }
 
-            .builder-header {
-                margin-bottom: 20px;
-                padding: 15px;
-            }
-
             .builder-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .builder-header p {
-                font-size: 1rem;
-            }
-
-            #enclosure-canvas {
-                height: 300px;
-            }
-
-            .canvas-container {
-                padding: 10px;
-                margin-bottom: 15px;
-            }
-
-            .canvas-controls {
-                bottom: 10px;
-                padding: 6px;
-                gap: 4px;
-            }
-
-            .preview-button {
-                padding: 6px 8px;
-                font-size: 0.7rem;
-                min-width: 60px;
-            }
-
-            .enclosure-selection {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 10px;
-            }
-
-            .enclosure-option {
-                padding: 10px;
-            }
-
-            .enclosure-option img {
-                height: 120px;
-            }
-
-            .selected-enclosure,
-            .available-enclosures {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-
-            .selected-enclosure-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .selected-enclosure-image {
-                width: 100%;
-                height: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .builder-container {
-                padding: 70px 8px 20px;
-            }
-
-            .builder-header h1 {
-                font-size: 1.6rem;
-            }
-
-            #enclosure-canvas {
-                height: 250px;
-            }
-
-            .canvas-controls {
-                flex-direction: column;
-                align-items: center;
-                gap: 3px;
-                padding: 4px;
-            }
-
-            .preview-button {
-                width: 100%;
-                max-width: 120px;
-                padding: 5px;
-                font-size: 0.65rem;
-            }
-
-            .enclosure-selection {
-                grid-template-columns: 1fr;
+                font-size: 2rem;
             }
         }
 
@@ -809,11 +698,10 @@
         /* Reptile Selection Styles */
         .reptile-selection {
             background: #fff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .reptile-select-container {
@@ -826,23 +714,21 @@
             flex: 1;
             padding: 12px;
             font-size: 1.1rem;
-            font-weight: 600;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 8px;
             background-color: #fff;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Open Sans', Arial, sans-serif;
+            transition: all 0.3s ease;
         }
 
         .reptile-select-container select:hover {
-            border-color: #0f0f0f;
+            border-color: #2ecc71;
         }
 
         .reptile-select-container select:focus {
             outline: none;
-            border-color: #0f0f0f;
-            box-shadow: 0 0 0 2px rgba(15, 15, 15, 0.1);
+            border-color: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
         }
 
         .reptile-info {
@@ -850,7 +736,6 @@
             padding: 15px;
             background: #f8f8f8;
             border-radius: 8px;
-            border: 1px solid #e5e5e5;
             display: none;
         }
 
@@ -859,121 +744,8 @@
         }
 
         .reptile-info p {
-            margin: 8px 0;
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* Collapsible Sections for Mobile */
-        .collapsible-section {
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            background: #fff;
-        }
-
-        .collapsible-header {
-            background: #f8f8f8;
-            padding: 12px 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            border-bottom: 1px solid #e5e5e5;
-            transition: background 0.2s ease;
-            font-family: 'Open Sans', Arial, sans-serif;
-        }
-
-        .collapsible-header:hover {
-            background: #f0f0f0;
-        }
-
-        .collapsible-header.active {
-            background: #0f0f0f;
-            color: #fff;
-        }
-
-        .collapsible-icon {
-            transition: transform 0.2s ease;
-            font-size: 0.8rem;
-        }
-
-        .collapsible-header.active .collapsible-icon {
-            transform: rotate(180deg);
-        }
-
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .collapsible-content.active {
-            max-height: 2000px;
-        }
-
-        .collapsible-content-inner {
-            padding: 0;
-        }
-
-        /* Mobile Navigation Helper */
-        .mobile-nav-helper {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #0f0f0f;
-            color: #fff;
-            padding: 12px;
-            border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            z-index: 1000;
-            width: 50px;
-            height: 50px;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        /* Mobile Layout Control */
-        .mobile-collapsible {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-nav-helper {
-                display: flex;
-            }
-
-            .mobile-collapsible {
-                display: block;
-            }
-
-            /* Hide regular sections on mobile */
-            .mobile-hidden .selected-enclosure,
-            .mobile-hidden .available-enclosures,
-            .mobile-hidden .items-panel,
-            .mobile-hidden .summary-panel {
-                display: none;
-            }
-
-            /* Improved Touch Targets */
-            .enclosure-option,
-            .preview-button,
-            .category-button,
-            .action-button {
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .collapsible-header {
-                min-height: 44px;
-            }
+            margin: 5px 0;
+            color: #444;
         }
     </style>
 
@@ -1084,178 +856,9 @@
                 <button class="action-button share-button">Share Design</button>
             </div>
         </div>
-
-        <!-- Mobile Collapsible Sections -->
-        <div class="mobile-collapsible">
-            <!-- Selected Enclosure Collapsible -->
-            <div class="collapsible-section">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                    <span>Selected Enclosure</span>
-                    <span class="collapsible-icon">▼</span>
-                </div>
-                <div class="collapsible-content">
-                    <div class="collapsible-content-inner">
-                        <div id="mobile-selected-enclosure">
-                            <!-- Content will be copied here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Available Enclosures Collapsible -->
-            <div class="collapsible-section">
-                <div class="collapsible-header active" onclick="toggleCollapsible(this)">
-                    <span>Choose Enclosure</span>
-                    <span class="collapsible-icon">▼</span>
-                </div>
-                <div class="collapsible-content active">
-                    <div class="collapsible-content-inner">
-                        <div id="mobile-available-enclosures">
-                            <!-- Content will be copied here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Items Panel Collapsible -->
-            <div class="collapsible-section">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                    <span>Add Items</span>
-                    <span class="collapsible-icon">▼</span>
-                </div>
-                <div class="collapsible-content">
-                    <div class="collapsible-content-inner">
-                        <div id="mobile-items-panel">
-                            <!-- Content will be copied here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Summary Collapsible -->
-            <div class="collapsible-section">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                    <span>Build Summary</span>
-                    <span class="collapsible-icon">▼</span>
-                </div>
-                <div class="collapsible-content">
-                    <div class="collapsible-content-inner">
-                        <div id="mobile-summary-panel">
-                            <!-- Content will be copied here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Helper -->
-        <div class="mobile-nav-helper" onclick="scrollToTop()" title="Scroll to top">
-            ↑
-        </div>
     </div>
 
     <script>
-        // Mobile Collapsible Functions
-        function toggleCollapsible(header) {
-            const content = header.nextElementSibling;
-            
-            header.classList.toggle('active');
-            content.classList.toggle('active');
-            
-            // Close other sections on mobile for better UX
-            if (window.innerWidth <= 768) {
-                const allHeaders = document.querySelectorAll('.collapsible-header');
-                allHeaders.forEach(h => {
-                    if (h !== header && h.classList.contains('active')) {
-                        h.classList.remove('active');
-                        h.nextElementSibling.classList.remove('active');
-                    }
-                });
-            }
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function initMobileLayout() {
-            const isMobile = window.innerWidth <= 768;
-            const mobileCollapsible = document.querySelector('.mobile-collapsible');
-            const builderContainer = document.querySelector('.builder-container');
-            
-            if (isMobile) {
-                mobileCollapsible.style.display = 'block';
-                builderContainer.classList.add('mobile-hidden');
-                
-                // Copy content to mobile sections
-                setTimeout(() => {
-                    copyToMobileSection('.selected-enclosure', '#mobile-selected-enclosure');
-                    copyToMobileSection('.available-enclosures', '#mobile-available-enclosures');
-                    copyToMobileSection('.items-panel', '#mobile-items-panel');
-                    copyToMobileSection('.summary-panel', '#mobile-summary-panel');
-                }, 100);
-            } else {
-                mobileCollapsible.style.display = 'none';
-                builderContainer.classList.remove('mobile-hidden');
-            }
-        }
-
-        function copyToMobileSection(sourceSelector, targetSelector) {
-            const source = document.querySelector(sourceSelector);
-            const target = document.querySelector(targetSelector);
-            if (source && target) {
-                target.innerHTML = source.innerHTML;
-                
-                // Re-attach event listeners for copied elements
-                reattachEventListeners(target);
-            }
-        }
-
-        function reattachEventListeners(container) {
-            // Re-attach enclosure option click events
-            const enclosureOptions = container.querySelectorAll('.enclosure-option');
-            enclosureOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    const enclosureId = this.getAttribute('data-enclosure-id');
-                    if (enclosureId) {
-                        // Find original enclosure data and select it
-                        const originalOption = document.querySelector(`.enclosure-option[data-enclosure-id="${enclosureId}"]`);
-                        if (originalOption) {
-                            originalOption.click();
-                        }
-                    }
-                });
-            });
-
-            // Re-attach category button events
-            const categoryButtons = container.querySelectorAll('.category-button');
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all category buttons
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                });
-            });
-        }
-
-        // Initialize mobile layout on load and resize
-        window.addEventListener('load', initMobileLayout);
-        window.addEventListener('resize', debounce(initMobileLayout, 250));
-
-        // Debounce function to limit resize event frequency
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
         // Amazon Affiliate Configuration
         const AMAZON_AFFILIATE_TAG = 'reptilecare09-20';
         
@@ -1516,8 +1119,6 @@
                     updateReptileInfo(selectedReptile);
                     updatePageTitle(reptileData[selectedReptile].name);
                     initializeEnclosureSelection(selectedReptile);
-                    // Update mobile layout after content changes
-                    setTimeout(initMobileLayout, 100);
                 } else {
                     reptileInfo.style.display = 'none';
                     document.querySelector('.builder-header h1').textContent = 'Enclosure Builder';
@@ -1692,9 +1293,6 @@
             if (selectedElement) {
                 selectedElement.classList.add('selected');
             }
-
-            // Update mobile layout after selection changes
-            setTimeout(initMobileLayout, 100);
         }
 
         // Setup drop zone functionality
