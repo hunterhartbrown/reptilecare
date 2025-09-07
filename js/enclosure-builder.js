@@ -21,6 +21,10 @@ class EnclosureBuilder {
         this.init();
     }
 
+    isMobile() {
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
     initSharedMaterials() {
         // Shared materials to reduce draw calls and memory usage
         this.sharedMaterials = {
@@ -70,10 +74,20 @@ class EnclosureBuilder {
         // Setup renderer - use container size instead of window size to prevent overflow
         const canvas = document.getElementById('enclosure-canvas');
         const canvasContainer = canvas.parentElement;
-        const containerWidth = canvasContainer.clientWidth - 40; // Account for padding
-        const containerHeight = 600; // Fixed height from CSS
+        const containerWidth = canvasContainer.clientWidth - (this.isMobile() ? 20 : 40); // Account for padding
+        
+        // Responsive height based on device
+        let containerHeight;
+        if (this.isMobile()) {
+            containerHeight = Math.min(300, window.innerHeight * 0.4); // Max 40% of viewport height on mobile
+        } else {
+            containerHeight = 400; // Fixed height for desktop
+        }
         
         this.renderer.setSize(containerWidth, containerHeight);
+        
+        // Update canvas height in CSS
+        canvas.style.height = containerHeight + 'px';
         this.renderer.setClearColor(0xf8f8f8);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -110,6 +124,15 @@ class EnclosureBuilder {
         // Ensure zoom is enabled
         this.controls.enableZoom = true;
         this.controls.zoomSpeed = 1.0;
+        
+        // Mobile-specific optimizations
+        if (this.isMobile()) {
+            this.controls.enablePan = false; // Disable panning on mobile to prevent conflicts
+            this.controls.enableKeys = false; // Disable keyboard controls on mobile
+            this.controls.zoomSpeed = 0.8; // Slower zoom for better mobile control
+            this.controls.rotateSpeed = 0.8; // Slower rotation for better mobile control
+            this.controls.dampingFactor = 0.1; // More damping for smoother mobile experience
+        }
 
         // Create enclosure
         this.createEnclosure();
@@ -1226,12 +1249,31 @@ class EnclosureBuilder {
         // Update canvas size based on container, not window
         const canvas = document.getElementById('enclosure-canvas');
         const canvasContainer = canvas.parentElement;
-        const containerWidth = canvasContainer.clientWidth - 40; // Account for padding
-        const containerHeight = 600; // Fixed height from CSS
+        const containerWidth = canvasContainer.clientWidth - (this.isMobile() ? 20 : 40); // Less padding on mobile
+        
+        // Responsive height based on device
+        let containerHeight;
+        if (this.isMobile()) {
+            containerHeight = Math.min(300, window.innerHeight * 0.4); // Max 40% of viewport height on mobile
+        } else {
+            containerHeight = 400; // Fixed height for desktop
+        }
         
         this.camera.aspect = containerWidth / containerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(containerWidth, containerHeight);
+        
+        // Update canvas height in CSS
+        canvas.style.height = containerHeight + 'px';
+        
+        // Adjust controls for mobile after resize
+        if (this.isMobile()) {
+            this.controls.enablePan = false;
+            this.controls.enableKeys = false;
+        } else {
+            this.controls.enablePan = true;
+            this.controls.enableKeys = true;
+        }
     }
 
     // Camera control methods
