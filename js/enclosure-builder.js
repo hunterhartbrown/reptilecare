@@ -374,7 +374,8 @@ class EnclosureBuilder {
         const circleSegments = 48;
         const circleGeometry = new THREE.CircleGeometry(circleRadius, circleSegments);
         const centerCircle = new THREE.Mesh(circleGeometry, handleMaterial);
-        centerCircle.position.set(0, 0, width/2 + 0.001);
+        const yFrontRail = -height/2 + railHeight; // Align with black front rail supporting the glass
+        centerCircle.position.set(0, yFrontRail, width/2 + 0.001);
         centerCircle.name = 'front-center-circle';
         enclosure.add(centerCircle);
     }
