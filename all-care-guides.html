@@ -694,6 +694,15 @@
                 max-width: calc(100vw - 480px - 24px - 40px) !important; /* viewport - sidebar - grid gap - wrap padding */
             }
         }
+        /* Remove white rectangle behind the cards */
+        [data-rc-cg="grid"] .care-guide-container {
+            background: transparent !important;
+            border-radius: 0 !important;
+        }
+        /* Match card outline with filters and buttons */
+        .care-guide {
+            border: 1.3px solid #0f0f0f !important;
+        }
         /* Apply/Cancel actions */
         .rc-filter-actions {
             display: flex;
