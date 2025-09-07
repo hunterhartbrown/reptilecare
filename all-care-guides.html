@@ -680,6 +680,20 @@
             border-color: #333 !important;
             color: #ffffff !important; /* Maintain white text on hover/focus */
         }
+        /* Desktop layout fixes for 1920x1080 */
+        [data-rc-cg="grid"] {
+            background: transparent !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+        }
+        [data-rc-cg="layout"] {
+            grid-template-columns: 480px 1fr !important; /* narrower sidebar */
+        }
+        @media (min-width: 1200px) {
+            .care-guide-container {
+                max-width: calc(100vw - 480px - 24px - 40px) !important; /* viewport - sidebar - grid gap - wrap padding */
+            }
+        }
         /* Apply/Cancel actions */
         .rc-filter-actions {
             display: flex;
