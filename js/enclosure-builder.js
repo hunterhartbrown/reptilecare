@@ -369,26 +369,14 @@ class EnclosureBuilder {
         // Clean up
         railGeometries.forEach(geo => geo.dispose());
 
-        // STEP 5: Simple handles (only 2 objects instead of many detailed parts)
-        const handleWidth = 0.008;
-        const handleHeight = 0.004;
-        const handleDepth = 0.025;
-        const handleGeometry = new THREE.BoxGeometry(handleDepth, handleHeight, handleWidth);
-
-        // Left door handle
-        const leftHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        leftHandle.position.set(-doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);
-        leftHandle.name = 'left-handle';
-        enclosure.add(leftHandle);
-
-        // Right door handle (reuse geometry)
-        const rightHandle = new THREE.Mesh(handleGeometry, handleMaterial);
-        rightHandle.position.set(doorWidth/4, railHeight/2 + railThickness/2, width/2 + 0.008);
-        rightHandle.name = 'right-handle';
-        enclosure.add(rightHandle);
-
-        // Dispose of the temporary handle geometry
-        // Note: Don't dispose handleGeometry since it's shared between handles
+        // STEP 5: Center circle between glass doors (front middle)
+        const circleRadius = 0.0127; // ~1 inch diameter
+        const circleSegments = 48;
+        const circleGeometry = new THREE.CircleGeometry(circleRadius, circleSegments);
+        const centerCircle = new THREE.Mesh(circleGeometry, handleMaterial);
+        centerCircle.position.set(0, 0, width/2 + 0.001);
+        centerCircle.name = 'front-center-circle';
+        enclosure.add(centerCircle);
     }
 
     createPVCPanelModel(enclosure, length, width, height) {
