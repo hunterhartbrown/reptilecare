@@ -755,10 +755,14 @@
 
         /* ===== Enclosure Builder: Sidebar/Layout (mirroring care guides) ===== */
         [data-rc-eb="wrap"] {
-            background: #0f0f0f;
-            padding: 0 0 16px 0;
-            width: 100%;
-            box-sizing: border-box;
+            background: #f8f8f8 !important; /* Match care guides off-white */
+            margin-top: 0 !important;
+            border-radius: 0 !important;
+            padding: 2rem 1.25rem !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: visible !important;
         }
 
         [data-rc-eb="layout"] {
@@ -899,10 +903,11 @@
 
         .builder-header h1 {
             font-weight: 700;
+            color: #ffffff;
         }
 
         .builder-header p {
-            color: #cccccc;
+            color: #ffffff;
         }
 
         /* Mobile behavior */
@@ -914,6 +919,17 @@
             }
             [data-rc-eb="sidebar"] { display: none; }
             .eb-mobile-items-toggle { display: flex; }
+        }
+
+        /* Ensure main container spacing mirrors care guides on mobile */
+        @media (max-width: 1023.98px) {
+            [data-rc-eb="wrap"] {
+                padding: 1rem 0.5rem !important;
+                margin: 0 !important;
+            }
+        }
+        @media (max-width: 480px) {
+            [data-rc-eb="wrap"] { padding: 0.5rem 0.25rem !important; }
         }
 
         /* Compact styling for Enclosures inside sidebar */
@@ -951,10 +967,13 @@
     <header id="main-header"></header>
     
     <div class="builder-container">
-        <div class="builder-header">
-            <h1>Enclosure Builder</h1>
-            <p>Design the perfect habitat for your reptile</p>
-        </div>
+        <!-- Intro banner wrapper to mirror care guides banner spacing/color -->
+        <section data-rc-eb="intro">
+            <div class="builder-header">
+                <h1>Enclosure Builder</h1>
+                <p>Design the perfect habitat for your reptile</p>
+            </div>
+        </section>
 
         <div data-rc-eb="wrap">
             <!-- Mobile: Select Items toggle (mirrors care guides mobile filters) -->
