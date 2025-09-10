@@ -911,7 +911,11 @@
         [data-rc-eb="intro"]::before {
             content: "";
             position: absolute;
-            inset: 0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw; /* full-bleed horizontally */
             background: #0f0f0f; /* black banner */
             z-index: 0;
         }
