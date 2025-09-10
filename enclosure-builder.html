@@ -10,11 +10,11 @@
             font-family: 'Open Sans', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #0f0f0f;
+            background-color: #ffffff;
         }
 
         .builder-container {
-            padding: 100px 20px 40px;
+            padding: 24px 20px 40px;
             max-width: 1400px;
             margin: 0 auto;
             overflow-x: hidden;
@@ -755,7 +755,7 @@
 
         /* ===== Enclosure Builder: Sidebar/Layout (mirroring care guides) ===== */
         [data-rc-eb="wrap"] {
-            background: #f8f8f8 !important; /* Match care guides off-white */
+            background: #ffffff !important; /* Full white content background */
             margin-top: 0 !important;
             border-radius: 0 !important;
             padding: 2rem 1.25rem !important;
@@ -898,15 +898,28 @@
         /* Banner alignment to mirror care guides */
         .builder-header {
             text-align: center;
-            margin-bottom: 16px;
+            margin: 0 auto;
+            padding: 24px 0 12px 0; /* reduce top spacing */
+            position: relative;
+            z-index: 1;
         }
 
-        .builder-header h1 {
+        /* Full-width black banner behind header */
+        [data-rc-eb="intro"] {
+            position: relative;
+        }
+        [data-rc-eb="intro"]::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: #0f0f0f; /* black banner */
+            z-index: 0;
+        }
+        [data-rc-eb="intro"] .builder-header h1 {
             font-weight: 700;
             color: #ffffff;
         }
-
-        .builder-header p {
+        [data-rc-eb="intro"] .builder-header p {
             color: #ffffff;
         }
 
