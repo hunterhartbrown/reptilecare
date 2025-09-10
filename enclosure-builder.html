@@ -437,6 +437,11 @@
             background: #eee;
         }
 
+        .category-button.active {
+            background: #0f0f0f;
+            color: #fff;
+        }
+
         .items-list {
             max-height: 400px;
             overflow-y: auto;
@@ -910,6 +915,31 @@
             [data-rc-eb="sidebar"] { display: none; }
             .eb-mobile-items-toggle { display: flex; }
         }
+
+        /* Compact styling for Enclosures inside sidebar */
+        .eb-sidebar-content .available-enclosures {
+            margin-bottom: 16px;
+            max-height: 480px;
+            overflow-y: auto;
+        }
+        .eb-sidebar-content .enclosure-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .eb-sidebar-content .enclosure-option {
+            padding: 12px;
+        }
+        .eb-sidebar-content .enclosure-option img {
+            height: 110px;
+        }
+        .eb-sidebar-content .enclosure-option h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .eb-sidebar-content .enclosure-option p {
+            font-size: 0.9rem;
+        }
     </style>
 
     <!-- Three.js Dependencies -->
@@ -946,25 +976,41 @@
                 <!-- Sticky Left Sidebar: Items + Summary -->
                 <aside data-rc-eb="sidebar" class="eb-sidebar" role="complementary" aria-label="Item selection sidebar">
                     <div class="eb-sidebar-content">
-                        <!-- Available Enclosures Section (moved to left sidebar) -->
-                        <div class="available-enclosures">
-                            <h2>Available Enclosures</h2>
-                            <div class="enclosure-selection" id="enclosure-selection">
-                                <!-- Enclosures will be dynamically loaded here -->
-                            </div>
-                        </div>
-
                         <div class="items-panel">
                             <h2>Add Items</h2>
                             <div class="items-categories">
+                                <button class="category-button active" data-category="enclosures">Enclosures</button>
                                 <button class="category-button" data-category="substrate">Substrate</button>
                                 <button class="category-button" data-category="decor">Decorations</button>
                                 <button class="category-button" data-category="heating">Heating</button>
                                 <button class="category-button" data-category="hides">Hides</button>
                                 <button class="category-button" data-category="plants">Plants</button>
                             </div>
-                            <div class="items-list" id="items-list">
-                                <!-- Items will be dynamically loaded here -->
+                            <!-- Category panes -->
+                            <div class="category-pane" data-pane="enclosures">
+                                <div class="available-enclosures">
+                                    <h2>Available Enclosures</h2>
+                                    <div class="enclosure-selection" id="enclosure-selection">
+                                        <!-- Enclosures will be dynamically loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-pane" data-pane="substrate" hidden>
+                                <div class="items-list" data-list="substrate">
+                                    <!-- Items will be dynamically loaded here -->
+                                </div>
+                            </div>
+                            <div class="category-pane" data-pane="decor" hidden>
+                                <div class="items-list" data-list="decor"></div>
+                            </div>
+                            <div class="category-pane" data-pane="heating" hidden>
+                                <div class="items-list" data-list="heating"></div>
+                            </div>
+                            <div class="category-pane" data-pane="hides" hidden>
+                                <div class="items-list" data-list="hides"></div>
+                            </div>
+                            <div class="category-pane" data-pane="plants" hidden>
+                                <div class="items-list" data-list="plants"></div>
                             </div>
                         </div>
 
@@ -1568,16 +1614,39 @@
             document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && drawer && !drawer.hidden) closeDrawer(); });
         }
 
+        // EB: Category switching – make enclosures behave like other categories
+        function setupEBCategories() {
+            const buttons = document.querySelectorAll('.items-categories .category-button');
+            const panes = document.querySelectorAll('.category-pane');
+
+            function activate(category) {
+                buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.category === category));
+                panes.forEach(pane => {
+                    const isMatch = pane.getAttribute('data-pane') === category;
+                    pane.toggleAttribute('hidden', !isMatch);
+                });
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => activate(btn.dataset.category));
+            });
+
+            // Default to enclosures active
+            activate('enclosures');
+        }
+
         // Initialize EB layout helpers
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
                 updateEBStickyOffset();
                 setupEBMobileItems();
+                setupEBCategories();
                 window.addEventListener('resize', updateEBStickyOffset);
             });
         } else {
             updateEBStickyOffset();
             setupEBMobileItems();
+            setupEBCategories();
             window.addEventListener('resize', updateEBStickyOffset);
         }
     </script>
