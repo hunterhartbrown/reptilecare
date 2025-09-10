@@ -747,6 +747,169 @@
             margin: 5px 0;
             color: #444;
         }
+
+        /* ===== Enclosure Builder: Sidebar/Layout (mirroring care guides) ===== */
+        [data-rc-eb="wrap"] {
+            background: #0f0f0f;
+            padding: 0 0 16px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        [data-rc-eb="layout"] {
+            display: grid;
+            grid-template-columns: 480px 1fr;
+            gap: 24px;
+            align-items: start;
+            margin-top: 16px;
+        }
+
+        [data-rc-eb="sidebar"] {
+            position: sticky;
+            top: var(--eb-sticky-top, 16px);
+            max-height: calc(100vh - var(--eb-sticky-top, 16px));
+            overflow-y: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1.3px solid #0f0f0f;
+        }
+
+        .eb-sidebar-content {
+            padding: 16px;
+        }
+
+        /* Mobile: toggle + drawer for items (like care guides filters) */
+        .eb-mobile-items-toggle {
+            display: none;
+            width: 100%;
+            padding: 12px 16px;
+            margin: 0 0 8px 0;
+            background: #fff;
+            border: 1.3px solid #0f0f0f;
+            border-radius: 8px;
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f0f0f;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .eb-mobile-items-toggle:hover,
+        .eb-mobile-items-toggle:focus {
+            border-color: #0f0f0f;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .eb-item-count:empty { display: none; }
+        .eb-item-count {
+            background: #0f0f0f;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .eb-mobile-items-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: auto;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .eb-mobile-items-drawer[hidden] { display: none !important; }
+
+        .eb-mobile-items-header {
+            background: #fff;
+            padding: 16px 20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1.3px solid #0f0f0f;
+            border-bottom: none;
+        }
+
+        .eb-mobile-items-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f0f0f;
+        }
+
+        .eb-mobile-items-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .eb-mobile-items-close:hover,
+        .eb-mobile-items-close:focus {
+            background: #f5f5f5;
+            color: #0f0f0f;
+        }
+
+        .eb-mobile-items-content {
+            background: #fff;
+            padding: 16px;
+            border: 1.3px solid #0f0f0f;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: calc(100vh - 120px);
+            overflow: auto;
+        }
+
+        /* Banner alignment to mirror care guides */
+        .builder-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .builder-header h1 {
+            font-weight: 700;
+        }
+
+        .builder-header p {
+            color: #cccccc;
+        }
+
+        /* Mobile behavior */
+        @media (max-width: 1023.98px) {
+            [data-rc-eb="layout"] {
+                grid-template-columns: 1fr;
+                gap: 0;
+                margin-top: 8px;
+            }
+            [data-rc-eb="sidebar"] { display: none; }
+            .eb-mobile-items-toggle { display: flex; }
+        }
     </style>
 
     <!-- Three.js Dependencies -->
@@ -763,97 +926,121 @@
             <p>Design the perfect habitat for your reptile</p>
         </div>
 
-        <!-- Reptile Selection Section -->
-        <div class="reptile-selection">
-            <div class="reptile-select-container">
-                <select id="reptile-select">
-                    <option value="">Select a reptile...</option>
-                    <option value="leopard-gecko">Leopard Gecko</option>
-                    <option value="bearded-dragon">Bearded Dragon</option>
-                    <option value="crested-gecko">Crested Gecko</option>
-                    <option value="eastern-collared-lizard">Eastern Collared Lizard</option>
-                </select>
-            </div>
-            <div class="reptile-info" id="reptile-info">
-                <!-- Reptile info will be dynamically loaded here -->
-            </div>
-        </div>
+        <div data-rc-eb="wrap">
+            <!-- Mobile: Select Items toggle (mirrors care guides mobile filters) -->
+            <button type="button" data-rc-eb="mobile-items-toggle" class="eb-mobile-items-toggle" aria-label="Open item selection">
+                <span>Select items</span>
+                <span class="eb-item-count" id="mobile-items-count"></span>
+            </button>
 
-        <!-- 3D Preview Section -->
-        <div class="canvas-container">
-            <canvas id="enclosure-canvas"></canvas>
-            <div class="canvas-controls">
-                <button class="preview-button" id="rotate-left" title="Rotate Left (A key)">↺ Rotate Left</button>
-                <button class="preview-button" id="rotate-right" title="Rotate Right (D key)">↻ Rotate Right</button>
-                <button class="preview-button" id="zoom-in" title="Zoom In (W key)">🔍+ Zoom In</button>
-                <button class="preview-button" id="zoom-out" title="Zoom Out (S key)">🔍- Zoom Out</button>
-                <button class="preview-button" id="toggle-measurements" title="Toggle Measurements (M key)">📏 Measurements</button>
-                <button class="preview-button" id="toggle-top-mesh" title="Toggle Top Mesh (T key)" onclick="window.enclosureBuilder?.toggleTopMesh()">📦 Add Top</button>
-                <button class="preview-button" id="reset-view" title="Reset View (R key)">🎯 Reset View</button>
-            </div>
-            <div class="camera-help">
-                <div class="help-toggle" id="help-toggle">💡 Controls</div>
-                <div class="help-content" id="help-content">
-                    <h4>Camera Controls</h4>
-                    <p><strong>Mouse:</strong> Click and drag to orbit • Scroll to zoom</p>
-                    <p><strong>Keyboard:</strong> A/D to rotate • W/S to zoom • M to toggle measurements • R to reset</p>
-                    <p><strong>Buttons:</strong> Use the controls below for precise movement</p>
+            <!-- Mobile Items Drawer -->
+            <div data-rc-eb="mobile-items-drawer" class="eb-mobile-items-drawer" hidden aria-hidden="true">
+                <div class="eb-mobile-items-header">
+                    <h2>Select Items</h2>
+                    <button type="button" data-rc-eb="mobile-items-close" class="eb-mobile-items-close" aria-label="Close">×</button>
                 </div>
+                <div class="eb-mobile-items-content"></div>
             </div>
-        </div>
 
-        <!-- Selected Enclosure Section - Now below 3D preview -->
-        <div class="selected-enclosure">
-            <h2 id="selected-enclosure-count">Selected Enclosure (0/1)</h2>
-            <div class="selected-enclosure-content" id="selected-enclosure-drop-zone">
-                <div class="selected-enclosure-image" id="selected-enclosure-image">
-                    <p>Drag an enclosure here or click one below</p>
+            <div data-rc-eb="layout" class="eb-layout">
+                <!-- Sticky Left Sidebar: Items + Summary -->
+                <aside data-rc-eb="sidebar" class="eb-sidebar" role="complementary" aria-label="Item selection sidebar">
+                    <div class="eb-sidebar-content">
+                        <div class="items-panel">
+                            <h2>Add Items</h2>
+                            <div class="items-categories">
+                                <button class="category-button" data-category="substrate">Substrate</button>
+                                <button class="category-button" data-category="decor">Decorations</button>
+                                <button class="category-button" data-category="heating">Heating</button>
+                                <button class="category-button" data-category="hides">Hides</button>
+                                <button class="category-button" data-category="plants">Plants</button>
+                            </div>
+                            <div class="items-list" id="items-list">
+                                <!-- Items will be dynamically loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="summary-panel">
+                            <h2>Build Summary</h2>
+                            <ul class="summary-list" id="summary-list">
+                                <!-- Summary items will be dynamically added here -->
+                            </ul>
+                            <div class="total-price" id="total-price">
+                                Total: $0.00
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-button save-button">Save Design</button>
+                                <button class="action-button share-button">Share Design</button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content Area -->
+                <div data-rc-eb="main" class="eb-main">
+                    <!-- Reptile Selection Section -->
+                    <div class="reptile-selection">
+                        <div class="reptile-select-container">
+                            <select id="reptile-select">
+                                <option value="">Select a reptile...</option>
+                                <option value="leopard-gecko">Leopard Gecko</option>
+                                <option value="bearded-dragon">Bearded Dragon</option>
+                                <option value="crested-gecko">Crested Gecko</option>
+                                <option value="eastern-collared-lizard">Eastern Collared Lizard</option>
+                            </select>
+                        </div>
+                        <div class="reptile-info" id="reptile-info">
+                            <!-- Reptile info will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- 3D Preview Section -->
+                    <div class="canvas-container">
+                        <canvas id="enclosure-canvas"></canvas>
+                        <div class="canvas-controls">
+                            <button class="preview-button" id="rotate-left" title="Rotate Left (A key)">↺ Rotate Left</button>
+                            <button class="preview-button" id="rotate-right" title="Rotate Right (D key)">↻ Rotate Right</button>
+                            <button class="preview-button" id="zoom-in" title="Zoom In (W key)">🔍+ Zoom In</button>
+                            <button class="preview-button" id="zoom-out" title="Zoom Out (S key)">🔍- Zoom Out</button>
+                            <button class="preview-button" id="toggle-measurements" title="Toggle Measurements (M key)">📏 Measurements</button>
+                            <button class="preview-button" id="toggle-top-mesh" title="Toggle Top Mesh (T key)" onclick="window.enclosureBuilder?.toggleTopMesh()">📦 Add Top</button>
+                            <button class="preview-button" id="reset-view" title="Reset View (R key)">🎯 Reset View</button>
+                        </div>
+                        <div class="camera-help">
+                            <div class="help-toggle" id="help-toggle">💡 Controls</div>
+                            <div class="help-content" id="help-content">
+                                <h4>Camera Controls</h4>
+                                <p><strong>Mouse:</strong> Click and drag to orbit • Scroll to zoom</p>
+                                <p><strong>Keyboard:</strong> A/D to rotate • W/S to zoom • M to toggle measurements • R to reset</p>
+                                <p><strong>Buttons:</strong> Use the controls below for precise movement</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Enclosure Section - Now below 3D preview -->
+                    <div class="selected-enclosure">
+                        <h2 id="selected-enclosure-count">Selected Enclosure (0/1)</h2>
+                        <div class="selected-enclosure-content" id="selected-enclosure-drop-zone">
+                            <div class="selected-enclosure-image" id="selected-enclosure-image">
+                                <p>Drag an enclosure here or click one below</p>
+                            </div>
+                            <div class="selected-enclosure-details">
+                                <p><strong>Dimensions:</strong> <span id="selected-dimensions">-</span></p>
+                                <p><strong>Material:</strong> <span id="selected-material">-</span></p>
+                                <p><strong>Features:</strong> <span id="selected-features">-</span></p>
+                                <p class="price">$<span id="selected-price">0.00</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Available Enclosures Section -->
+                    <div class="available-enclosures">
+                        <h2>Available Enclosures</h2>
+                        <div class="enclosure-selection" id="enclosure-selection">
+                            <!-- Enclosures will be dynamically loaded here -->
+                        </div>
+                    </div>
                 </div>
-                <div class="selected-enclosure-details">
-                    <p><strong>Dimensions:</strong> <span id="selected-dimensions">-</span></p>
-                    <p><strong>Material:</strong> <span id="selected-material">-</span></p>
-                    <p><strong>Features:</strong> <span id="selected-features">-</span></p>
-                    <p class="price">$<span id="selected-price">0.00</span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Available Enclosures Section -->
-        <div class="available-enclosures">
-            <h2>Available Enclosures</h2>
-            <div class="enclosure-selection" id="enclosure-selection">
-                <!-- Enclosures will be dynamically loaded here -->
-            </div>
-        </div>
-
-        <!-- Items Panel -->
-        <div class="items-panel">
-            <h2>Add Items</h2>
-            <div class="items-categories">
-                <button class="category-button" data-category="substrate">Substrate</button>
-                <button class="category-button" data-category="decor">Decorations</button>
-                <button class="category-button" data-category="heating">Heating</button>
-                <button class="category-button" data-category="hides">Hides</button>
-                <button class="category-button" data-category="plants">Plants</button>
-            </div>
-
-            <div class="items-list" id="items-list">
-                <!-- Items will be dynamically loaded here -->
-            </div>
-        </div>
-
-        <!-- Summary Panel -->
-        <div class="summary-panel">
-            <h2>Build Summary</h2>
-            <ul class="summary-list" id="summary-list">
-                <!-- Summary items will be dynamically added here -->
-            </ul>
-            <div class="total-price" id="total-price">
-                Total: $0.00
-            </div>
-            <div class="action-buttons">
-                <button class="action-button save-button">Save Design</button>
-                <button class="action-button share-button">Share Design</button>
             </div>
         </div>
     </div>
@@ -1333,6 +1520,65 @@
                 </li>
             `;
             document.getElementById('total-price').textContent = `Total: $${enclosure.price.toFixed(2)}`;
+        }
+    </script>
+
+    <script>
+        // EB: Sticky offset based on header height (mirrors care guides)
+        function updateEBStickyOffset() {
+            const header = document.querySelector('header') || document.querySelector('#main-header');
+            const offset = header ? (header.getBoundingClientRect().height + 16) : 16;
+            document.documentElement.style.setProperty('--eb-sticky-top', `${offset}px`);
+        }
+
+        // EB: Mobile drawer handling for Items sidebar (mirrors care guides mobile filters)
+        function setupEBMobileItems() {
+            const toggleBtn = document.querySelector('[data-rc-eb="mobile-items-toggle"]');
+            const drawer = document.querySelector('[data-rc-eb="mobile-items-drawer"]');
+            const closeBtn = document.querySelector('[data-rc-eb="mobile-items-close"]');
+            const content = drawer ? drawer.querySelector('.eb-mobile-items-content') : null;
+            const sidebarContent = document.querySelector('.eb-sidebar-content');
+
+            function populateDrawer() {
+                if (!content || !sidebarContent) return;
+                content.innerHTML = '';
+                content.appendChild(sidebarContent.cloneNode(true));
+            }
+
+            function openDrawer() {
+                if (!drawer) return;
+                drawer.hidden = false;
+                drawer.setAttribute('aria-hidden', 'false');
+                populateDrawer();
+                document.body.style.overflow = 'hidden';
+                if (closeBtn) closeBtn.focus();
+            }
+
+            function closeDrawer() {
+                if (!drawer) return;
+                drawer.hidden = true;
+                drawer.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                if (toggleBtn) toggleBtn.focus();
+            }
+
+            toggleBtn && toggleBtn.addEventListener('click', openDrawer);
+            closeBtn && closeBtn.addEventListener('click', closeDrawer);
+            drawer && drawer.addEventListener('click', function(e) { if (e.target === drawer) closeDrawer(); });
+            document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && drawer && !drawer.hidden) closeDrawer(); });
+        }
+
+        // Initialize EB layout helpers
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                updateEBStickyOffset();
+                setupEBMobileItems();
+                window.addEventListener('resize', updateEBStickyOffset);
+            });
+        } else {
+            updateEBStickyOffset();
+            setupEBMobileItems();
+            window.addEventListener('resize', updateEBStickyOffset);
         }
     </script>
 
