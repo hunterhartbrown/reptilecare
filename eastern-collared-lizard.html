@@ -29,18 +29,24 @@
       z-index: 1000;
     }
 
-    /* Hero Section */
+    /* Hero Section - Full-Bleed Dark */
     .species-hero {
-      background-color: #ffffff;
-      padding: 60px 20px;
-      width: 100%;
+      background-color: #0f0f0f;
+      color: #ffffff;
+      padding: 80px 20px;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
       box-sizing: border-box;
       margin-top: 80px;
+      position: relative;
     }
 
     .species-hero-container {
       max-width: 1200px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .species-hero-content {
@@ -50,14 +56,14 @@
     .species-hero-content h1 {
       font-size: 3rem;
       font-weight: 700;
-      color: #0f0f0f;
+      color: #ffffff;
       margin: 0 0 20px 0;
       line-height: 1.2;
     }
 
     .species-hero-subhead {
       font-size: 1.2rem;
-      color: #666;
+      color: rgba(255, 255, 255, 0.9);
       margin: 0;
       line-height: 1.5;
     }
@@ -180,40 +186,138 @@
       margin: 0;
     }
 
-    .content-area {
-      margin: 20px 0 40px;
-      text-align: left;
-    }
-
-    .section-content {
+    /* Modal Overlay */
+    .modal-backdrop {
       display: none;
-      background: #ffffff;
-      border: 1px solid #e5e5e5;
-      border-radius: 10px;
-      padding: 20px 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      margin-top: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      overflow-y: auto;
     }
 
-    .section-content h2 {
-      margin: 0 0 12px 0;
-      font-size: 22px;
+    .modal-backdrop.is-open {
+      display: block;
+    }
+
+    .modal-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      border-radius: 10px;
+      max-width: 720px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      z-index: 2001;
+      margin: 20px auto;
+    }
+
+    .modal-dialog-content {
+      padding: 30px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      font-weight: 300;
+      color: #666;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .modal-close:hover {
+      background-color: #f0f0f0;
+      color: #0f0f0f;
+    }
+
+    .modal-content h2 {
+      margin: 0 0 16px 0;
+      font-size: 24px;
       line-height: 1.3;
       color: #0f0f0f;
     }
 
-    .section-content p {
+    .modal-content p {
       margin: 15px 0;
       font-size: 17px;
       line-height: 1.7;
       color: #0f0f0f;
     }
 
-    /* Remove white outline from popup text */
-    .section-content * {
+    .modal-content a {
+      color: #0f0f0f;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .modal-content a:hover {
+      color: #333;
+    }
+
+    /* Hide original inline popups */
+    .section-content {
+      display: none !important;
+    }
+
+    /* Remove white outline from modal text */
+    .modal-content * {
       text-shadow: none;
       -webkit-text-stroke: none;
       outline: none;
+    }
+
+    /* Mobile modal adjustments */
+    @media (max-width: 768px) {
+      .modal-dialog {
+        width: 95%;
+        max-height: 95vh;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .modal-dialog-content {
+        padding: 24px 20px;
+      }
+
+      .modal-close {
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-dialog {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        top: 0;
+        transform: translate(-50%, 0);
+      }
+
+      .modal-dialog-content {
+        padding: 20px 16px;
+      }
     }
 
     footer {
@@ -231,7 +335,7 @@
     /* Mobile Responsive Hero */
     @media (max-width: 768px) {
       .species-hero {
-        padding: 40px 20px;
+        padding: 60px 20px;
       }
 
       .species-hero-content h1 {
@@ -245,7 +349,7 @@
 
     @media (max-width: 480px) {
       .species-hero {
-        padding: 30px 15px;
+        padding: 50px 15px;
         margin-top: 60px;
       }
 
@@ -297,27 +401,27 @@
 
     <!-- Button Grid -->
     <div class="species-button-group">
-      <button class="section-button" onclick="toggleSection('speciesInfo')">
+      <button class="section-button" onclick="openModal('speciesInfo')">
         <img src="../images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Info</span>
       </button>
-      <button class="section-button" onclick="toggleSection('habitatSize')">
+      <button class="section-button" onclick="openModal('habitatSize')">
         <img src="../images/habitat icon.png" alt="Habitat Icon" class="button-icon">
         <span>Habitat Size</span>
       </button>
-      <button class="section-button" onclick="toggleSection('heatingReqs')">
+      <button class="section-button" onclick="openModal('heatingReqs')">
         <img src="../images/heating icon.png" alt="Heating Icon" class="button-icon">
         <span>Heating</span>
       </button>
-      <button class="section-button" onclick="toggleSection('humidityAirflow')">
+      <button class="section-button" onclick="openModal('humidityAirflow')">
         <img src="../images/humidity icon.png" alt="Humidity Icon" class="button-icon">
         <span>Humidity/Airflow</span>
       </button>
-      <button class="section-button" onclick="toggleSection('foodReqs')">
+      <button class="section-button" onclick="openModal('foodReqs')">
         <img src="../images/food icon.png" alt="Food Icon" class="button-icon">
         <span>Food</span>
       </button>
-      <button class="section-button" onclick="toggleSection('enrichment')">
+      <button class="section-button" onclick="openModal('enrichment')">
         <img src="../images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
         <span>Enrichment</span>
       </button>
@@ -374,20 +478,71 @@
           Add <a href="https://en.wikipedia.org/wiki/Leaf_litter" target="_blank" rel="noopener">leaf litter</a> or artificial plants for digging and cover. Scatter live prey for hunting, and occasionally rearrange decor for novelty.
         </p>
       </div>
-    </div>
   </section>
+
+  <!-- Modal Overlay -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
+      <div class="modal-dialog-content">
+        <button class="modal-close" onclick="closeModal()" aria-label="Close modal">×</button>
+        <div class="modal-content" id="modalContent"></div>
+      </div>
+    </div>
+  </div>
 
   <div id="main-footer"></div>
 
   <script>
-    // Simple accordion toggle
+    // Modal functionality
+    function openModal(sectionId) {
+      const sectionElement = document.getElementById(sectionId);
+      if (!sectionElement) return;
+
+      const modalContent = document.getElementById('modalContent');
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      
+      // Clone and inject content into modal
+      modalContent.innerHTML = sectionElement.innerHTML;
+      
+      // Show modal
+      modalBackdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      
+      // Focus trap: focus the close button
+      const closeBtn = modalBackdrop.querySelector('.modal-close');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      modalBackdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+      
+      // Clear modal content
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = '';
+    }
+
+    function closeModalOnBackdrop(event) {
+      // Only close if clicking directly on backdrop (not its children)
+      if (event.target === event.currentTarget) {
+        closeModal();
+      }
+    }
+
+    // Close on Esc key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        if (modalBackdrop.classList.contains('is-open')) {
+          closeModal();
+        }
+      }
+    });
+
+    // Keep legacy toggleSection function for backwards compatibility (but it won't be used)
     function toggleSection(sectionId) {
-      const all = document.querySelectorAll('.section-content');
-      all.forEach(sec => {
-        if (sec.id !== sectionId) sec.style.display = 'none';
-      });
-      const el = document.getElementById(sectionId);
-      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      openModal(sectionId);
     }
   </script>
   <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
