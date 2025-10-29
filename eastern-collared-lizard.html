@@ -29,20 +29,57 @@
       z-index: 1000;
     }
 
+    /* Hero Section */
+    .species-hero {
+      background-color: #ffffff;
+      padding: 60px 20px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 80px;
+    }
+
+    .species-hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .species-hero-content {
+      text-align: center;
+    }
+
+    .species-hero-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #0f0f0f;
+      margin: 0 0 20px 0;
+      line-height: 1.2;
+    }
+
+    .species-hero-subhead {
+      font-size: 1.2rem;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+
     section.care-guide-content {
-      padding: 100px 20px 20px;
-      max-width: 800px;
+      padding: 40px 20px 20px;
+      max-width: 1200px;
       margin: 0 auto;
       background-color: #f8f8f8;
       color: #0f0f0f;
     }
 
     .care-guide-content h1 {
-      text-align: center;
-      font-size: 36px;
-      font-weight: bold;
-      margin-top: 0;
-      margin-bottom: 10px;
+      display: none; /* Moved to hero section */
+    }
+
+    .quick-facts-heading {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f0f0f;
+      margin: 30px 0 20px 0;
+      text-align: left;
     }
 
     .care-guide-content img {
@@ -70,24 +107,27 @@
       color: #333;
     }
 
-    .button-row {
-      display: flex;
-      justify-content: center;
+    /* Button Grid Layout */
+    .species-button-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
-      margin: 20px 0;
-      flex-wrap: wrap;
+      margin: 40px 0;
+      max-width: 100%;
+    }
+
+    .button-row {
+      display: contents; /* Use grid layout through button-row */
     }
 
     .section-button {
-      flex: 0 0 170px;
-      width: 170px;
-      min-height: 80px;
-      display: inline-flex;
+      min-height: 100px;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 6px;
-      padding: 12px 8px;
+      gap: 8px;
+      padding: 16px 12px;
       text-align: center;
       white-space: normal;
       word-break: break-word;
@@ -105,33 +145,32 @@
       transform: translateY(-2px);
     }
 
-    /* Mobile responsiveness for buttons */
-    @media (max-width: 480px) {
-      .button-row {
-        gap: 10px;
-        margin: 15px 0;
+    /* Tablet: 2 columns */
+    @media (max-width: 768px) {
+      .species-button-group {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 30px 0;
       }
-      
+
       .section-button {
-        flex: 1 1 calc(50% - 5px);
-        width: calc(50% - 5px);
-        min-width: 140px;
-        min-height: 70px;
-        padding: 10px 6px;
-        font-size: 14px;
+        min-height: 90px;
+        padding: 14px 10px;
       }
     }
 
-    @media (max-width: 360px) {
-      .section-button {
-        flex: 1 1 100%;
-        width: 100%;
-        margin-bottom: 10px;
+    /* Mobile: 1 column */
+    @media (max-width: 480px) {
+      .species-button-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 25px 0;
       }
       
-      .button-row {
-        flex-direction: column;
-        gap: 10px;
+      .section-button {
+        min-height: 85px;
+        padding: 12px 10px;
+        font-size: 14px;
       }
     }
 
@@ -142,7 +181,7 @@
     }
 
     .content-area {
-      margin: 12px 0 24px;
+      margin: 20px 0 40px;
       text-align: left;
     }
 
@@ -151,13 +190,30 @@
       background: #ffffff;
       border: 1px solid #e5e5e5;
       border-radius: 10px;
-      padding: 14px 16px;
+      padding: 20px 24px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-top: 20px;
     }
+
     .section-content h2 {
-      margin: 4px 0 8px;
+      margin: 0 0 12px 0;
       font-size: 22px;
       line-height: 1.3;
+      color: #0f0f0f;
+    }
+
+    .section-content p {
+      margin: 15px 0;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #0f0f0f;
+    }
+
+    /* Remove white outline from popup text */
+    .section-content * {
+      text-shadow: none;
+      -webkit-text-stroke: none;
+      outline: none;
     }
 
     footer {
@@ -171,16 +227,66 @@
     footer p {
       margin: 0 0 0 20px;
     }
+
+    /* Mobile Responsive Hero */
+    @media (max-width: 768px) {
+      .species-hero {
+        padding: 40px 20px;
+      }
+
+      .species-hero-content h1 {
+        font-size: 2.2rem;
+      }
+
+      .species-hero-subhead {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .species-hero {
+        padding: 30px 15px;
+        margin-top: 60px;
+      }
+
+      .species-hero-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .species-hero-subhead {
+        font-size: 0.95rem;
+      }
+
+      .care-guide-content {
+        padding: 30px 15px 20px;
+      }
+
+      .quick-facts-heading {
+        font-size: 1.5rem;
+        margin: 25px 0 15px 0;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header id="main-header"></header>
 
+  <!-- Hero Section -->
+  <section class="species-hero">
+    <div class="species-hero-container">
+      <div class="species-hero-content">
+        <h1>Eastern Collared Lizard Care Guide</h1>
+        <p class="species-hero-subhead">Quick, trustworthy care info for Eastern Collared Lizards.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="care-guide-content">
-    <h1>Eastern Collared Lizard Care Guide</h1>
     <img src="../images/collared lizard trans bg.png" alt="Eastern Collared Lizard" />
 
+    <!-- Quick Facts Section -->
+    <h2 class="quick-facts-heading">Quick Facts</h2>
     <!-- Simplified summary paragraphs -->
     <p>
       <a href="https://en.wikipedia.org/wiki/Common_collared_lizard" target="_blank" rel="noopener">Eastern collared lizards</a> are active, vividly colored diurnal lizards from the semi‑arid Southwest and northern Mexico. Their bold patterns and quick, bipedal sprints make them captivating, but they do best with experienced keepers due to their energy and space needs.
@@ -189,8 +295,8 @@
       House a single adult in at least a <strong>40‑gallon breeder (36″ × 18″ × 18″)</strong> with deep, sandy soil for digging and sturdy rocks and branches for climbing (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>). Pricing varies by locality and availability.
     </p>
 
-    <!-- Row 1 Buttons -->
-    <div class="button-row">
+    <!-- Button Grid -->
+    <div class="species-button-group">
       <button class="section-button" onclick="toggleSection('speciesInfo')">
         <img src="../images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Info</span>
@@ -198,6 +304,22 @@
       <button class="section-button" onclick="toggleSection('habitatSize')">
         <img src="../images/habitat icon.png" alt="Habitat Icon" class="button-icon">
         <span>Habitat Size</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('heatingReqs')">
+        <img src="../images/heating icon.png" alt="Heating Icon" class="button-icon">
+        <span>Heating</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">
+        <img src="../images/humidity icon.png" alt="Humidity Icon" class="button-icon">
+        <span>Humidity/Airflow</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('foodReqs')">
+        <img src="../images/food icon.png" alt="Food Icon" class="button-icon">
+        <span>Food</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('enrichment')">
+        <img src="../images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
+        <span>Enrichment</span>
       </button>
     </div>
     <div class="content-area">
@@ -216,20 +338,6 @@
           Line with ~4″ of a 60/40 topsoil–play‑sand mix for digging. Include a warm‑side and cool‑side hide and a flat basking rock beneath the heat lamp.
         </p>
       </div>
-    </div>
-
-    <!-- Row 2 Buttons -->
-    <div class="button-row">
-      <button class="section-button" onclick="toggleSection('heatingReqs')">
-        <img src="../images/heating icon.png" alt="Heating Icon" class="button-icon">
-        <span>Heating</span>
-      </button>
-      <button class="section-button" onclick="toggleSection('humidityAirflow')">
-        <img src="../images/humidity icon.png" alt="Humidity Icon" class="button-icon">
-        <span>Humidity/Airflow</span>
-      </button>
-    </div>
-    <div class="content-area">
       <div id="heatingReqs" class="section-content">
         <h2>Heating</h2>
         <p>
@@ -248,20 +356,6 @@
           Provide a <strong>humid hide (~70% RH)</strong> on the cool side using damp <a href="https://en.wikipedia.org/wiki/Sphagnum" target="_blank" rel="noopener">sphagnum moss</a>; allow drying between light misting.
         </p>
       </div>
-    </div>
-
-    <!-- Row 3 Buttons -->
-    <div class="button-row">
-      <button class="section-button" onclick="toggleSection('foodReqs')">
-        <img src="../images/food icon.png" alt="Food Icon" class="button-icon">
-        <span>Food</span>
-      </button>
-      <button class="section-button" onclick="toggleSection('enrichment')">
-        <img src="../images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
-        <span>Enrichment</span>
-      </button>
-    </div>
-    <div class="content-area">
       <div id="foodReqs" class="section-content">
         <h2>Food</h2>
         <p>
@@ -272,6 +366,7 @@
         </p>
       </div>
       <div id="enrichment" class="section-content">
+        <h2>Enrichment</h2>
         <p>
           Include secure rock piles and sturdy branches for climbing and perching. Provide hides on both warm and cool sides (<a href="https://reptifiles.com/collared-lizard-care/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>

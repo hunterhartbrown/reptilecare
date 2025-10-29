@@ -27,19 +27,57 @@
       top: 0;
       z-index: 1000;
     }
+    /* Hero Section */
+    .species-hero {
+      background-color: #ffffff;
+      padding: 60px 20px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 80px;
+    }
+
+    .species-hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .species-hero-content {
+      text-align: center;
+    }
+
+    .species-hero-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #0f0f0f;
+      margin: 0 0 20px 0;
+      line-height: 1.2;
+    }
+
+    .species-hero-subhead {
+      font-size: 1.2rem;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+
     section.care-guide-content {
-      padding: 100px 20px 20px;
-      max-width: 800px;
+      padding: 40px 20px 20px;
+      max-width: 1200px;
       margin: 0 auto;
       background-color: #f8f8f8;
       color: #0f0f0f;
     }
+
     .care-guide-content h1 {
-      text-align: center;
-      font-size: 36px;
-      font-weight: bold;
-      margin-top: 0;
-      margin-bottom: 10px;
+      display: none; /* Moved to hero section */
+    }
+
+    .quick-facts-heading {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f0f0f;
+      margin: 30px 0 20px 0;
+      text-align: left;
     }
     .care-guide-content img {
       display: block;
@@ -64,23 +102,27 @@
     .care-guide-content a:hover {
       color: #333;
     }
-    .button-row {
-      display: flex;
-      justify-content: center;
+    /* Button Grid Layout */
+    .species-button-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
-      margin: 20px 0;
-      flex-wrap: wrap;
+      margin: 40px 0;
+      max-width: 100%;
     }
+
+    .button-row {
+      display: contents; /* Use grid layout through button-row */
+    }
+
     .section-button {
-      flex: 0 0 170px;
-      width: 170px;
-      min-height: 80px;
-      display: inline-flex;
+      min-height: 100px;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 6px;
-      padding: 12px 8px;
+      gap: 8px;
+      padding: 16px 12px;
       text-align: center;
       white-space: normal;
       word-break: break-word;
@@ -91,39 +133,39 @@
       transition: all 0.3s ease;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
     .section-button:hover {
       border-color: #0f0f0f;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
       transform: translateY(-2px);
     }
 
-    /* Mobile responsiveness for buttons */
-    @media (max-width: 480px) {
-      .button-row {
-        gap: 10px;
-        margin: 15px 0;
+    /* Tablet: 2 columns */
+    @media (max-width: 768px) {
+      .species-button-group {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 30px 0;
       }
-      
+
       .section-button {
-        flex: 1 1 calc(50% - 5px);
-        width: calc(50% - 5px);
-        min-width: 140px;
-        min-height: 70px;
-        padding: 10px 6px;
-        font-size: 14px;
+        min-height: 90px;
+        padding: 14px 10px;
       }
     }
 
-    @media (max-width: 360px) {
-      .section-button {
-        flex: 1 1 100%;
-        width: 100%;
-        margin-bottom: 10px;
+    /* Mobile: 1 column */
+    @media (max-width: 480px) {
+      .species-button-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 25px 0;
       }
       
-      .button-row {
-        flex-direction: column;
-        gap: 10px;
+      .section-button {
+        min-height: 85px;
+        padding: 12px 10px;
+        font-size: 14px;
       }
     }
     .section-button .button-icon {
@@ -132,21 +174,39 @@
       margin: 0;
     }
     .content-area {
-      margin: 12px 0 24px;
+      margin: 20px 0 40px;
       text-align: left;
     }
+
     .section-content {
       display: none;
       background: #ffffff;
       border: 1px solid #e5e5e5;
       border-radius: 10px;
-      padding: 14px 16px;
+      padding: 20px 24px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-top: 20px;
     }
+
     .section-content h2 {
-      margin: 4px 0 8px;
+      margin: 0 0 12px 0;
       font-size: 22px;
       line-height: 1.3;
+      color: #0f0f0f;
+    }
+
+    .section-content p {
+      margin: 15px 0;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #0f0f0f;
+    }
+
+    /* Remove white outline from popup text */
+    .section-content * {
+      text-shadow: none;
+      -webkit-text-stroke: none;
+      outline: none;
     }
     footer {
       margin-left: 20px;
@@ -159,16 +219,66 @@
     footer p {
       margin: 0 0 0 20px;
     }
+
+    /* Mobile Responsive Hero */
+    @media (max-width: 768px) {
+      .species-hero {
+        padding: 40px 20px;
+      }
+
+      .species-hero-content h1 {
+        font-size: 2.2rem;
+      }
+
+      .species-hero-subhead {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .species-hero {
+        padding: 30px 15px;
+        margin-top: 60px;
+      }
+
+      .species-hero-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .species-hero-subhead {
+        font-size: 0.95rem;
+      }
+
+      .care-guide-content {
+        padding: 30px 15px 20px;
+      }
+
+      .quick-facts-heading {
+        font-size: 1.5rem;
+        margin: 25px 0 15px 0;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header id="main-header"></header>
 
+  <!-- Hero Section -->
+  <section class="species-hero">
+    <div class="species-hero-container">
+      <div class="species-hero-content">
+        <h1>Bearded Dragon Care Guide</h1>
+        <p class="species-hero-subhead">Quick, trustworthy care info for Bearded Dragons.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="care-guide-content">
-    <h1>Bearded Dragon Care Guide</h1>
     <img src="images/bearded drag trans bg.png" alt="Bearded Dragon" />
 
+    <!-- Quick Facts Section -->
+    <h2 class="quick-facts-heading">Quick Facts</h2>
     <p>
       <a href="https://en.wikipedia.org/wiki/Pogona" target="_blank" rel="noopener">Bearded dragons</a> are friendly, diurnal lizards from the arid interior of Australia. Their expandable “beard” helps with communication and thermoregulation, and their steady temperaments make them engaging companions.
     </p>
@@ -176,8 +286,8 @@
       Most pets are <em>Pogona vitticeps</em>. Adults reach 18–24″ and need room to bask, climb, and explore. With attentive care, lifespans of 8–12+ years are typical.
     </p>
 
-    <!-- Row 1 Buttons -->
-    <div class="button-row">
+    <!-- Button Grid -->
+    <div class="species-button-group">
       <button class="section-button" onclick="toggleSection('speciesInfo')">
         <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
         <span>Species Info</span>
@@ -185,6 +295,22 @@
       <button class="section-button" onclick="toggleSection('habitatSize')">
         <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
         <span>Habitat Size</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('heatingReqs')">
+        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
+        <span>Heating</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('humidityAirflow')">
+        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
+        <span>Humidity/Airflow</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('foodReqs')">
+        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
+        <span>Food</span>
+      </button>
+      <button class="section-button" onclick="toggleSection('enrichment')">
+        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
+        <span>Enrichment</span>
       </button>
     </div>
     <div class="content-area">
@@ -200,20 +326,6 @@
           Provide at least a <strong>40‑gallon (36″ × 18″ × 18″)</strong> for adults—bigger is better for exercise and gradients. Use a front‑opening enclosure with strong ventilation and sturdy basking platforms (<a href="https://reptifiles.com/bearded-dragon-care/bearded-dragon-terrarium-size/" target="_blank" rel="noopener">ReptiFiles</a>).
         </p>
       </div>
-    </div>
-
-    <!-- Row 2 Buttons -->
-    <div class="button-row">
-      <button class="section-button" onclick="toggleSection('heatingReqs')">
-        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
-        <span>Heating</span>
-      </button>
-      <button class="section-button" onclick="toggleSection('humidityAirflow')">
-        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
-        <span>Humidity/Airflow</span>
-      </button>
-    </div>
-    <div class="content-area">
       <div id="heatingReqs" class="section-content">
         <h2>Heating</h2>
         <p>
@@ -221,30 +333,19 @@
         </p>
       </div>
       <div id="humidityAirflow" class="section-content">
+        <h2>Humidity and airflow</h2>
         <p>
           These lizards thrive at low humidity: <strong>30–40%</strong> is ideal. Excess moisture increases the risk of respiratory infection. Ensure good airflow with a screen top and avoid placing water bowls near heat sources. Monitor humidity with a digital hygrometer.
         </p>
       </div>
-    </div>
-
-    <!-- Row 3 Buttons -->
-    <div class="button-row">
-      <button class="section-button" onclick="toggleSection('foodReqs')">
-        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
-        <span>Food</span>
-      </button>
-      <button class="section-button" onclick="toggleSection('enrichment')">
-        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
-        <span>Enrichment</span>
-      </button>
-    </div>
-    <div class="content-area">
       <div id="foodReqs" class="section-content">
+        <h2>Food</h2>
         <p>
-          Bearded dragons are **omnivores**: feed a mix of gut-loaded insects (crickets, dubia roaches, black soldier fly larvae) and chopped greens (collard, mustard, dandelion), plus occasional fruits and vegetables. Juveniles eat more protein; adults need more plant matter. Dust feeders with calcium and multivitamin powder as recommended (<a href="https://reptifiles.com/bearded-dragon-care/bearded-dragon-diet/" target="_blank" rel="noopener">ReptiFiles Diet</a>).
+          Bearded dragons are omnivores: feed a mix of gut-loaded insects (crickets, dubia roaches, black soldier fly larvae) and chopped greens (collard, mustard, dandelion), plus occasional fruits and vegetables. Juveniles eat more protein; adults need more plant matter. Dust feeders with calcium and multivitamin powder as recommended (<a href="https://reptifiles.com/bearded-dragon-care/bearded-dragon-diet/" target="_blank" rel="noopener">ReptiFiles Diet</a>).
         </p>
       </div>
       <div id="enrichment" class="section-content">
+        <h2>Enrichment</h2>
         <p>
           Add climbing branches, basking rocks, and a variety of hides and decor to encourage exercise and exploration. Rotate items for novelty, and offer supervised time outside the enclosure for additional stimulation (<a href="https://reptifiles.com/bearded-dragon-care/bearded-dragon-enrichment/" target="_blank" rel="noopener">ReptiFiles Enrichment</a>).
         </p>
