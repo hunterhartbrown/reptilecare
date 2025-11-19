@@ -1376,6 +1376,68 @@
             margin-right: auto;
         }
 
+        /* Canvas Toggle Button */
+        .canvas-toggle-container {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .canvas-toggle-btn {
+            padding: 14px 28px;
+            background: #2ecc71;
+            color: #fff;
+            border: 2px solid #2ecc71;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .canvas-toggle-btn:hover {
+            background: #27ae60;
+            border-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+        }
+
+        .canvas-toggle-btn.active {
+            background: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .canvas-toggle-btn.active:hover {
+            background: #c0392b;
+            border-color: #c0392b;
+        }
+
+        .toggle-btn-icon {
+            font-size: 1.1rem;
+        }
+
+        .toggle-btn-text {
+            font-size: 1rem;
+        }
+
+        /* Canvas Container Animation */
+        .canvas-container.showing {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .quiz-container {
@@ -1409,6 +1471,11 @@
 
             .quiz-nav-btn {
                 width: 100%;
+            }
+
+            .canvas-toggle-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -1477,8 +1544,16 @@
                 </div>
             </div>
 
-            <!-- 3D Preview Section -->
-            <div class="canvas-container">
+            <!-- 3D Preview Toggle Button -->
+            <div class="canvas-toggle-container">
+                <button type="button" class="canvas-toggle-btn" id="canvas-toggle-btn">
+                    <span class="toggle-btn-text">View Current Build</span>
+                    <span class="toggle-btn-icon">👁️</span>
+                </button>
+            </div>
+
+            <!-- 3D Preview Section (Hidden by default) -->
+            <div class="canvas-container" id="canvas-container" style="display: none;">
                 <canvas id="enclosure-canvas"></canvas>
                 <div class="canvas-controls">
                     <button class="preview-button" id="rotate-left" title="Rotate Left (A key)">↺ Rotate Left</button>
@@ -1754,5 +1829,48 @@
     <script src="js/mobile-menu.js"></script>
     <script src="js/enclosure-builder.js"></script>
     <script src="js/enclosure-quiz.js"></script>
+    
+    <script>
+        // Canvas Toggle Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('canvas-toggle-btn');
+            const canvasContainer = document.getElementById('canvas-container');
+            const toggleBtnText = toggleBtn?.querySelector('.toggle-btn-text');
+            const toggleBtnIcon = toggleBtn?.querySelector('.toggle-btn-icon');
+            
+            if (toggleBtn && canvasContainer) {
+                toggleBtn.addEventListener('click', () => {
+                    const isVisible = canvasContainer.style.display !== 'none';
+                    
+                    if (isVisible) {
+                        // Hide the canvas
+                        canvasContainer.style.display = 'none';
+                        toggleBtn.classList.remove('active');
+                        if (toggleBtnText) toggleBtnText.textContent = 'View Current Build';
+                        if (toggleBtnIcon) toggleBtnIcon.textContent = '👁️';
+                    } else {
+                        // Show the canvas
+                        canvasContainer.style.display = 'block';
+                        canvasContainer.classList.add('showing');
+                        toggleBtn.classList.add('active');
+                        if (toggleBtnText) toggleBtnText.textContent = 'Hide Build';
+                        if (toggleBtnIcon) toggleBtnIcon.textContent = '🙈';
+                        
+                        // Ensure the canvas is properly sized when shown
+                        setTimeout(() => {
+                            if (window.enclosureBuilder) {
+                                window.enclosureBuilder.onWindowResize();
+                            }
+                        }, 100);
+                        
+                        // Remove animation class after animation completes
+                        setTimeout(() => {
+                            canvasContainer.classList.remove('showing');
+                        }, 300);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html> 
