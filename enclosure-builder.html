@@ -973,6 +973,444 @@
         .eb-sidebar-content .enclosure-option p {
             font-size: 0.9rem;
         }
+
+        /* ===== Quiz Interface Styles ===== */
+        .quiz-progress-container {
+            margin-bottom: 24px;
+            padding: 0 4px;
+        }
+
+        .quiz-progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            width: 25%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .quiz-progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .quiz-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-step {
+            min-height: 200px;
+        }
+
+        .quiz-question {
+            margin-bottom: 24px;
+        }
+
+        .quiz-question h2 {
+            font-size: 1.8rem;
+            color: #222;
+            margin: 0 0 12px 0;
+            font-weight: 700;
+        }
+
+        .quiz-question p {
+            font-size: 1.1rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-options.animal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .quiz-option-btn {
+            padding: 16px 24px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #222;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .quiz-option-btn:hover {
+            border-color: #2ecc71;
+            background: #f8fff9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.15);
+        }
+
+        .quiz-option-btn.selected {
+            border-color: #2ecc71;
+            background: #e8f8f0;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .quiz-option-btn.primary {
+            background: #2ecc71;
+            color: #fff;
+            border-color: #2ecc71;
+        }
+
+        .quiz-option-btn.primary:hover {
+            background: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .quiz-option-btn.secondary {
+            background: #fff;
+            color: #222;
+            border-color: #ddd;
+        }
+
+        .animal-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 120px;
+            justify-content: center;
+        }
+
+        .animal-name {
+            font-size: 1.1rem;
+        }
+
+        /* Enclosure Selection Grid */
+        .enclosure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quiz-option-card {
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .quiz-option-card:hover {
+            border-color: #2ecc71;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-option-card.selected {
+            border-color: #2ecc71;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+        }
+
+        .enclosure-image {
+            width: 100%;
+            height: 180px;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .enclosure-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .enclosure-details {
+            padding: 16px;
+        }
+
+        .enclosure-details h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2rem;
+            color: #222;
+        }
+
+        .enclosure-dimensions {
+            margin: 4px 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .enclosure-material {
+            margin: 4px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .enclosure-price {
+            margin: 12px 0 0 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+
+        .premium-badge {
+            display: inline-block;
+            background: #f39c12;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        /* Decor Selection */
+        .decor-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .decor-category h3 {
+            font-size: 1.2rem;
+            color: #222;
+            margin: 0 0 12px 0;
+            font-weight: 600;
+        }
+
+        .decor-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .decor-item {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .decor-item:hover {
+            border-color: #2ecc71;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .decor-item.selected {
+            border-color: #2ecc71;
+            background: #e8f8f0;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .decor-item-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+            color: #222;
+        }
+
+        .decor-price {
+            margin: 0;
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Validation Warnings */
+        .quiz-validation-warnings {
+            margin-top: 24px;
+            padding: 16px;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .validation-warning {
+            color: #856404;
+        }
+
+        .validation-warning strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .validation-warning ul {
+            margin: 8px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .validation-warning li {
+            margin: 4px 0;
+        }
+
+        /* Recommendations Summary */
+        .recommendations-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .recommendation-section {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .recommendation-section h3 {
+            margin: 0 0 16px 0;
+            font-size: 1.2rem;
+            color: #222;
+            font-weight: 600;
+        }
+
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recommendation-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            color: #444;
+        }
+
+        .recommendation-list li:last-child {
+            border-bottom: none;
+        }
+
+        .final-enclosure-preview {
+            margin-top: 24px;
+            padding: 16px;
+            background: #e8f8f0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .preview-note {
+            margin: 0;
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        /* Quiz Navigation */
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .quiz-nav-btn {
+            padding: 12px 24px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #222;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-nav-btn:hover:not(:disabled) {
+            border-color: #2ecc71;
+            background: #f8fff9;
+        }
+
+        .quiz-nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quiz-next-btn,
+        .quiz-finish-btn {
+            background: #2ecc71;
+            color: #fff;
+            border-color: #2ecc71;
+            margin-left: auto;
+        }
+
+        .quiz-next-btn:hover:not(:disabled),
+        .quiz-finish-btn:hover:not(:disabled) {
+            background: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .quiz-next-btn.enabled {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .quiz-back-btn {
+            margin-right: auto;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 20px 16px;
+            }
+
+            .quiz-question h2 {
+                font-size: 1.4rem;
+            }
+
+            .quiz-options.animal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .enclosure-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .decor-items {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendations-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .quiz-nav-btn {
+                width: 100%;
+            }
+        }
     </style>
 
     <!-- Three.js Dependencies -->
@@ -993,134 +1431,71 @@
         </section>
 
         <div data-rc-eb="wrap">
-            <!-- Mobile: Select Items toggle (mirrors care guides mobile filters) -->
-            <button type="button" data-rc-eb="mobile-items-toggle" class="eb-mobile-items-toggle" aria-label="Open item selection">
-                <span>Select items</span>
-                <span class="eb-item-count" id="mobile-items-count"></span>
-            </button>
-
-            <!-- Mobile Items Drawer -->
-            <div data-rc-eb="mobile-items-drawer" class="eb-mobile-items-drawer" hidden aria-hidden="true">
-                <div class="eb-mobile-items-header">
-                    <h2>Select Items</h2>
-                    <button type="button" data-rc-eb="mobile-items-close" class="eb-mobile-items-close" aria-label="Close">×</button>
+            <!-- Quiz Progress Indicator -->
+            <div class="quiz-progress-container">
+                <div class="quiz-progress-bar-container">
+                    <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
                 </div>
-                <div class="eb-mobile-items-content"></div>
+                <div class="quiz-progress-text" id="quiz-progress-text">Step 1 of 4</div>
             </div>
 
-            <div data-rc-eb="layout" class="eb-layout">
-                <!-- Sticky Left Sidebar: Items + Summary -->
-                <aside data-rc-eb="sidebar" class="eb-sidebar" role="complementary" aria-label="Item selection sidebar">
-                    <div class="eb-sidebar-content">
-                        <div class="items-panel">
-                            <h2>Add Items</h2>
-                            <div class="items-categories">
-                                <button class="category-button active" data-category="enclosures">Enclosures</button>
-                                <button class="category-button" data-category="substrate">Substrate</button>
-                                <button class="category-button" data-category="decor">Decorations</button>
-                                <button class="category-button" data-category="heating">Heating</button>
-                                <button class="category-button" data-category="hides">Hides</button>
-                                <button class="category-button" data-category="plants">Plants</button>
-                            </div>
-                            <!-- Category panes -->
-                            <div class="category-pane" data-pane="enclosures">
-                                <div class="available-enclosures">
-                                    <h2>Available Enclosures</h2>
-                                    <div class="enclosure-selection" id="enclosure-selection">
-                                        <!-- Enclosures will be dynamically loaded here -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="category-pane" data-pane="substrate" hidden>
-                                <div class="items-list" data-list="substrate">
-                                    <!-- Items will be dynamically loaded here -->
-                                </div>
-                            </div>
-                            <div class="category-pane" data-pane="decor" hidden>
-                                <div class="items-list" data-list="decor"></div>
-                            </div>
-                            <div class="category-pane" data-pane="heating" hidden>
-                                <div class="items-list" data-list="heating"></div>
-                            </div>
-                            <div class="category-pane" data-pane="hides" hidden>
-                                <div class="items-list" data-list="hides"></div>
-                            </div>
-                            <div class="category-pane" data-pane="plants" hidden>
-                                <div class="items-list" data-list="plants"></div>
-                            </div>
-                        </div>
-
-                        <div class="summary-panel">
-                            <h2>Build Summary</h2>
-                            <ul class="summary-list" id="summary-list">
-                                <!-- Summary items will be dynamically added here -->
-                            </ul>
-                            <div class="total-price" id="total-price">
-                                Total: $0.00
-                            </div>
-                            <div class="action-buttons">
-                                <button class="action-button save-button">Save Design</button>
-                                <button class="action-button share-button">Share Design</button>
-                            </div>
-                        </div>
+            <!-- Quiz Steps Container -->
+            <div class="quiz-container">
+                <!-- Step 1: Animal Selection -->
+                <div class="quiz-step" id="quiz-step-1">
+                    <div class="quiz-step-content" id="quiz-step-1-content">
+                        <!-- Content will be dynamically loaded by quiz.js -->
                     </div>
-                </aside>
+                </div>
 
-                <!-- Main Content Area -->
-                <div data-rc-eb="main" class="eb-main">
-                    <!-- Reptile Selection Section -->
-                    <div class="reptile-selection">
-                        <div class="reptile-select-container">
-                            <select id="reptile-select">
-                                <option value="">Select a reptile...</option>
-                                <option value="leopard-gecko">Leopard Gecko</option>
-                                <option value="bearded-dragon">Bearded Dragon</option>
-                                <option value="crested-gecko">Crested Gecko</option>
-                                <option value="eastern-collared-lizard">Eastern Collared Lizard</option>
-                            </select>
-                        </div>
-                        <div class="reptile-info" id="reptile-info">
-                            <!-- Reptile info will be dynamically loaded here -->
-                        </div>
+                <!-- Step 2: Enclosure Type -->
+                <div class="quiz-step" id="quiz-step-2" style="display: none;">
+                    <div class="quiz-step-content" id="quiz-step-2-content">
+                        <!-- Content will be dynamically loaded by quiz.js -->
                     </div>
+                </div>
 
-                    <!-- 3D Preview Section -->
-                    <div class="canvas-container">
-                        <canvas id="enclosure-canvas"></canvas>
-                        <div class="canvas-controls">
-                            <button class="preview-button" id="rotate-left" title="Rotate Left (A key)">↺ Rotate Left</button>
-                            <button class="preview-button" id="rotate-right" title="Rotate Right (D key)">↻ Rotate Right</button>
-                            <button class="preview-button" id="zoom-in" title="Zoom In (W key)">🔍+ Zoom In</button>
-                            <button class="preview-button" id="zoom-out" title="Zoom Out (S key)">🔍- Zoom Out</button>
-                            <button class="preview-button" id="toggle-measurements" title="Toggle Measurements (M key)">📏 Measurements</button>
-                            <button class="preview-button" id="toggle-top-mesh" title="Toggle Top Mesh (T key)" onclick="window.enclosureBuilder?.toggleTopMesh()">📦 Add Top</button>
-                            <button class="preview-button" id="reset-view" title="Reset View (R key)">🎯 Reset View</button>
-                        </div>
-                        <div class="camera-help">
-                            <div class="help-toggle" id="help-toggle">💡 Controls</div>
-                            <div class="help-content" id="help-content">
-                                <h4>Camera Controls</h4>
-                                <p><strong>Mouse:</strong> Click and drag to orbit • Scroll to zoom</p>
-                                <p><strong>Keyboard:</strong> A/D to rotate • W/S to zoom • M to toggle measurements • R to reset</p>
-                                <p><strong>Buttons:</strong> Use the controls below for precise movement</p>
-                            </div>
-                        </div>
+                <!-- Step 3: Decor Selection -->
+                <div class="quiz-step" id="quiz-step-3" style="display: none;">
+                    <div class="quiz-step-content" id="quiz-step-3-content">
+                        <!-- Content will be dynamically loaded by quiz.js -->
                     </div>
+                </div>
 
-                    <!-- Selected Enclosure Section - Now below 3D preview -->
-                    <div class="selected-enclosure">
-                        <h2 id="selected-enclosure-count">Selected Enclosure (0/1)</h2>
-                        <div class="selected-enclosure-content" id="selected-enclosure-drop-zone">
-                            <div class="selected-enclosure-image" id="selected-enclosure-image">
-                                <p>Drag an enclosure here or click one below</p>
-                            </div>
-                            <div class="selected-enclosure-details">
-                                <p><strong>Dimensions:</strong> <span id="selected-dimensions">-</span></p>
-                                <p><strong>Material:</strong> <span id="selected-material">-</span></p>
-                                <p><strong>Features:</strong> <span id="selected-features">-</span></p>
-                                <p class="price">$<span id="selected-price">0.00</span></p>
-                            </div>
-                        </div>
+                <!-- Step 4: Plants & Substrate Recommendations -->
+                <div class="quiz-step" id="quiz-step-4" style="display: none;">
+                    <div class="quiz-step-content" id="quiz-step-4-content">
+                        <!-- Content will be dynamically loaded by quiz.js -->
+                    </div>
+                </div>
+
+                <!-- Quiz Navigation -->
+                <div class="quiz-navigation">
+                    <button type="button" class="quiz-nav-btn quiz-back-btn" id="quiz-back" style="display: none;">Back</button>
+                    <button type="button" class="quiz-nav-btn quiz-next-btn" id="quiz-next" disabled>Next</button>
+                    <button type="button" class="quiz-nav-btn quiz-finish-btn" id="quiz-finish" style="display: none;">Finish</button>
+                </div>
+            </div>
+
+            <!-- 3D Preview Section -->
+            <div class="canvas-container">
+                <canvas id="enclosure-canvas"></canvas>
+                <div class="canvas-controls">
+                    <button class="preview-button" id="rotate-left" title="Rotate Left (A key)">↺ Rotate Left</button>
+                    <button class="preview-button" id="rotate-right" title="Rotate Right (D key)">↻ Rotate Right</button>
+                    <button class="preview-button" id="zoom-in" title="Zoom In (W key)">🔍+ Zoom In</button>
+                    <button class="preview-button" id="zoom-out" title="Zoom Out (S key)">🔍- Zoom Out</button>
+                    <button class="preview-button" id="toggle-measurements" title="Toggle Measurements (M key)">📏 Measurements</button>
+                    <button class="preview-button" id="toggle-top-mesh" title="Toggle Top Mesh (T key)" onclick="window.enclosureBuilder?.toggleTopMesh()">📦 Add Top</button>
+                    <button class="preview-button" id="reset-view" title="Reset View (R key)">🎯 Reset View</button>
+                </div>
+                <div class="camera-help">
+                    <div class="help-toggle" id="help-toggle">💡 Controls</div>
+                    <div class="help-content" id="help-content">
+                        <h4>Camera Controls</h4>
+                        <p><strong>Mouse:</strong> Click and drag to orbit • Scroll to zoom</p>
+                        <p><strong>Keyboard:</strong> A/D to rotate • W/S to zoom • M to toggle measurements • R to reset</p>
+                        <p><strong>Buttons:</strong> Use the controls below for precise movement</p>
                     </div>
                 </div>
             </div>
@@ -1359,333 +1734,10 @@
             }
         };
 
-        // Get reptile from URL parameter if coming from care guides
-        function getReptileFromUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const reptile = urlParams.get('reptile');
-            // Only return the reptile if it exists in our data
-            return reptileData[reptile] ? reptile : null;
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', () => {
-            const reptileSelect = document.getElementById('reptile-select');
-            const reptileInfo = document.getElementById('reptile-info');
-            
-            // Set initial reptile if coming from care guides
-            const initialReptile = getReptileFromUrl();
-            if (initialReptile) {
-                reptileSelect.value = initialReptile;
-                updateReptileInfo(initialReptile);
-                updatePageTitle(reptileData[initialReptile].name);
-                initializeEnclosureSelection(initialReptile);
-            }
-
-            // Handle reptile selection change
-            reptileSelect.addEventListener('change', (e) => {
-                const selectedReptile = e.target.value;
-                if (selectedReptile) {
-                    updateReptileInfo(selectedReptile);
-                    updatePageTitle(reptileData[selectedReptile].name);
-                    initializeEnclosureSelection(selectedReptile);
-                } else {
-                    reptileInfo.style.display = 'none';
-                    document.querySelector('.builder-header h1').textContent = 'Enclosure Builder';
-                    document.querySelector('.builder-header p').textContent = 'Design the perfect habitat for your reptile';
-                }
-            });
-        });
-
-        // Update reptile info display
-        function updateReptileInfo(reptileId) {
-            const reptile = reptileData[reptileId];
-            const reptileInfo = document.getElementById('reptile-info');
-            
-            reptileInfo.innerHTML = `
-                <p><strong>Recommended Temperature:</strong> ${reptile.temperature.basking} (basking), ${reptile.temperature.cool} (cool side)</p>
-                <p><strong>Humidity:</strong> ${reptile.humidity}</p>
-                <p><strong>Recommended Enclosure Size:</strong> ${reptile.recommendedSize.length}" x ${reptile.recommendedSize.width}" x ${reptile.recommendedSize.height}"</p>
-            `;
-            reptileInfo.style.display = 'block';
-        }
-
-        // Update page title
-        function updatePageTitle(reptileName) {
-            document.querySelector('.builder-header h1').textContent = `${reptileName} Enclosure Builder`;
-            document.querySelector('.builder-header p').textContent = `Design the perfect habitat for your ${reptileName.toLowerCase()}`;
-        }
-
-        // Initialize enclosure selection
-        function initializeEnclosureSelection(reptileId) {
-            const selectionContainer = document.getElementById('enclosure-selection');
-            selectionContainer.innerHTML = ''; // Clear existing enclosures
-            
-            // Reset selected enclosure count
-            document.getElementById('selected-enclosure-count').textContent = 'Selected Enclosure (0/1)';
-            document.getElementById('selected-enclosure-image').innerHTML = '<p>Drag an enclosure here or click one below</p>';
-            document.getElementById('selected-dimensions').textContent = '-';
-            document.getElementById('selected-material').textContent = '-';
-            document.getElementById('selected-features').textContent = '-';
-            document.getElementById('selected-price').textContent = '0.00';
-            
-            const enclosures = reptileData[reptileId].enclosures;
-            enclosures.forEach(enclosure => {
-                const enclosureElement = document.createElement('div');
-                enclosureElement.className = `enclosure-option${enclosure.isPremium ? ' premium' : ''}`;
-                enclosureElement.draggable = true;
-                enclosureElement.setAttribute('data-enclosure-id', enclosure.id);
-                enclosureElement.innerHTML = `
-                    <img src="${enclosure.image}" alt="${enclosure.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2Y4ZjhmOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzk5OSI+SW1hZ2U8L3RleHQ+PC9zdmc+'">
-                    <h3>${enclosure.name}</h3>
-                    <p>${enclosure.dimensions}</p>
-                    <p>${enclosure.material}</p>
-                    <p class="price">$${enclosure.price.toFixed(2)}</p>
-                `;
-
-                // Add drag and drop functionality
-                enclosureElement.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('text/plain', JSON.stringify(enclosure));
-                    e.dataTransfer.effectAllowed = 'copy';
-                });
-
-                // Add click functionality
-                enclosureElement.addEventListener('click', (e) => {
-                    selectEnclosure(enclosure);
-                });
-
-                selectionContainer.appendChild(enclosureElement);
-            });
-            
-            // Setup drop zone functionality
-            setupDropZone();
-        }
-
-        // Handle enclosure selection
-        function selectEnclosure(enclosure) {
-            // Update selected enclosure count
-            document.getElementById('selected-enclosure-count').textContent = 'Selected Enclosure (1/1)';
-            
-            // Update selected enclosure display - ONLY the image in the image container
-            const imageElement = document.getElementById('selected-enclosure-image');
-            imageElement.innerHTML = `
-                <img src="${enclosure.image}" alt="${enclosure.name}" style="
-                    max-width: 100%; 
-                    max-height: 100%; 
-                    object-fit: contain; 
-                    width: auto; 
-                    height: auto; 
-                    display: block;
-                    margin: 0 auto;
-                ">
-            `;
-            
-            // Add purchase links to the details section instead
-            let purchaseLink = '';
-            if (enclosure.amazonUrl) {
-                purchaseLink = `
-                    <p style="margin-top: 15px;">
-                        <a href="${enclosure.amazonUrl}" target="_blank" style="
-                            display: inline-block;
-                            background: #ff9900;
-                            color: white;
-                            padding: 8px 16px;
-                            text-decoration: none;
-                            border-radius: 4px;
-                            font-size: 0.9rem;
-                            font-weight: bold;
-                            margin-right: 8px;
-                        ">View on Amazon</a>
-                    </p>
-                `;
-            } else if (enclosure.productUrl) {
-                // Determine the retailer based on URL
-                let retailerName = 'Product';
-                let buttonColor = '#2ecc71';
-                
-                if (enclosure.productUrl.includes('wayfair.com')) {
-                    retailerName = 'Wayfair';
-                    buttonColor = '#7b2cbf';
-                } else if (enclosure.productUrl.includes('dubiaroaches.com')) {
-                    retailerName = 'Dubia.com';
-                    buttonColor = '#2ecc71';
-                }
-                
-                purchaseLink = `
-                    <p style="margin-top: 15px;">
-                        <a href="${enclosure.productUrl}" target="_blank" style="
-                            display: inline-block;
-                            background: ${buttonColor};
-                            color: white;
-                            padding: 8px 16px;
-                            text-decoration: none;
-                            border-radius: 4px;
-                            font-size: 0.9rem;
-                            font-weight: bold;
-                        ">View on ${retailerName}</a>
-                    </p>
-                `;
-            }
-            
-            document.getElementById('selected-dimensions').textContent = enclosure.dimensions;
-            document.getElementById('selected-material').textContent = enclosure.material;
-            document.getElementById('selected-features').textContent = enclosure.features;
-            document.getElementById('selected-price').textContent = enclosure.price.toFixed(2);
-            
-            // Add purchase link to the price area
-            const priceElement = document.getElementById('selected-price').parentElement;
-            const existingLink = priceElement.querySelector('a');
-            if (existingLink) {
-                existingLink.remove(); // Remove existing link
-            }
-            if (purchaseLink) {
-                priceElement.insertAdjacentHTML('beforeend', purchaseLink);
-            }
-
-            // Update 3D model
-            if (window.enclosureBuilder) {
-                window.enclosureBuilder.updateEnclosureDimensions(
-                    enclosure.model.length,
-                    enclosure.model.width,
-                    enclosure.model.height,
-                    enclosure
-                );
-                console.log('Updated 3D model dimensions:', enclosure.model);
-            }
-
-            // Update summary
-            updateSummary(enclosure);
-            
-            // Mark all enclosures as unselected, then select this one
-            document.querySelectorAll('.enclosure-option').forEach(el => el.classList.remove('selected'));
-            // Find and mark the selected enclosure by ID
-            const selectedElement = document.querySelector(`[data-enclosure-id="${enclosure.id}"]`);
-            if (selectedElement) {
-                selectedElement.classList.add('selected');
-            }
-        }
-
-        // Setup drop zone functionality
-        function setupDropZone() {
-            const dropZone = document.getElementById('selected-enclosure-drop-zone');
-            
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'copy';
-                dropZone.classList.add('drag-over');
-            });
-            
-            dropZone.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('drag-over');
-            });
-            
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('drag-over');
-                
-                try {
-                    const enclosureData = JSON.parse(e.dataTransfer.getData('text/plain'));
-                    selectEnclosure(enclosureData);
-                } catch (error) {
-                    console.error('Error parsing dropped enclosure data:', error);
-                }
-            });
-        }
-
-        // Update summary panel
-        function updateSummary(enclosure) {
-            const summaryList = document.getElementById('summary-list');
-            summaryList.innerHTML = `
-                <li class="summary-item">
-                    <span>${enclosure.name}</span>
-                    <span>$${enclosure.price.toFixed(2)}</span>
-                </li>
-            `;
-            document.getElementById('total-price').textContent = `Total: $${enclosure.price.toFixed(2)}`;
-        }
+        // Make reptileData globally available for quiz
+        window.reptileData = reptileData;
     </script>
 
-    <script>
-        // EB: Sticky offset based on header height (mirrors care guides)
-        function updateEBStickyOffset() {
-            const header = document.querySelector('header') || document.querySelector('#main-header');
-            const offset = header ? (header.getBoundingClientRect().height + 16) : 16;
-            document.documentElement.style.setProperty('--eb-sticky-top', `${offset}px`);
-        }
-
-        // EB: Mobile drawer handling for Items sidebar (mirrors care guides mobile filters)
-        function setupEBMobileItems() {
-            const toggleBtn = document.querySelector('[data-rc-eb="mobile-items-toggle"]');
-            const drawer = document.querySelector('[data-rc-eb="mobile-items-drawer"]');
-            const closeBtn = document.querySelector('[data-rc-eb="mobile-items-close"]');
-            const content = drawer ? drawer.querySelector('.eb-mobile-items-content') : null;
-            const sidebarContent = document.querySelector('.eb-sidebar-content');
-
-            function populateDrawer() {
-                if (!content || !sidebarContent) return;
-                content.innerHTML = '';
-                content.appendChild(sidebarContent.cloneNode(true));
-            }
-
-            function openDrawer() {
-                if (!drawer) return;
-                drawer.hidden = false;
-                drawer.setAttribute('aria-hidden', 'false');
-                populateDrawer();
-                document.body.style.overflow = 'hidden';
-                if (closeBtn) closeBtn.focus();
-            }
-
-            function closeDrawer() {
-                if (!drawer) return;
-                drawer.hidden = true;
-                drawer.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = '';
-                if (toggleBtn) toggleBtn.focus();
-            }
-
-            toggleBtn && toggleBtn.addEventListener('click', openDrawer);
-            closeBtn && closeBtn.addEventListener('click', closeDrawer);
-            drawer && drawer.addEventListener('click', function(e) { if (e.target === drawer) closeDrawer(); });
-            document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && drawer && !drawer.hidden) closeDrawer(); });
-        }
-
-        // EB: Category switching – make enclosures behave like other categories
-        function setupEBCategories() {
-            const buttons = document.querySelectorAll('.items-categories .category-button');
-            const panes = document.querySelectorAll('.category-pane');
-
-            function activate(category) {
-                buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.category === category));
-                panes.forEach(pane => {
-                    const isMatch = pane.getAttribute('data-pane') === category;
-                    pane.toggleAttribute('hidden', !isMatch);
-                });
-            }
-
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => activate(btn.dataset.category));
-            });
-
-            // Default to enclosures active
-            activate('enclosures');
-        }
-
-        // Initialize EB layout helpers
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                updateEBStickyOffset();
-                setupEBMobileItems();
-                setupEBCategories();
-                window.addEventListener('resize', updateEBStickyOffset);
-            });
-        } else {
-            updateEBStickyOffset();
-            setupEBMobileItems();
-            setupEBCategories();
-            window.addEventListener('resize', updateEBStickyOffset);
-        }
-    </script>
 
     <!-- Amazon Affiliate Disclosure -->
     <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #0f0f0f;">
@@ -1701,5 +1753,6 @@
     <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
     <script src="js/mobile-menu.js"></script>
     <script src="js/enclosure-builder.js"></script>
+    <script src="js/enclosure-quiz.js"></script>
 </body>
 </html> 
