@@ -157,8 +157,10 @@ class EnclosureBuilder {
         // Check the enclosure type for enhanced features
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
         const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
+        const isGlassMesh = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'glass-mesh';
 
-        if (isReptizoo) {
+        if (isReptizoo || isGlassMesh) {
+            // Both REPTIZOO and NEPTONION use similar glass + aluminum frame + mesh top construction
             this.createReptizooModel(enclosure, length, width, height);
         } else if (isPVC) {
             this.createPVCPanelModel(enclosure, length, width, height);
@@ -176,7 +178,7 @@ class EnclosureBuilder {
         }
 
         // Update camera position - optimize for the model type
-        this.updateCameraPosition(length, width, height, isReptizoo, isPVC);
+        this.updateCameraPosition(length, width, height, isReptizoo || isGlassMesh, isPVC);
     }
 
     createBasicEnclosure(enclosure, length, width, height) {
@@ -917,11 +919,13 @@ class EnclosureBuilder {
         // Check the enclosure type to match the style
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
         const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
+        const isGlassMesh = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'glass-mesh';
 
         const topMeshGroup = new THREE.Group();
         topMeshGroup.name = 'top-mesh';
 
-        if (isReptizoo) {
+        if (isReptizoo || isGlassMesh) {
+            // Both REPTIZOO and NEPTONION use similar mesh top construction
             this.createReptizooTopMesh(topMeshGroup, length, width, height);
         } else if (isPVC) {
             this.createPVCTopMesh(topMeshGroup, length, width, height);
@@ -1303,8 +1307,9 @@ class EnclosureBuilder {
         const height = this.enclosureDimensions.height * 0.0254;
         const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
         const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
+        const isGlassMesh = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'glass-mesh';
         
-        this.updateCameraPosition(length, width, height, isReptizoo, isPVC);
+        this.updateCameraPosition(length, width, height, isReptizoo || isGlassMesh, isPVC);
     }
 
     // Test method to verify zoom functionality
