@@ -983,7 +983,8 @@
         .quiz-progress-bar-container {
             width: 100%;
             height: 8px;
-            background: #e0e0e0;
+            background: #ffffff;
+            border: 2px solid #0f0f0f;
             border-radius: 4px;
             overflow: hidden;
             margin-bottom: 8px;
@@ -991,10 +992,10 @@
 
         .quiz-progress-bar {
             height: 100%;
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            background: #0f0f0f;
             width: 25%;
             transition: width 0.3s ease;
-            border-radius: 4px;
+            border-radius: 2px;
         }
 
         .quiz-progress-text {
@@ -1047,45 +1048,47 @@
 
         .quiz-option-btn {
             padding: 16px 24px;
-            border: 2px solid #ddd;
+            border: 1.3px solid #0f0f0f;
             border-radius: 8px;
             background: #fff;
             font-size: 1rem;
             font-weight: 600;
-            color: #222;
+            color: #0f0f0f;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
         }
 
         .quiz-option-btn:hover {
-            border-color: #2ecc71;
-            background: #f8fff9;
+            border-color: #0f0f0f;
+            background: #0f0f0f;
+            color: #fff;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.15);
+            box-shadow: 0 4px 12px rgba(15, 15, 15, 0.15);
         }
 
         .quiz-option-btn.selected {
-            border-color: #2ecc71;
-            background: #e8f8f0;
-            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+            border-color: #0f0f0f;
+            background: #0f0f0f;
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.1);
         }
 
         .quiz-option-btn.primary {
-            background: #2ecc71;
+            background: #0f0f0f;
             color: #fff;
-            border-color: #2ecc71;
+            border-color: #0f0f0f;
         }
 
         .quiz-option-btn.primary:hover {
-            background: #27ae60;
-            border-color: #27ae60;
+            background: #444;
+            border-color: #0f0f0f;
         }
 
         .quiz-option-btn.secondary {
             background: #fff;
-            color: #222;
-            border-color: #ddd;
+            color: #0f0f0f;
+            border-color: #0f0f0f;
         }
 
         .animal-option {
@@ -1110,7 +1113,7 @@
         }
 
         .quiz-option-card {
-            border: 2px solid #ddd;
+            border: 1.3px solid #0f0f0f;
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
@@ -1119,14 +1122,22 @@
         }
 
         .quiz-option-card:hover {
-            border-color: #2ecc71;
+            border-color: #0f0f0f;
             transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(15, 15, 15, 0.15);
         }
 
         .quiz-option-card.selected {
-            border-color: #2ecc71;
-            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+            border-color: #0f0f0f;
+            background: #0f0f0f;
+            box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.2);
+        }
+
+        .quiz-option-card.selected .enclosure-details h3,
+        .quiz-option-card.selected .enclosure-dimensions,
+        .quiz-option-card.selected .enclosure-material,
+        .quiz-option-card.selected .enclosure-price {
+            color: #fff;
         }
 
         .enclosure-image {
@@ -1171,7 +1182,7 @@
             margin: 12px 0 0 0;
             font-size: 1.3rem;
             font-weight: bold;
-            color: #2ecc71;
+            color: #0f0f0f;
         }
 
         .premium-badge {
@@ -1207,7 +1218,7 @@
         }
 
         .decor-item {
-            border: 2px solid #ddd;
+            border: 1.3px solid #0f0f0f;
             border-radius: 8px;
             padding: 16px;
             cursor: pointer;
@@ -1216,15 +1227,23 @@
         }
 
         .decor-item:hover {
-            border-color: #2ecc71;
+            border-color: #0f0f0f;
+            background: #0f0f0f;
+            color: #fff;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(15, 15, 15, 0.15);
         }
 
         .decor-item.selected {
-            border-color: #2ecc71;
-            background: #e8f8f0;
-            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+            border-color: #0f0f0f;
+            background: #0f0f0f;
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.1);
+        }
+
+        .decor-item.selected .decor-item-content h4,
+        .decor-item.selected .decor-price {
+            color: #fff;
         }
 
         .decor-item-content h4 {
@@ -1235,7 +1254,7 @@
 
         .decor-price {
             margin: 0;
-            color: #2ecc71;
+            color: #0f0f0f;
             font-weight: bold;
             font-size: 1.1rem;
         }
@@ -1310,14 +1329,15 @@
         .final-enclosure-preview {
             margin-top: 24px;
             padding: 16px;
-            background: #e8f8f0;
+            background: #f8f8f8;
+            border: 1.3px solid #0f0f0f;
             border-radius: 8px;
             text-align: center;
         }
 
         .preview-note {
             margin: 0;
-            color: #27ae60;
+            color: #0f0f0f;
             font-weight: 500;
         }
 
@@ -1333,19 +1353,20 @@
 
         .quiz-nav-btn {
             padding: 12px 24px;
-            border: 2px solid #ddd;
+            border: 1.3px solid #0f0f0f;
             border-radius: 8px;
             background: #fff;
             font-size: 1rem;
             font-weight: 600;
-            color: #222;
+            color: #0f0f0f;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .quiz-nav-btn:hover:not(:disabled) {
-            border-color: #2ecc71;
-            background: #f8fff9;
+            border-color: #0f0f0f;
+            background: #0f0f0f;
+            color: #fff;
         }
 
         .quiz-nav-btn:disabled {
@@ -1355,16 +1376,16 @@
 
         .quiz-next-btn,
         .quiz-finish-btn {
-            background: #2ecc71;
+            background: #0f0f0f;
             color: #fff;
-            border-color: #2ecc71;
+            border-color: #0f0f0f;
             margin-left: auto;
         }
 
         .quiz-next-btn:hover:not(:disabled),
         .quiz-finish-btn:hover:not(:disabled) {
-            background: #27ae60;
-            border-color: #27ae60;
+            background: #444;
+            border-color: #0f0f0f;
         }
 
         .quiz-next-btn.enabled {
@@ -1384,9 +1405,9 @@
 
         .canvas-toggle-btn {
             padding: 14px 28px;
-            background: #2ecc71;
+            background: #0f0f0f;
             color: #fff;
-            border: 2px solid #2ecc71;
+            border: 1.3px solid #0f0f0f;
             border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
@@ -1398,24 +1419,25 @@
         }
 
         .canvas-toggle-btn:hover {
-            background: #27ae60;
-            border-color: #27ae60;
+            background: #444;
+            border-color: #0f0f0f;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 4px 12px rgba(15, 15, 15, 0.3);
         }
 
         .canvas-toggle-btn.active {
-            background: #e74c3c;
-            border-color: #e74c3c;
+            background: #fff;
+            color: #0f0f0f;
+            border-color: #0f0f0f;
         }
 
         .canvas-toggle-btn.active:hover {
-            background: #c0392b;
-            border-color: #c0392b;
+            background: #f5f5f5;
+            border-color: #0f0f0f;
         }
 
         .toggle-btn-icon {
-            font-size: 1.1rem;
+            display: none;
         }
 
         .toggle-btn-text {
@@ -1548,7 +1570,6 @@
             <div class="canvas-toggle-container">
                 <button type="button" class="canvas-toggle-btn" id="canvas-toggle-btn">
                     <span class="toggle-btn-text">View Current Build</span>
-                    <span class="toggle-btn-icon">👁️</span>
                 </button>
             </div>
 
@@ -1836,7 +1857,6 @@
             const toggleBtn = document.getElementById('canvas-toggle-btn');
             const canvasContainer = document.getElementById('canvas-container');
             const toggleBtnText = toggleBtn?.querySelector('.toggle-btn-text');
-            const toggleBtnIcon = toggleBtn?.querySelector('.toggle-btn-icon');
             
             if (toggleBtn && canvasContainer) {
                 toggleBtn.addEventListener('click', () => {
@@ -1847,14 +1867,12 @@
                         canvasContainer.style.display = 'none';
                         toggleBtn.classList.remove('active');
                         if (toggleBtnText) toggleBtnText.textContent = 'View Current Build';
-                        if (toggleBtnIcon) toggleBtnIcon.textContent = '👁️';
                     } else {
                         // Show the canvas
                         canvasContainer.style.display = 'block';
                         canvasContainer.classList.add('showing');
                         toggleBtn.classList.add('active');
                         if (toggleBtnText) toggleBtnText.textContent = 'Hide Build';
-                        if (toggleBtnIcon) toggleBtnIcon.textContent = '🙈';
                         
                         // Ensure the canvas is properly sized when shown
                         setTimeout(() => {
