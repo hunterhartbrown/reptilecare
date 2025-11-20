@@ -7,7 +7,7 @@ Run this script daily via cron/scheduled task to keep prices updated.
 import json
 import re
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import urlparse, parse_qs
 import time
 
@@ -226,14 +226,15 @@ def update_prices():
             
             # Add current price to history
             price_data[product_id]['current'] = price
-            price_data[product_id]['lastUpdated'] = datetime.now().isoformat()
+            # Store timestamp in UTC explicitly
+            price_data[product_id]['lastUpdated'] = datetime.now(timezone.utc).isoformat()
             price_data[product_id]['url'] = url
             price_data[product_id]['name'] = product['name']
             
             # Keep last 30 days of history
             price_data[product_id]['history'].append({
                 'price': price,
-                'date': datetime.now().isoformat()
+                'date': datetime.now(timezone.utc).isoformat()
             })
             if len(price_data[product_id]['history']) > 30:
                 price_data[product_id]['history'].pop(0)

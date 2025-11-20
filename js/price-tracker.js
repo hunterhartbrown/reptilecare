@@ -122,13 +122,36 @@ class PriceTracker {
 
     /**
      * Format date for display in EST timezone
-     * @param {string} dateString - ISO date string
+     * @param {string} dateString - ISO date string (should be UTC)
      * @returns {string} - Formatted date string in EST
      */
     formatDate(dateString) {
         if (!dateString) return 'unknown';
         
-        const date = new Date(dateString);
+        let date;
+        const dateStr = dateString.trim();
+        
+        // Check if timestamp has timezone indicator
+        // ISO format with timezone: ends with Z, +HH:MM, or -HH:MM
+        const hasTimezone = dateStr.endsWith('Z') || 
+                           /[+-]\d{2}:?\d{2}$/.test(dateStr) ||
+                           /[+-]\d{4}$/.test(dateStr);
+        
+        if (hasTimezone) {
+            // Has timezone info, parse directly
+            date = new Date(dateStr);
+        } else {
+            // No timezone info - assume UTC (for backward compatibility)
+            // Append 'Z' to indicate UTC
+            date = new Date(dateStr + 'Z');
+        }
+        
+        // Validate the date was parsed correctly
+        if (isNaN(date.getTime())) {
+            console.warn('Invalid date string:', dateString);
+            return 'unknown';
+        }
+        
         const options = { 
             year: 'numeric', 
             month: 'short', 
