@@ -48,13 +48,65 @@ def fetch_amazon_price(asin):
         
         # Look for price in HTML (this is fragile and may break)
         # Improved patterns to capture cents properly
-        price_patterns = [
-            # Amazon split price format - handles nested a-price-decimal span
+        # Try to find Amazon split price format FIRST (most reliable for Amazon)
+        html_text = response.text
+        
+        # Amazon split price format - handles nested a-price-decimal span
+        # Matches: <span class="a-price-whole">188<span class="a-price-decimal">.</span></span><span class="a-price-fraction">99</span>
+        # Also handles cases with whitespace/newlines between spans
+        # Using more flexible patterns that match class attributes containing the key class names
+        split_price_patterns = [
+            # Pattern 1: Nested decimal span, spans adjacent (most common format)
             # Matches: <span class="a-price-whole">188<span class="a-price-decimal">.</span></span><span class="a-price-fraction">99</span>
-            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>([\d,]+)(?:<span[^>]*class="[^"]*a-price-decimal[^"]*"[^>]*>[^<]*</span>)?</span>\s*<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>(\d{2})</span>',
-            # Alternative Amazon split price format (spans may be separated)
-            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>([\d,]+)</span>.*?<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>(\d{2})</span>',
-            # Standard price formats
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>\s*([\d,]+)\s*(?:<span[^>]*class="[^"]*a-price-decimal[^"]*"[^>]*>[^<]*</span>)?\s*</span>\s*<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>\s*(\d{2})\s*</span>',
+            # Pattern 2: Nested decimal span, spans may be separated by any content (including newlines)
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>\s*([\d,]+)\s*(?:<span[^>]*class="[^"]*a-price-decimal[^"]*"[^>]*>[^<]*</span>)?\s*</span>[\s\S]*?<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>\s*(\d{2})\s*</span>',
+            # Pattern 3: No nested decimal span, spans adjacent
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>\s*([\d,]+)\s*</span>\s*<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>\s*(\d{2})\s*</span>',
+            # Pattern 4: No nested decimal span, spans separated
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>\s*([\d,]+)\s*</span>[\s\S]*?<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>\s*(\d{2})\s*</span>',
+        ]
+        
+        # Try split price patterns first
+        for pattern in split_price_patterns:
+            matches = re.finditer(pattern, html_text, re.DOTALL | re.IGNORECASE)
+            for match in matches:
+                try:
+                    whole = match.group(1).replace(',', '').strip()
+                    fraction = match.group(2).strip()
+                    if whole and fraction:
+                        price_str = f"{whole}.{fraction}"
+                        price = float(price_str)
+                        if 10 <= price <= 10000:  # Reasonable price range
+                            print(f"Found Amazon split price: ${price:.2f} (whole: {whole}, fraction: {fraction})")
+                            return price
+                except (ValueError, IndexError, AttributeError) as e:
+                    continue
+        
+        # Fallback: Try to find whole and fraction spans independently and combine if close
+        # This handles cases where spans might be in unexpected positions
+        whole_match = re.search(r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>\s*([\d,]+)', html_text, re.IGNORECASE)
+        fraction_match = re.search(r'<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>\s*(\d{2})\s*</span>', html_text, re.IGNORECASE)
+        
+        if whole_match and fraction_match:
+            # Check if they're reasonably close together (within 1000 characters)
+            whole_pos = whole_match.start()
+            fraction_pos = fraction_match.start()
+            if abs(whole_pos - fraction_pos) < 1000:
+                try:
+                    whole = whole_match.group(1).replace(',', '').strip()
+                    fraction = fraction_match.group(1).strip()
+                    if whole and fraction:
+                        price_str = f"{whole}.{fraction}"
+                        price = float(price_str)
+                        if 10 <= price <= 10000:
+                            print(f"Found Amazon split price (fallback): ${price:.2f} (whole: {whole}, fraction: {fraction})")
+                            return price
+                except (ValueError, IndexError, AttributeError):
+                    pass
+        
+        # Fallback to other price patterns if split price not found
+        price_patterns = [
             r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.\d{2})',  # $123.45 format
             r'"price":\s*"([\d,]+\.\d{2})"',  # JSON format with cents
             r'data-price="([\d,]+\.\d{2})"',  # Data attribute with cents
@@ -63,19 +115,13 @@ def fetch_amazon_price(asin):
         ]
         
         for pattern in price_patterns:
-            matches = re.finditer(pattern, response.text, re.DOTALL)
+            matches = re.finditer(pattern, html_text, re.DOTALL)
             for match in matches:
                 try:
-                    # Handle Amazon split price format (whole.fraction)
-                    if len(match.groups()) == 2:
-                        whole = match.group(1).replace(',', '')
-                        fraction = match.group(2)
-                        price_str = f"{whole}.{fraction}"
-                    else:
-                        price_str = match.group(1).replace(',', '')
-                    
+                    price_str = match.group(1).replace(',', '')
                     price = float(price_str)
                     if 10 <= price <= 10000:  # Reasonable price range
+                        print(f"Found price using fallback pattern: ${price:.2f}")
                         return price
                 except (ValueError, IndexError):
                     continue
@@ -145,12 +191,16 @@ def fetch_price(url):
             try:
                 response = requests.head(url, headers=HEADERS, allow_redirects=True, timeout=10)
                 url = response.url
-            except:
-                pass
+                print(f"Resolved short link to: {url}")
+            except Exception as e:
+                print(f"Warning: Could not resolve short link: {e}")
         
         asin = extract_amazon_asin(url)
         if asin:
+            print(f"Extracted ASIN: {asin}")
             return fetch_amazon_price(asin)
+        else:
+            print(f"Warning: Could not extract ASIN from URL: {url}")
     
     # Generic price fetching for other sites
     return fetch_generic_price(url)
