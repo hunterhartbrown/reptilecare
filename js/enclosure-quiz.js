@@ -263,7 +263,7 @@ class EnclosureBuilderQuiz {
                             <h3>${enclosure.name}</h3>
                             <p class="enclosure-dimensions">${enclosure.dimensions}</p>
                             <p class="enclosure-material">${enclosure.material}</p>
-                            ${enclosure.isPremium ? '<span class="premium-badge">⭐ Premium</span>' : ''}
+                            ${(enclosure.amazonUrl || enclosure.productUrl) ? `<a href="${enclosure.amazonUrl || enclosure.productUrl}" target="_blank" rel="noopener noreferrer" class="product-link">View Product</a>` : ''}
                             <p class="enclosure-price">$${enclosure.price.toFixed(2)}</p>
                         </div>
                     </div>

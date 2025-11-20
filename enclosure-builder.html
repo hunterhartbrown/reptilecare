@@ -200,18 +200,6 @@
             background: linear-gradient(135deg, #fff 0%, #fef9e7 100%);
         }
 
-        .enclosure-option.premium::before {
-            content: '⭐ PREMIUM';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #f39c12;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
 
         .enclosure-option.premium:hover {
             border-color: #e67e22;
@@ -1185,15 +1173,24 @@
             color: #0f0f0f;
         }
 
-        .premium-badge {
+        .product-link {
             display: inline-block;
-            background: #f39c12;
+            background: #0f0f0f;
             color: #fff;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            font-size: 0.85rem;
+            font-weight: 600;
             margin-top: 8px;
+            text-decoration: none;
+            transition: background 0.18s, color 0.18s;
+        }
+
+        .product-link:hover,
+        .product-link:focus {
+            background: #444;
+            color: #fff;
+            text-decoration: none;
         }
 
         /* Decor Selection */
