@@ -224,6 +224,11 @@ if (typeof window !== 'undefined') {
     window.getApprovedEnclosuresForAnimal = getApprovedEnclosuresForAnimal;
     window.getEnclosureById = getEnclosureById;
     window.getAnimalBySlug = getAnimalBySlug;
+    
+    // Trigger reptileData initialization if the function exists
+    if (typeof window.initializeReptileData === 'function') {
+        window.initializeReptileData();
+    }
 }
 
 // For Node.js/ES modules (if needed)

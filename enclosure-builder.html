@@ -1681,9 +1681,19 @@
             return reptileData;
         }
 
-        // Build and expose reptileData
-        const reptileData = buildReptileData();
-        window.reptileData = reptileData;
+        // Build and expose reptileData - will be called after data loads
+        // This function will be called by js/enclosure-data.js after it loads
+        window.initializeReptileData = function() {
+            if (window.ANIMALS_BY_SLUG && window.getApprovedEnclosuresForAnimal) {
+                const reptileData = buildReptileData();
+                window.reptileData = reptileData;
+                return true;
+            }
+            return false;
+        };
+        
+        // Try to initialize immediately (in case data already loaded)
+        window.initializeReptileData();
     </script>
 
 
@@ -1702,6 +1712,12 @@
     <script src="js/mobile-menu.js"></script>
     <!-- Normalized enclosure and animal data -->
     <script src="js/enclosure-data.js"></script>
+    <script>
+        // Initialize reptileData after enclosure-data.js loads
+        if (typeof initializeReptileData === 'function') {
+            initializeReptileData();
+        }
+    </script>
     <script src="js/enclosure-builder.js"></script>
     <script src="js/enclosure-quiz.js"></script>
     
