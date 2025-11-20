@@ -42,10 +42,18 @@ jobs:
           # Stage the updated JSON file
           git add data/product-prices.json
 
-          # Commit if there are changes (even if some prices failed to fetch)
+          # Check if there are changes
           if ! git diff --staged --quiet; then
+            echo "Changes detected, committing..."
             git commit -m "Update product prices [skip ci]"
             git push
+            echo "✓ Successfully committed and pushed changes"
           else
-            echo "No changes to commit"
+            echo "No changes to commit - prices may have failed to fetch or are unchanged"
           fi
+          
+          # Show what changed for debugging
+          echo "=== File status ==="
+          git status
+          echo "=== Recent changes ==="
+          git diff HEAD data/product-prices.json || echo "No changes"

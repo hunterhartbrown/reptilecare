@@ -217,7 +217,14 @@ def update_prices():
         url = product['url']
         
         print(f"Fetching price for {product['name']}...")
-        price = fetch_price(url)
+        print(f"  URL: {url}")
+        try:
+            price = fetch_price(url)
+        except Exception as e:
+            print(f"  ✗ Exception during price fetch: {e}")
+            import traceback
+            traceback.print_exc()
+            price = None
         
         # Initialize product entry if it doesn't exist
         if product_id not in price_data:
@@ -253,9 +260,8 @@ def update_prices():
         else:
             failed_count += 1
             print(f"  ✗ Failed to fetch price")
-            # Still update timestamp to show we attempted
-            if 'lastUpdated' not in price_data[product_id]:
-                price_data[product_id]['lastUpdated'] = current_time
+            # ALWAYS update timestamp to show we attempted (even if fetch failed)
+            price_data[product_id]['lastUpdated'] = current_time
         
         # Be respectful - add delay between requests
         time.sleep(2)
