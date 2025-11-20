@@ -121,9 +121,9 @@ class PriceTracker {
     }
 
     /**
-     * Format date for display
+     * Format date for display in EST timezone
      * @param {string} dateString - ISO date string
-     * @returns {string} - Formatted date string
+     * @returns {string} - Formatted date string in EST
      */
     formatDate(dateString) {
         if (!dateString) return 'unknown';
@@ -134,9 +134,11 @@ class PriceTracker {
             month: 'short', 
             day: 'numeric',
             hour: '2-digit',
-            minute: '2-digit'
+            minute: '2-digit',
+            timeZone: 'America/New_York',
+            timeZoneName: 'short'
         };
-        return date.toLocaleDateString('en-US', options);
+        return date.toLocaleString('en-US', options);
     }
 
     /**
