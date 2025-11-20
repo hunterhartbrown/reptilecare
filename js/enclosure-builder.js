@@ -155,7 +155,7 @@ class EnclosureBuilder {
         const height = this.enclosureDimensions.height * 0.0254;
 
         // Check the enclosure type for enhanced features
-        const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.id && this.currentEnclosureData.id.includes('reptizoo');
+        const isReptizoo = this.currentEnclosureData && this.currentEnclosureData.name && this.currentEnclosureData.name.toLowerCase().includes('reptizoo');
         const isPVC = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'pvc';
         const isGlassMesh = this.currentEnclosureData && this.currentEnclosureData.enclosureType === 'glass-mesh';
 

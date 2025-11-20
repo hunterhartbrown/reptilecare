@@ -1623,170 +1623,224 @@
             return `${productUrl}${separator}${enhancedParams}`;
         }
 
-        // Reptile-specific data
-        const reptileData = {
+        // Mapping for additional enclosure data not in Excel (images, models, features)
+        const enclosureMetadata = {
+            '0000002': {
+                image: 'images/enclosures/dubia 50 gallon pvc.png',
+                model: { length: 36, width: 18, height: 18 },
+                features: 'Sliding glass doors, acrylic front panel, heavy-duty screen top, humidity resistant',
+                enclosureType: 'pvc'
+            },
+            '0000003': {
+                image: 'images/enclosures/NEPTONION 32 Gallon 18 x 18 x 24 glass.png',
+                model: { length: 18, width: 18, height: 24 },
+                features: 'Dual front swinging doors, aluminum alloy frame, mesh top, knockdown assembly, waterproof, cord management',
+                enclosureType: 'glass-mesh'
+            },
+            '0000004': {
+                image: 'images/enclosures/40 gallon 36 x 16 x 18 reptizoo.png',
+                model: { length: 36, width: 16, height: 18 },
+                features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly'
+            },
+            '0000005': {
+                image: 'images/enclosures/reptizoo 50 gallon glass.png',
+                model: { length: 36, width: 18, height: 18 },
+                features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly'
+            }
+        };
+
+        // Mapping from animal keys to Animal IDs from Excel
+        const animalIdMapping = {
+            'leopard-gecko': '0000004',
+            'bearded-dragon': '0000001',
+            'crested-gecko': '0000002',
+            'eastern-collared-lizard': '0000003'
+        };
+
+        // Static reptile data (not in Excel - care requirements)
+        const reptileCareData = {
             'leopard-gecko': {
                 name: 'Leopard Gecko',
                 minSize: { length: 36, width: 18, height: 18 },
                 recommendedSize: { length: 36, width: 18, height: 18 },
                 temperature: { basking: '82-86°F', cool: '75-79°F' },
-                humidity: '30-40%',
-                enclosures: [
-                    {
-                        id: 'lg-reptizoo-40gal',
-                        name: 'REPTIZOO 40 Gallon Glass Terrarium',
-                        dimensions: '36" x 16" x 18"',
-                        material: 'Tempered Glass',
-                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
-                        price: 159.99,
-                        image: 'images/enclosures/40 gallon 36 x 16 x 18 reptizoo.png',
-                        model: { length: 36, width: 16, height: 18 },
-                        productUrl: 'https://www.wayfair.com/pet/pdp/reptizoo-36-x-16-x-18-reptile-terrarium-rptz1194.html',
-                        isPremium: true
-                    },
-                    {
-                        id: 'lg-reptizoo',
-                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'Tempered Glass',
-                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
-                        price: 192.47,
-                        image: 'images/enclosures/reptizoo 50 gallon glass.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
-                        isPremium: true
-                    },
-                    {
-                        id: 'lg-dubia-pvc',
-                        name: 'Dubia.com 50 Gallon PVC Panel Enclosure',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'PVC Panels with Aluminum Frame',
-                        features: 'Sliding glass doors, acrylic front panel, heavy-duty screen top, humidity resistant',
-                        price: 200.00,
-                        image: 'images/enclosures/dubia 50 gallon pvc.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        productUrl: 'https://dubiaroaches.com/products/36x18x18-pvc-panel-reptile-enclosure',
-                        isPremium: true,
-                        enclosureType: 'pvc'
-                    }
-                ]
+                humidity: '30-40%'
             },
             'bearded-dragon': {
                 name: 'Bearded Dragon',
                 minSize: { length: 36, width: 18, height: 18 },
                 recommendedSize: { length: 48, width: 24, height: 24 },
                 temperature: { basking: '95-105°F', cool: '75-85°F' },
-                humidity: '30-40%',
-                enclosures: [
-                    {
-                        id: 'bd-reptizoo',
-                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'Tempered Glass',
-                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
-                        price: 192.47,
-                        image: 'images/enclosures/reptizoo 50 gallon glass.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
-                        isPremium: true
-                    },
-                    {
-                        id: 'bd-dubia-pvc',
-                        name: 'Dubia.com 50 Gallon PVC Panel Enclosure',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'PVC Panels with Aluminum Frame',
-                        features: 'Sliding glass doors, acrylic front panel, heavy-duty screen top, humidity resistant',
-                        price: 200.00,
-                        image: 'images/enclosures/dubia 50 gallon pvc.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        productUrl: 'https://dubiaroaches.com/products/36x18x18-pvc-panel-reptile-enclosure',
-                        isPremium: true,
-                        enclosureType: 'pvc'
-                    }
-                ]
+                humidity: '30-40%'
             },
             'crested-gecko': {
                 name: 'Crested Gecko',
                 minSize: { length: 18, width: 18, height: 24 },
                 recommendedSize: { length: 24, width: 18, height: 36 },
                 temperature: { basking: '72-78°F', cool: '72-78°F' },
-                humidity: '60-70%',
-                enclosures: [
-                    {
-                        id: 'cg-neptonion-32gal',
-                        name: 'NEPTONION 32 Gallon Professional Glass Terrarium',
-                        dimensions: '18" x 18" x 24"',
-                        material: 'Tempered Glass',
-                        features: 'Dual front swinging doors, aluminum alloy frame, mesh top, knockdown assembly, waterproof, cord management',
-                        price: 188.99,
-                        image: 'images/enclosures/NEPTONION 32 Gallon 18 x 18 x 24 glass.png',
-                        model: { length: 18, width: 18, height: 24 },
-                        amazonUrl: 'https://amzn.to/4o8mtc5',
-                        isPremium: true,
-                        enclosureType: 'glass-mesh'
-                    },
-                    {
-                        id: 'cg-24x18x36',
-                        name: '24x18x36" Terrarium',
-                        dimensions: '24" x 18" x 36"',
-                        material: 'Glass',
-                        features: 'Front opening, ventilation, UVB compatible',
-                        price: 199.99,
-                        image: 'https://m.media-amazon.com/images/I/71LyQe1tB8L._AC_SL1500_.jpg',
-                        model: { length: 24, width: 18, height: 36 }
-                    },
-                    {
-                        id: 'cg-reptizoo',
-                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'Tempered Glass',
-                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
-                        price: 192.47,
-                        image: 'images/enclosures/reptizoo 50 gallon glass.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
-                        isPremium: true
-                    }
-                ]
+                humidity: '60-70%'
             },
             'eastern-collared-lizard': {
                 name: 'Eastern Collared Lizard',
                 minSize: { length: 36, width: 18, height: 18 },
                 recommendedSize: { length: 48, width: 24, height: 24 },
                 temperature: { basking: '105-115°F', cool: '75-85°F' },
-                humidity: '30-50%',
-                enclosures: [
-                    {
-                        id: 'ecl-reptizoo',
-                        name: 'REPTIZOO 50 Gallon Glass Terrarium',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'Tempered Glass',
-                        features: 'Double hinge doors, screen ventilation, aluminum frame, knock-down assembly',
-                        price: 192.47,
-                        image: 'images/enclosures/reptizoo 50 gallon glass.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        amazonUrl: 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC?&linkCode=ll1&tag=reptilecare09-20&linkId=454fa634ebf8d246c9461011b8714fc6&language=en_US&ref_=as_li_ss_tl',
-                        isPremium: true
-                    },
-                    {
-                        id: 'cg-dubia-pvc',
-                        name: 'Dubia.com 50 Gallon PVC Panel Enclosure',
-                        dimensions: '36" x 18" x 18"',
-                        material: 'PVC Panels with Aluminum Frame',
-                        features: 'Sliding glass doors, acrylic front panel, heavy-duty screen top, humidity resistant',
-                        price: 200.00,
-                        image: 'images/enclosures/dubia 50 gallon pvc.png',
-                        model: { length: 36, width: 18, height: 18 },
-                        productUrl: 'https://dubiaroaches.com/products/36x18x18-pvc-panel-reptile-enclosure',
-                        isPremium: true,
-                        enclosureType: 'pvc'
-                    }
-                ]
+                humidity: '30-50%'
             }
         };
 
-        // Make reptileData globally available for quiz
-        window.reptileData = reptileData;
+        // Global variables to store loaded data
+        let enclosuresData = {};
+        let reptileData = {};
+
+        // Helper function to parse approved enclosure IDs from Excel string
+        function parseApprovedEnclosureIds(idsString) {
+            if (!idsString || typeof idsString !== 'string') {
+                return [];
+            }
+            // Split by comma and clean up whitespace
+            return idsString.split(',')
+                .map(id => id.trim())
+                .filter(id => id.length > 0);
+        }
+
+        // Helper function to parse price from string (handles $ and commas)
+        function parsePrice(priceString) {
+            if (!priceString) return 0;
+            // Handle both string and number types
+            if (typeof priceString === 'number') return priceString;
+            // Remove $ and commas, then parse as float
+            const cleaned = String(priceString).replace(/[$,]/g, '').trim();
+            return parseFloat(cleaned) || 0;
+        }
+
+        // Helper function to get price from product object (handles column name variations)
+        function getPriceFromProduct(product) {
+            // Try different possible column names
+            return parsePrice(
+                product[' Price '] || 
+                product['Price'] || 
+                product['price'] ||
+                0
+            );
+        }
+
+        // Load and process enclosure products from Excel JSON
+        async function loadEnclosureProducts() {
+            try {
+                const response = await fetch('data/enclosure_products.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load enclosure products');
+                }
+                const products = await response.json();
+                
+                // Convert array to object keyed by Enclosure ID
+                enclosuresData = {};
+                products.forEach(product => {
+                    const enclosureId = String(product['Enclosure ID'] || '').trim();
+                    if (!enclosureId) return;
+                    
+                    // Merge Excel data with metadata
+                    enclosuresData[enclosureId] = {
+                        id: enclosureId,
+                        name: product['Product Name'] || '',
+                        link: product['Link'] || '',
+                        dimensions: product['Dimensions'] || '',
+                        material: product['Material'] || '',
+                        price: getPriceFromProduct(product),
+                        dateLastUpdated: product['Date Product Last Updated'] || '',
+                        // Add metadata if available
+                        ...(enclosureMetadata[enclosureId] || {})
+                    };
+                });
+                
+                console.log('✓ Loaded enclosure products:', Object.keys(enclosuresData).length);
+                return enclosuresData;
+            } catch (error) {
+                console.error('Error loading enclosure products:', error);
+                return {};
+            }
+        }
+
+        // Load and process reptile care sheet from Excel JSON
+        async function loadReptileCareSheet() {
+            try {
+                const response = await fetch('data/reptile_care_sheet.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load reptile care sheet');
+                }
+                const reptiles = await response.json();
+                
+                // Build reptileData by combining Excel data with care data
+                reptileData = {};
+                
+                reptiles.forEach(reptile => {
+                    const animalId = String(reptile['Animal ID'] || '').trim();
+                    const commonName = reptile['Common Name'] || '';
+                    
+                    // Find the animal key from mapping
+                    const animalKey = Object.keys(animalIdMapping).find(
+                        key => animalIdMapping[key] === animalId
+                    );
+                    
+                    if (!animalKey) {
+                        console.warn(`No mapping found for Animal ID: ${animalId} (${commonName})`);
+                        return;
+                    }
+                    
+                    // Get approved enclosure IDs from Excel
+                    const approvedIdsString = reptile['Approved Enclosure IDs'] || '';
+                    const approvedEnclosureIds = parseApprovedEnclosureIds(approvedIdsString);
+                    
+                    // Merge Excel data with care data
+                    reptileData[animalKey] = {
+                        ...reptileCareData[animalKey],
+                        animalId: animalId,
+                        approvedEnclosureIds: approvedEnclosureIds
+                    };
+                });
+                
+                console.log('✓ Loaded reptile care sheet:', Object.keys(reptileData).length);
+                return reptileData;
+            } catch (error) {
+                console.error('Error loading reptile care sheet:', error);
+                return {};
+            }
+        }
+
+        // Helper function to get enclosures for a reptile (filtered by approved IDs and Show status)
+        function getEnclosuresForReptile(reptileKey) {
+            const reptile = reptileData[reptileKey];
+            if (!reptile || !reptile.approvedEnclosureIds) {
+                return [];
+            }
+            
+            // Filter enclosures by approved IDs (enclosuresData only contains "Show" status items)
+            return reptile.approvedEnclosureIds
+                .map(enclosureId => enclosuresData[enclosureId])
+                .filter(enclosure => enclosure !== undefined); // Only include if exists (Show status)
+        }
+
+        // Initialize data loading
+        async function initializeData() {
+            await Promise.all([
+                loadEnclosureProducts(),
+                loadReptileCareSheet()
+            ]);
+            
+            // Make data globally available
+            window.reptileData = reptileData;
+            window.enclosuresData = enclosuresData;
+            window.getEnclosuresForReptile = getEnclosuresForReptile;
+            
+            console.log('✓ Data initialization complete');
+            
+            // Dispatch custom event to signal data is ready
+            window.dispatchEvent(new CustomEvent('reptileDataLoaded'));
+        }
+
+        // Start loading data when script runs
+        initializeData();
     </script>
 
 
