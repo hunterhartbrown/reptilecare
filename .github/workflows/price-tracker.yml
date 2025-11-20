@@ -32,6 +32,7 @@ jobs:
         run: |
           cd python
           python price-tracker.py
+        continue-on-error: true
 
       - name: Commit and push updated prices
         run: |
@@ -41,6 +42,10 @@ jobs:
           # Stage the updated JSON file
           git add data/product-prices.json
 
-          # Commit only if there are changes
-          git diff --staged --quiet || git commit -m "Update product prices"
-          git push
+          # Commit if there are changes (even if some prices failed to fetch)
+          if ! git diff --staged --quiet; then
+            git commit -m "Update product prices [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi

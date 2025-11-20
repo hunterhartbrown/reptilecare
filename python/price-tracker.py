@@ -209,6 +209,9 @@ def update_prices():
     ]
     
     updated_count = 0
+    failed_count = 0
+    current_time = datetime.now(timezone.utc).isoformat()
+    
     for product in products:
         product_id = product['id']
         url = product['url']
@@ -216,33 +219,43 @@ def update_prices():
         print(f"Fetching price for {product['name']}...")
         price = fetch_price(url)
         
+        # Initialize product entry if it doesn't exist
+        if product_id not in price_data:
+            price_data[product_id] = {}
+        
+        # Always update URL and name (in case they changed)
+        price_data[product_id]['url'] = url
+        price_data[product_id]['name'] = product['name']
+        
         if price:
-            if product_id not in price_data:
-                price_data[product_id] = {}
-            
             # Store price history
             if 'history' not in price_data[product_id]:
                 price_data[product_id]['history'] = []
             
-            # Add current price to history
-            price_data[product_id]['current'] = price
-            # Store timestamp in UTC explicitly
-            price_data[product_id]['lastUpdated'] = datetime.now(timezone.utc).isoformat()
-            price_data[product_id]['url'] = url
-            price_data[product_id]['name'] = product['name']
+            # Only update price if it changed or if this is first time
+            old_price = price_data[product_id].get('current')
+            if old_price != price:
+                price_data[product_id]['current'] = price
+                # Add current price to history
+                price_data[product_id]['history'].append({
+                    'price': price,
+                    'date': current_time
+                })
+                if len(price_data[product_id]['history']) > 30:
+                    price_data[product_id]['history'].pop(0)
+                print(f"  ✓ Updated: ${price:.2f} (was ${old_price if old_price else 'N/A'})")
+            else:
+                print(f"  → Price unchanged: ${price:.2f}")
             
-            # Keep last 30 days of history
-            price_data[product_id]['history'].append({
-                'price': price,
-                'date': datetime.now(timezone.utc).isoformat()
-            })
-            if len(price_data[product_id]['history']) > 30:
-                price_data[product_id]['history'].pop(0)
-            
+            # Always update timestamp to show we checked
+            price_data[product_id]['lastUpdated'] = current_time
             updated_count += 1
-            print(f"  ✓ Updated: ${price:.2f}")
         else:
+            failed_count += 1
             print(f"  ✗ Failed to fetch price")
+            # Still update timestamp to show we attempted
+            if 'lastUpdated' not in price_data[product_id]:
+                price_data[product_id]['lastUpdated'] = current_time
         
         # Be respectful - add delay between requests
         time.sleep(2)
@@ -251,7 +264,9 @@ def update_prices():
     with open(price_file, 'w') as f:
         json.dump(price_data, f, indent=2)
     
-    print(f"\n✓ Updated {updated_count} prices")
+    print(f"\n✓ Successfully updated {updated_count} prices")
+    if failed_count > 0:
+        print(f"⚠ Failed to fetch {failed_count} prices")
     return price_data
 
 if __name__ == '__main__':
