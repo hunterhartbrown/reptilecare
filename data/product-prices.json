@@ -9,20 +9,41 @@
   "lg-reptizoo-amazon": {
     "name": "REPTIZOO 50 Gallon (Amazon)",
     "url": "https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC",
-    "current": 192.47,
-    "lastUpdated": "2024-01-01T00:00:00",
-    "history": []
+    "current": 188.0,
+    "lastUpdated": "2025-11-20T15:43:27.050145",
+    "history": [
+      {
+        "price": 188.0,
+        "date": "2025-11-20T15:43:27.050155"
+      }
+    ]
   },
   "lg-dubia-pvc": {
     "name": "Dubia.com 50 Gallon PVC",
     "url": "https://dubiaroaches.com/products/36x18x18-pvc-panel-reptile-enclosure",
     "current": 150.0,
-    "lastUpdated": "2025-11-20T15:24:41.682446",
+    "lastUpdated": "2025-11-20T15:43:29.645201",
     "history": [
       {
         "price": 150.0,
         "date": "2025-11-20T15:24:41.682457"
+      },
+      {
+        "price": 150.0,
+        "date": "2025-11-20T15:43:29.645211"
       }
     ]
+  },
+  "cg-neptonion": {
+    "history": [
+      {
+        "price": 188.0,
+        "date": "2025-11-20T15:43:32.977947"
+      }
+    ],
+    "current": 188.0,
+    "lastUpdated": "2025-11-20T15:43:32.977937",
+    "url": "https://amzn.to/4o8mtc5",
+    "name": "NEPTONION 32 Gallon"
   }
 }
