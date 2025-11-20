@@ -47,19 +47,32 @@ def fetch_amazon_price(asin):
         response = requests.get(url, headers=HEADERS, timeout=10)
         
         # Look for price in HTML (this is fragile and may break)
+        # Improved patterns to capture cents properly
         price_patterns = [
-            r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.?\d*)',
-            r'"price":\s*"([\d,]+\.?\d*)"',
-            r'data-price="([\d,]+\.?\d*)"',
+            r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.\d{2})',  # $123.45 format
+            r'"price":\s*"([\d,]+\.\d{2})"',  # JSON format with cents
+            r'data-price="([\d,]+\.\d{2})"',  # Data attribute with cents
+            r'\$([\d,]+\.\d{2})',  # Simple $123.45 format
+            r'<span[^>]*class="[^"]*a-price[^"]*"[^>]*>.*?<span[^>]*class="[^"]*a-offscreen[^"]*">\$?([\d,]+\.\d{2})',  # Amazon specific
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>([\d,]+)</span>.*?<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>(\d{2})',  # Amazon split price
         ]
         
         for pattern in price_patterns:
-            match = re.search(pattern, response.text)
-            if match:
-                price_str = match.group(1).replace(',', '')
+            matches = re.finditer(pattern, response.text, re.DOTALL)
+            for match in matches:
                 try:
-                    return float(price_str)
-                except ValueError:
+                    # Handle Amazon split price format (whole.fraction)
+                    if len(match.groups()) == 2:
+                        whole = match.group(1).replace(',', '')
+                        fraction = match.group(2)
+                        price_str = f"{whole}.{fraction}"
+                    else:
+                        price_str = match.group(1).replace(',', '')
+                    
+                    price = float(price_str)
+                    if 10 <= price <= 10000:  # Reasonable price range
+                        return price
+                except (ValueError, IndexError):
                     continue
     except Exception as e:
         print(f"Error fetching Amazon price for ASIN {asin}: {e}")
@@ -75,23 +88,36 @@ def fetch_generic_price(url):
         response = requests.get(url, headers=HEADERS, timeout=10)
         html = response.text
         
-        # Common price patterns
+        # Common price patterns - improved to capture cents properly
         price_patterns = [
-            r'\$([\d,]+\.?\d*)',  # $123.45
-            r'price["\']?\s*[:=]\s*["\']?([\d,]+\.?\d*)',
-            r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.?\d*)',
-            r'data-price="([\d,]+\.?\d*)"',
+            r'\$([\d,]+\.\d{2})',  # $123.45 format with cents
+            r'price["\']?\s*[:=]\s*["\']?([\d,]+\.\d{2})',  # price: "123.45"
+            r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.\d{2})',  # HTML price with cents
+            r'data-price="([\d,]+\.\d{2})"',  # Data attribute with cents
+            r'"price":\s*([\d,]+\.\d{2})',  # JSON price format
+            r'\$([\d,]+)(?:\.(\d{1,2}))?',  # Fallback: $123 or $123.4 or $123.45
         ]
         
         prices = []
         for pattern in price_patterns:
-            matches = re.findall(pattern, html, re.IGNORECASE)
+            matches = re.finditer(pattern, html, re.IGNORECASE)
             for match in matches:
                 try:
-                    price = float(match.replace(',', ''))
+                    # Handle patterns with optional decimal part
+                    if len(match.groups()) == 2 and match.group(2):
+                        whole = match.group(1).replace(',', '')
+                        decimal = match.group(2)
+                        # Pad decimal to 2 places if needed
+                        if len(decimal) == 1:
+                            decimal = decimal + '0'
+                        price_str = f"{whole}.{decimal}"
+                    else:
+                        price_str = match.group(1).replace(',', '')
+                    
+                    price = float(price_str)
                     if 10 <= price <= 10000:  # Reasonable price range
                         prices.append(price)
-                except ValueError:
+                except (ValueError, IndexError, AttributeError):
                     continue
         
         if prices:

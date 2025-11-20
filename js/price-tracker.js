@@ -121,6 +121,25 @@ class PriceTracker {
     }
 
     /**
+     * Format date for display
+     * @param {string} dateString - ISO date string
+     * @returns {string} - Formatted date string
+     */
+    formatDate(dateString) {
+        if (!dateString) return 'unknown';
+        
+        const date = new Date(dateString);
+        const options = { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        return date.toLocaleDateString('en-US', options);
+    }
+
+    /**
      * Update price display for an enclosure card
      * @param {HTMLElement} enclosureCard - The enclosure card element
      * @param {string} enclosureId - The enclosure ID
@@ -131,21 +150,28 @@ class PriceTracker {
         
         if (!priceElement) return;
         
+        // Remove existing price-updated element if it exists
+        const existingUpdated = enclosureCard.querySelector('.price-updated');
+        if (existingUpdated) {
+            existingUpdated.remove();
+        }
+        
         if (priceInfo && priceInfo.price !== null) {
             const formattedPrice = this.formatPrice(priceInfo.price);
-            const isRecent = this.isPriceRecent(priceInfo.lastUpdated);
             
-            // Update price text
+            // Update price text (ensure cents are shown)
             priceElement.textContent = formattedPrice;
             
-            // Add indicator if price is recent
-            if (isRecent) {
-                priceElement.classList.add('price-live');
-                priceElement.title = `Updated ${this.getTimeAgo(priceInfo.lastUpdated)}`;
-            } else {
-                priceElement.classList.remove('price-live');
-                priceElement.title = `Last updated ${this.getTimeAgo(priceInfo.lastUpdated)}`;
-            }
+            // Never add price-live class (keep it grey)
+            priceElement.classList.remove('price-live');
+            
+            // Add "Price Last Updated" text below the price
+            const updatedElement = document.createElement('p');
+            updatedElement.className = 'price-updated';
+            updatedElement.textContent = `Price Last Updated ${this.formatDate(priceInfo.lastUpdated)}`;
+            
+            // Insert after the price element
+            priceElement.parentNode.insertBefore(updatedElement, priceElement.nextSibling);
         } else {
             // Keep original price if live price unavailable
             priceElement.classList.remove('price-live');

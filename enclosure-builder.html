@@ -1193,23 +1193,17 @@
             text-decoration: none;
         }
 
-        /* Live Price Indicator */
-        .enclosure-price.price-live {
-            color: #2ecc71;
-            position: relative;
+        /* Price Updated Text */
+        .price-updated {
+            margin: 4px 0 0 0;
+            font-size: 0.75rem;
+            color: #666;
+            font-style: italic;
         }
 
-        .enclosure-price.price-live::after {
-            content: '●';
-            color: #2ecc71;
-            font-size: 0.6em;
-            margin-left: 4px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        /* Ensure price stays grey */
+        .enclosure-price {
+            color: #0f0f0f !important;
         }
 
         /* Decor Selection */
