@@ -305,6 +305,13 @@ class EnclosureBuilderQuiz {
                 }
             });
         });
+        
+        // Update prices with live data if available
+        if (window.priceTracker) {
+            setTimeout(() => {
+                window.priceTracker.updateAllPrices();
+            }, 100);
+        }
     }
     
     enableNextButton() {

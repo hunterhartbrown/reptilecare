@@ -1,0 +1,14 @@
+# Requirements for Price Tracker Script
+# Install with: pip install -r requirements-price-tracker.txt
+
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Optional: For better Amazon price tracking (requires API credentials)
+# python-amazon-paapi>=5.0.0
+
+# Optional: For handling JavaScript-rendered pages
+# selenium>=4.15.0
+# webdriver-manager>=4.0.0
+

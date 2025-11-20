@@ -1193,6 +1193,25 @@
             text-decoration: none;
         }
 
+        /* Live Price Indicator */
+        .enclosure-price.price-live {
+            color: #2ecc71;
+            position: relative;
+        }
+
+        .enclosure-price.price-live::after {
+            content: '●';
+            color: #2ecc71;
+            font-size: 0.6em;
+            margin-left: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Decor Selection */
         .decor-categories {
             display: flex;
@@ -1800,6 +1819,7 @@
     <script src="js/mobile-menu.js"></script>
     <script src="js/enclosure-builder.js"></script>
     <script src="js/enclosure-quiz.js"></script>
+    <script src="js/price-tracker.js"></script>
     
     <script>
         // Canvas Toggle Functionality

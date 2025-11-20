@@ -1,0 +1,236 @@
+"""
+Price Tracker for Enclosure Products
+Fetches current prices from product URLs and stores them in a JSON file.
+Run this script daily via cron/scheduled task to keep prices updated.
+"""
+
+import json
+import re
+import requests
+from datetime import datetime
+from urllib.parse import urlparse, parse_qs
+import time
+
+# User agent to avoid being blocked
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+
+def extract_amazon_asin(url):
+    """Extract Amazon ASIN from URL"""
+    # Try to find ASIN in URL
+    patterns = [
+        r'/dp/([A-Z0-9]{10})',
+        r'/product/([A-Z0-9]{10})',
+        r'ASIN[=:]([A-Z0-9]{10})',
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+    return None
+
+def fetch_amazon_price(asin):
+    """
+    Fetch price from Amazon using their API or scraping.
+    Note: Amazon Product Advertising API requires credentials.
+    For now, this is a placeholder that would need API setup.
+    """
+    # Option 1: Use Amazon Product Advertising API (requires API credentials)
+    # You'll need to sign up at: https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html
+    # Then use: python-amazon-paapi library
+    
+    # Option 2: Simple scraping (may violate ToS, use at your own risk)
+    # This is a basic example - Amazon actively blocks scrapers
+    try:
+        url = f"https://www.amazon.com/dp/{asin}"
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        
+        # Look for price in HTML (this is fragile and may break)
+        price_patterns = [
+            r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.?\d*)',
+            r'"price":\s*"([\d,]+\.?\d*)"',
+            r'data-price="([\d,]+\.?\d*)"',
+        ]
+        
+        for pattern in price_patterns:
+            match = re.search(pattern, response.text)
+            if match:
+                price_str = match.group(1).replace(',', '')
+                try:
+                    return float(price_str)
+                except ValueError:
+                    continue
+    except Exception as e:
+        print(f"Error fetching Amazon price for ASIN {asin}: {e}")
+    
+    return None
+
+def fetch_generic_price(url):
+    """
+    Generic price fetcher for non-Amazon sites.
+    This is a basic implementation - you may need to customize per site.
+    """
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        html = response.text
+        
+        # Common price patterns
+        price_patterns = [
+            r'\$([\d,]+\.?\d*)',  # $123.45
+            r'price["\']?\s*[:=]\s*["\']?([\d,]+\.?\d*)',
+            r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.?\d*)',
+            r'data-price="([\d,]+\.?\d*)"',
+        ]
+        
+        prices = []
+        for pattern in price_patterns:
+            matches = re.findall(pattern, html, re.IGNORECASE)
+            for match in matches:
+                try:
+                    price = float(match.replace(',', ''))
+                    if 10 <= price <= 10000:  # Reasonable price range
+                        prices.append(price)
+                except ValueError:
+                    continue
+        
+        if prices:
+            # Return the most common price or median
+            return sorted(prices)[len(prices) // 2] if prices else None
+    except Exception as e:
+        print(f"Error fetching price from {url}: {e}")
+    
+    return None
+
+def fetch_price(url):
+    """Determine site type and fetch price accordingly"""
+    parsed = urlparse(url)
+    domain = parsed.netloc.lower()
+    
+    if 'amazon.com' in domain or 'amzn.to' in domain:
+        # Handle Amazon short links
+        if 'amzn.to' in domain:
+            # Resolve short link first
+            try:
+                response = requests.head(url, headers=HEADERS, allow_redirects=True, timeout=10)
+                url = response.url
+            except:
+                pass
+        
+        asin = extract_amazon_asin(url)
+        if asin:
+            return fetch_amazon_price(asin)
+    
+    # Generic price fetching for other sites
+    return fetch_generic_price(url)
+
+def load_enclosure_data():
+    """Load enclosure data from HTML file"""
+    # Read the HTML file to extract enclosure data
+    # In a real implementation, you might want to extract this to a separate JSON file
+    try:
+        with open('../enclosure-builder.html', 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Extract reptileData object (basic extraction)
+        # This is a simplified version - you may need to improve this
+        import re
+        match = re.search(r'const reptileData = ({.*?});', content, re.DOTALL)
+        if match:
+            # This is a basic approach - for production, use proper JS parsing
+            return None  # Would need proper JS parser
+    except Exception as e:
+        print(f"Error loading enclosure data: {e}")
+    
+    return None
+
+def update_prices():
+    """
+    Main function to update prices.
+    Reads product URLs and fetches current prices.
+    """
+    # Load existing price data
+    price_file = '../data/product-prices.json'
+    try:
+        with open(price_file, 'r') as f:
+            price_data = json.load(f)
+    except FileNotFoundError:
+        price_data = {}
+    
+    # Product URLs to track (you can expand this list)
+    products = [
+        {
+            'id': 'lg-reptizoo-wayfair',
+            'url': 'https://www.wayfair.com/pet/pdp/reptizoo-36-x-16-x-18-reptile-terrarium-rptz1194.html',
+            'name': 'REPTIZOO 40 Gallon (Wayfair)'
+        },
+        {
+            'id': 'lg-reptizoo-amazon',
+            'url': 'https://www.amazon.com/REPTIZOO-Reptile-Terrarium-Ventilation-Knock-Down/dp/B07CV797LC',
+            'name': 'REPTIZOO 50 Gallon (Amazon)'
+        },
+        {
+            'id': 'lg-dubia-pvc',
+            'url': 'https://dubiaroaches.com/products/36x18x18-pvc-panel-reptile-enclosure',
+            'name': 'Dubia.com 50 Gallon PVC'
+        },
+        {
+            'id': 'cg-neptonion',
+            'url': 'https://amzn.to/4o8mtc5',
+            'name': 'NEPTONION 32 Gallon'
+        },
+        # Add more products as needed
+    ]
+    
+    updated_count = 0
+    for product in products:
+        product_id = product['id']
+        url = product['url']
+        
+        print(f"Fetching price for {product['name']}...")
+        price = fetch_price(url)
+        
+        if price:
+            if product_id not in price_data:
+                price_data[product_id] = {}
+            
+            # Store price history
+            if 'history' not in price_data[product_id]:
+                price_data[product_id]['history'] = []
+            
+            # Add current price to history
+            price_data[product_id]['current'] = price
+            price_data[product_id]['lastUpdated'] = datetime.now().isoformat()
+            price_data[product_id]['url'] = url
+            price_data[product_id]['name'] = product['name']
+            
+            # Keep last 30 days of history
+            price_data[product_id]['history'].append({
+                'price': price,
+                'date': datetime.now().isoformat()
+            })
+            if len(price_data[product_id]['history']) > 30:
+                price_data[product_id]['history'].pop(0)
+            
+            updated_count += 1
+            print(f"  ✓ Updated: ${price:.2f}")
+        else:
+            print(f"  ✗ Failed to fetch price")
+        
+        # Be respectful - add delay between requests
+        time.sleep(2)
+    
+    # Save updated prices
+    with open(price_file, 'w') as f:
+        json.dump(price_data, f, indent=2)
+    
+    print(f"\n✓ Updated {updated_count} prices")
+    return price_data
+
+if __name__ == '__main__':
+    print("Starting price tracker...")
+    print("=" * 50)
+    update_prices()
+    print("=" * 50)
+    print("Price tracking complete!")
+
