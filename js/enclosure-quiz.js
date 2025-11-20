@@ -244,7 +244,14 @@ class EnclosureBuilderQuiz {
         const step2Container = document.getElementById('quiz-step-2-content');
         if (!step2Container || !this.quizState.animal) return;
         
-        const animalData = window.reptileData[this.quizState.animal];
+        // Get animal data (from compatibility layer or normalized data)
+        const animalData = window.reptileData && window.reptileData[this.quizState.animal];
+        if (!animalData) {
+            console.error(`Animal data not found for: ${this.quizState.animal}`);
+            return;
+        }
+        
+        // Get enclosures from compatibility layer (which uses normalized data)
         const enclosures = animalData.enclosures || [];
         
         step2Container.innerHTML = `
@@ -256,16 +263,16 @@ class EnclosureBuilderQuiz {
                 ${enclosures.map(enclosure => `
                     <div class="quiz-option-card enclosure-option" data-enclosure-id="${enclosure.id}">
                         <div class="enclosure-image">
-                            <img src="${enclosure.image}" alt="${enclosure.name}" 
+                            <img src="${enclosure.image || ''}" alt="${enclosure.name}" 
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOGY4Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGFsaWdubWVudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjI2IiBmaWxsPSIjOTk5Ij5JbWFnZTwvdGV4dD48L3N2Zz4='">
                         </div>
                         <div class="enclosure-details">
                             <h3>${enclosure.name}</h3>
-                            <p class="enclosure-dimensions">${enclosure.dimensions}</p>
-                            <p class="enclosure-material">${enclosure.material}</p>
+                            <p class="enclosure-dimensions">${enclosure.dimensions || ''}</p>
+                            <p class="enclosure-material">${enclosure.material || ''}</p>
                             ${(enclosure.amazonUrl || enclosure.productUrl) ? `<a href="${enclosure.amazonUrl || enclosure.productUrl}" target="_blank" rel="noopener noreferrer" class="product-link">View Product</a>` : ''}
-                            <p class="enclosure-price">$${enclosure.price.toFixed(2)}</p>
+                            <p class="enclosure-price">$${(enclosure.price || 0).toFixed(2)}</p>
                         </div>
                     </div>
                 `).join('')}
