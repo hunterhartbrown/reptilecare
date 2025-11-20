@@ -49,12 +49,17 @@ def fetch_amazon_price(asin):
         # Look for price in HTML (this is fragile and may break)
         # Improved patterns to capture cents properly
         price_patterns = [
+            # Amazon split price format - handles nested a-price-decimal span
+            # Matches: <span class="a-price-whole">188<span class="a-price-decimal">.</span></span><span class="a-price-fraction">99</span>
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>([\d,]+)(?:<span[^>]*class="[^"]*a-price-decimal[^"]*"[^>]*>[^<]*</span>)?</span>\s*<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>(\d{2})</span>',
+            # Alternative Amazon split price format (spans may be separated)
+            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>([\d,]+)</span>.*?<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>(\d{2})</span>',
+            # Standard price formats
             r'<span[^>]*class="[^"]*price[^"]*"[^>]*>\s*\$?([\d,]+\.\d{2})',  # $123.45 format
             r'"price":\s*"([\d,]+\.\d{2})"',  # JSON format with cents
             r'data-price="([\d,]+\.\d{2})"',  # Data attribute with cents
             r'\$([\d,]+\.\d{2})',  # Simple $123.45 format
             r'<span[^>]*class="[^"]*a-price[^"]*"[^>]*>.*?<span[^>]*class="[^"]*a-offscreen[^"]*">\$?([\d,]+\.\d{2})',  # Amazon specific
-            r'<span[^>]*class="[^"]*a-price-whole[^"]*"[^>]*>([\d,]+)</span>.*?<span[^>]*class="[^"]*a-price-fraction[^"]*"[^>]*>(\d{2})',  # Amazon split price
         ]
         
         for pattern in price_patterns:
