@@ -22,7 +22,7 @@
     "name": "Dubia.com 50 Gallon PVC",
     "url": "https://dubiaroaches.com/products/36x18x18-pvc-panel-reptile-enclosure",
     "current": 60.0,
-    "lastUpdated": "2025-11-20T17:36:30.147616",
+    "lastUpdated": "2025-11-20T17:47:22.334952+00:00",
     "history": [
       {
         "price": 150.0,
@@ -47,6 +47,10 @@
       {
         "price": 60.0,
         "date": "2025-11-20T17:36:30.147626"
+      },
+      {
+        "price": 60.0,
+        "date": "2025-11-20T17:47:22.334972+00:00"
       }
     ]
   },
