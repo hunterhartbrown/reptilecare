@@ -150,6 +150,14 @@
         var container   = document.querySelector('.content-slider'),
             dotsWrapper = container.querySelector('.dots-container');
 
+        // Map common names to local transparent background images
+        var imageMap = {
+          'Leopard Gecko': 'images/leo trans bg.png',
+          'Bearded Dragon': 'images/bearded drag trans bg.png',
+          'Crested Gecko': 'images/crested gecko trans bg.png',
+          'Eastern Collared Lizard': 'images/collared lizard trans bg.png'
+        };
+
         // 1) Build slides & dots
         data.forEach(function(item, idx) {
           // — build slide —
@@ -160,11 +168,9 @@
           var imgDiv = document.createElement('div');
           imgDiv.className = 'slide-image';
           var img = document.createElement('img');
-          img.src = item['Picture Link'];
+          // Use local transparent background image if available, otherwise fall back to external link
+          img.src = imageMap[item['Common Name']] || item['Picture Link'];
           img.alt = item['Common Name'];
-          if (img.src.includes("Leopard-Gecko-Climbing.jpg")) {
-            img.classList.add('problematic-image');
-          }
           imgDiv.appendChild(img);
 
           var textDiv = document.createElement('div');
