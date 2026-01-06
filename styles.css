@@ -1156,7 +1156,7 @@ section {
     grid-template-columns: 560px 1fr;
     gap: 24px;
     align-items: start;
-    margin-top: 24px;
+    margin-top: 0;
 }
 
 /* Sticky Sidebar */

@@ -224,29 +224,6 @@
             line-height: 1.15;
             overflow: hidden;
         }
-        .availability-row {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 0;
-            margin-top: 0;
-        }
-        .availability-bar {
-            display: flex;
-            gap: 2px;
-            margin-bottom: 3px; /* Reduced from 5px */
-            margin-top: 0;
-            justify-content: center;
-        }
-        .availability-value {
-            font-size: 0.99rem;
-            color: #444;
-            font-family: 'Open Sans', Arial, sans-serif;
-            text-align: center;
-            margin-bottom: 0;
-            margin-top: 0;
-        }
         .care-guide-btn-row {
             display: flex;
             gap: 8px;
@@ -371,7 +348,6 @@
                 font-size: 0.85rem;
                 padding: 4px 2px;
             }
-            .availability-segment { width: 8px; height: 5px; }
         }
         
         /* Small mobile - 1 column */
@@ -397,7 +373,6 @@
                 height: 140px !important; /* Make image dominant on very small screens */
             }
             .care-guide-label { font-size: 0.9rem; height: 34px; margin-bottom: 4px; }
-            .availability-value { font-size: 0.88rem; }
             .care-guide-btn {
                 font-size: 0.8rem;
                 padding: 4px 2px;
@@ -407,17 +382,6 @@
                 margin-top: 6px;
                 gap: 4px;
             }
-            .availability-segment { width: 6px; height: 4px; }
-        }
-        .availability-segment {
-            width: 13px;
-            height: 10px;
-            border-radius: 2.5px;
-            background: #e0e0e0;
-            transition: background 0.3s;
-        }
-        .availability-segment.active {
-            background: #37b24d;
         }
         /* Override intro section styles for dark theme */
         [data-rc-cg="intro"] {
@@ -631,7 +595,6 @@
                 font-size: 0.78rem !important;
                 padding: 3px 2px !important;
             }
-            .availability-value { font-size: 0.9rem; }
             
             /* Adjust focal points for smaller mobile frames */
             .care-guide-img[src*="leopard gecko"] {
@@ -677,6 +640,7 @@
         }
         [data-rc-cg="layout"] {
             grid-template-columns: 480px 1fr !important; /* narrower sidebar */
+            margin-top: 0 !important; /* Align filters with first row of animals */
         }
         @media (min-width: 1200px) {
             .care-guide-container {
@@ -871,22 +835,6 @@
         // ===== CONFIGURATION =====
         const PAGE_SIZE = 24;
         
-        // Availability thresholds and tinting
-        const AVAILABILITY_THRESHOLDS = {
-          high: 200,    // >= 200 = neutral/standard
-          medium: 50,   // 50-199 = warning tint  
-          low: 0        // < 50 = stronger tint
-        };
-        
-        const thresholds = [
-          { min: 1000, label: "Very Common", segments: 5 },
-          { min: 200,  label: "Common",      segments: 4 },
-          { min: 50,   label: "Uncommon",    segments: 3 },
-          { min: 20,   label: "Rare",        segments: 2 },
-          { min: 5,    label: "Very Rare",   segments: 1 },
-          { min: 0,    label: "Exceedingly Rare", segments: 0 }
-        ];
-
         // Species data mapping (additive inline mapping for filtering)
         const speciesData = {
           "Leopard Gecko": {
@@ -1243,20 +1191,6 @@
         }
 
         // ===== UTILITY FUNCTIONS =====
-        function getAvailability(listings) {
-          for (let t of thresholds) {
-            if (listings >= t.min) return t;
-          }
-          return thresholds[thresholds.length - 1];
-        }
-
-        function getAvailabilityTint(listings) {
-          if (typeof listings !== 'number' || isNaN(listings)) return 'rc-badge--high';
-          if (listings >= AVAILABILITY_THRESHOLDS.high) return 'rc-badge--high';
-          if (listings >= AVAILABILITY_THRESHOLDS.medium) return 'rc-badge--med';
-          return 'rc-badge--low';
-        }
-
         function getActiveFilterCount() {
           let count = 0;
           count += activeFilters.difficulty.length;
@@ -1278,24 +1212,7 @@
         }
 
         // ===== CARD BUILDING =====
-        function buildCareGuideCard(animal, listings, info) {
-          let bar = '';
-          let availText = '';
-          let tintClass = '';
-          
-          if (typeof listings === 'number' && !isNaN(listings)) {
-            const availability = getAvailability(listings);
-            tintClass = getAvailabilityTint(listings);
-            for (let i = 0; i < 5; ++i)
-              bar += `<span class="availability-segment${i < availability.segments ? ' active' : ''}"></span>`;
-            availText = `${listings} - ${availability.label}`;
-          } else {
-            tintClass = 'rc-badge--high';
-            for (let i = 0; i < 5; ++i)
-              bar += `<span class="availability-segment"></span>`;
-            availText = "No Data";
-          }
-
+        function buildCareGuideCard(animal, info) {
           return `
           <div class="care-guide rc-card" 
                data-animal="${animal}"
@@ -1308,10 +1225,6 @@
               <img src="${info.img}" alt="${animal}" class="care-guide-img" loading="lazy" width="210" height="90" onerror="this.onerror=null;this.src='images/no-image.png';">
             </div>
             <h3 class="care-guide-label js-animal-label">${animal}</h3>
-            <div class="availability-row">
-              <div class="availability-bar">${bar}</div>
-              <span class="availability-value ${tintClass}">${availText}</span>
-            </div>
             <div class="care-guide-btn-row">
               <a href="${info.url}" class="care-guide-btn secondary">
                 View Care Guide
@@ -1414,7 +1327,7 @@
           
           let html = '';
           pageAnimals.forEach(animal => {
-            html += buildCareGuideCard(animal.name, animal.listings, speciesData[animal.name]);
+            html += buildCareGuideCard(animal.name, speciesData[animal.name]);
           });
           
           container.innerHTML = html;
@@ -1536,37 +1449,15 @@
           // Set up mobile filters
           setupMobileFilters();
           
-          fetch('data/availability.json')
-            .then(response => response.json())
-            .then(animals => {
-              // Create a lookup map from the JSON
-              const dataMap = {};
-              animals.forEach(row => {
-                dataMap[row['Animal Name']] = row['MorphMarket # of Listings'];
-              });
-              
-              // Build allAnimals array
-              allAnimals = Object.keys(speciesData).map(name => ({
-                name: name,
-                listings: dataMap.hasOwnProperty(name) ? dataMap[name] : null
-              }));
-              
-              setupEventListeners();
-              // Ensure chips reflect pending state before first render
-              syncFilterStates();
-              filterAnimals(); // Initial render
-            })
-            .catch(error => {
-              console.error('Error loading availability data:', error);
-              // Fallback: render without availability data
-              allAnimals = Object.keys(speciesData).map(name => ({
-                name: name,
-                listings: null
-              }));
-              setupEventListeners();
-              syncFilterStates();
-              filterAnimals();
-            });
+          // Build allAnimals array
+          allAnimals = Object.keys(speciesData).map(name => ({
+            name: name
+          }));
+          
+          setupEventListeners();
+          // Ensure chips reflect pending state before first render
+          syncFilterStates();
+          filterAnimals(); // Initial render
         }
 
         // Start when DOM is ready
