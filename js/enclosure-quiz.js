@@ -578,8 +578,7 @@ class EnclosureBuilderQuiz {
         const substrateMap = {
             'leopard-gecko': { name: 'Reptile Carpet', price: 19.99 },
             'bearded-dragon': { name: 'Natural Slate Tile', price: 24.99 },
-            'crested-gecko': { name: 'Eco Earth Coconut Fiber', price: 14.99 },
-            'eastern-collared-lizard': { name: 'Natural Slate Tile', price: 24.99 }
+            'crested-gecko': { name: 'Eco Earth Coconut Fiber', price: 14.99 }
         };
         
         this.quizState.recommendedSubstrate = substrateMap[animalId] || null;
@@ -594,9 +593,6 @@ class EnclosureBuilderQuiz {
             ],
             'crested-gecko': [
                 { name: 'Hanging Vine', price: 14.99 },
-                { name: 'Artificial Succulent', price: 9.99 }
-            ],
-            'eastern-collared-lizard': [
                 { name: 'Artificial Succulent', price: 9.99 }
             ]
         };

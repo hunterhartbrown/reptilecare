@@ -94,7 +94,7 @@
         // or if the path contains specific subdirectory indicators
         const isInSubdirectory = (currentPath.match(/\//g) || []).length > 1 || 
                                  currentPath.includes('/crested-gecko') || 
-                                 currentPath.includes('/eastern-collared-lizard');
+;
         
         return isInSubdirectory ? '../header.html' : 'header.html';
     }
@@ -107,7 +107,7 @@
         // or if the path contains specific subdirectory indicators
         const isInSubdirectory = (currentPath.match(/\//g) || []).length > 1 || 
                                  currentPath.includes('/crested-gecko') || 
-                                 currentPath.includes('/eastern-collared-lizard');
+;
         
         return isInSubdirectory ? '../footer.html' : 'footer.html';
     }
@@ -221,7 +221,7 @@
         
         // Determine script path based on current location
         const currentPath = window.location.pathname;
-        const isInSubdirectory = currentPath.includes('/crested-gecko') || currentPath.includes('/eastern-collared-lizard');
+        const isInSubdirectory = currentPath.includes('/crested-gecko');
         const scriptPath = isInSubdirectory ? '../js/search-functionality.js' : 'js/search-functionality.js';
         
         // Create script element

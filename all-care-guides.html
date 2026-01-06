@@ -189,23 +189,18 @@
          */
         
         /* Leopard Gecko - typically head/eyes positioned toward upper-left to center */
-        .care-guide-img[src*="leo trans bg"] {
+        .care-guide-img[src*="leopard gecko"] {
             object-position: 35% 30%; /* Adjust based on actual eye position */
         }
         
         /* Bearded Dragon - typically head positioned centrally */
-        .care-guide-img[src*="Trans_bg_bearded_dragon"] {
+        .care-guide-img[src*="bearded dragon"] {
             object-position: 50% 25%; /* Center horizontally, moved eyes higher up */
         }
         
         /* Crested Gecko - typically climbing/side pose */
-        .care-guide-img[src*="crested gecko trans bg"] {
+        .care-guide-img[src*="eyelash crested gecko"] {
             object-position: 40% 25%; /* Adjust for typical gecko eye position */
-        }
-        
-        /* Eastern Collared Lizard - typically profile or angled view */
-        .care-guide-img[src*="collared lizard trans bg"] {
-            object-position: 45% 30%; /* Adjust for lizard head/eye position */
         }
         
         /* Smooth transition for object-position changes */
@@ -608,17 +603,14 @@
         
         /* Tablet focal point adjustments */
         @media (max-width: 768px) and (min-width: 481px) {
-            .care-guide-img[src*="leo trans bg"] {
+            .care-guide-img[src*="leopard gecko"] {
                 object-position: 35% 28% !important; /* Slight adjustment for tablet size */
             }
-            .care-guide-img[src*="Trans_bg_bearded_dragon"] {
+            .care-guide-img[src*="bearded dragon"] {
                 object-position: 50% 23% !important;
             }
-            .care-guide-img[src*="crested gecko trans bg"] {
+            .care-guide-img[src*="eyelash crested gecko"] {
                 object-position: 40% 23% !important;
-            }
-            .care-guide-img[src*="collared lizard trans bg"] {
-                object-position: 45% 28% !important;
             }
         }
         
@@ -642,17 +634,14 @@
             .availability-value { font-size: 0.9rem; }
             
             /* Adjust focal points for smaller mobile frames */
-            .care-guide-img[src*="leo trans bg"] {
+            .care-guide-img[src*="leopard gecko"] {
                 object-position: 35% 25% !important; /* Slightly higher focus for smaller frame */
             }
-            .care-guide-img[src*="Trans_bg_bearded_dragon"] {
+            .care-guide-img[src*="bearded dragon"] {
                 object-position: 50% 20% !important;
             }
-            .care-guide-img[src*="crested gecko trans bg"] {
+            .care-guide-img[src*="eyelash crested gecko"] {
                 object-position: 40% 20% !important;
-            }
-            .care-guide-img[src*="collared lizard trans bg"] {
-                object-position: 45% 25% !important;
             }
         }
         
@@ -901,7 +890,7 @@
         // Species data mapping (additive inline mapping for filtering)
         const speciesData = {
           "Leopard Gecko": {
-            img: "images/leo trans bg.png",
+            img: "images/animals/leopard gecko.png",
             url: "/leopard-gecko.html",
             enclosureId: "leopard-gecko",
             difficulty: "beginner",
@@ -911,7 +900,7 @@
             size: "small"
           },
           "Bearded Dragon": {
-            img: "images/animals/Trans_bg_bearded_dragon.png", 
+            img: "images/animals/bearded dragon.png", 
             url: "/bearded-dragon.html",
             enclosureId: "bearded-dragon",
             difficulty: "beginner",
@@ -921,7 +910,7 @@
             size: "large"
           },
           "Crested Gecko": {
-            img: "images/animals/crested gecko trans bg.png",
+            img: "images/animals/eyelash crested gecko.png",
             url: "/crested-gecko.html", 
             enclosureId: "crested-gecko",
             difficulty: "beginner",
@@ -930,16 +919,6 @@
             temperament: "moderate",
             size: "small"
           },
-          "Eastern Collared Lizard": {
-            img: "images/animals/collared lizard trans bg.png",
-            url: "/eastern-collared-lizard.html",
-            enclosureId: "eastern-collared-lizard", 
-            difficulty: "advanced",
-            habitat: "arid",
-            lifespan: "short", // 5-10 years
-            temperament: "defensive",
-            size: "medium"
-          }
         };
 
         // Cross-link test removed per user request

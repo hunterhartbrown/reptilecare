@@ -112,7 +112,7 @@ const ANIMALS_BY_SLUG = {
         slug: 'leopard-gecko',
         commonName: 'Leopard Gecko',
         scientificName: 'Eublepharis macularius',
-        pictureUrl: 'images/leo trans bg.png',
+        pictureUrl: 'images/animals/leopard gecko.png',
         minSize: { length: 36, width: 18, height: 18 },
         recommendedSize: { length: 36, width: 18, height: 18 },
         temperature: { basking: '82-86°F', cool: '75-79°F' },
@@ -125,7 +125,7 @@ const ANIMALS_BY_SLUG = {
         slug: 'bearded-dragon',
         commonName: 'Bearded Dragon',
         scientificName: 'Pogona vitticeps',
-        pictureUrl: 'images/animals/Trans_bg_bearded_dragon.png',
+        pictureUrl: 'images/animals/bearded dragon.png',
         minSize: { length: 36, width: 18, height: 18 },
         recommendedSize: { length: 48, width: 24, height: 24 },
         temperature: { basking: '95-105°F', cool: '75-85°F' },
@@ -138,7 +138,7 @@ const ANIMALS_BY_SLUG = {
         slug: 'crested-gecko',
         commonName: 'Crested Gecko',
         scientificName: 'Correlophus ciliatus',
-        pictureUrl: 'images/animals/crested gecko trans bg.png',
+        pictureUrl: 'images/animals/eyelash crested gecko.png',
         minSize: { length: 18, width: 18, height: 24 },
         recommendedSize: { length: 24, width: 18, height: 36 },
         temperature: { basking: '72-78°F', cool: '72-78°F' },
@@ -146,19 +146,6 @@ const ANIMALS_BY_SLUG = {
         approvedEnclosureIds: ['0000005', '0000002'],
         juvenileApprovedEnclosureIds: []
     },
-    'eastern-collared-lizard': {
-        id: '0000004',
-        slug: 'eastern-collared-lizard',
-        commonName: 'Eastern Collared Lizard',
-        scientificName: 'Crotaphytus collaris',
-        pictureUrl: 'images/animals/collared lizard trans bg.png',
-        minSize: { length: 36, width: 18, height: 18 },
-        recommendedSize: { length: 48, width: 24, height: 24 },
-        temperature: { basking: '105-115°F', cool: '75-85°F' },
-        humidity: '30-50%',
-        approvedEnclosureIds: ['0000002', '0000004'],
-        juvenileApprovedEnclosureIds: []
-    }
     // Add more animals as they're converted from Excel
 };
 

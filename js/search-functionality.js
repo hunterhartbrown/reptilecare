@@ -56,21 +56,6 @@
             icon: "🔧"
         },
         
-        // Eastern Collared Lizard
-        {
-            title: "Eastern Collared Lizard Care Guide",
-            keywords: ["eastern", "collared", "lizard", "eastern collared lizard", "care", "guide", "collar"],
-            url: "eastern-collared-lizard.html",
-            type: "Care Guide",
-            icon: "📚"
-        },
-        {
-            title: "Design Eastern Collared Lizard Enclosure",
-            keywords: ["eastern", "collared", "lizard", "eastern collared lizard", "enclosure", "design", "builder", "habitat", "tank", "terrarium"],
-            url: "enclosure-builder.html?reptile=eastern-collared-lizard",
-            type: "Enclosure Builder",
-            icon: "🔧"
-        },
         
         // General pages
         {
@@ -199,7 +184,7 @@
     function navigateToPage(url) {
         // Check if we're in a subdirectory and adjust path accordingly
         const currentPath = window.location.pathname;
-        const isInSubdirectory = currentPath.includes('/crested-gecko') || currentPath.includes('/eastern-collared-lizard');
+        const isInSubdirectory = currentPath.includes('/crested-gecko');
         
         if (isInSubdirectory && !url.startsWith('http') && !url.startsWith('../')) {
             url = '../' + url;
