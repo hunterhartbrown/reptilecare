@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Asian Forest Scorpion Care Guide</title>
+
+  <!-- Link to your main stylesheet for .logo, .login, .signup, etc. -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #ffffff;
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* Hero Section - Full-Bleed Dark */
+    .species-hero {
+      background-color: #0f0f0f;
+      color: #ffffff;
+      padding: 80px 20px;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      box-sizing: border-box;
+      margin-top: 80px;
+      position: relative;
+    }
+
+    .species-hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .species-hero-content {
+      text-align: center;
+    }
+
+    .species-hero-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      line-height: 1.2;
+    }
+
+    .species-hero-subhead {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    section.care-guide-content {
+      padding: 40px 20px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #f8f8f8;
+      color: #0f0f0f;
+    }
+
+    .care-guide-content h1 {
+      display: none; /* Moved to hero section */
+    }
+
+    .quick-facts-heading {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f0f0f;
+      margin: 30px 0 20px 0;
+      text-align: left;
+    }
+
+    .care-guide-content img {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+
+    .care-guide-content p {
+      margin: 15px 0;
+      font-size: 17px;
+      line-height: 1.7;
+      text-indent: 0;
+    }
+
+    .care-guide-content a {
+      color: #0f0f0f;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .care-guide-content a:hover {
+      color: #333;
+    }
+
+    /* Button Grid Layout */
+    .species-button-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin: 40px 0;
+      max-width: 100%;
+    }
+
+    .button-row {
+      display: contents; /* Use grid layout through button-row */
+    }
+
+    .section-button {
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 12px;
+      text-align: center;
+      white-space: normal;
+      word-break: break-word;
+      background-color: #ffffff;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-button:hover {
+      border-color: #0f0f0f;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Tablet: 2 columns */
+    @media (max-width: 768px) {
+      .species-button-group {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 30px 0;
+      }
+
+      .section-button {
+        min-height: 90px;
+        padding: 14px 10px;
+      }
+    }
+
+    /* Mobile: 1 column */
+    @media (max-width: 480px) {
+      .species-button-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 25px 0;
+      }
+      
+      .section-button {
+        min-height: 85px;
+        padding: 12px 10px;
+        font-size: 14px;
+      }
+    }
+
+    .section-button .button-icon {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+    }
+
+    /* Modal Overlay */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.is-open {
+      display: block;
+    }
+
+    .modal-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      border-radius: 10px;
+      max-width: 720px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      z-index: 2001;
+      margin: 20px auto;
+    }
+
+    .modal-dialog-content {
+      padding: 30px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      font-weight: 300;
+      color: #666;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .modal-close:hover {
+      background-color: #f0f0f0;
+      color: #0f0f0f;
+    }
+
+    .modal-content h2 {
+      margin: 0 0 16px 0;
+      font-size: 24px;
+      line-height: 1.3;
+      color: #0f0f0f;
+    }
+
+    .modal-content p {
+      margin: 15px 0;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #0f0f0f;
+    }
+
+    .modal-content a {
+      color: #0f0f0f;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .modal-content a:hover {
+      color: #333;
+    }
+
+    /* Hide original inline popups */
+    .section-content {
+      display: none !important;
+    }
+
+    /* Remove white outline from modal text */
+    .modal-content * {
+      text-shadow: none;
+      -webkit-text-stroke: none;
+      outline: none;
+    }
+
+    /* Mobile modal adjustments */
+    @media (max-width: 768px) {
+      .modal-dialog {
+        width: 95%;
+        max-height: 95vh;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .modal-dialog-content {
+        padding: 24px 20px;
+      }
+
+      .modal-close {
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-dialog {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        top: 0;
+        transform: translate(-50%, 0);
+      }
+
+      .modal-dialog-content {
+        padding: 20px 16px;
+      }
+    }
+
+    footer {
+      margin-left: 20px;
+      background-color: #fafafa;
+      color: #0f0f0f;
+      padding: 20px 0;
+      border-top: 1px solid #ddd;
+      text-align: left;
+    }
+    footer p {
+      margin: 0 0 0 20px;
+    }
+
+    /* Mobile Responsive Hero */
+    @media (max-width: 768px) {
+      .species-hero {
+        padding: 60px 20px;
+      }
+
+      .species-hero-content h1 {
+        font-size: 2.2rem;
+      }
+
+      .species-hero-subhead {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .species-hero {
+        padding: 50px 15px;
+        margin-top: 60px;
+      }
+
+      .species-hero-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .species-hero-subhead {
+        font-size: 0.95rem;
+      }
+
+      .care-guide-content {
+        padding: 30px 15px 20px;
+      }
+
+      .quick-facts-heading {
+        font-size: 1.5rem;
+        margin: 25px 0 15px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="main-header"></header>
+
+  <!-- Hero Section -->
+  <section class="species-hero">
+    <div class="species-hero-container">
+      <div class="species-hero-content">
+        <h1>Asian Forest Scorpion Care Guide</h1>
+        <p class="species-hero-subhead">Quick, trustworthy care info for Asian Forest Scorpions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="care-guide-content">
+    <img src="images/animals/asian forest scorpion.png" alt="Asian Forest Scorpion" />
+
+    <!-- Quick Facts Section -->
+    <h2 class="quick-facts-heading">Quick Facts</h2>
+    <p>
+      Asian Forest Scorpion (<em>Heterometrus spinifer</em>) placeholder description will be added here. Placeholder information about their natural habitat, behavior, and care requirements.
+    </p>
+    <p>
+      Placeholder care information will be added here. This species requires appropriate enclosure size, substrate, temperature, and humidity conditions.
+    </p>
+    <p>
+      Placeholder information about morphs, pricing, and availability will be added here.
+    </p>
+
+    <!-- Button Grid -->
+    <div class="species-button-group">
+      <button class="section-button" onclick="openModal('speciesInfo')">
+        <img src="images/species info icon.png" alt="Species Info Icon" class="button-icon">
+        <span>Species Info</span>
+      </button>
+      <button class="section-button" onclick="openModal('habitatSize')">
+        <img src="images/habitat icon.png" alt="Habitat Icon" class="button-icon">
+        <span>Habitat Size</span>
+      </button>
+      <button class="section-button" onclick="openModal('heatingReqs')">
+        <img src="images/heating icon.png" alt="Heating Icon" class="button-icon">
+        <span>Heating</span>
+      </button>
+      <button class="section-button" onclick="openModal('humidityAirflow')">
+        <img src="images/humidity icon.png" alt="Humidity Icon" class="button-icon">
+        <span>Humidity/Airflow</span>
+      </button>
+      <button class="section-button" onclick="openModal('foodReqs')">
+        <img src="images/food icon.png" alt="Food Icon" class="button-icon">
+        <span>Food</span>
+      </button>
+      <button class="section-button" onclick="openModal('enrichment')">
+        <img src="images/enrichment icon.png" alt="Enrichment Icon" class="button-icon">
+        <span>Enrichment</span>
+      </button>
+    </div>
+    <div class="content-area">
+      <div id="speciesInfo" class="section-content">
+        <h2>Species overview</h2>
+        <p>
+          <strong>Asian Forest Scorpion (<em>Heterometrus spinifer</em>)</strong> placeholder information about their natural habitat, size, and lifespan will be added here.
+        </p>
+      </div>
+      <div id="habitatSize" class="section-content">
+        <h2>Habitat and size</h2>
+        <p>
+          Placeholder information about enclosure size requirements, substrate choices, and habitat setup will be added here.
+        </p>
+      </div>
+      <div id="heatingReqs" class="section-content">
+        <h2>Heating</h2>
+        <p>
+          Placeholder information about temperature requirements, heating methods, and lighting needs will be added here.
+        </p>
+      </div>
+      <div id="humidityAirflow" class="section-content">
+        <h2>Humidity and airflow</h2>
+        <p>
+          Placeholder information about humidity requirements and ventilation needs will be added here.
+        </p>
+      </div>
+      <div id="foodReqs" class="section-content">
+        <h2>Food</h2>
+        <p>
+          Placeholder information about feeding requirements, prey items, and feeding schedule will be added here.
+        </p>
+      </div>
+      <div id="enrichment" class="section-content">
+        <h2>Enrichment</h2>
+        <p>
+          Placeholder information about enrichment items, hiding places, and behavioral needs will be added here.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Overlay -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
+      <div class="modal-dialog-content">
+        <button class="modal-close" onclick="closeModal()" aria-label="Close modal">×</button>
+        <div class="modal-content" id="modalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-footer"></div>
+  <!-- Mobile Menu JavaScript (loads header and handles mobile menu functionality) -->
+  <script src="js/mobile-menu.js"></script>
+  <script>
+    // Modal functionality
+    function openModal(sectionId) {
+      const sectionElement = document.getElementById(sectionId);
+      if (!sectionElement) return;
+
+      const modalContent = document.getElementById('modalContent');
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      
+      // Clone and inject content into modal
+      modalContent.innerHTML = sectionElement.innerHTML;
+      
+      // Show modal
+      modalBackdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      
+      // Focus trap: focus the close button
+      const closeBtn = modalBackdrop.querySelector('.modal-close');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      modalBackdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+      
+      // Clear modal content
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = '';
+    }
+
+    function closeModalOnBackdrop(event) {
+      // Only close if clicking directly on backdrop (not its children)
+      if (event.target === event.currentTarget) {
+        closeModal();
+      }
+    }
+
+    // Close on Esc key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        if (modalBackdrop.classList.contains('is-open')) {
+          closeModal();
+        }
+      }
+    });
+
+    // Keep legacy toggleSection function for backwards compatibility (but it won't be used)
+    function toggleSection(sectionId) {
+      openModal(sectionId);
+    }
+  </script>
+</body>
+</html>
