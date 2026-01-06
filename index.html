@@ -151,6 +151,11 @@
           'Crested Gecko': 'images/animals/eyelash crested gecko.png'
         };
 
+        // Filter out Eastern Collared Lizard
+        data = data.filter(function(item) {
+          return item['Common Name'] !== 'Eastern Collared Lizard';
+        });
+
         // 1) Build slides & dots
         data.forEach(function(item, idx) {
           // — build slide —
