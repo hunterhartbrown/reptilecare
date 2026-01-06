@@ -93,8 +93,7 @@
         // Check if we're in a subdirectory by looking for multiple slashes
         // or if the path contains specific subdirectory indicators
         const isInSubdirectory = (currentPath.match(/\//g) || []).length > 1 || 
-                                 currentPath.includes('/crested-gecko') || 
-;
+                                 currentPath.includes('/crested-gecko');
         
         return isInSubdirectory ? '../header.html' : 'header.html';
     }
@@ -106,8 +105,7 @@
         // Check if we're in a subdirectory by looking for multiple slashes
         // or if the path contains specific subdirectory indicators
         const isInSubdirectory = (currentPath.match(/\//g) || []).length > 1 || 
-                                 currentPath.includes('/crested-gecko') || 
-;
+                                 currentPath.includes('/crested-gecko');
         
         return isInSubdirectory ? '../footer.html' : 'footer.html';
     }

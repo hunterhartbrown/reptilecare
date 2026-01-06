@@ -96,12 +96,6 @@ section {
     background-color: #0f0f0f;
 }
 
-/* Ensure content slider section is visible and accounts for fixed header */
-section:first-of-type {
-    margin-top: 80px; /* Account for fixed header */
-    padding-top: 0;
-}
-
 .content-slider {
     width: 100%;
     max-width: none;

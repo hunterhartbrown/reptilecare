@@ -56,7 +56,6 @@
             icon: "🔧"
         },
         
-        
         // General pages
         {
             title: "All Care Guides",
